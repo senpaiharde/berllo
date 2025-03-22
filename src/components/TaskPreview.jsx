@@ -49,7 +49,7 @@ export function TaskPreview({ Task }) {
 
   function handleMouseEnter() {
     if (TaskPreviewRef.current) {
-      console.log("TaskPreviewRef.current", TaskPreviewRef.current)
+      // console.log("TaskPreviewRef.current", TaskPreviewRef.current)
       TaskPreviewRef.current.style.borderColor = "blue"
     }
   }

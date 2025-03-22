@@ -1,0 +1,17 @@
+.task-list{
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    scroll-margin: 80px;
+    border: 1px solid;
+    border-radius: 30px;
+    flex-wrap: wrap;
+    background-color: #f1f2f4;
+    // background-color: var(--accent-background, var(--tr-background-list));
+    justify-content: center;
+    align-items: center;
+    // padding: 0 6px;
+    margin: 20px;
+    padding: 10px;
+    list-style: none;
+}
