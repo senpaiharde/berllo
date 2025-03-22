@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",
     "autoprefixer": "^10.4.21",
+    "lucide-react": "^0.483.0",
     "my-vite-app": "file:",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
