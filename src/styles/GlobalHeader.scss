@@ -1,0 +1,46 @@
+:root {
+    --dynamic-background: hsl(331, 53.5%, 32%);
+    --dynamic-background-transparent: hsla(331, 53.5%, 37%, 0.9);
+    --dynamic-button: transparent;
+    --dynamic-button-hovered: rgba(255, 255, 255, 0.20);
+    --dynamic-button-pressed: rgba(255, 255, 255, 0.20);
+    --dynamic-button-pressed-hovered: rgba(255, 255, 255, 0.20);
+    --dynamic-button-pressed-text: var(--dynamic-text);
+    --dynamic-button-primary: rgba(255, 255, 255, 0.20);
+    --dynamic-button-primary-text: var(--dynamic-text);
+    --dynamic-button-primary-hovered: rgba(255, 255, 255, 0.36);
+    --dynamic-button-primary-pressed: rgba(255, 255, 255, 0.36);
+    --dynamic-button-highlighted: #DCDFE4;
+    --dynamic-button-highlighted-text: #172B4D;
+    --dynamic-button-highlighted-hovered: #FFFFFF;
+    --dynamic-icon: #FFFFFF;
+    --dynamic-text: #FFFFFF;
+    --dynamic-text-transparent: hsla(0, 0%, 100%, 0.16);
+    --dynamic-logo-filter: unset;
+  }
+  
+
+  .global-header {
+    width: 100%;
+    height: 48px;
+    max-height: 48px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--dynamic-text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    background-color: rgb(29, 33, 37); // fallback if vars not loaded
+    background-color: var(--dynamic-background-transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(159, 173, 188, 0.16);
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    transition: background-color 0.3s ease;
+    text-size-adjust: 100%;
+  }
+  
