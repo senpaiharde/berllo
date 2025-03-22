@@ -14,7 +14,7 @@ export const fetchBoards = createAsyncThunk('board/fetchBoards', async () => {
 
 
 const boardSlice = createSlice({
-    name:'boards',
+    name:'board',
     initialState:{
         boards:[],
         state:'idle',
