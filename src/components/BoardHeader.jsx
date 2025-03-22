@@ -1,9 +1,57 @@
+export function BoardHeader({ board }) {
+  function toggleBoardStar() {
+    console.log("toggleBoardStar")
+  }
+  function changeVisibility() {
+    console.log("changeVisibility")
+  }
+  function changeToBoardView() {
+    console.log("changeToBoardView")
+  }
+  function changeToTableView() {
+    console.log("changeToTableView")
+  }
+  function toggleDropDown() {
+    console.log("toggleDropDown")
+  }
+  function toggleFilterCmp() {
+    console.log("toggleFilterCmp")
+  }
+  function toggleUserCmp(user) {
+    console.log("toggleUserCmp", user)
+  }
+  function shareBoard(board) {
+    console.log("shareBoard", board)
+  }
 
-
-
-
-export function BoardHeader() {
-    return(<div></div>);
+  return (
+    <span className="board-header">
+      <span>{board.name}</span>
+      <button className="toggleable" onClick={() => toggleBoardStar()}>
+        star
+      </button>
+      <button className="toggleable" onClick={() => changeVisibility()}>
+        change visibility
+      </button>
+      <button className="toggleable" onClick={() => changeToBoardView()}>
+        Board
+      </button>
+      <button className="toggleable" onClick={() => changeToTableView()}>
+        Table
+      </button>
+      <button className="toggleable" onClick={() => toggleDropDown()}>
+        dropDown
+      </button>
+      <button className="toggleable" onClick={() => toggleFilterCmp()}>
+        Filters
+      </button>
+      {board.users &&
+        board.users.map((user) => (
+          <span onClick={(user) => toggleUserCmp(user)}>{user.name}</span>
+        ))}
+      <button className="toggleable" onClick={() => shareBoard(board)}>
+        Share
+      </button>
+    </span>
+  )
 }
-
-
