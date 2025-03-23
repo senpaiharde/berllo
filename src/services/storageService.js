@@ -1,14 +1,17 @@
 
-
 export const fetchData = async () => {
-    const response = await fetch('/data.json'); // Fetches the JSON file from /public folder
-    const data = await response.json;
+    const response = await fetch('../public/berllo.json');
+    
+    const data = await response.json();
+    console.log(data);
     return data;
 }
 
 // Function to get data from localStorage  or json
 export const getLocalData = async () => {
+    console.log("getLocalData")
     const storedData = JSON.parse(localStorage.getItem('trelloData'));
+    console.log(storedData)
     if(storedData) return storedData;
 
 

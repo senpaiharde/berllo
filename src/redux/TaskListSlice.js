@@ -16,7 +16,7 @@ export const fetchLists = createAsyncThunk('lists/fetchLists', async () => {
 const listSlice = createSlice({
     name:'lists',
     initialState: {
-        lists:[],
+        taskList:[],
         state:'idle',
         error:null,
     },

@@ -1,0 +1,32 @@
+.board-header {
+  display: inline-flex;
+  background-color: hsla(331, 53.5%, 37%, 0.9);
+  position: relative;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  width: calc(100% - 23px);
+  height: auto;
+  padding: 12px;
+  gap: 4px;
+}
+
+.board-header-left {
+  display: flex;
+  position: relative;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  max-width: 100%;
+  min-height: 32px;
+}
+
+.board-header-right {
+  display: flex;
+  position: relative;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  min-height: 32px;
+  margin-left: auto;
+  gap: 4px;
+}
