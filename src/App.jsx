@@ -4,12 +4,23 @@
 import './App.css';
 import './styles/main.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {fetchWorkSpaces} from './redux/WorkSpaceSlice.js';
 import {Login} from './pages/Login';
 import {Home} from './pages/Home';
 import Workspace from './pages/WorkSpace';
 
 
 function App() {
+  const dispatch = useDispatch();
+  const  WorkSpaces = useSelector(state => state.WorkSpaceReducer.workSpaces);
+  
+  useEffect(() => {
+    dispatch(fetchWorkSpaces());
+    console.log(WorkSpaces);
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <div>
