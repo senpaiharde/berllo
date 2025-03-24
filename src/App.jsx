@@ -1,10 +1,10 @@
 
 
 
-import './App.css';
+
 import './styles/main.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import {useState, useEffect} from 'react';
+import { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {fetchWorkSpaces} from './redux/WorkSpaceSlice.js';
 import {Login} from './pages/Login';

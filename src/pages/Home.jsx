@@ -1,6 +1,8 @@
-
+import GlobalHeader from "../components/GlobalHeader"
 
 
 export  function Home() {
-    return(<div></div>)
+    return(<div>
+        <GlobalHeader/>
+    </div>)
 }
