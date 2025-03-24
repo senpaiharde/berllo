@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { getBoardById } from "../utils/boardUtils";
 import { BoardView } from "../components/BoardView";
 import { BoardHeader } from "../components/BoardHeader";
-import GlobalHeader from "../components/GlobalHeader";
+import GlobalHeader from '../components/GlobalHeader';
 
 
 

@@ -11,7 +11,7 @@ export function Login() {
             <div className="inside-div">
       <div className="login-container">
         {/* Trello Logo */}
-        <div className="header">
+        <div className="header-login">
             <div className="logo-container">
           <img src='https://www.vectorlogo.zone/logos/trello/trello-ar21.svg' 
           alt="terllo logo" className="terllo-logo"/>
