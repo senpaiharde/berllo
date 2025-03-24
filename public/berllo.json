@@ -3,8 +3,8 @@
         {
             "_id": "dgsgs1",
             "boardTitle": "testBoard",
-            "isStarred" : false,
-            "archivedAt" : 1710945000000,
+            "isStarred": false,
+            "archivedAt": 1710945000000,
             "createdBy": {
                 "_id": "u101",
                 "fullname": "Abi Abambi",
@@ -59,44 +59,143 @@
             ],
             "boardLists": [
                 {
-                    "_id": "asfaf",
-                    "taskListTitle": "testListTitle",
+                    "_id": "list1",
+                    "taskListTitle": "Backlog",
                     "taskListBoard": "dgsgs1",
-                    "archivedAt": 1589983468418,
+                    "archivedAt": null,
                     "listCollapsed": false,
-                    "sortedBy" : "date",
+                    "sortedBy": "date",
                     "listStyle": {
                         "backgroundColor": ""
                     },
                     "taskList": [
                         {
-                            "_id": "dgdfgs",
+                            "_id": "task1",
                             "taskChecked": false,
-                            "archivedAt": 1589983468418,
-                            "taskMembers": ["asfasf", "asfasy"],
-                            "taskTitle": "testTaskTitle",
-                            "taskDescription": "testDescription",
-                            "taskLabels": ["red", "orange", "blue"],
+                            "archivedAt": null,
+                            "taskMembers": ["u101"],
+                            "taskTitle": "Setup project",
+                            "taskDescription": "Initialize repo and setup project",
+                            "taskLabels": ["red"],
                             "taskStartDate": 1710945000000,
                             "taskCoordinates": [32.0, 34.6],
-                            "taskDueDate": 1710945000000,
-                            "taskDateReminder": 1710945000000,
-                            "taskList": "asfaf",
+                            "taskDueDate": 1711045000000,
+                            "taskDateReminder": 1711000000000,
+                            "taskList": "list1",
                             "taskboard": "dgsgs1",
-                            "taskCheckList": ["1", "2", "3"],
+                            "taskCheckList": ["1", "2"],
                             "taskCover": {
                                 "coverType": "color",
-                                "coverColor": "#000000",
-                                "coverImg": "http://www.img.com"
+                                "coverColor": "#FFD700",
+                                "coverImg": ""
                             },
                             "taskActivityComments": [
                                 {
-                                    "userId": "asfasf",
-                                    "userFullName": "Tal Taltal",
-                                    "comment": "testComment",
+                                    "userId": "u102",
+                                    "userFullName": "Josh Ga",
+                                    "comment": "Let's get this started!",
                                     "date": 1710945000000
                                 }
                             ]
+                        },
+                        {
+                            "_id": "task2",
+                            "taskChecked": false,
+                            "archivedAt": null,
+                            "taskMembers": ["u102"],
+                            "taskTitle": "Research UI Libraries",
+                            "taskDescription": "Look for the best UI framework for our project",
+                            "taskLabels": ["blue"],
+                            "taskStartDate": 1710945000000,
+                            "taskCoordinates": [32.5, 34.8],
+                            "taskDueDate": 1711145000000,
+                            "taskDateReminder": 1711100000000,
+                            "taskList": "list1",
+                            "taskboard": "dgsgs1",
+                            "taskCheckList": ["1", "2", "3"],
+                            "taskCover": {
+                                "coverType": "image",
+                                "coverColor": "",
+                                "coverImg": "http://www.img.com/ui.png"
+                            },
+                            "taskActivityComments": []
+                        }
+                    ]
+                },
+                {
+                    "_id": "list2",
+                    "taskListTitle": "In Progress",
+                    "taskListBoard": "dgsgs1",
+                    "archivedAt": null,
+                    "listCollapsed": false,
+                    "sortedBy": "priority",
+                    "listStyle": {
+                        "backgroundColor": "#f4f4f4"
+                    },
+                    "taskList": [
+                        {
+                            "_id": "task3",
+                            "taskChecked": false,
+                            "archivedAt": null,
+                            "taskMembers": ["u101", "u102"],
+                            "taskTitle": "Develop API",
+                            "taskDescription": "Create endpoints for user authentication",
+                            "taskLabels": ["green"],
+                            "taskStartDate": 1710950000000,
+                            "taskCoordinates": [32.0, 34.7],
+                            "taskDueDate": 1711245000000,
+                            "taskDateReminder": 1711200000000,
+                            "taskList": "list2",
+                            "taskboard": "dgsgs1",
+                            "taskCheckList": ["1"],
+                            "taskCover": {
+                                "coverType": "color",
+                                "coverColor": "#FF5733",
+                                "coverImg": ""
+                            },
+                            "taskActivityComments": [
+                                {
+                                    "userId": "u101",
+                                    "userFullName": "Abi Abambi",
+                                    "comment": "API structure looks great!",
+                                    "date": 1711055000000
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "_id": "list3",
+                    "taskListTitle": "Done",
+                    "taskListBoard": "dgsgs1",
+                    "archivedAt": null,
+                    "listCollapsed": false,
+                    "sortedBy": "priority",
+                    "listStyle": {
+                        "backgroundColor": "#dff0d8"
+                    },
+                    "taskList": [
+                        {
+                            "_id": "task4",
+                            "taskChecked": true,
+                            "archivedAt": null,
+                            "taskMembers": ["u102"],
+                            "taskTitle": "Set up CI/CD",
+                            "taskDescription": "Configured GitHub Actions",
+                            "taskLabels": ["yellow"],
+                            "taskStartDate": 1710945000000,
+                            "taskCoordinates": [32.0, 34.6],
+                            "taskDueDate": 1711005000000,
+                            "taskDateReminder": 1710985000000,
+                            "taskList": "list3",
+                            "taskboard": "dgsgs1",
+                            "taskCheckList": ["1", "2"],
+                            "taskCover": {
+                                "coverType": "color",
+                                "coverColor": "#5bc0de",
+                                "coverImg": ""
+                            },
+                            "taskActivityComments": []
                         }
                     ]
                 }
