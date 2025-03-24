@@ -2,9 +2,9 @@
 export const fetchData = async () => {
     console.log("fetchData")
     const response = await fetch('/berllo.json');
-    console.log(response)
+    // console.log(response)
     const data = await response.json();
-    console.log("fetchData data", data)
+    // console.log("fetchData data", data)
     return data;
 }
 
@@ -12,7 +12,7 @@ export const fetchData = async () => {
 export const getLocalData = async () => {
     console.log("getLocalData")
     const storedData = JSON.parse(localStorage.getItem('trelloData'));
-    console.log(storedData)
+    // console.log("storedData",storedData)
     if(storedData) return storedData;
 
 

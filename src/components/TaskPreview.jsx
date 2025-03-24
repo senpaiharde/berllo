@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
-export function TaskPreview({ Task }) {
+export function TaskPreview({ task }) {
   // TaskPreview.propTypes = {
   //   Task: PropTypes.object.isRequired,
   // }
-
+  if(task) {
+    // console.log("Task",task)
+  }
   const listTask = {
     //_id: "dgdfgs",
     taskChecked: false,
@@ -43,7 +45,7 @@ export function TaskPreview({ Task }) {
     ],
   }
   // console.log("taskActivityComments", listTask.taskActivityComments)
-  const [currentTaskPreview, setCurrentTaskPreview] = useState(listTask)
+  const [currentTaskPreview, setCurrentTaskPreview] = useState(task)
 
   const TaskPreviewRef = useRef(null)
 

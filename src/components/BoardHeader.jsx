@@ -1,4 +1,7 @@
+import { useState, useRef } from "react"
 export function BoardHeader({ board }) {
+
+  const [currentBoard, setCurrentBoard] = useState(board)
   function toggleBoardStar() {
     console.log("toggleBoardStar")
   }
@@ -23,10 +26,10 @@ export function BoardHeader({ board }) {
   function shareBoard(board) {
     console.log("shareBoard", board)
   }
-
+  
   return (
     <span className="board-header">
-      <span>{board.name}</span>
+      <span>{currentBoard.boardTitle}</span>
       <button className="toggleable" onClick={() => toggleBoardStar()}>
         star
       </button>

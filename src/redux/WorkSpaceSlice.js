@@ -8,7 +8,7 @@ export const fetchWorkSpaces = createAsyncThunk(
     try {
       // const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
       const data = await getLocalData()
-      console.log(data)
+    //   console.log(data)
       if (!data) {
         throw new Error("Server Error!")
       }
@@ -61,7 +61,7 @@ const workSpaceSlice = createSlice({
       .addCase(fetchWorkSpaces.fulfilled, (state, action) => {
         state.action = "succeeded"
         state.boards = action.payload
-        console.log("fetchworkSpaces.fulfilled", action.payload)
+        // console.log("fetchworkSpaces.fulfilled", action.payload)
       })
       .addCase(fetchWorkSpaces.rejected, (state, action) => {
         state.action = "failed"
