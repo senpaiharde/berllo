@@ -14,7 +14,7 @@ export const fetchWorkSpaces = createAsyncThunk(
       }
       
 
-      return data.workSpaces
+      return data.boards
     } catch (error) {
         console.log("fetchWorkSpaces error:",error)
       return rejectWithValue(error.message)
@@ -61,7 +61,7 @@ const workSpaceSlice = createSlice({
       .addCase(fetchWorkSpaces.fulfilled, (state, action) => {
         state.action = "succeeded"
         state.boards = action.payload
-        console.log("fetchworkSpaces.fulfilled")
+        console.log("fetchworkSpaces.fulfilled", action.payload)
       })
       .addCase(fetchWorkSpaces.rejected, (state, action) => {
         state.action = "failed"
