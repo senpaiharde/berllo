@@ -1,9 +1,10 @@
 
 export const fetchData = async () => {
-    const response = await fetch('../public/berllo.json');
-    
+    console.log("fetchData")
+    const response = await fetch('/berllo.json');
+    console.log(response)
     const data = await response.json();
-    console.log(data);
+    console.log("fetchData data", data)
     return data;
 }
 

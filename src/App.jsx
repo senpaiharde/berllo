@@ -18,7 +18,6 @@ function App() {
   
   useEffect(() => {
     dispatch(fetchWorkSpaces());
-    console.log(WorkSpaces);
   }, [dispatch]);
 
   return (
