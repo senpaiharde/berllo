@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { getLocalData, saveTolocal } from "../services/storageService"
+import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit"
+import { getLocalData, saveTolocal, getBoardById } from "../services/storageService"
 
 // Async action to fetch workSpaces from localStorage or JSON
 export const fetchWorkSpaces = createAsyncThunk(
@@ -8,11 +8,12 @@ export const fetchWorkSpaces = createAsyncThunk(
     try {
       // const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
       const data = await getLocalData()
+      // console.log("fetchWorkSpaces :",data)
     //   console.log(data)
       if (!data) {
         throw new Error("Server Error!")
       }
-      
+      // const test = await getBoardById("dgsgs1")
 
       return data.boards
     } catch (error) {
@@ -32,7 +33,7 @@ const workSpaceSlice = createSlice({
   reducers: {
     addworkSpace: (state, action) => {
       const newBoard = {
-        id: Date.now().toString(),
+        id: nanoid(),
         name: action.payload,
         lists: [],
         users: [],
@@ -50,6 +51,10 @@ const workSpaceSlice = createSlice({
         workSpace.name = action.payload.name
         saveTolocal({ boards: state.boards })
       }
+    },
+    deleteBoardlist:(state, action) => {
+      const board = state.boards.find((x) => x.id === action.payload.id)
+
     },
   },
 

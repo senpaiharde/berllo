@@ -74,6 +74,7 @@ export function TaskPreview({ task }) {
       ref={TaskPreviewRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={() => navigate("/b/:boardId/:boardSlug")}
     > 
       <div className="task-front-cover"></div>
       <div className="task-preview-details">

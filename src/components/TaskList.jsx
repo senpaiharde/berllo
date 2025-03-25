@@ -11,7 +11,6 @@ export function TaskList({boardList}) {
 
   return (
     <div>
-      
       <ul className="task-list">
         <h1>{currentBoardList.taskListTitle}</h1>
         {boardList.taskList.map((task) => (

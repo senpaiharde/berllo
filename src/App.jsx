@@ -10,6 +10,7 @@ import {fetchWorkSpaces} from './redux/WorkSpaceSlice.js';
 import {Login} from './pages/Login';
 import {Home} from './pages/Home';
 import Workspace from './pages/WorkSpace';
+import TaskDetails from './components/TaskDetails.jsx';
 
 
 function App() {
@@ -27,7 +28,8 @@ function App() {
         <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/b/:boardId/:boardSlug" element={<Workspace />} />
+        <Route path="/b/:boardId/:boardName" element={<Workspace />} />
+        <Route path="/b/:boardId/:boardName/:taskId" element={<TaskDetails />} />
         </Routes>
       </div>
     </BrowserRouter>
