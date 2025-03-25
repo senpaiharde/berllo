@@ -31,6 +31,7 @@ const Workspace = () => {
   } else {
     return (
       <>
+      <GlobalHeader/>
         <div className="workspace">
           {/* <BoardHeader board={firstBoard ? { board: firstBoard.boardTitle } : { name: "Loading..." }}/> */}
           <BoardHeader board={board} />
