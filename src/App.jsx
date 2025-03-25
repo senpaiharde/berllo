@@ -14,13 +14,12 @@ import Workspace from './pages/WorkSpace';
 
 function App() {
   const dispatch = useDispatch();
-  const  WorkSpaces = useSelector(state => state.WorkSpaceReducer.workSpaces);
+  
   
   useEffect(() => {
     dispatch(fetchWorkSpaces());
-    console.log(WorkSpaces);
   }, [dispatch]);
-
+  
   return (
     <BrowserRouter>
       <div>

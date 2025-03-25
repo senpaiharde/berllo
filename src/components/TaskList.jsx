@@ -1,22 +1,23 @@
 import { TaskPreview } from "./TaskPreview.jsx"
-
-export function TaskList({TaskList}) {
+import { useState, useRef } from "react"
+export function TaskList({boardList}) {
   // TaskList.propTypes = {
   //   Tasks: PropTypes.array.isRequired,
   // }
-  const taskList = [
-    { _id: "safsg", name: "list 1" },
-    { _id: "ssgsf", name: "list 2" },
-  ]
+  const [currentBoardList, setCurrentBoardList] = useState(boardList)
+  if(boardList) {
+    // console.log("boardList",boardList.taskListTitle)
+  }
+
   return (
     <div>
       
       <ul className="task-list">
-        <h1>Task List</h1>
-        {taskList.map((Task) => (
-          <li key={Task._id}>
+        <h1>{currentBoardList.taskListTitle}</h1>
+        {boardList.taskList.map((task) => (
+          <li key={task._id}>
             <TaskPreview
-            // Task={Task}
+            task={task}
             />
           </li>
         ))}
