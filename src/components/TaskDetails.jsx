@@ -2,12 +2,12 @@ import React, { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { closeTaskDetails, liveUpdateTask, openTaskDetails } from "../redux/taskDetailsSlice"
 import { useNavigate, useParams } from "react-router-dom";
-
+import '../styles/taskDetails.scss';
 
 
 
 const TaskDetails = () =>{
-    console.log("🔥 TaskDetails mounted");
+    
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -17,16 +17,12 @@ const TaskDetails = () =>{
     const taskDetailsState = useSelector((state) => state.taskDetailsReducer || {});
     const { selectedTask, isOpen } = taskDetailsState;
     const boardLists = useSelector((state) => state.boardReducer.boardLists);
-    console.log("TaskDetails mounted");
-    console.log("boardId:", boardId);
-    console.log(" taskId:", taskId);
-    console.log("boardLists:", boardLists);
+    
 
 
     useEffect(() => {
-        console.log(" useEffect ran for TaskDetails");
-        console.log(" boardLists:", boardLists);
-         console.log(" taskId param:", taskId);
+       
+         //console.log(" taskId param:", taskId);
         if (!selectedTask && taskId && boardLists.length > 0) {
           const task = boardLists
             .flatMap((list) => list.taskList || [])
@@ -38,7 +34,20 @@ const TaskDetails = () =>{
         }
       }, [selectedTask, taskId, boardLists, dispatch]);
     
+    useEffect(()=>{
+        const hanldeEsc = (e) => {
+            if(e.key === 'Escape') handleClose()
+        };
+    window.addEventListener('keydown', hanldeEsc);
+    return () => window.removeEventListener('keydown', hanldeEsc)
+    },[])
 
+    useEffect(()=>{
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'auto';
+        }
+    })
 
       if (!selectedTask) return <div className="task-details-loading">Loading task...</div>;
 

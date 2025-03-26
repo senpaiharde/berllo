@@ -5,7 +5,7 @@ import {
   CreditCard, HelpCircle as Help, Building2, ExternalLink, LayoutGrid
 } from 'lucide-react';
 import '../styles/GlobalHeader.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Local image imports for templates
 import Template1 from '../assets/images/1-on-1 Meeting Agenda.jpg';
@@ -13,12 +13,14 @@ import Template2 from '../assets/images/Company Overview.jpg';
 import Template3 from '../assets/images/Design Huddle.jpg';
 import Template4 from '../assets/images/Go To Market Strategy.jpg';
 import Template5 from '../assets/images/Project Management.jpg';
+import { useSelector } from 'react-redux';
 
 const GlobalHeader = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchFocused, setSearchFocused] = useState(false);
   const [isGridHovered, setIsGridHovered] = useState(false);
   const navigate = useNavigate();
+  const board = useSelector((state) => state.boardReducer)
 
   const dropdownRefs = {
     workspaces: useRef(null),
@@ -77,7 +79,18 @@ const GlobalHeader = () => {
                 <div className="dropdown-item">
                   <div className="workspace-icon">T</div>
                   <div>
-                    <div onClick={() => navigate("/b/:boardId/:boardSlug")}>Trello Workspace</div>
+                  <div
+                onClick={() => {
+                 if (board && board._id && board.boardTitle) {
+                  const slug = board.boardTitle.toLowerCase().replace(/\s+/g, "-");
+                   console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
+                   navigate(`/b/${board._id}/${slug}`);
+                 } else {
+                 console.warn("⚠️ Board not ready for navigation:", board);
+                 }
+                }}
+                 style={{ cursor: "pointer", color: "#0079bf" }}
+                >Trello Workspace</div>
                     <div className="workspace-type">Free</div>
                   </div>
                 </div>
@@ -102,7 +115,21 @@ const GlobalHeader = () => {
                 <div className="dropdown-header">Recent Boards</div>
                 <div className="dropdown-item">
                   <Clock size={14} />
-                  <span onClick={() => navigate("/b/:boardId/:boardSlug")}>Work Flow</span>
+                  <span
+                   onClick={() => {
+                   if (board && board._id && board.boardTitle) {
+                     const slug = board.boardTitle.toLowerCase().replace(/\s+/g, "-");
+                     console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
+                     navigate(`/b/${board._id}/${slug}`);
+                     } else {
+                      console.warn("⚠️ Board not ready for navigation:", board);
+                     }
+                    }}
+                     style={{ cursor: "pointer", color: "#0079bf" }}
+>
+                     Work Flow
+                    </span>
+
                 </div>
               </div>
             )}

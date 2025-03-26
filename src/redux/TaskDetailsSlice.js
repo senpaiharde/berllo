@@ -39,7 +39,7 @@ export const {openTaskDetails, closeTaskDetails, updateSelectedTaskLive} = taskD
 export const liveUpdateTask = (updatedFields) => (dispatch, getState) => { 
     dispatch(updateSelectedTaskLive(updatedFields));
 
-    const {selectedTask} = getState().taskDetails;
+    const {selectedTask} = getState().taskDetailsReducer;;
     const updatedTask = {
         ...selectedTask,
         ...updatedFields,

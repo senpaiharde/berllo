@@ -15,6 +15,7 @@ import { Outlet } from 'react-router-dom';
 
 const Workspace = () => {
   const { boardId } = useParams()
+  console.log("🌐 Workspace loaded with boardId:", boardId);
   
   const dispatch = useDispatch();
   useEffect(() => {

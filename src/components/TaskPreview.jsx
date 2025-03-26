@@ -45,8 +45,7 @@ export function TaskPreview({ task, boardId }) {
       }
     ],
   }
-  // console.log("taskActivityComments", listTask.taskActivityComments)
-  const [currentTaskPreview, setCurrentTaskPreview] = useState(task)
+  
 
   const TaskPreviewRef = useRef(null)
 
@@ -68,7 +67,7 @@ export function TaskPreview({ task, boardId }) {
     if (date) //return  new Date(date).toISOString().split("T")[0]
               return  new Date(date).toLocaleDateString('en-US', options)
   }
-
+                                        /// its not nott updated by store becouse it had hardcoded once usestate so it took the data from there 
   return (
     <div
       className="task-preview"
@@ -91,25 +90,25 @@ export function TaskPreview({ task, boardId }) {
                 <button>toggle</button>
             </span>
             <span className="task-preview-header-title">
-                <h2>{currentTaskPreview.taskTitle}</h2>
+                <h2>{task.taskTitle}</h2>
             </span>
         </div>
         <div className="task-preview-info">
           <span className="task-preview-info-badges" >
-            {(currentTaskPreview.taskDueDate && currentTaskPreview.taskStartDate) && 
-            <span>{getReleventDate(currentTaskPreview.taskStartDate)} - {getReleventDate(currentTaskPreview.taskDueDate)}</span>}
+            {(task.taskDueDate && task.taskStartDate) && 
+            <span>{getReleventDate(task.taskStartDate)} - {getReleventDate(task.taskDueDate)}</span>}
 
-            {currentTaskPreview.taskDescription &&
+            {task.taskDescription &&
              <span>decr</span>}
 
-            {currentTaskPreview.taskActivityComments &&
-             <span>{currentTaskPreview.taskActivityComments.length} comments</span>}
+            {task.taskActivityComments &&
+             <span>{task.taskActivityComments.length} comments</span>}
 
           </span>
 
           <ul className="task-preview-info-users" style={{ display: "flex", flexDirection: "row", margin: "1em", alignItems: "center" }}>
-            {currentTaskPreview.taskMembers &&
-              currentTaskPreview.taskMembers.map((member) => (
+            {task.taskMembers &&
+              task.taskMembers.map((member) => (
                 <li key={member}>
                   <button>{member}</button>
                 </li>

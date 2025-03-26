@@ -12,7 +12,9 @@ export const fetchBoardById = createAsyncThunk(
     try {
       // const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
       //   console.log("id:",id)
-      const data = await getBoardById("dgsgs1")
+      const data = await getBoardById(id) 
+      console.log("fetchBoardById → requested ID:", id, "→ found board:", data);
+
     //   console.log("fetchBoardById board:", data)
       if (!data) {
         throw new Error("Server Error!")
@@ -68,7 +70,9 @@ const boardSlice = createSlice({
         for (let list of state.boardLists) {
           const taskIndex = list.taskList.findIndex((task) => task._id === updatedTask._id);
           if (taskIndex !== -1) {
-            list.taskList[taskIndex] = updatedTask;
+            list.taskList = list.taskList.map((task) =>
+                task._id === updatedTask._id ? { ...updatedTask } : task
+              );
             break;
           }
         }
