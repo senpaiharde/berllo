@@ -33,7 +33,7 @@ const boardSlice = createSlice({
     boardTitle: null,
     isStarred: null,
     boardLists: [],
-    // boards: null,
+    boards: [],
     state: "idle",
     error: null,
   },
@@ -61,7 +61,25 @@ const boardSlice = createSlice({
     },
     deleteBoardlist: (state, action) => {
       const board = state.boards.find((x) => x.id === action.payload.id)
+
     },
+    updateTaskInBoard: (state, action) => {
+        const updatedTask = action.payload;
+        for (let list of state.boardLists) {
+          const taskIndex = list.taskList.findIndex((task) => task._id === updatedTask._id);
+          if (taskIndex !== -1) {
+            list.taskList[taskIndex] = updatedTask;
+            break;
+          }
+        }
+      
+        saveTolocal({
+          _id: state._id,
+          boardTitle: state.boardTitle,
+          isStarred: state.isStarred,
+          boardLists: state.boardLists,
+        });
+      }
   },
 
   extraReducers: (builder) => {
@@ -87,5 +105,5 @@ const boardSlice = createSlice({
   },
 })
 
-export const { addboard, removeboard, updateboardName } = boardSlice.actions
+export const { addboard, removeboard, updateboardName,updateTaskInBoard } = boardSlice.actions
 export default boardSlice.reducer

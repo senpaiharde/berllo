@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
-export function TaskPreview({ task }) {
+export function TaskPreview({ task, boardId }) {
+    const navigate = useNavigate();
   // TaskPreview.propTypes = {
   //   Task: PropTypes.object.isRequired,
   // }
@@ -74,7 +75,12 @@ export function TaskPreview({ task }) {
       ref={TaskPreviewRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={() => navigate("/b/:boardId/:boardSlug")}
+      
+      //onClick={() => navigate(`/b/${task.taskBoard}/${task._id}`)}
+      onClick={() => {
+        console.log("🧠 Navigating to task:", task._id);
+        navigate(`/b/${boardId}/${task._id}-${encodeURIComponent(task.taskTitle)}`);
+      }}
     > 
       <div className="task-front-cover"></div>
       <div className="task-preview-details">
