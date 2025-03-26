@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchWorkSpaces());
   }, [dispatch]);
-  
+  // using *  telling that Workspace is responsible for all nested routes under /b/:boardId/:boardName/
   return (
     <BrowserRouter>
       <div>
@@ -28,8 +28,11 @@ function App() {
         <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/b/:boardId/:boardName" element={<Workspace />} />
-        <Route path="/b/:boardId/:boardName/:taskId" element={<TaskDetails />} />
+         
+        <Route path="/b/:boardId/:boardName/*" element={<Workspace />}>
+        <Route path=":taskId" element={<TaskDetails />} />
+        </Route>
+
         </Routes>
       </div>
     </BrowserRouter>

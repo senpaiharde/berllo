@@ -21,11 +21,14 @@ export const getLocalData = async () => {
     return jsonData;
 };
 
-export const getBoardById= async (boardId) =>{
-    // boardId= "dgsgs1"
+export const getBoardById = async (boardId) =>{
+    
     const data = await getLocalData()
     // console.log("getBoardById data", data)
-    const board = data.boards.find((board) => board._id === boardId)
+    const board = data?.boards?.find((board) => board._id === boardId)
+    if (!board) {
+        console.warn("❌ Board not found for id:", boardId, "in data:", data);
+      }
     // console.log("getBoardById", boardId, board)
     return board
 }

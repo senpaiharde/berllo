@@ -12,7 +12,9 @@ export const fetchBoardById = createAsyncThunk(
     try {
       // const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
       //   console.log("id:",id)
-      const data = await getBoardById("dgsgs1")
+      const data = await getBoardById(id) 
+      console.log("fetchBoardById → requested ID:", id, "→ found board:", data);
+
     //   console.log("fetchBoardById board:", data)
       if (!data) {
         throw new Error("Server Error!")
@@ -33,7 +35,7 @@ const boardSlice = createSlice({
     boardTitle: null,
     isStarred: null,
     boardLists: [],
-    // boards: null,
+    boards: [],
     state: "idle",
     error: null,
   },
@@ -61,7 +63,27 @@ const boardSlice = createSlice({
     },
     deleteBoardlist: (state, action) => {
       const board = state.boards.find((x) => x.id === action.payload.id)
+
     },
+    updateTaskInBoard: (state, action) => {
+        const updatedTask = action.payload;
+        for (let list of state.boardLists) {
+          const taskIndex = list.taskList.findIndex((task) => task._id === updatedTask._id);
+          if (taskIndex !== -1) {
+            list.taskList = list.taskList.map((task) =>
+                task._id === updatedTask._id ? { ...updatedTask } : task
+              );
+            break;
+          }
+        }
+      
+        saveTolocal({
+          _id: state._id,
+          boardTitle: state.boardTitle,
+          isStarred: state.isStarred,
+          boardLists: state.boardLists,
+        });
+      }
   },
 
   extraReducers: (builder) => {
@@ -87,5 +109,5 @@ const boardSlice = createSlice({
   },
 })
 
-export const { addboard, removeboard, updateboardName } = boardSlice.actions
+export const { addboard, removeboard, updateboardName,updateTaskInBoard } = boardSlice.actions
 export default boardSlice.reducer

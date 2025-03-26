@@ -7,34 +7,46 @@ import { createSelector } from "@reduxjs/toolkit";
 import { useEffect } from "react"
 import {fetchBoardById} from '../redux/BoardSlice.js';
 import GlobalHeader from "../components/GlobalHeader"
+import { Route, Routes } from "react-router-dom";
+import TaskDetails from '../components/TaskDetails';
+import { Outlet } from 'react-router-dom';
+
+
 
 const Workspace = () => {
   const { boardId } = useParams()
+  console.log("🌐 Workspace loaded with boardId:", boardId);
   
   const dispatch = useDispatch();
   useEffect(() => {
-    const id = "dgsgs1"
-      dispatch(fetchBoardById(id));
-    }, [dispatch]);
+    if (boardId) {
+        dispatch(fetchBoardById(boardId));
+    }
+    }, [dispatch, boardId]);
 
 //   const boardid = getBoardById(boardId)
   const selectFirstBoard = createSelector(
-    (state) => state.WorkSpaceReducer.boards,
+    (state) => state.workSpaceReducer.boards,
     (boards) => boards?.[0] || null
   )
 
-  const board = useSelector((state) => state.BoardReducer)
+  const board = useSelector((state) => state.boardReducer)
   const firstBoard = useSelector(selectFirstBoard)
 
-  if (!firstBoard) {
+  
+ // console.log(" board from selector:", board);
+  if (!board || !board._id) {
     return <div>Loading...</div>
   } else {
     return (
       <>
+      <GlobalHeader/>
         <div className="workspace">
           {/* <BoardHeader board={firstBoard ? { board: firstBoard.boardTitle } : { name: "Loading..." }}/> */}
-          <BoardHeader board={board} />
+          <BoardHeader board={board} />        {/** */}
           <BoardView board={board} />
+
+        <Outlet/>
         </div>
       </>
     )
