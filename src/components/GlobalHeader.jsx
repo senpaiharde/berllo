@@ -5,7 +5,7 @@ import {
   CreditCard, HelpCircle as Help, Building2, ExternalLink, LayoutGrid
 } from 'lucide-react';
 import '../styles/GlobalHeader.scss';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 // Local image imports for templates
 import Template1 from '../assets/images/1-on-1 Meeting Agenda.jpg';

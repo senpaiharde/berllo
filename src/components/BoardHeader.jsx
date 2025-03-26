@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import { useState,  useEffect } from "react"
 export function BoardHeader({ board }) {
 
   const [currentBoard, setCurrentBoard] = useState(board)
