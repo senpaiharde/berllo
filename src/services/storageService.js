@@ -21,6 +21,18 @@ export const getLocalData = async () => {
     return jsonData;
 };
 
+export const getBoardById = async (boardId) =>{
+    
+    const data = await getLocalData()
+    // console.log("getBoardById data", data)
+    const board = data?.boards?.find((board) => board._id === boardId)
+    if (!board) {
+        console.warn("❌ Board not found for id:", boardId, "in data:", data);
+      }
+    // console.log("getBoardById", boardId, board)
+    return board
+}
+
 
 export const saveTolocal = (data) => {
     localStorage.setItem('trelloData', JSON.stringify(data));

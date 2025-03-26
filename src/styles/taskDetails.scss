@@ -1,0 +1,82 @@
+.task-details-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+  }
+  
+  .task-details-backdrop {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(6px);
+    background-color: rgba(0, 0, 0, 0.4);
+    pointer-events: all;
+    animation: fadeIn 0.2s ease;
+  }
+  
+  .task-details-content {
+    position: relative;
+    pointer-events: all;
+    margin: 5% auto;
+    width: 600px;
+    max-width: 90vw;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    z-index: 1010;
+    animation: slideUp 0.2s ease;
+  }
+  
+  .task-details-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .task-details-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    border: none;
+    width: 100%;
+    margin-bottom: 1rem;
+    outline: none;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .task-details-description {
+    width: 100%;
+    min-height: 120px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 1rem;
+    resize: vertical;
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      backdrop-filter: blur(0);
+      background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+      backdrop-filter: blur(6px);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+  

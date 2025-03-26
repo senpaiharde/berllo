@@ -1,15 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
 import taskReducer from "./taskSlice";
-import WorkSpaceReducer from './WorkSpaceSlice';
-import TaskListReducer from './TaskListSlice';
+import workSpaceReducer from './WorkSpaceSlice';
+import taskListReducer from './TaskListSlice';
+import boardReducer from './BoardSlice';
+import taskDetailsReducer from './taskDetailsSlice'; 
 
 
 export const Store = configureStore({
-    reducer: {
-        WorkSpaceReducer,
-        TaskListReducer,
-        taskReducer,
-    },
+  reducer: {
+    workSpaceReducer,
+    taskListReducer,
+    taskReducer,
+    boardReducer,
+    taskDetailsReducer,
+  },
 });
 
 export default Store;
