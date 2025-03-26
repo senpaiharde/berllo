@@ -79,7 +79,8 @@ export function TaskPreview({ task, boardId }) {
       //onClick={() => navigate(`/b/${task.taskBoard}/${task._id}`)}
       onClick={() => {
         console.log("🧠 Navigating to task:", task._id);
-        navigate(`/b/${boardId}/${task._id}-${encodeURIComponent(task.taskTitle)}`);
+        navigate(`/b/${boardId}/board/${task._id}-${encodeURIComponent(task.taskTitle)}`)
+
       }}
     > 
       <div className="task-front-cover"></div>

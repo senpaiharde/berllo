@@ -28,8 +28,11 @@ function App() {
         <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/b/:boardId/:boardName/*" element={<Workspace />} /> 
-        
+         
+        <Route path="/b/:boardId/:boardName/*" element={<Workspace />}>
+        <Route path=":taskId" element={<TaskDetails />} />
+        </Route>
+
         </Routes>
       </div>
     </BrowserRouter>

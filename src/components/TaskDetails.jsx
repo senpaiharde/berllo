@@ -14,8 +14,8 @@ const TaskDetails = () =>{
     const {taskId, boardId} = useParams();
     const pureTaskId = taskId.split('-')[0];
    
-    
-    const {selectedTask} = useSelector((state) => state.taskDetails);
+    const taskDetailsState = useSelector((state) => state.taskDetailsReducer || {});
+    const { selectedTask, isOpen } = taskDetailsState;
     const boardLists = useSelector((state) => state.boardReducer.boardLists);
     console.log("TaskDetails mounted");
     console.log("boardId:", boardId);
@@ -24,7 +24,10 @@ const TaskDetails = () =>{
 
 
     useEffect(() => {
-        if (!selectedTask && taskId && boardLists) {
+        console.log(" useEffect ran for TaskDetails");
+        console.log(" boardLists:", boardLists);
+         console.log(" taskId param:", taskId);
+        if (!selectedTask && taskId && boardLists.length > 0) {
           const task = boardLists
             .flatMap((list) => list.taskList || [])
             .find((task) => task._id === pureTaskId);
@@ -34,7 +37,10 @@ const TaskDetails = () =>{
           }
         }
       }, [selectedTask, taskId, boardLists, dispatch]);
-    if(!selectedTask)return null;
+    
+
+
+      if (!selectedTask) return <div className="task-details-loading">Loading task...</div>;
 
     const handleClose = () => {
         dispatch(closeTaskDetails());
@@ -47,9 +53,9 @@ const TaskDetails = () =>{
     };
 
     const handleDescriptionChange = (e) => {
-        dispatch(liveUpdateTask({ taskDescription: e.target.value }))
-
-    }
+        dispatch(liveUpdateTask({ taskDescription: e.target.value }));
+      };
+      
 
 
     return(
@@ -63,12 +69,12 @@ const TaskDetails = () =>{
                 <input
                 type="text"
                 className="task-details-title"
-                value={selectedTask.title}
+                value={selectedTask.taskTitle || ''}
                 onChange={handleTitleChange}/>
 
 
                 <textarea className="task-details-description"
-                value={selectedTask.description || ''}
+                value={selectedTask.taskDescription || ''}
                 onChange={handleDescriptionChange}/>
             </div>
         </div>

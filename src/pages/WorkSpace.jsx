@@ -9,6 +9,7 @@ import {fetchBoardById} from '../redux/BoardSlice.js';
 import GlobalHeader from "../components/GlobalHeader"
 import { Route, Routes } from "react-router-dom";
 import TaskDetails from '../components/TaskDetails';
+import { Outlet } from 'react-router-dom';
 
 
 
@@ -33,7 +34,7 @@ const Workspace = () => {
 
   
  // console.log(" board from selector:", board);
-  if (!firstBoard) {
+  if (!board || !board._id) {
     return <div>Loading...</div>
   } else {
     return (
@@ -44,9 +45,7 @@ const Workspace = () => {
           <BoardHeader board={board} />        {/** */}
           <BoardView board={board} />
 
-        <Routes>
-        <Route path=":taskId" element={<TaskDetails />} />
-        </Routes>
+        <Outlet/>
         </div>
       </>
     )
