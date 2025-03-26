@@ -1,3 +1,9 @@
+@import 'boardHeaderStyles/_board-name-container';
+@import 'boardHeaderStyles/_star-container';
+
+$--dynamic-button-hovered: rgba(255, 255, 255, 0.20);
+$--dynamic-button-pressed: rgba(255, 255, 255, 0.20);
+$--dynamic-button-pressed-hovered: rgba(255, 255, 255, 0.20);
 .board-header {
   display: inline-flex;
   background-color: hsla(331, 53.5%, 37%, 0.9);
@@ -5,6 +11,8 @@
   flex-direction: row;
   flex-grow: 1;
   flex-wrap: wrap;
+  color: var(--dynamic-text);
+  color: white;
   align-items: center;
   width: calc(100% - 23px);
   height: auto;
@@ -17,7 +25,9 @@
   position: relative;
   flex-wrap: nowrap;
   align-items: flex-start;
+  align-items: center;
   max-width: 100%;
+  gap: 4px;
   min-height: 32px;
 }
 
@@ -25,8 +35,30 @@
   display: flex;
   position: relative;
   flex-wrap: nowrap;
+  align-items: center;
   align-items: flex-end;
   min-height: 32px;
   margin-left: auto;
   gap: 4px;
 }
+
+.header-clickable {
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.header-clickable:hover {
+  background-color: rgba(255, 255, 255, 0.20);
+}
+
+.header-clickable.pressed {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+}
+
+.header-clickable.pressed:hover {
+  background-color: rgba(255, 255, 255, 0.90);
+}
+
+

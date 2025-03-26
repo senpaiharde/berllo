@@ -10,7 +10,7 @@ export const fetchData = async () => {
 
 // Function to get data from localStorage  or json
 export const getLocalData = async () => {
-    console.log("getLocalData")
+    // console.log("getLocalData")
     const storedData = JSON.parse(localStorage.getItem('trelloData'));
     // console.log("storedData",storedData)
     if(storedData) return storedData;

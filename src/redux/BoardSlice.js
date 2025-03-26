@@ -77,7 +77,7 @@ const boardSlice = createSlice({
         state.boardTitle = action.payload.boardTitle
         state.isStarred = action.payload.isStarred
         state.boardLists = action.payload.boardLists
-        console.log("fetchboards.fulfilled", action.payload)
+        // console.log("fetchboards.fulfilled", action.payload)
       })
       .addCase(fetchBoardById.rejected, (state, action) => {
         state.action = "failed"
