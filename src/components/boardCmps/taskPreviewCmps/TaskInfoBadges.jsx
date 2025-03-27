@@ -1,4 +1,6 @@
-import { IconButton } from "../boardCmps/boardHeaderCmp/IconButton"
+// import { IconButton } from "../boardCmps/boardHeaderCmp/IconButton"
+
+import { IconButton } from "../../IconButton"
 
 export function TaskInfoBadges({ task }) {
   function getReleventDate(date) {

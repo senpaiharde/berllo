@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { fetchBoardById } from '../redux/BoardSlice.js';
 import { getLocalData } from '../services/storageService.js';
 import GlobalHeader from "../components/GlobalHeader";
-import { BoardHeader } from "../components/boardCmps/BoardHeader.jsx";
+import { BoardHeader } from "../components/boardCmps/boardHeaderCmps/BoardHeader.jsx";
 import { BoardView } from "../components/boardCmps/BoardView.jsx";
 
 const Workspace = () => {

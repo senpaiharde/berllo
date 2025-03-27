@@ -1,6 +1,8 @@
 import { useState, useRef } from "react"
-import { IconButton } from "../IconButton"
-import { ViewTypeChooser } from "./boardHeaderCmp/ViewTypeChooser"
+// import { IconButton } from "../IconButton"
+
+import { ViewTypeChooser } from "./ViewTypeChooser"
+import { IconButton } from "../../IconButton"
 export function BoardHeader({ board }) {
   const [currentBoard, setCurrentBoard] = useState(board)
   const [starClicked, setStarClicked] = useState(false)

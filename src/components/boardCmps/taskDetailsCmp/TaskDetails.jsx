@@ -9,7 +9,7 @@ import {
     editChecklistItem,
     deleteChecklistItem, } from "../../../redux/taskDetailsSlice"
 import { useNavigate, useParams } from "react-router-dom";
-import '../styles/taskDetails.scss';
+// import '../styles/taskDetails.scss';
 
 
 
