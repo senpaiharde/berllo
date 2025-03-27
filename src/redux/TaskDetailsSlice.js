@@ -29,11 +29,41 @@ const taskDetailsSlice = createSlice({
             ...updatedFields,
            }
         },
-        
+        addChecklistItem: (state, action) => {
+            const newItem = {
+              id: crypto.randomUUID(),
+              text: action.payload,
+              isDone: false,
+            };
+            if (!state.selectedTask.taskCheckList) {
+              state.selectedTask.taskCheckList = [];
+            }
+            state.selectedTask.taskCheckList.push(newItem);
+          },
+          toogleChecklistItem: (state, action) => {
+            const item = state.selectedTask.taskCheckList.find(x => x.id === action.payload);
+            if(item) item.isDone = !item.isDone;
+            
+          },
+          editChecklistItem: (state, action) => {
+            const {id, text} = action.payload;
+            const item = state.selectedTask.taskCheckList.find(i => i.id === id);
+            if(item) item.text = text;
+          },
+          deleteChecklistItem: (state, action) => {
+            state.selectedTask.taskCheckList = state.selectedTask.taskCheckList.filter(i => i.id === action.payload)
+          },
+
     }
 })
 
-export const {openTaskDetails, closeTaskDetails, updateSelectedTaskLive} = taskDetailsSlice.actions
+export const {openTaskDetails,
+     closeTaskDetails,
+      updateSelectedTaskLive,
+    addChecklistItem,
+toogleChecklistItem,
+editChecklistItem,
+deleteChecklistItem,} = taskDetailsSlice.actions
 
 // we are gonna call this function on despatch to update taskdetailsslice and the the boardslice
 export const liveUpdateTask = (updatedFields) => (dispatch, getState) => { 

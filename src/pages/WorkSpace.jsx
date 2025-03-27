@@ -11,7 +11,7 @@ import { Route, Routes } from "react-router-dom";
 import TaskDetails from '../components/TaskDetails';
 import { Outlet } from 'react-router-dom';
 
-
+import {getLocalData} from '../services/storageService.js';
 
 const Workspace = () => {
   const { boardId } = useParams()
@@ -24,7 +24,24 @@ const Workspace = () => {
     }
     }, [dispatch, boardId]);
 
+    
+
 //   const boardid = getBoardById(boardId)
+
+   useEffect(() => {
+    const loadDefaultBoard = async () => {
+        const localData = await getLocalData();
+        const boards = localData?.boards;
+
+        if (boards?.length > 0 && !boardId) {
+            const firstBoardId = boards[0]._id;
+            console.log('no boards now autoloading',firstBoardId);
+            dispatch(fetchBoardById(firstBoardId))
+        }
+
+    };
+    loadDefaultBoard();
+   },[dispatch, boardId])
   const selectFirstBoard = createSelector(
     (state) => state.workSpaceReducer.boards,
     (boards) => boards?.[0] || null

@@ -38,6 +38,7 @@ const boardSlice = createSlice({
     boards: [],
     state: "idle",
     error: null,
+    activeBoard: null,
   },
   reducers: {
     addboard: (state, action) => {
@@ -93,8 +94,9 @@ const boardSlice = createSlice({
       })
       .addCase(fetchBoardById.fulfilled, (state, action) => {
         state.action = "succeeded"
-        // state = action.payload
+        const board = action.payload;
         
+        state.activeBoard = board;
         state._id = action.payload._id
         state.boardTitle = action.payload.boardTitle
         state.isStarred = action.payload.isStarred

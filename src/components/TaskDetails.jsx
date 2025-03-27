@@ -1,6 +1,13 @@
 import React, { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { closeTaskDetails, liveUpdateTask, openTaskDetails } from "../redux/taskDetailsSlice"
+import {
+    closeTaskDetails,
+    liveUpdateTask, 
+    openTaskDetails,
+    addChecklistItem,
+    toogleChecklistItem,
+    editChecklistItem,
+    deleteChecklistItem, } from "../redux/taskDetailsSlice"
 import { useNavigate, useParams } from "react-router-dom";
 import '../styles/taskDetails.scss';
 
@@ -28,11 +35,11 @@ const TaskDetails = () =>{
             .flatMap((list) => list.taskList || [])
             .find((task) => task._id === pureTaskId);
       
-          if (task) {
+          if (task && (!selectedTask || selectedTask.id !== task.id)) {
             dispatch(openTaskDetails(task));
           }
         }
-      }, [selectedTask, taskId, boardLists, dispatch]);
+      }, [selectedTask?.id , taskId, boardLists, dispatch]);
     
     useEffect(()=>{
         const hanldeEsc = (e) => {
@@ -85,6 +92,28 @@ const TaskDetails = () =>{
                 <textarea className="task-details-description"
                 value={selectedTask.taskDescription || ''}
                 onChange={handleDescriptionChange}/>
+
+                <div className="task-details-checklist">
+                    <div className="checklist-header">CheckList</div>
+                    {selectedTask.taskCheckList?.map((item) => (
+                        <div key={item.id} className="checklist-item">
+                            <input 
+                            type="checkbox"
+                            checked={item.isDone}
+                            onChange={() => dispatch(toogleChecklistItem(item.id))}/>
+
+                            <input 
+                            type="text"
+                            value={item.text || ""}
+                            onChange={(e) => dispatch(editChecklistItem({ id: item.id , text: e.target.value}))} />
+
+                            <button onClick={() =>dispatch(deleteChecklistItem(item.id))}>X</button>
+
+                            
+                        </div>
+                    ))}
+                    <button onClick={() => dispatch(addChecklistItem('new item'))}>add new task</button>
+                </div>
             </div>
         </div>
     )
