@@ -72,6 +72,7 @@ const workSpaceSlice = createSlice({
         state.action = "failed"
         state.error = action.error.message
         console.log("fetchworkSpaces.rejected")
+        
       })
   },
 })
