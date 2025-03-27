@@ -92,7 +92,7 @@ export function TaskPreview({ task, boardId }) {
         <div className="task-preview-header">
           <span className="task-preview-header-completion-status">
             <IconButton>
-            <circle></circle>
+              <circle></circle>
             </IconButton>
           </span>
           <span className="task-preview-header-title">
@@ -104,7 +104,9 @@ export function TaskPreview({ task, boardId }) {
           <div className="task-preview-info-users">
             {task.taskMembers &&
               task.taskMembers.map((member) => (
-                <span key={member} className="task-preview-user">{member}</span>
+                <span key={member} className="task-preview-user">
+                  {member}
+                </span>
               ))}
           </div>
         </div>
