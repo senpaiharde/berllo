@@ -4,10 +4,9 @@ import { useEffect } from "react";
 
 import { fetchBoardById } from '../redux/BoardSlice.js';
 import { getLocalData } from '../services/storageService.js';
-import { Outlet } from "react-router-dom"
 import GlobalHeader from "../components/GlobalHeader";
-import { BoardHeader } from "../components/BoardHeader";
-import { BoardView } from "../components/BoardView";
+import { BoardHeader } from "../components/boardCmps/BoardHeader.jsx";
+import { BoardView } from "../components/boardCmps/BoardView.jsx";
 
 const Workspace = () => {
   const { boardId } = useParams();

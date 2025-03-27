@@ -1,4 +1,4 @@
-import { IconButton } from "./boardHeaderCmp/IconButton"
+import { IconButton } from "../IconButton"
 
 export function AddItemCard({ cardDescription, backgroundColor,textColor }) {
 

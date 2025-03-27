@@ -1,6 +1,6 @@
 import { AddItemCard } from "./AddItemCard.jsx"
-import { IconButton } from "./boardHeaderCmp/IconButton.jsx"
-import { TaskPreview } from "./TaskPreview.jsx"
+import { IconButton } from "../IconButton.jsx"
+import { TaskPreview } from "./taskPreviewCmps/TaskPreview.jsx"
 import { useState, useRef } from "react"
 export function TaskList({boardList}) {
     //console.log("boardList received by TaskList:", boardList);

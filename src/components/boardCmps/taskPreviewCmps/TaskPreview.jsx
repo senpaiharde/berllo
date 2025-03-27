@@ -1,7 +1,7 @@
 import { useState, useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { TaskInfoBadges } from "./taskPreviewCmps/TaskInfoBadges"
-import { IconButton } from "./boardHeaderCmp/IconButton"
+import { TaskInfoBadges } from "./TaskInfoBadges"
+import { IconButton } from "../../IconButton"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 

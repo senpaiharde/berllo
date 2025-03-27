@@ -1,5 +1,5 @@
 import { useState, useRef } from "react"
-import { IconButton } from "./boardHeaderCmp/IconButton"
+import { IconButton } from "../IconButton"
 import { ViewTypeChooser } from "./boardHeaderCmp/ViewTypeChooser"
 export function BoardHeader({ board }) {
   const [currentBoard, setCurrentBoard] = useState(board)

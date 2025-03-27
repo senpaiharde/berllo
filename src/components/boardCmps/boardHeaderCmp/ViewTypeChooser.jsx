@@ -1,4 +1,4 @@
-import { IconButton } from "./IconButton"
+import { IconButton } from "../../IconButton"
 
 export function ViewTypeChooser({ togglePressed }) {
   return (
