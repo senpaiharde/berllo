@@ -44,8 +44,15 @@ $--dynamic-button-pressed-hovered: rgba(255, 255, 255, 0.20);
 
 .header-clickable {
   background-color: transparent;
+  height: 32px;
   transition: background-color 0.2s ease;
   cursor: pointer;
+  align-items: center;
+  & > span { 
+    // align-items: center;
+    // justify-content: center;
+    
+ } 
 }
 
 .header-clickable:hover {
@@ -60,5 +67,4 @@ $--dynamic-button-pressed-hovered: rgba(255, 255, 255, 0.20);
 .header-clickable.pressed:hover {
   background-color: rgba(255, 255, 255, 0.90);
 }
-
 

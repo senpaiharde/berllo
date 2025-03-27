@@ -1,5 +1,7 @@
 .board-view{
-    background-color: #CD519D;
+    flex-grow: 1;
+    margin-top: 12px;
+    position: relative;
 }
 
 .TaskList-list{
@@ -7,9 +9,43 @@
     flex-direction: row;
     row-gap: 8px;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
+    transition: padding 0.2s ease-in-out;
     padding: 0 6px;
     // margin: 10px;
     list-style: none;
+
+    bottom: 0;
+    left: 0;
+    margin-bottom: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    padding-top: 2px;
+    // position: absolute;
+    right: 0;
+    scrollbar-color: #fff6 #00000026;
+    scrollbar-width: auto;
+    top: -2px;
+    -webkit-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.TaskList-list-item{
+    display: block;
+    flex-shrink: 0;
+    align-self: flex-start;
+    padding: 0 6px;
+    height: 100%;
+    white-space: nowrap;
+}
+
+.TaskList-list-add-item{
+    display: block;
+    flex-shrink: 0;
+    width: 272px;
+    align-self: flex-start;
+    padding: 0 6px;
+    height: 100%;
 }

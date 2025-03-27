@@ -1,34 +1,67 @@
-.task-preview{
-    display: flex;
-    justify-content: space-between;
-    background-color: aliceblue;
-    background-color: var(#FFFFFF, #ffffff);
-    align-items: center;
-    border: 3px solid;
-    border-radius: 30px;
-    gap: 10px;
-    margin: 5px;
-    box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
-    // padding: 10px 20px;
+.task-preview {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  background-color: var(#ffffff, #ffffff);
+  align-items: center;
+  border: 3px solid;
+  border-radius: 30px;
+  gap: 10px;
+  margin: 5px;
+  box-shadow: var(
+    --ds-shadow-raised,
+    0px 1px 1px #091e4240,
+    0px 0px 1px #091e424f
+  );
+  // padding: 10px 20px;
 }
-.task-preview-header{
-    display: flex;
-    // background-color: rgb(52, 199, 199);
-    gap: 10px;
-    align-items: center;
+.task-preview-header {
+  display: flex;
+  // background-color: rgb(52, 199, 199);
+  gap: 10px;
+  align-items: center;
 }
-.task-preview-info{
-    display: flex;
-    flex-direction: column;
-    // background-color: rgb(93, 190, 190);
-    // gap: 10px;
-    // padding: auto;
-    align-items: center;
+.task-preview-info {
+  display: flex;
+  flex-direction: column;
+  // background-color: rgb(93, 190, 190);
+  // gap: 10px;
+  // padding: auto;
+  align-items: center;
+}
+.task-preview-info-users {
+  display: "flex";
+//   flex-direction: "row";
+//   margin: "1em";
+//   align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: right;
+  margin-right: -4px;
+  margin-bottom: 4px;
+  float: right;
+  gap: 4px;
+  list-style: none;
+}
+.task-preview-user{
+    padding: 2px;
+}
+.task-preview-info-badges {
+  // background-color: aqua;
+  display: flex;
+  gap: 10px;
 }
 
-.task-preview-info-badges{
-    // background-color: aqua;
-    display: flex;
-    gap: 10px;
-    
+.task-complete-svg{
+  display: inline-flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle{
+  cx: 8;
+  cy: 8;
+  r: 7.25;
+  stroke: currentcolor;
+  stroke-width: 1.5;
 }

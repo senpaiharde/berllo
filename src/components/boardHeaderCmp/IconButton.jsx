@@ -1,11 +1,7 @@
-export function IconButton({ path }) {
+export function IconButton(props) {
 
 
-if(path) {
-  // console.log("board",board)
-  // console.log("board",board.boardTitle)
-  // console.log("board",board.boardLists)
-}
+
   return (
     
     <button className="star-container-button">
@@ -16,12 +12,13 @@ if(path) {
           height="24"
           src="src/assets/TerlloIcons/asset-14.svg"
         >
-          <path
+          {props.children}
+          {/* <path
             fillRule="evenodd"
             clipRule="evenodd"
             d={path}
             fill="currentColor"
-          ></path>
+          ></path> */}
         </svg>
       </span>
     </button>

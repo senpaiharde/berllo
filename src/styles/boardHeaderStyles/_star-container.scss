@@ -8,7 +8,7 @@
     width: 32px;
     height: 32px;
     margin-bottom: 0;
-    line-height: 32px;
+    // line-height: 32px;
 
     background-color: var(--dynamic-button);
     color: var(--dynamic-text);
@@ -34,9 +34,9 @@
 }
 
 .star-container-starred-icon-container{
-    color: var(--dynamic-star);//add when selected
-    display: inline-block;
-    line-height: 1;
+    // display: inline-block;
+    
+    // line-height: 1;
 }
 .star-container-svg{
     //asset 14
