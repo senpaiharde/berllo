@@ -20,7 +20,11 @@ const GlobalHeader = () => {
   const [searchFocused, setSearchFocused] = useState(false);
   const [isGridHovered, setIsGridHovered] = useState(false);
   const navigate = useNavigate();
-  const board = useSelector((state) => state.boardReducer)
+  const board = useSelector((state) => state.boardReducer);
+  const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0;
+
+  
+  console.log(" boardReducer:", board);
 
   const dropdownRefs = {
     workspaces: useRef(null),
@@ -46,7 +50,7 @@ const GlobalHeader = () => {
   const toggleDropdown = (key) => {
     setActiveDropdown(activeDropdown === key ? null : key);
   };
-
+   
   return (
     <header className="global-header">
       {/* LEFT SIDE: Grid icon, Logo, Dropdowns */}
@@ -81,13 +85,13 @@ const GlobalHeader = () => {
                   <div>
                   <div
                 onClick={() => {
-                 if (board && board._id && board.boardTitle) {
-                  const slug = board.boardTitle.toLowerCase().replace(/\s+/g, "-");
-                   console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
-                   navigate(`/b/${board._id}/${slug}`);
-                 } else {
-                 console.warn("⚠️ Board not ready for navigation:", board);
-                 }
+                 if (isBoardReady) {
+                    const slug = board.slug || (board.boardTitle ? board.boardTitle.toLowerCase().replace(/\s+/g, "-") : "board");
+                    console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
+                    navigate(`/b/${board._id}/${slug}`);
+                  } else {
+                    console.warn("⚠️ Board not ready for navigation:", board);
+                  }
                 }}
                  style={{ cursor: "pointer", color: "#0079bf" }}
                 >Trello Workspace</div>
@@ -117,13 +121,13 @@ const GlobalHeader = () => {
                   <Clock size={14} />
                   <span
                    onClick={() => {
-                   if (board && board._id && board.boardTitle) {
-                     const slug = board.boardTitle.toLowerCase().replace(/\s+/g, "-");
-                     console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
-                     navigate(`/b/${board._id}/${slug}`);
-                     } else {
-                      console.warn("⚠️ Board not ready for navigation:", board);
-                     }
+                   if (isBoardReady) {
+                    const slug = board.slug || (board.boardTitle ? board.boardTitle.toLowerCase().replace(/\s+/g, "-") : "board");
+                    console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
+                    navigate(`/b/${board._id}/${slug}`);
+                  } else {
+                    console.warn("⚠️ Board not ready for navigation:", board);
+                  }
                     }}
                      style={{ cursor: "pointer", color: "#0079bf" }}
 >
