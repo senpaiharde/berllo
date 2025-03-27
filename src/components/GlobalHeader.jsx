@@ -21,7 +21,8 @@ const GlobalHeader = () => {
   const [isGridHovered, setIsGridHovered] = useState(false);
   const navigate = useNavigate();
   const board = useSelector((state) => state.boardReducer);
-  const isBoardReady = board && board._id && board.boardTitle;
+  const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0;
+
   
   console.log(" boardReducer:", board);
 
@@ -85,12 +86,12 @@ const GlobalHeader = () => {
                   <div
                 onClick={() => {
                  if (isBoardReady) {
-                  const slug = board.boardTitle.toLowerCase().replace(/\s+/g, "-");
-                   console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
-                   navigate(`/b/${board._id}/${slug}`);
-                 } else {
-                 console.warn("⚠️ Board not ready for navigation:", board);
-                 }
+                    const slug = board.slug || (board.boardTitle ? board.boardTitle.toLowerCase().replace(/\s+/g, "-") : "board");
+                    console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
+                    navigate(`/b/${board._id}/${slug}`);
+                  } else {
+                    console.warn("⚠️ Board not ready for navigation:", board);
+                  }
                 }}
                  style={{ cursor: "pointer", color: "#0079bf" }}
                 >Trello Workspace</div>
@@ -121,12 +122,12 @@ const GlobalHeader = () => {
                   <span
                    onClick={() => {
                    if (isBoardReady) {
-                     const slug = board.boardTitle.toLowerCase().replace(/\s+/g, "-");
-                     console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
-                     navigate(`/b/${board._id}/${slug}`);
-                     } else {
-                      console.warn("⚠️ Board not ready for navigation:", board);
-                     }
+                    const slug = board.slug || (board.boardTitle ? board.boardTitle.toLowerCase().replace(/\s+/g, "-") : "board");
+                    console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
+                    navigate(`/b/${board._id}/${slug}`);
+                  } else {
+                    console.warn("⚠️ Board not ready for navigation:", board);
+                  }
                     }}
                      style={{ cursor: "pointer", color: "#0079bf" }}
 >
