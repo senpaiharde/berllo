@@ -1,14 +1,16 @@
 import { useState, useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { TaskInfoBadges } from "./TaskInfoBadges"
+import { IconButton } from "../../IconButton"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
 export function TaskPreview({ task, boardId }) {
-    const navigate = useNavigate();
+  const navigate = useNavigate()
   // TaskPreview.propTypes = {
   //   Task: PropTypes.object.isRequired,
   // }
-  if(task) {
+  if (task) {
     // console.log("Task",task)
   }
   const listTask = {
@@ -42,10 +44,9 @@ export function TaskPreview({ task, boardId }) {
         userId: "user2",
         comment: "testComment 2",
         date: 1710955000000,
-      }
+      },
     ],
   }
-  
 
   const TaskPreviewRef = useRef(null)
 
@@ -63,58 +64,51 @@ export function TaskPreview({ task, boardId }) {
   }
 
   function getReleventDate(date) {
-    const options = { month: 'long', day: 'numeric' };
-    if (date) //return  new Date(date).toISOString().split("T")[0]
-              return  new Date(date).toLocaleDateString('en-US', options)
+    const options = { month: "long", day: "numeric" }
+    if (date)
+      //return  new Date(date).toISOString().split("T")[0]
+      return new Date(date).toLocaleDateString("en-US", options)
   }
-                                        /// its not nott updated by store becouse it had hardcoded once usestate so it took the data from there 
+  /// its not nott updated by store becouse it had hardcoded once usestate so it took the data from there
   return (
     <div
       className="task-preview"
       ref={TaskPreviewRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      
       //onClick={() => navigate(`/b/${task.taskBoard}/${task._id}`)}
       onClick={() => {
-        console.log("🧠 Navigating to task:", task._id);
-        navigate(`/b/${boardId}/board/${task._id}-${encodeURIComponent(task.taskTitle)}`)
-
+        console.log("🧠 Navigating to task:", task._id)
+        navigate(
+          `/b/${boardId}/board/${task._id}-${encodeURIComponent(
+            task.taskTitle
+          )}`
+        )
       }}
-    > 
+    >
       <div className="task-front-cover"></div>
       <div className="task-preview-details">
         <div className="task-preview-labels"></div>
         <div className="task-preview-header">
-            <span className="task-preview-header-completion-status">
-                <button>toggle</button>
-            </span>
-            <span className="task-preview-header-title">
-                <h2>{task.taskTitle}</h2>
-            </span>
+          <span className="task-preview-header-completion-status">
+            <IconButton>
+              <circle></circle>
+            </IconButton>
+          </span>
+          <span className="task-preview-header-title">
+            <h2>{task.taskTitle}</h2>
+          </span>
         </div>
         <div className="task-preview-info">
-          <span className="task-preview-info-badges" >
-            {(task.taskDueDate && task.taskStartDate) && 
-            <span>{getReleventDate(task.taskStartDate)} - {getReleventDate(task.taskDueDate)}</span>}
-
-            {task.taskDescription &&
-             <span>decr</span>}
-
-            {task.taskActivityComments &&
-             <span>{task.taskActivityComments.length} comments</span>}
-
-          </span>
-
-          <ul className="task-preview-info-users" style={{ display: "flex", flexDirection: "row", margin: "1em", alignItems: "center" }}>
+          <TaskInfoBadges task={task}></TaskInfoBadges>
+          <div className="task-preview-info-users">
             {task.taskMembers &&
               task.taskMembers.map((member) => (
-                <li key={member}>
-                  <button>{member}</button>
-                </li>
+                <span key={member} className="task-preview-user">
+                  {member}
+                </span>
               ))}
-          </ul>
-
+          </div>
         </div>
       </div>
       <span className="preview-title">
