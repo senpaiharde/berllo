@@ -26,7 +26,7 @@ export function BoardHeader({ board }) {
             className="star-container header-clickable"
             onClick={(e) => togglePressed(e.currentTarget, "star")}
           >
-            <IconButton label="star-button">
+            <IconButton>
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -40,7 +40,7 @@ export function BoardHeader({ board }) {
             onClick={(e) => togglePressed(e.currentTarget, "visible")}
           >
             <IconButton
-              label="visibility-button"
+              label="WorkSpace visible"
               
             >
               <path
@@ -50,7 +50,7 @@ export function BoardHeader({ board }) {
                 fill="currentColor"
               ></path>
             </IconButton>
-            <span>WorkSpace visible</span>
+            {/* <span>WorkSpace visible</span> */}
           </div>
           <ViewTypeChooser togglePressed={togglePressed}></ViewTypeChooser>
         </span>
@@ -60,7 +60,7 @@ export function BoardHeader({ board }) {
             onClick={(e) => togglePressed(e.currentTarget, "filter")}
           >
             <IconButton
-              label="filter-button"
+              label="Filters"
             >
               <path
                 fillRule="evenodd"
@@ -69,7 +69,7 @@ export function BoardHeader({ board }) {
                 fill="currentColor"
               ></path>
             </IconButton>
-            <span>Filters</span>
+            {/* <span>Filters</span> */}
           </div>
 
           {/* {board.users &&

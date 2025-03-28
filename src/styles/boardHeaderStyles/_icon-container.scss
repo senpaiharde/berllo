@@ -1,9 +1,9 @@
-.star-container{
+.icon-container{
     display: block;
     unicode-bidi: isolate;
 }
 
-.star-container-button{
+.icon-container-button{
     flex-shrink: 0;
     width: 32px;
     height: 32px;
@@ -33,11 +33,11 @@
     transition-timing-function: ease;
 }
 
-.star-container-starred-icon-container{
+.icon-grid{
     // display: inline-block;
     
     // line-height: 1;
 }
-.star-container-svg{
+.icon-container-svg{
     //asset 14
 }

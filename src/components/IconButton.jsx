@@ -1,26 +1,12 @@
-export function IconButton(props) {
-
-
-
+export function IconButton({ label, children }) {
   return (
-    
-    <button className="star-container-button">
-      <span className="star-container-starred-icon-container">
-        <svg
-          className="icon-svg"
-          width="24"
-          height="24"
-          src="src/assets/TerlloIcons/asset-14.svg"
-        >
-          {props.children}
-          {/* <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d={path}
-            fill="currentColor"
-          ></path> */}
+    <button className="icon-container-button">
+      <span className="icon-grid">
+        <svg className="icon-svg" width="24" height="24">
+          {children} {/* Renders all path elements inside the <svg> */}
         </svg>
       </span>
+      {label && <span className="icon-label">{label}</span>}
     </button>
   )
 }
