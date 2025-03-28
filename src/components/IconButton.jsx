@@ -3,10 +3,11 @@ export function IconButton({ label, children }) {
     <button className="icon-container-button">
       <span className="icon-grid">
         <svg className="icon-svg" width="24" height="24">
-          {children} {/* Renders all path elements inside the <svg> */}
+          {children} 
         </svg>
+        {label && <span className="icon-label">{label}</span>}
       </span>
-      {label && <span className="icon-label">{label}</span>}
+      
     </button>
   )
 }

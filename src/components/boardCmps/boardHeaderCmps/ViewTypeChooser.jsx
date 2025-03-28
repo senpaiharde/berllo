@@ -11,7 +11,7 @@ export function ViewTypeChooser({ togglePressed }) {
           className="header-clickable"
           onClick={(e) => togglePressed(e.currentTarget, "board")}
         >
-          <IconButton>
+          <IconButton label="Board">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -31,7 +31,6 @@ export function ViewTypeChooser({ togglePressed }) {
               fill="currentColor"
             ></path>
           </IconButton>
-          <span>Board</span>
         </div>
         <div
           className="header-clickable"

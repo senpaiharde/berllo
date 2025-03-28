@@ -13,7 +13,7 @@ export function TaskInfoBadges({ task }) {
   return (
     <span className="task-preview-info-badges">
       {task.taskDueDate && task.taskStartDate && (
-        <span>
+        <span style={{alignContent: "center"}}>
           {getReleventDate(task.taskStartDate)} -{" "}
           {getReleventDate(task.taskDueDate)}
         </span>
@@ -34,7 +34,7 @@ export function TaskInfoBadges({ task }) {
 
       {task.taskActivityComments && (
         <span>
-          <IconButton>
+          <IconButton label={task.taskActivityComments.length}>
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -42,7 +42,6 @@ export function TaskInfoBadges({ task }) {
               fill="currentColor"
             ></path>
           </IconButton>
-          {task.taskActivityComments.length}
         </span>
       )}
     </span>

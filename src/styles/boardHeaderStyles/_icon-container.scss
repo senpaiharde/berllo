@@ -4,10 +4,10 @@
 }
 
 .icon-container-button{
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    margin-bottom: 0;
+    // flex-shrink: 0;
+    // width: 32px;
+    // height: 32px;
+    // margin-bottom: 0;
     // line-height: 32px;
 
     background-color: var(--dynamic-button);
@@ -18,7 +18,7 @@
     padding: 6px;
 
     font-size: 14px;
-    display: inline-flex;
+    // display: inline-flex;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
@@ -34,10 +34,17 @@
 }
 
 .icon-grid{
-    // display: inline-block;
-    
-    // line-height: 1;
+    display: grid;
+    grid-template-columns: minmax(16px, 32px) minmax(0px, 1fr);
+    // grid-gap: 2px;
 }
 .icon-container-svg{
-    //asset 14
+    grid-area: 1 / 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-label{
+    grid-area: 1 / 2;
+    align-content: center;
 }

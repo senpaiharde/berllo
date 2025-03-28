@@ -9,7 +9,7 @@ export function AddItemCard({ cardDescription, backgroundColor,textColor }) {
     <div className="add-a-card-container">
       <span className="add-a-card-button" style={{backgroundColor: backgroundColor, color: textColor}}>
         <span style={{ marginRight: "8px" }}>
-          <IconButton>
+          <IconButton label={cardDescription}>
           <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -18,7 +18,6 @@ export function AddItemCard({ cardDescription, backgroundColor,textColor }) {
               ></path>
           </IconButton>
         </span>
-        {cardDescription}
       </span>
     </div>
   )
