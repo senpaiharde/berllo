@@ -61,7 +61,7 @@ export const {openTaskDetails,
      closeTaskDetails,
       updateSelectedTaskLive,
     addChecklistItem,
-toogleChecklistItem,
+     toogleChecklistItem,
 editChecklistItem,
 deleteChecklistItem,} = taskDetailsSlice.actions
 

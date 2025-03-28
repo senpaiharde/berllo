@@ -34,7 +34,13 @@ export const getBoardById = async (boardId) =>{
 }
 
 
-export const saveTolocal = (data) => {
-    localStorage.setItem('trelloData', JSON.stringify(data));
-};
+export const saveTolocal = (newData) => {
+    const prevData = JSON.parse(localStorage.getItem("trelloData")) || {};
+    const merged = {
+      ...prevData,
+      ...newData, 
+    };
+    localStorage.setItem("trelloData", JSON.stringify(merged));
+  };
+  
 

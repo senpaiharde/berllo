@@ -32,7 +32,7 @@ const Workspace = () => {
       if (boards?.length > 0 && !boardId) {
         const firstBoard = boards[0];
         const slug = firstBoard.slug || firstBoard.boardTitle?.toLowerCase().replace(/\s+/g, '-');
-        console.log("🔁 Redirecting to:", `/b/${firstBoard._id}/${slug}`);
+        console.log(" Redirecting to:", `/b/${firstBoard._id}/${slug}`);
         navigate(`/b/${firstBoard._id}/${slug}`);
       }
     };

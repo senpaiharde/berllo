@@ -26,7 +26,7 @@ const boardSlice = createSlice({
   initialState: {
     _id: "",
     boardTitle: "",
-    slug: "", // ✅ added here so GlobalHeader can use it
+    slug: "", //  added here so GlobalHeader can use it
     isStarred: null,
     boardLists: [],
     boards: [], // used by your manual reducers (add/remove/update)
