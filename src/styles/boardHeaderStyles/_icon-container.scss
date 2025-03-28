@@ -47,4 +47,5 @@
 .icon-label{
     grid-area: 1 / 2;
     align-content: center;
+    //add display: none; when horizontal screen size decreases
 }

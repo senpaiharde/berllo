@@ -1,16 +1,38 @@
-import { useState, useRef } from "react"
-// import { IconButton } from "../IconButton"
-
+import { useState, useRef, useEffect } from "react"
+import { useDispatch } from "react-redux";
 import { ViewTypeChooser } from "./ViewTypeChooser"
 import { IconButton } from "../../IconButton"
+import { updateboardTitle,updateStarStatus } from "../../../redux/BoardSlice";
 export function BoardHeader({ board }) {
   const [currentBoard, setCurrentBoard] = useState(board)
-  const [starClicked, setStarClicked] = useState(false)
-  const [visibleClicked, setVisibleClicked] = useState(false)
-  const [filterClicked, setFilterClicked] = useState(false)
+  // const [starClicked, setStarClicked] = useState(false)
+  // const [visibleClicked, setVisibleClicked] = useState(false)
+  // const [filterClicked, setFilterClicked] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(board.boardTitle);
+  const starRef = useRef(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (starRef.current) {
+      if (board.isStarred) {
+        starRef.current.classList.add("pressed");
+      } else {
+        starRef.current.classList.remove("pressed");
+      }
+    }
+  }, [board.isStarred]);
+
+  const handleBlur = () => {
+    setIsEditing(false);
+    // console.log("dispatch(updateboardTitle(title))",title)
+    const id = board._id
+    dispatch(updateboardTitle({title,id}));
+  };
 
   function togglePressed(element, elementName) {
     console.log("pressed", element)
+    
     element.classList.toggle("pressed")
   }
 
@@ -19,12 +41,29 @@ export function BoardHeader({ board }) {
       <span className="board-header">
         <span className="board-header-left">
           <div className="board-name-container">
-            <input className="board-name-input"></input>
-            <h1 className="board-name-display">{board.boardTitle}</h1>
+            {isEditing ? (
+              <input
+                autoFocus
+                className="board-name-input"
+                value={title}
+                onChange={(e) => setTitle((prevTitle)=>prevTitle = e.target.value)}
+                onBlur={handleBlur} // Save title on blur
+                onKeyDown={(e) => e.key === "Enter" && handleBlur()} // Save on Enter
+                size={title.length || 1}
+              />
+            ) : (
+              <h1
+                className="board-name-display"
+                onClick={() => setIsEditing(true)} // Click to edit
+              >
+                {title}
+              </h1>
+            )}
           </div>
           <div
             className="star-container header-clickable"
-            onClick={(e) => togglePressed(e.currentTarget, "star")}
+            onClick={() => dispatch(updateStarStatus(!board.isStarred))}
+            ref={starRef}
           >
             <IconButton>
               <path

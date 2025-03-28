@@ -43,18 +43,28 @@ const boardSlice = createSlice({
         users: [],
       };
       state.boards.push(newBoard);
-      saveTolocal({ boards: state.boards });
+      // saveTolocal({ boards: state.boards });
     },
     removeboard: (state, action) => {
-      state.boards = state.boards.filter((x) => x.id !== action.payload);
-      saveTolocal({ boards: state.boards });
+      // state.boards = state.boards.filter((x) => x.id !== action.payload);
+      // saveTolocal({ boards: state.boards });
     },
-    updateboardName: (state, action) => {
-      const board = state.boards.find((x) => x.id === action.payload.id);
-      if (board) {
-        board.name = action.payload.name;
-        saveTolocal({ boards: state.boards });
-      }
+    updateStarStatus: (state, action) => {
+      state.isStarred = action.payload
+      saveTolocal( state );
+    },
+    updateboardTitle: (state, action) => {
+      console.log("updateboardTitle action.payload",action.payload)
+      // const board = state.boards.find((x) => {
+      //   console.log("x._id === action.payload.id",x._id === action.payload.id)
+      //   x._id === action.payload.id
+      // });
+      
+      // console.log("old board.boardTitle",board.boardTitle)
+      state.boardTitle = action.payload.title;
+      // console.log("new board.boardTitle",board.boardTitle)
+      // saveTolocal({ state });
+      
     },
     deleteBoardlist: (state, action) => {
       // Reserved for future logic — no change
@@ -105,7 +115,8 @@ const boardSlice = createSlice({
 export const {
   addboard,
   removeboard,
-  updateboardName,
+  updateboardTitle,
   updateTaskInBoard,
+  updateStarStatus,
 } = boardSlice.actions;
 export default boardSlice.reducer;
