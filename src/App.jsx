@@ -10,7 +10,7 @@ import {fetchWorkSpaces} from './redux/WorkSpaceSlice.js';
 import {Login} from './pages/Login';
 import {Home} from './pages/Home';
 import Workspace from './pages/WorkSpace';
-import TaskDetails from './components/TaskDetails.jsx';
+import TaskDetails from './components/boardCmps/taskDetailsCmp/TaskDetails.jsx';
 import {getLocalData} from './services/storageService.js';
 import {fetchBoardById} from './redux/BoardSlice.js';
 

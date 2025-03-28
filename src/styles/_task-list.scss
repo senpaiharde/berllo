@@ -1,17 +1,45 @@
-.task-list{
-    display: flex;
-    flex-direction: column;
-    row-gap: 8px;
-    scroll-margin: 80px;
-    border: 1px solid;
-    border-radius: 30px;
-    flex-wrap: wrap;
-    background-color: #f1f2f4;
-    // background-color: var(--accent-background, var(--tr-background-list));
-    justify-content: center;
-    align-items: center;
-    // padding: 0 6px;
-    margin: 20px;
-    padding: 10px;
-    list-style: none;
+.task-list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  scroll-margin: 80px;
+  border: 1px solid;
+  border-radius: 30px;
+  flex-wrap: wrap;
+  background-color: #dcdfe4;
+  // background-color: var(--accent-background, var(--tr-background-list));
+  justify-content: center;
+  align-items: center;
+  // padding: 0 6px;
+  // margin: 20px;
+  padding: 10px;
+  list-style: none;
+  
+}
+
+.add-a-card-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 0;
+  column-gap: 4px;
+  
+}
+
+.add-a-card-button {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 6px 12px 6px 8px;
+  border-radius: 8px;
+  background-color: transparent;
+  text-decoration: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.add-a-card-button:hover {
+    background-color: var(--accent-background-hovered, var(--ds-background-neutral-hovered, #091e4224));
+    color: var(--accent-text-bolder, var(--ds-text, #172b4d));
 }

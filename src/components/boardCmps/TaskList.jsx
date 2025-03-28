@@ -1,4 +1,6 @@
-import { TaskPreview } from "./TaskPreview.jsx"
+import { AddItemCard } from "./AddItemCard.jsx"
+import { IconButton } from "../IconButton.jsx"
+import { TaskPreview } from "./taskPreviewCmps/TaskPreview.jsx"
 import { useState, useRef } from "react"
 export function TaskList({boardList}) {
     //console.log("boardList received by TaskList:", boardList);
@@ -15,13 +17,16 @@ export function TaskList({boardList}) {
       <ul>
         {boardList.taskList?.length > 0 ? (   // 
           boardList.taskList.map((task) => (
-            <li key={task._id}>
+            <li key={task._id} style={{listStyle: "none"}}>
               <TaskPreview task={task} boardId={boardList.taskListBoard} />
             </li>
           ))
         ) : (
           <li>No tasks found</li>
         )}
+        <div>
+        <AddItemCard cardDescription={"Add a card"}></AddItemCard>
+        </div>
       </ul>
     </div>
   );
