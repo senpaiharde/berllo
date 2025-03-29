@@ -3,7 +3,7 @@ import { IconButton } from "../../IconButton"
 export function ViewTypeChooser({ togglePressed }) {
   return (
     <div
-      className="chooser-container header-clickable"
+      className="chooser-container"
       onClick={(e) => togglePressed(e.currentTarget)}
     >
       <div style={{ display: "flex", gap: "4px" }}>

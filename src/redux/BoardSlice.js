@@ -51,7 +51,7 @@ const boardSlice = createSlice({
     },
     updateStarStatus: (state, action) => {
       state.isStarred = action.payload
-      saveTolocal( state );
+      // saveTolocal( state );
     },
     updateboardTitle: (state, action) => {
       console.log("updateboardTitle action.payload",action.payload)
@@ -61,7 +61,7 @@ const boardSlice = createSlice({
       // });
       
       // console.log("old board.boardTitle",board.boardTitle)
-      state.boardTitle = action.payload.title;
+      state.boardTitle = action.payload;
       // console.log("new board.boardTitle",board.boardTitle)
       // saveTolocal({ state });
       
