@@ -29,7 +29,7 @@ export function BoardView({ board }) {
           return (
             <li className="TaskList-list-item" key={list._id}>
               {list.taskListTitle === "" ? (
-                <TaskList boardList={list} isNewTaskList={true}></TaskList>
+                <TaskList boardList={list} newTaskList={true}></TaskList>
               ) : (
                 <TaskList boardList={list} />
               )}

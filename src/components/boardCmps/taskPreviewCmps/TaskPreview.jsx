@@ -3,17 +3,18 @@ import { Link, useNavigate } from "react-router-dom"
 import { TaskInfoBadges } from "./TaskInfoBadges"
 import { IconButton } from "../../IconButton"
 import { ItemNameForm } from "../addItemCard/ItemNameForm"
-import { updateTaskInBoard } from "../../../redux/BoardSlice"
+import { removeTaskFromBoard, updateTaskInBoard } from "../../../redux/BoardSlice"
 import { useDispatch } from "react-redux"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
-export function TaskPreview({ task, boardId, isNewTask }) {
+export function TaskPreview({ task, boardId, NewTask }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   // TaskPreview.propTypes = {
   //   Task: PropTypes.object.isRequired,
   // }
+  const [isNewtask,setIsNewTask] = useState(NewTask)
   if (task) {
     // console.log("Task",task)
   }
@@ -23,8 +24,11 @@ export function TaskPreview({ task, boardId, isNewTask }) {
     dispatch(updateTaskInBoard({...task , taskTitle: value}))
   }
 
-  function onRemoveCurrentTask(){
-    console.log("removing list",boardList," from ",boardList.taskListBoard)
+  function onRemoveCurrentTask(value){
+    console.log("onRemoveCurrentTask",value)
+    if(value) return
+    console.log("removing task",task._id," from ",task.taskList)
+    dispatch(removeTaskFromBoard({_id: task._id, taskList: task.taskList}))
   }
 
   const TaskPreviewRef = useRef(null)
@@ -48,7 +52,7 @@ export function TaskPreview({ task, boardId, isNewTask }) {
       //return  new Date(date).toISOString().split("T")[0]
       return new Date(date).toLocaleDateString("en-US", options)
   }
-  /// its not nott updated by store becouse it had hardcoded once usestate so it took the data from there
+  // isNewTask =true
   return (
     <div
       className="task-preview"
@@ -56,26 +60,36 @@ export function TaskPreview({ task, boardId, isNewTask }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       //onClick={() => navigate(`/b/${task.taskBoard}/${task._id}`)}
-      onClick={() => {
-        console.log("🧠 Navigating to task:", task._id)
-        navigate(
-          `/b/${boardId}/board/${task._id}-${encodeURIComponent(
-            task.taskTitle
-          )}`
-        )
-      }}
+      // onClick={(e) => {
+      //   if(!isNewtask){
+      //   console.log("🧠 Navigating to task:", task._id)
+      //    navigate(
+      //     `/b/${boardId}/board/${task._id}-${encodeURIComponent(
+      //       task.taskTitle
+      //     )}`
+      //   )}
+      // }}
     >
-      {isNewTask ? (
-        <div>
+      {isNewtask ? (
+        <div style={{padding: "10px", paddingLeft: "15px"}}>
           <ItemNameForm
-          IsEditing={isNewTask}
-          setIsEditing={onRemoveCurrentTask}
+          IsEditing={isNewtask}
+          setIsEditing={setIsNewTask}
+          noValueOnExit={onRemoveCurrentTask}
           onAddItem={onUpdateTask}
           itemType={"add task"}
         ></ItemNameForm>
         </div>
       ) : (
-        <div>
+        <div onClick={(e) => {
+          if(!isNewtask){
+          console.log("🧠 Navigating to task:", task._id)
+           navigate(
+            `/b/${boardId}/board/${task._id}-${encodeURIComponent(
+              task.taskTitle
+            )}`
+          )}
+        }}>
           <div className="task-front-cover"></div>
           <div className="task-preview-details">
             <div className="task-preview-labels"></div>

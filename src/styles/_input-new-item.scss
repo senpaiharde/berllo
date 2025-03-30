@@ -1,17 +1,21 @@
 .input-new-item{
     padding-left: 10px;
 }
+.input-new-item-buttons{
+    display: flex;
+    flex-direction: row;
+}
 .input-new-item-text-box{
-    grid-area: 1 / 1 / 1 /2;
+    // grid-area: 1 / 1 / 1 /2;
 }
 .input-new-item-svg{
-    grid-area: 2 / 2;
+    // grid-area: 2 / 2;
     align-items: center;
     justify-content: center;
 }
 
 .input-new-item-label{
-    grid-area: 2 / 1;
+    // grid-area: 2 / 1;
     align-content: center;
     //add display: none; when horizontal screen size decreases
 }

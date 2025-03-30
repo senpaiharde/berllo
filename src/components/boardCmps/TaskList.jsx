@@ -5,31 +5,40 @@ import { useState, useRef, useEffect } from "react"
 import { TextEditInput } from "./TextEditInput.jsx"
 import { useSelector, useDispatch } from "react-redux"
 import { addList } from "../../redux/TaskListSlice.js"
-import { addBoardList, addTaskToBoard, updateBoardlist, updateTaskInBoard } from "../../redux/BoardSlice.js"
+import {
+  addBoardList,
+  addTaskToBoard,
+  updateBoardlist,
+  removeBoardListFromBoard,
+  updateTaskInBoard,
+} from "../../redux/BoardSlice.js"
 import { ItemNameForm } from "./addItemCard/ItemNameForm.jsx"
-export function TaskList({ boardList, isNewTaskList }) {
+export function TaskList({ boardList, newTaskList }) {
   //console.log("boardList received by TaskList:", boardList);
   // TaskList.propTypes = {
   //   Tasks: PropTypes.array.isRequired,
   // }
 
   const dispatch = useDispatch()
+  const [isNewTaskList,setIsNewTaskList] = useState(newTaskList)
   const [taskListTitle, setTaskListTitle] = useState(boardList.taskListTitle)
 
   function onUpdateBoardList(value) {
     if (isNewTaskList && value) {
       setTaskListTitle(value)
       // boardList.taskListTitle = value
-      dispatch(updateBoardlist({...boardList, taskListTitle: value}))
+      dispatch(updateBoardlist({ ...boardList, taskListTitle: value }))
       // console.log("TaskList boardid", boardList)
     }
   }
-  function addNewEmptyTask(){
-    dispatch(addTaskToBoard({taskList: boardList._id}))
+  function addNewEmptyTask() {
+    dispatch(addTaskToBoard({ taskList: boardList._id }))
   }
 
-  function onRemoveCurrentList(){
-    console.log("removing list",boardList," from ",boardList.taskListBoard)
+  function onRemoveCurrentList(value) {
+    if(value) return
+    console.log("removing list", boardList._id)
+    dispatch(removeBoardListFromBoard(boardList._id))
   }
 
   if (isNewTaskList) {
@@ -42,7 +51,8 @@ export function TaskList({ boardList, isNewTaskList }) {
       {isNewTaskList ? (
         <ItemNameForm
           IsEditing={isNewTaskList}
-          setIsEditing={onRemoveCurrentList}
+          setIsEditing={setIsNewTaskList}
+          noValueOnExit={onRemoveCurrentList}
           onAddItem={onUpdateBoardList}
           itemType={"add list"}
         ></ItemNameForm>
@@ -72,15 +82,15 @@ export function TaskList({ boardList, isNewTaskList }) {
         {boardList.taskList?.length > 0 ? ( //
           boardList.taskList.map((task) => (
             <li key={task._id} style={{ listStyle: "none" }}>
-              {task.taskTitle ==="" ? 
-              (
-                <TaskPreview task={task} boardId={boardList.taskListBoard} isNewTask={true}/>
-              )
-              :
-              (
+              {task.taskTitle === "" ? (
+                <TaskPreview
+                  task={task}
+                  boardId={boardList.taskListBoard}
+                  NewTask={true}
+                />
+              ) : (
                 <TaskPreview task={task} boardId={boardList.taskListBoard} />
               )}
-              
             </li>
           ))
         ) : (

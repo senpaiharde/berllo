@@ -1,6 +1,6 @@
 export function IconButton({ label, children, backgColor,textColor }) {
   if(textColor){
-    console.log("label textColor",label,textColor)
+    // console.log("label textColor",label,textColor)
   }
   return (
     <button className="icon-container-button" style={{backgroundColor: backgColor}}>
