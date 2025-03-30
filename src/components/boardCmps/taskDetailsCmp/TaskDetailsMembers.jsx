@@ -24,16 +24,25 @@ const TaskDetailsMembers = () => {
         <section className="td-section-top-section">
             <h3 className="td-section-top-h3">Members</h3>
             <div className="td-section-members">
-                <div className="members-icon">
+            <div className="members-icon" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     {members.map((member) => {
                         return(
                         <button
                         key={member.id}
                         className="td-section-members-button"
+                        style={{
+                            padding: 0,
+                            border: 0,
+                            borderRadius: "100%",
+                            height: "32px",
+                            width: "32px",
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
                         >
-                            <img src={member.icon} alt={`Members ${member.id}`} style={{width : '24px',height: '24px' 
-                            
-                            }} />
+                            <img src={member.icon} alt={`Members ${member.id}`}
+                             style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "100%" }} />
                         </button>
                     )
                     })}

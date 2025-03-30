@@ -13,6 +13,10 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { User, Tag, Calendar, Paperclip, MapPin, Image, Settings, Copy, Archive, Share } from 'lucide-react';
 import TaskDetailsMembers from "./TaskDetailsMembers";
+import TaskDetailsLabel from "./TaskDetailsLabel";
+import TaskDetailsNotifcations from "./TaskDetailsNotifcations";
+import TaskDetailsDate from "./TaskDetailsDate";
+import TaskDetailsActivity from "./main/TaskDetailsActivity";
 const TaskDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -94,46 +98,11 @@ const TaskDetails = () => {
 
          <TaskDetailsMembers/>
   
-            <section className="td-section-top-section">
-                <h3 className="td-section-top-h3">labels</h3>
-                <div className="td-section-label">
-                    {[
-                        { title: "dsgsg", color: "orange" },
-                        { title: "", color: "red" },
-                        { title: "", color: "mediumpurple" },
-                        { title: "", color: "royalblue" },
-                    ].map((template, index) => (
-                        <div key={index} className="td-section-label-color">
-                            <span style={{ backgroundColor: template.color }}></span>
-                            <div>{template.title}</div>
-                        </div>
-                    ))}
-                    <button className="td-section-members-add">
-                        <img  alt="Add Label" style={{ width: '24px', height: '24px' }} />
-                    </button>
-                </div>
-            </section>
+            <TaskDetailsLabel/>
 
-            <section className="td-section-top-section">
-                <h3 className="td-section-top-h3">Notifications</h3>
-                <div>
-                    <button>
-                        <span></span>
-                        Watching
-                        <span></span>
-                    </button>
-                </div>
-            </section>
+            <TaskDetailsNotifcations/>
 
-            <section className="td-section-top-section">
-                <h3 className="td-section-top-h3">Due date</h3>
-                <div>
-                    <button>
-                        <span>2 Apr, 13:15</span>
-                        <span></span>
-                    </button>
-                </div>
-            </section>
+            <TaskDetailsDate/>
 
             </div>
             <div className="td-section">
@@ -169,10 +138,7 @@ const TaskDetails = () => {
               </button>
             </div>
 
-            <div className="td-section">
-              <div className="td-section-header">Activity</div>
-              <input type="text" placeholder="Write a comment..." />
-            </div>
+            <TaskDetailsActivity/>
           </div>
 
           <div className="td-sidebar">
