@@ -79,7 +79,7 @@
     line-height: 24px;
     overflow: hidden;
     margin-top:-5px;
-    margin-bottom:15px;
+    
   
     &:focus {
       outline: 2px solid #388bff;
@@ -113,19 +113,22 @@
   }
   
   //  In List Text 
-  .td-in-list {
-    margin: 4px 24px 12px;
+  .td-inlist-text {
+    margin: 1px 24px 30px 53px;
     font-size: 13px;
     color: #44546f;
+    
   
-    span button {
-      background: #dfe1e6;
+    
+     
+  }
+  .td-inlist-text-button{
+    background: #dfe1e6;
       border: none;
       padding: 2px 6px;
       font-size: 13px;
       border-radius: 3px;
       cursor: pointer;
-    }
   }
   
   //  Main Layout 
@@ -147,10 +150,25 @@
     gap: 24px;
   
     .td-section {
-      background-color: #f4f5f7;
+      
       padding: 16px;
-      border-radius: 8px;
-      box-shadow: inset 0 0 0 1px #dfe1e6;
+      
+     
+    }
+    .td-section-top{
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 40px;
+        column-gap: 8px;
+        row-gap: 8px;
+        margin-bottom: 16px;
+    }
+    .td-section-top-section{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        max-width: 100%;
+
     }
   
     .td-section-header {
@@ -159,6 +177,53 @@
       color: #42526e;
       margin-bottom: 12px;
     }
+
+    .td-section-top-h3{
+        font-size: 12px;
+        font-weight: 300;
+        text-overflow: ellipsis;
+        margin-top: 0;
+        margin-bottom: 4px;
+        line-height: 20px;
+        color: #44546f;
+    }
+    .td-section-members{
+        display: flex;
+        flex-wrap: wrap;
+        column-gap:4px;
+        row-gap: 4px;
+        
+    }
+    .td-section-members-add{
+        margin-right: 8px;
+        padding: 6px 8px;
+        border-radius:50%;
+        justify-content: center;
+        display: inline-flex;
+        height: 32px;
+        width: 32px;
+        line-height: 32px;
+        &:hover{
+            cursor: pointer;
+            background-color: #dcdfe4;
+        }
+       
+    }
+    .td-section-members-button{
+        padding: unset;
+        border: 0;
+        border-radius: 100%;
+        height:32px;
+        width: 32px;
+        line-height: 32px;
+        &:hover{
+            cursor: pointer;
+            background-color: #dcdfe4;
+        }
+    }
+    
+
+    
   
     .td-description {
       width: 100%;
@@ -215,10 +280,12 @@
     gap: 6px;
   
     .section-header {
-      font-weight: bold;
-      font-size: 12px; //  slightly smaller
-      color: #42526e;
-      margin-top: 8px;
+        font-weight:400;
+        font-size:11px;
+        line-height: 20px;
+        color:#44546f;
+        padding-top: 15px;
+        
     }
   
     .trello-btn {
@@ -237,6 +304,7 @@
       border-radius: 3px;
       cursor: pointer;
       transition: background-color 85ms ease;
+      text-decoration: none;
   
       svg {
         width: 16px;
@@ -261,3 +329,28 @@
       
     }
   }
+
+
+  .td-icons > svg {
+    overflow: hidden;
+    pointer-events: none;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  td-sidebar-h4{
+    text-align: start;
+  }
+  .trello-btn-text{
+    text-align: center;
+    justify-content: center;
+    flex: auto;
+  }
+  .td-sidebar-power{
+    font-weight:400;
+    font-size:11px;
+    line-height: 20px;
+    color:#44546f;
+    padding-top: 15px;
+    margin-left: -5px;
+  }
+
