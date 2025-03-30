@@ -11,7 +11,7 @@ export const fetchBoardById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const data = await getBoardById(id);
-      console.log("fetchBoardById → requested ID:", id, "→ found board:", data);
+      // console.log("fetchBoardById → requested ID:", id, "→ found board:", data);
       if (!data) throw new Error("Board not found");
       return data;
     } catch (error) {
@@ -66,8 +66,45 @@ const boardSlice = createSlice({
       // saveTolocal({ state });
       
     },
+    addBoardList : (state,action) => {
+      console.log("addList action.payload",action.payload)
+      const newList ={
+        _id: nanoid(),
+        taskListTitle:"",
+        taskListBoard: state._id,
+        taskList:[],
+        state:'idle',
+        error:null,
+      }
+      console.log("addList newList",newList)
+      state.boardLists.push(newList)
+      //saveTolocal({list:state.lists});
+  },
+  updateBoardlist: (state, action) => {
+    console.log("updateBoardlist action.payload",action.payload)
+    const updatedList = action.payload;
+    const index =state.boardLists.findIndex(list => list._id === updatedList._id)
+    if (index !== -1) {
+      state.boardLists[index] = updatedList; // Update the correct list in the array
+    }
+  },
     deleteBoardlist: (state, action) => {
       // Reserved for future logic — no change
+    },
+    addTaskToBoard: (state, action) => {
+      const task ={
+        _id: nanoid(),
+        taskTitle:"",
+        taskboard: state._id,
+        taskChecked: false,
+        taskList: action.payload.taskList,
+        state:'idle',
+        error:null,
+      }
+      const index = state.boardLists.findIndex(list => list._id === task.taskList)
+      if (index !== -1) {
+        state.boardLists[index].taskList.push(task); // Update the correct list in the array
+      }
     },
     updateTaskInBoard: (state, action) => {
       const updatedTask = action.payload;
@@ -83,12 +120,12 @@ const boardSlice = createSlice({
         }
       }
 
-      saveTolocal({
-        _id: state._id,
-        boardTitle: state.boardTitle,
-        isStarred: state.isStarred,
-        boardLists: state.boardLists,
-      });
+      // saveTolocal({
+      //   _id: state._id,
+      //   boardTitle: state.boardTitle,
+      //   isStarred: state.isStarred,
+      //   boardLists: state.boardLists,
+      // });
     },
   },
 
@@ -118,5 +155,8 @@ export const {
   updateboardTitle,
   updateTaskInBoard,
   updateStarStatus,
+  addTaskToBoard,
+  addBoardList,
+  updateBoardlist,
 } = boardSlice.actions;
 export default boardSlice.reducer;

@@ -36,29 +36,8 @@ export function BoardHeader({ board }) {
     <div className="board-header-container">
       <span className="board-header">
         <span className="board-header-left">
-          <div className="board-name-container">
+          <div className="board-name-container header-clickable">
             <TextEditInput isEditing={isEditing} value={board.boardTitle} onChangeTextInput={onChangeTextInput}></TextEditInput>
-            {/* <div>{isEditing ? (
-              <input
-                autoFocus
-                className="board-name-input"
-                value={title}
-                onChange={(e) =>
-                  setTitle((prevTitle) => (prevTitle = e.target.value))
-                }
-                onBlur={handleBlur} // Save title on blur
-                onKeyDown={(e) => e.key === "Enter" && handleBlur()} // Save on Enter
-                size={title.length || 1}
-              />
-            ) : (
-              <h1
-                className="board-name-display"
-                onClick={() => setIsEditing(true)} // Click to edit
-              >
-                {title}
-              </h1>
-            )}
-            </div> */}
           </div>
           <div
             className="star-container header-clickable"

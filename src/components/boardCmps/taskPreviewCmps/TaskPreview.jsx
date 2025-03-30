@@ -2,50 +2,29 @@ import { useState, useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { TaskInfoBadges } from "./TaskInfoBadges"
 import { IconButton } from "../../IconButton"
+import { ItemNameForm } from "../addItemCard/ItemNameForm"
+import { updateTaskInBoard } from "../../../redux/BoardSlice"
+import { useDispatch } from "react-redux"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
-export function TaskPreview({ task, boardId }) {
+export function TaskPreview({ task, boardId, isNewTask }) {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   // TaskPreview.propTypes = {
   //   Task: PropTypes.object.isRequired,
   // }
   if (task) {
     // console.log("Task",task)
   }
-  const listTask = {
-    //_id: "dgdfgs",
-    taskChecked: false,
-    taskMembers: ["asfasf", "asfasy"],
-    taskTitle: "testTaskTitle",
-    taskDescription: "testDescription",
-    taskLabels: ["red", "orange", "blue"],
-    taskStartDate: 1710945000000,
-    taskCoordinates: [32.0, 34.6],
-    taskDueDate: 1750946000000,
-    taskDateReminder: 1750942000000,
-    taskList: "asfaf",
-    taskBoard: "dgsgs1",
-    taskCheckList: ["1", "2", "3"],
-    taskCover: {
-      coverType: "color",
-      coverColor: "#000000",
-      coverImg: "http://www.img.com",
-    },
-    taskActivityComments: [
-      {
-        _id: "comment1",
-        userId: "asfasf",
-        comment: "testComment 1",
-        date: 1710945000000,
-      },
-      {
-        _id: "comment2",
-        userId: "user2",
-        comment: "testComment 2",
-        date: 1710955000000,
-      },
-    ],
+  
+  function onUpdateTask(value) {
+    
+    dispatch(updateTaskInBoard({...task , taskTitle: value}))
+  }
+
+  function onRemoveCurrentTask(){
+    console.log("removing list",boardList," from ",boardList.taskListBoard)
   }
 
   const TaskPreviewRef = useRef(null)
@@ -86,36 +65,44 @@ export function TaskPreview({ task, boardId }) {
         )
       }}
     >
-      <div className="task-front-cover"></div>
-      <div className="task-preview-details">
-        <div className="task-preview-labels"></div>
-        <div className="task-preview-header">
-          <span className="task-preview-header-completion-status">
-            <IconButton>
-              <circle></circle>
-            </IconButton>
-          </span>
-          <span className="task-preview-header-title">
-            <h2>{task.taskTitle}</h2>
-          </span>
+      {isNewTask ? (
+        <div>
+          <ItemNameForm
+          IsEditing={isNewTask}
+          setIsEditing={onRemoveCurrentTask}
+          onAddItem={onUpdateTask}
+          itemType={"add task"}
+        ></ItemNameForm>
         </div>
-        <div className="task-preview-info">
-          <TaskInfoBadges task={task}></TaskInfoBadges>
-          <div className="task-preview-info-users">
-            {task.taskMembers &&
-              task.taskMembers.map((member) => (
-                <span key={member} className="task-preview-user">
-                  {member}
-                </span>
-              ))}
+      ) : (
+        <div>
+          <div className="task-front-cover"></div>
+          <div className="task-preview-details">
+            <div className="task-preview-labels"></div>
+            <div className="task-preview-header">
+              <span className="task-preview-header-completion-status">
+                <IconButton>
+                  <circle></circle>
+                </IconButton>
+              </span>
+              <span className="task-preview-header-title">
+                <h2>{task.taskTitle}</h2>
+              </span>
+            </div>
+            <div className="task-preview-info">
+              <TaskInfoBadges task={task}></TaskInfoBadges>
+              <div className="task-preview-info-users">
+                {task.taskMembers &&
+                  task.taskMembers.map((member) => (
+                    <span key={member} className="task-preview-user">
+                      {member}
+                    </span>
+                  ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <span className="preview-title">
-        {/* <Link to={`/Task/${Task._id}`}>
-          <h2>{Task.name}</h2>
-        </Link> */}
-      </span>
+      )}
     </div>
   )
 }
