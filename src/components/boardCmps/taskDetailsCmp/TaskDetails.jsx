@@ -12,6 +12,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 
 import { User, Tag, Calendar, Paperclip, MapPin, Image, Settings, Copy, Archive, Share } from 'lucide-react';
+import TaskDetailsMembers from "./TaskDetailsMembers";
 const TaskDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -91,22 +92,49 @@ const TaskDetails = () => {
           <div className="td-section-top">
 
 
-             <section className="td-section-top-section">
-                <div className="td-section-members">
-                <h3 className="td-section-top-h3">Members</h3>
-                <button className="td-section-members-button">
-                    <span  role="img" className="td-section-members-icon">5 </span></button>
-                <button className="td-section-members-button"><span>5</span>5</button>
-                <button className="td-section-members-button"><span>5</span>5</button>
-                <button className="td-section-members-add"><span>5</span>5</button>
-                </div>
-                </section>
-
-             <section className="td-section-top-section">
+         <TaskDetailsMembers/>
+  
+            <section className="td-section-top-section">
                 <h3 className="td-section-top-h3">labels</h3>
-                <div></div>5</section> 
-             <section className="td-section-top-section">5</section> 
-             <section className="td-section-top-section">5</section>  
+                <div className="td-section-label">
+                    {[
+                        { title: "dsgsg", color: "orange" },
+                        { title: "", color: "red" },
+                        { title: "", color: "mediumpurple" },
+                        { title: "", color: "royalblue" },
+                    ].map((template, index) => (
+                        <div key={index} className="td-section-label-color">
+                            <span style={{ backgroundColor: template.color }}></span>
+                            <div>{template.title}</div>
+                        </div>
+                    ))}
+                    <button className="td-section-members-add">
+                        <img  alt="Add Label" style={{ width: '24px', height: '24px' }} />
+                    </button>
+                </div>
+            </section>
+
+            <section className="td-section-top-section">
+                <h3 className="td-section-top-h3">Notifications</h3>
+                <div>
+                    <button>
+                        <span></span>
+                        Watching
+                        <span></span>
+                    </button>
+                </div>
+            </section>
+
+            <section className="td-section-top-section">
+                <h3 className="td-section-top-h3">Due date</h3>
+                <div>
+                    <button>
+                        <span>2 Apr, 13:15</span>
+                        <span></span>
+                    </button>
+                </div>
+            </section>
+
             </div>
             <div className="td-section">
               <div className="td-section-header">Description</div>
