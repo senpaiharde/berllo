@@ -12,13 +12,15 @@ const TaskDescription = () => {
 
   return (
     <section className="td-section">
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ display: "flex", alignItems: "center",marginTop:'-27px', }}>
         <svg
           width="24px"
           height="24px"
           viewBox="0 0 24 24"
           fill="currentColor"
-          style={{ marginRight: "8px", marginLeft: "-15px" }} // Increased left margin even more
+          style={{ marginRight: "8px", marginLeft: "-30px"
+            , marginTop:'-14px'
+           }} // Increased left margin
         >
           <path
             fillRule="evenodd"
@@ -47,6 +49,8 @@ const TaskDescription = () => {
               transitionDuration: "85ms",
               transitionTimingFunction: "ease",
               gap: "8px",
+              marginTop: "-3px", 
+              marginRight: '-15px'
             }}
           >
             Edit
@@ -58,7 +62,11 @@ const TaskDescription = () => {
         className="td-description"
         value={taskDescription}
         onChange={handleDescriptionChange}
-        style={{ backgroundColor: 'transparent' }}
+        style={{
+          backgroundColor: 'transparent',
+          border: 'none', // Remove border
+          resize: 'none', // Disable textarea resizing
+        }}
       />
     </section>
   );

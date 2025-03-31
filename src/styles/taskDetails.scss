@@ -214,46 +214,14 @@
       width: 100%;
       min-height: 80px;
       resize: vertical;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      padding: 8px 12px;
+      
+      
+      padding: 8px 2px;
       font-size: 14px;
       background: #fafbfc;
     }
   
-    .td-checklist-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-  
-      input[type="text"] {
-        flex: 1;
-        padding: 6px 8px;
-        font-size: 13px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background: white;
-      }
-  
-      input[type="checkbox"] {
-        transform: scale(1.2);
-        cursor: pointer;
-      }
-  
-      button {
-        background: none;
-        border: none;
-        font-size: 16px;
-        font-weight: bold;
-        color: #c92c2c;
-        cursor: pointer;
-  
-        &:hover {
-          color: #a11c1c;
-        }
-      }
-    }
+
   }
   
   .td-sidebar {
@@ -349,3 +317,5 @@
       background-color: #091e424f;
     }
   }
+
+  

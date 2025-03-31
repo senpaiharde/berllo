@@ -19,6 +19,7 @@ import TaskDetailsDate from "./TaskDetailsDate";
 import TaskDetailsActivity from "./main/TaskDetailsActivity";
 import TaskDetailsSidebar from "./sidebar/TaskDetailsSidebar";
 import TaskDescription from "./main/TaskDetailsDescription";
+import TaskChecklist from "./main/TaskdetailsChecklist";
 const TaskDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,9 +68,7 @@ const TaskDetails = () => {
     dispatch(liveUpdateTask({ taskTitle: e.target.value }));
   };
 
-  const handleDescriptionChange = (e) => {
-    dispatch(liveUpdateTask({ taskDescription: e.target.value }));
-  };
+  
 
   return (
     <div className="td-modal">
@@ -109,29 +108,7 @@ const TaskDetails = () => {
             </div>
             <TaskDescription/>
 
-            <div className="td-section">
-              <div className="td-section-header">Checklist</div>
-              {selectedTask.taskCheckList?.map((item) => (
-                <div key={item.id} className="td-checklist-item">
-                  <input
-                    type="checkbox"
-                    checked={item.isDone}
-                    onChange={() => dispatch(toogleChecklistItem(item.id))}
-                  />
-                  <input
-                    type="text"
-                    value={item.text || ""}
-                    onChange={(e) =>
-                      dispatch(editChecklistItem({ id: item.id, text: e.target.value }))
-                    }
-                  />
-                  <button onClick={() => dispatch(deleteChecklistItem(item.id))}>✕</button>
-                </div>
-              ))}
-              <button onClick={() => dispatch(addChecklistItem("New Item"))}>
-                + Add Checklist Item
-              </button>
-            </div>
+            <TaskChecklist/>
 
             <TaskDetailsActivity />
           </div>
