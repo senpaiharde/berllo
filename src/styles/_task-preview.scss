@@ -4,8 +4,8 @@
   background-color: white;
   background-color: var(#ffffff, #ffffff);
   align-items: center;
-  border: 3px solid;
-  border-radius: 30px;
+  border: 1px solid;
+  border-radius: 8px;
   gap: 10px;
   margin: 5px;
   box-shadow: var(
@@ -18,7 +18,8 @@
 .task-preview-header {
   display: flex;
   // background-color: rgb(52, 199, 199);
-  gap: 10px;
+  // gap: 10px;
+  padding-top: 5px;
   align-items: center;
 }
 .task-preview-info {
@@ -27,7 +28,7 @@
   // background-color: rgb(93, 190, 190);
   // gap: 10px;
   // padding: auto;
-  align-items: center;
+  // align-items: center;
 }
 .task-preview-info-users {
   display: "flex";
@@ -36,6 +37,8 @@
 //   align-items: flex-end;
   flex-wrap: wrap;
   justify-content: right;
+  align-self: flex-end;
+  padding-right: 15px;
   margin-right: -4px;
   margin-bottom: 4px;
   float: right;
@@ -48,7 +51,11 @@
 .task-preview-info-badges {
   // background-color: aqua;
   display: flex;
-  gap: 10px;
+  gap: 5px;
+  padding: 4px;
+}
+.task-preview-header-title{
+  
 }
 
 .task-complete-svg{

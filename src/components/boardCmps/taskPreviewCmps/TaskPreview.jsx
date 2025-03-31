@@ -100,7 +100,7 @@ export function TaskPreview({ task, boardId, NewTask }) {
                 </IconButton>
               </span>
               <span className="task-preview-header-title">
-                <h2>{task.taskTitle}</h2>
+                <a style={{fontSize: 14}}>{task.taskTitle}</a>
               </span>
             </div>
             <div className="task-preview-info">

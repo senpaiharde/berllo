@@ -5,6 +5,7 @@ export function TextEditInput({
   value,
   onChangeTextInput,
   activateEditing,
+  fontSize,
   noValueOnExit,
   isNewItem,
   itemType,
@@ -14,6 +15,7 @@ export function TextEditInput({
   const [pervValue, setPrevValue] = useState(value)
   let disableBlur = false
   const handleBlur = (e) => {
+    setIsEditing(false)
     if (disableBlur) {
       disableBlur = false
       return
@@ -24,6 +26,7 @@ export function TextEditInput({
       console.log("TextEditInput noValueOnExit()")
       noValueOnExit()
     } else {
+      // setIsEditing(false)
       onChangeTextInput(inputValue)
     }
     setIsEditing(false)
@@ -111,6 +114,7 @@ export function TextEditInput({
       ) : (
         <h1
           className="board-name-display"
+          style={{fontSize:fontSize}}
           onClick={() => setIsEditing(true)} // Click to edit
         >
           {inputValue}

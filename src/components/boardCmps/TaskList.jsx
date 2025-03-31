@@ -61,6 +61,7 @@ export function TaskList({ boardList, newTaskList }) {
           <div className="task-list-header-name">
             <TextEditInput
               activateEditing={isNewTaskList}
+              fontSize={14}
               value={taskListTitle}
               onChangeTextInput={onUpdateBoardList}
             ></TextEditInput>
@@ -78,7 +79,7 @@ export function TaskList({ boardList, newTaskList }) {
         </div>
       )}
 
-      <ul>
+      <ol className="scrollable-task-list" >
         {boardList.taskList?.length > 0 ? ( //
           boardList.taskList.map((task) => (
             <li key={task._id} style={{ listStyle: "none" }}>
@@ -96,6 +97,7 @@ export function TaskList({ boardList, newTaskList }) {
         ) : (
           <div />
         )}
+        </ol>
         <div>
           <AddItemCard
             cardDescription={"Add a card"}
@@ -103,7 +105,7 @@ export function TaskList({ boardList, newTaskList }) {
             onItemCardClick={addNewEmptyTask}
           ></AddItemCard>
         </div>
-      </ul>
+      
     </div>
   )
 }

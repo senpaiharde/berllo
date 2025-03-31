@@ -4,16 +4,26 @@
   row-gap: 8px;
   scroll-margin: 80px;
   border: 1px solid;
-  border-radius: 30px;
-  flex-wrap: wrap;
-  background-color: #dcdfe4;
+  border-radius: 12px;
+  // flex-wrap: wrap;
+  background-color: #f1f2f4;
+  width: 272px;
   // background-color: var(--accent-background, var(--tr-background-list));
-  justify-content: center;
+  justify-content: space-between;
+  vertical-align: top;
+  max-height: 100%;
   // align-items: center;
   // padding: 0 6px;
   // margin: 20px;
   padding: 10px;
   list-style: none;
+}
+
+.scrollable-task-list{
+  max-height: 100%; /* Adjust as needed */
+  overflow-y: auto;  /* Enables vertical scrolling */
+  scrollbar-width: thin; /* Optional: For Firefox */
+  scrollbar-color: #888 #f0f0f0; /* Optional: Customize scrollbar */
 }
 
 .task-list-header {
@@ -32,6 +42,7 @@
 .task-list-header-name {
   padding-left: 5px;
   padding-top: 5px;
+  font-size: 14;
 }
 .add-a-card-container {
   display: flex;
