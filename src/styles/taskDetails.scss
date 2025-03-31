@@ -143,11 +143,11 @@
   //  Left Column 
   .td-main-left {
     width: 551px;
-    padding-left: 16px;
+    padding-left: 35px;
     padding-bottom: 8px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
   
     .td-section {
       
@@ -169,6 +169,9 @@
         flex-direction: column;
         justify-content: flex-start;
         max-width: 100%;
+        padding-left: 15px;
+        
+        
     }
     
     .td-section-header {
@@ -336,3 +339,13 @@
     margin-left: -5px;
   }
 
+
+  .notification-button {
+    &:hover {
+      background-color: #f7e600;
+    }
+  
+    &:active {
+      background-color: #091e424f;
+    }
+  }

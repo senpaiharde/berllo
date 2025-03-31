@@ -1,0 +1,13 @@
+.td-section-label-color {
+    &:hover {
+      filter: brightness(125%); 
+      cursor: pointer;
+    }
+  }
+  
+  .td-section-members-add {
+    &:hover {
+      filter: brightness(90%);
+      cursor: pointer;
+    }
+  }
