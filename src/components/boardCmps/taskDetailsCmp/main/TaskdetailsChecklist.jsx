@@ -23,27 +23,7 @@ const TaskChecklist = () => {
 
   const visibleItems = hideChecked ? checklistItems.filter((item) => !item.isDone) : checklistItems;
 
-  const buttonStyle = {
-    display: "inline-flex",
-    boxSizing: "border-box",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "6px 12px",
-    borderRadius: "3px",
-    textDecoration: "none",
-    whiteSpace: "normal",
-    border: "none",
-    boxShadow: "none",
-    color: "#172b4d",
-    fontWeight: 500,
-    transitionProperty: "background-color, border-color, box-shadow",
-    transitionDuration: "85ms",
-    transitionTimingFunction: "ease",
-    gap: "8px",
-    marginTop: "-3px",
-    cursor: "pointer", // Add pointer cursor
-    backgroundColor: "transparent", // Reset background
-  };
+ 
 
   return (
     <div style={{ padding: "16px", paddingTop: "-34px" }}>
@@ -76,52 +56,56 @@ const TaskChecklist = () => {
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               <button
+                className="notification-button"
                 style={{
-                    display: "inline-flex",
-                    boxSizing: "border-box",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "6px 12px",
-                    borderRadius: "3px",
-                    textDecoration: "none",
-                    whiteSpace: "normal",
-                    border: "none",
-                    boxShadow: "none",
-                    color: "#172b4d",
-                    fontWeight: 500,
-                    transition: "background-color 85ms ease",
-                    gap: "8px",
+                  display: "inline-flex",
+                  boxSizing: "border-box",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "6px 12px",
+                  borderRadius: "3px",
+                  textDecoration: "none",
+                  whiteSpace: "normal",
+                  border: "none",
+                  boxShadow: "none",
+                  color: "#172b4d",
+                  fontWeight: 500,
+                  transitionProperty: "background-color, border-color, box-shadow",
+                  transitionDuration: "85ms",
+                  transitionTimingFunction: "ease",
+                  gap: "8px",
                     marginTop: "-3px",
                     marginRight: "8px",
                   }}
                 onClick={() => setHideChecked(!hideChecked)}
-                onMouseOver={(e) => { e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.15)'}}
-                onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent'}}
+                
               >
                 {hideChecked ? "Show Checked items" : "Hide Checked items"}
               </button>
               <button
+                className="notification-button"
                 style={{
-                    display: "inline-flex",
-                    boxSizing: "border-box",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "6px 12px",
-                    borderRadius: "3px",
-                    textDecoration: "none",
-                    whiteSpace: "normal",
-                    border: "none",
-                    boxShadow: "none",
-                    color: "#172b4d",
-                    fontWeight: 500,
-                    transition: "background-color 85ms ease",
-                    gap: "8px",
-                    marginTop: "-3px",
-                    marginRight: "-15px",
-                  }}
+                  display: "inline-flex",
+                  boxSizing: "border-box",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "6px 12px",
+                  borderRadius: "3px",
+                  textDecoration: "none",
+                  whiteSpace: "normal",
+                  border: "none",
+                  boxShadow: "none",
+                  color: "#172b4d",
+                  fontWeight: 500,
+                  transitionProperty: "background-color, border-color, box-shadow",
+                  transitionDuration: "85ms",
+                  transitionTimingFunction: "ease",
+                  gap: "8px",
+                  marginTop: "-3px", 
+                  marginRight: '-15px'
+                }}
                 onClick={() => dispatch(deleteChecklistItem("all"))}
-                onMouseOver={(e) => { e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.15)'}}
-                onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent'}}
+                
               >
                 Delete
               </button>
@@ -196,27 +180,29 @@ const TaskChecklist = () => {
           </div>
         ))}
         <button
+         className="notification-button"
          style={{
-            display: "inline-flex",
-            boxSizing: "border-box",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "6px 12px",
-            borderRadius: "3px",
-            textDecoration: "none",
-            whiteSpace: "normal",
-            border: "none",
-            boxShadow: "none",
-            color: "#172b4d",
-            fontWeight: 500,
-            transition: "background-color 85ms ease",
-            gap: "8px",
+           display: "inline-flex",
+           boxSizing: "border-box",
+           alignItems: "center",
+           justifyContent: "center",
+           padding: "6px 12px",
+           borderRadius: "3px",
+           textDecoration: "none",
+           whiteSpace: "normal",
+           border: "none",
+           boxShadow: "none",
+           color: "#172b4d",
+           fontWeight: 500,
+           transitionProperty: "background-color, border-color, box-shadow",
+           transitionDuration: "85ms",
+           transitionTimingFunction: "ease",
+           gap: "8px",
             marginTop: "-3px",
             marginRight: "-15px",
           }}
           onClick={() => dispatch(addChecklistItem("New Item"))}
-          onMouseOver={(e) => { e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.15)'}}
-          onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent'}}
+          
         >
           + Add Checklist Item
         </button>
