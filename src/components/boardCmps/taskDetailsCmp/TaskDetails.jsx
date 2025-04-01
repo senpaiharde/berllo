@@ -173,6 +173,7 @@ const TaskDetails = () => {
 
             </div>
             <TaskDescription/>
+            <div style={{ marginTop: "-42px" }}></div>
 
             <TaskChecklist/>
 

@@ -70,14 +70,17 @@ const TaskDescription = () => {
         value={taskDescription}
         onChange={handleDescriptionChange}
         style={{
-            backgroundColor: isEmpty ? "#eaecf0" : "white", 
+            backgroundColor: isEmpty ? "#eaecf0" : "white", // Light gray vs white
             border: "none",
             resize: "none",
-            padding: "8px",
+            padding: "10px 12px",
             marginTop: "4px",
-            minHeight: "60px",
-            borderRadius: "4px",
-            width: "100%",
+            minHeight: "72px",
+            borderRadius: "6px",
+            width: "100%", 
+            fontSize: "14px",
+            color: "#172b4d",
+            
         }}
       />
     </section>
