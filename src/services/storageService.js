@@ -40,6 +40,7 @@ export const getLocalData = async () => {
   export const saveTolocal = async (updatedBoard) => {
     try {
       const prevData = await getLocalData();
+      console.log("prevData:", prevData);
       const prevBoards = prevData.boards || [];
   
       const updatedBoards = prevBoards.map((board) =>

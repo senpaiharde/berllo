@@ -106,7 +106,7 @@ export function TaskList({ boardList, newTaskList }) {
               onChangeTextInput={onUpdateBoardList}
             ></TextEditInput>
           </div>
-          <div className="task-list-header-actions header-clickable">
+          <div className="task-list-header-actions header-clickable" onClick={()=>onRemoveCurrentList()}>
             <IconButton>
               <path
                 fillRule="nonzero"
