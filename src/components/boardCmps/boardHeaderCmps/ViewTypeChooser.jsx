@@ -11,7 +11,7 @@ export function ViewTypeChooser({ togglePressed }) {
           className="header-clickable"
           onClick={(e) => togglePressed(e.currentTarget, "board")}
         >
-          <IconButton label="Board">
+          <IconButton label="Board" iconSize={"16px"}>
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -36,7 +36,7 @@ export function ViewTypeChooser({ togglePressed }) {
           className="header-clickable"
           onClick={(e) => togglePressed(e.currentTarget, "choose")}
         >
-          <IconButton>
+          <IconButton iconSize={"16px"}>
             <path
               fillRule="evenodd"
               clipRule="evenodd"

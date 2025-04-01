@@ -4,16 +4,18 @@ import { IconButton } from "../../IconButton"
 
 export function TaskInfoBadges({ task }) {
   function getReleventDate(date) {
-    const options = { month: "long", day: "numeric" }
+    const options = { month: "short", day: "numeric" }
     if (date)
       //return  new Date(date).toISOString().split("T")[0]
       return new Date(date).toLocaleDateString("en-US", options)
   }
+  const dateBackgroundColor = task.taskChecked ? "#1f845a" : "#ffd5d2"
+  const dateColor = task.taskChecked ? "#ffffff" : "#ae2e244"
   /// its not nott updated by store becouse it had hardcoded once usestate so it took the data from there
   return (
-    <span className="task-preview-info-badges">
+    <span className="task-preview-info-badges" >
       {task.taskDueDate && task.taskStartDate && (
-        <span style={{alignContent: "center"}}>
+        <span className="task-preview-info-badges-date" style={{backgroundColor: dateBackgroundColor, color: dateColor ,alignContent: "center"}}>
           {getReleventDate(task.taskStartDate)} -{" "}
           {getReleventDate(task.taskDueDate)}
         </span>

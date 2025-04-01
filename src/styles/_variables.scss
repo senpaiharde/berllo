@@ -1,9 +1,16 @@
-$--dynamic-text: #FFFFFF;
-$--ds-background-input: #FFFFFF;
-$--dynamic-icon: #FFFFFF;
+$--dynamic-text: #ffffff;
+$--ds-background-input: #ffffff;
+$--dynamic-icon: #ffffff;
 $--dynamic-star: var(--dynamic-icon);
 
-.icon-svg{
-    display: block;
-    margin: auto;
+:root {
+  $--dynamic-text: #ffffff;
+  $--ds-background-input: #ffffff;
+  $--dynamic-icon: #ffffff;
+  $--dynamic-star: var(--dynamic-icon);
+}
+
+.icon-svg {
+  display: block;
+  margin: auto;
 }

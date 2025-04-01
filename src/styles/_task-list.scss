@@ -3,17 +3,30 @@
   flex-direction: column;
   row-gap: 8px;
   scroll-margin: 80px;
-  border: 1px solid;
-  border-radius: 30px;
-  flex-wrap: wrap;
-  background-color: #dcdfe4;
+  // border: 1px solid;
+  border-radius: 12px;
+  // flex-wrap: wrap;
+  background-color: #f1f2f4;
+  width: 272px;
   // background-color: var(--accent-background, var(--tr-background-list));
-  justify-content: center;
+  justify-content: space-between;
+  vertical-align: top;
+  max-height: 100%;
   // align-items: center;
   // padding: 0 6px;
   // margin: 20px;
   padding: 10px;
   list-style: none;
+}
+
+.scrollable-task-list{
+  display: flex;
+  flex-direction: column;
+  max-height: 100%; /* Adjust as needed */
+  overflow-y: auto;
+  row-gap: 8px;  /* Enables vertical scrolling */
+  scrollbar-width: thin; /* Optional: For Firefox */
+  scrollbar-color: #091e4224 #091e420f; /* Optional: Customize scrollbar */
 }
 
 .task-list-header {
@@ -24,20 +37,22 @@
   align-items: center;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 8px 8px 0;
+  // padding: 8px 8px 0;
   min-height: 40px;
   row-gap: 0;
 }
 
 .task-list-header-name {
   padding-left: 5px;
-  padding-top: 5px;
+  // padding-top: 5px;
+  color: #172B4D;
+  font-size: 14;
 }
 .add-a-card-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 8px 0;
+  // padding: 8px 8px 0;
   column-gap: 4px;
 }
 
@@ -52,12 +67,21 @@
   background-color: transparent;
   text-decoration: none;
   -webkit-user-select: none;
+  // color: #f8f5f5;
+  // background-color: #ffffff3d;
   user-select: none;
+}
+.add-a-card-button-list{
+  color: #f8f5f5;
+  background-color: #ffffff3d;
+}
+.add-a-card-button-list:hover{
+  background-color: #ffffff1a;
 }
 .add-a-card-button:hover {
   background-color: var(
     --accent-background-hovered,
     var(--ds-background-neutral-hovered, #091e4224)
   );
-  color: var(--accent-text-bolder, var(--ds-text, #172b4d));
+  // color: var(--accent-text-bolder, var(--ds-text, #172b4d));
 }

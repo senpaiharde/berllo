@@ -36,7 +36,9 @@ export function BoardView({ board }) {
             </li>
           )
         })}
-        <div className="TaskList-list-add-item">
+        <div className="TaskList-list-add-item "  
+        // style={{ backgroundColor: " #ffffff3d", color: "#f8f5f5" }}
+        >
           {/* {newListClicked === false ?
           <div className="TaskList-list-item">
             <TaskList boardList={newTaskList} isNewTaskList={true} onAddNewTaskList={AddNewTaskList}></TaskList>
@@ -49,6 +51,7 @@ export function BoardView({ board }) {
             cardDescription={"Add another list"}
             backgroundColor={" #ffffff3d"}
             textColor={"#f8f5f5"}
+            addListClass={true}
             onItemCardClick={AddNewEmptyTaskList}
           ></AddItemCard>
         </div>
