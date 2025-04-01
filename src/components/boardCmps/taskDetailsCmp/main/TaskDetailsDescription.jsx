@@ -5,11 +5,13 @@ import { liveUpdateTask } from "../../../../redux/TaskDetailsSlice";
 const TaskDescription = () => {
   const dispatch = useDispatch();
   const taskDescription = useSelector((state) => state.taskDetailsReducer?.selectedTask?.taskDescription || "");
-  const textareaClassName = taskDescription ? "td-description" : "td-description-null";
+  
   const handleDescriptionChange = (e) => {
     dispatch(liveUpdateTask({ taskDescription: e.target.value }));
-  };
 
+  };
+  const isEmpty = taskDescription.trim() === '';
+  const textareaClassName = isEmpty ? "td-description-null" : "td-description";
   return (
     <section className="td-section">
       <div style={{ display: "flex", alignItems: "center",marginTop:'-27px', }}>
@@ -20,7 +22,7 @@ const TaskDescription = () => {
           fill="currentColor"
           style={{ marginRight: "8px", marginLeft: "-30px"
             , marginTop:'-14px'
-           }} // Increased left margin
+           }} 
         >
           <path
             fillRule="evenodd"
@@ -30,7 +32,10 @@ const TaskDescription = () => {
         </svg>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: '100%' }}>
           <div className="td-section-header">Description</div>
-          <button
+
+
+          {!isEmpty && (
+            <button
             className="notification-button"
             style={{
               display: "inline-flex",
@@ -55,17 +60,24 @@ const TaskDescription = () => {
           >
             Edit
           </button>
+          )}
         </div>
       </div>
       {handleDescriptionChange}
       <textarea
         className={textareaClassName}
+        placeholder={isEmpty ? 'Add a more detailed description...' : ''}
         value={taskDescription}
         onChange={handleDescriptionChange}
         style={{
-          backgroundColor: 'transparent',
-          border: 'none', // Remove border
-          resize: 'none', // Disable textarea resizing
+            backgroundColor: isEmpty ? "#eaecf0" : "white", 
+            border: "none",
+            resize: "none",
+            padding: "8px",
+            marginTop: "4px",
+            minHeight: "60px",
+            borderRadius: "4px",
+            width: "100%",
         }}
       />
     </section>
