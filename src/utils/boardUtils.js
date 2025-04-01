@@ -4,7 +4,11 @@ export const generateRandomId = () => {
   
   export const slugify = (text) => {
     if (!text) return "board";
-    return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    return text
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
   };
   
   export const createBoard = async (title) => {
@@ -23,7 +27,7 @@ export const generateRandomId = () => {
       const data = await getLocalData(); 
       data.boards = data.boards || []; 
       data.boards.push(newBoard);
-      localStorage.setItem('trelloData', JSON.stringify(data)); // Save updated data
+      localStorage.setItem('trelloData', JSON.stringify(data)); 
   
       return `/b/${id}/${slug}`;
     } catch (error) {

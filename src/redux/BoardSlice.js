@@ -138,7 +138,7 @@ const boardSlice = createSlice({
         (list) => list._id === task.taskList
       )
       if (index !== -1) {
-        state.boardLists[index].taskList.push(task) // Update the correct list in the array
+        state.boardLists[index].taskList.push(task) 
       }
     },
     removeTaskFromBoard: (state, action) => {
@@ -160,32 +160,29 @@ const boardSlice = createSlice({
     },
     updateTaskInBoard: (state, action) => {
         const updatedTask = action.payload;
-        console.log("updateTaskInBoard - Updated Task:", updatedTask);
-        console.log("updateTaskInBoard - Board Lists before update:", state.boardLists);
-        
+      
         for (let list of state.boardLists) {
-            const taskIndex = list.taskList.findIndex(
-                (task) => task._id === updatedTask._id
-            );
-            if (taskIndex !== -1) {
-                console.log("Task found in list:", list._id, "at index:", taskIndex);
-                list.taskList = list.taskList.map((task) =>
-                    task._id === updatedTask._id ? { ...updatedTask } : task
-                );
-                break;
-            }
+          const taskIndex = list.taskList.findIndex(
+            (task) => task._id === updatedTask._id
+          );
+          if (taskIndex !== -1) {
+            list.taskList[taskIndex] = { ...updatedTask };
+            break;
+          }
         }
-        console.log("updateTaskInBoard - Board Lists after update:", state.boardLists);
-    console.log("updateTaskInBoard - Boards before save to local:", state.boards);
-        saveTolocal({
-        id: state._id,
-        boardTitle: state.boardTitle,
-        isStarred: state.isStarred,
-        boardLists: state.boardLists,
-        boards: state.boards,
-        });
-        console.log('updateTaskInBoard - boards saved to local');
-    },
+      
+        const updatedBoard = {
+          _id: state._id,
+          boardTitle: state.boardTitle,
+          isStarred: state.isStarred,
+          boardLists: state.boardLists,
+        };
+      
+        
+        const clonedBoard = JSON.parse(JSON.stringify(updatedBoard));
+        saveTolocal(clonedBoard);
+      }
+      
   },
 
   extraReducers: (builder) => {
@@ -198,8 +195,10 @@ const boardSlice = createSlice({
         state.state = "success"
         state._id = board._id
         state.boardTitle = board.boardTitle
-        state.slug = board.slug || "" // fallback if undefined
+        state.slug = board.slug || "" 
         state.boardLists = board.boardLists || []
+        const existing = state.boards?.filter((b) => b._id !== board._id) || [];
+        state.boards = [...existing, board];
       })
       .addCase(fetchBoardById.rejected, (state, action) => {
         state.state = "failed"
