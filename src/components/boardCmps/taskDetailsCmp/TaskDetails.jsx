@@ -32,7 +32,7 @@ const TaskDetails = () => {
   const boardLists = useSelector((state) => state.boardReducer.boardLists);
 
   useEffect(() => {
-    // Fetch board data if boardLists is empty and we have a boardId
+    
     if (boardLists.length === 0 && boardId) {
         dispatch(fetchBoardById(boardId));
     }

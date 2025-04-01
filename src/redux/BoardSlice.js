@@ -5,7 +5,7 @@ import {
   getBoardById,
 } from "../services/storageService"
 
-// ✅ Async action to fetch board by ID from localStorage
+
 export const fetchBoardById = createAsyncThunk(
   "board/fetchBoardById",
   async (id, { rejectWithValue }) => {
@@ -26,10 +26,10 @@ const boardSlice = createSlice({
   initialState: {
     _id: "",
     boardTitle: "",
-    slug: "", //  added here so GlobalHeader can use it
+    slug: "", 
     isStarred: null,
     boardLists: [],
-    boards: [], // used by your manual reducers (add/remove/update)
+    boards: [], 
     state: "idle",
     error: null,
     activeBoard: null,
@@ -53,7 +53,7 @@ const boardSlice = createSlice({
     },
     removeboard: (state, action) => {
         state.boards = state.boards.filter((x) => x._id !== action.payload);
-        saveTolocal({ // FIX: Save the entire state
+        saveTolocal({ 
             _id: state._id,
             boardTitle: state.boardTitle,
             isStarred: state.isStarred,
@@ -63,7 +63,7 @@ const boardSlice = createSlice({
     },
     updateStarStatus: (state, action) => {
         state.isStarred = action.payload;
-        saveTolocal({ // FIX: Save the entire state
+        saveTolocal({ 
             _id: state._id,
             boardTitle: state.boardTitle,
             isStarred: state.isStarred,
@@ -73,7 +73,7 @@ const boardSlice = createSlice({
     },
     updateboardTitle: (state, action) => {
         state.boardTitle = action.payload;
-        saveTolocal({ // FIX: Save the entire state
+        saveTolocal({ 
             _id: state._id,
             boardTitle: state.boardTitle,
             isStarred: state.isStarred,
@@ -91,7 +91,7 @@ const boardSlice = createSlice({
             error: null,
         };
         state.boardLists.push(newList);
-        saveTolocal({ // FIX: Save the entire state
+        saveTolocal({ 
             _id: state._id,
             boardTitle: state.boardTitle,
             isStarred: state.isStarred,
@@ -105,7 +105,7 @@ const boardSlice = createSlice({
         if (index !== -1) {
             state.boardLists[index] = updatedList;
         }
-        saveTolocal({ // FIX: Save the entire state
+        saveTolocal({ 
             _id: state._id,
             boardTitle: state.boardTitle,
             isStarred: state.isStarred,
@@ -116,7 +116,7 @@ const boardSlice = createSlice({
     removeBoardListFromBoard: (state, action) => {
         const newBoardLists = state.boardLists.filter((list) => list._id !== action.payload);
         state.boardLists = newBoardLists;
-        saveTolocal({ // FIX: Save the entire state
+        saveTolocal({ 
             _id: state._id,
             boardTitle: state.boardTitle,
             isStarred: state.isStarred,
@@ -150,7 +150,7 @@ const boardSlice = createSlice({
           (task) => task._id !== action.payload._id
         )
       }
-      saveTolocal({ // FIX: Save the entire state
+      saveTolocal({ 
         _id: state._id,
         boardTitle: state.boardTitle,
         isStarred: state.isStarred,

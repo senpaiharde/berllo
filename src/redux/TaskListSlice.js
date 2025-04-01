@@ -29,7 +29,7 @@ const listSlice = createSlice({
             state._id = nanoid()
             state.taskListBoard = action.payload.board
             state.taskListTitle = action.payload.title
-            saveTolocal({ // FIX: Save the entire state
+            saveTolocal({ 
                 _id: state._id,
                 taskListBoard: state.taskListBoard,
                 taskListTitle: state.taskListTitle,
@@ -42,12 +42,12 @@ const listSlice = createSlice({
             state._id = nanoid()
             state.taskListBoard = action.payload.board
             state.taskListTitle = action.payload.title
-            //saveTolocal({list:state.lists});
+            
 
         },
         removeList: (state,action) => {
             state.lists =state.lists.filter(x => x.id !== action.payload);
-            saveTolocal({ // FIX: Save the entire state
+            saveTolocal({ 
                 _id: state._id,
                 taskListBoard: state.taskListBoard,
                 taskListTitle: state.taskListTitle,
