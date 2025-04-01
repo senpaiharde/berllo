@@ -20,8 +20,13 @@ export function TaskList({ boardList, newTaskList }) {
   // }
 
   const dispatch = useDispatch()
-  const [isNewTaskList,setIsNewTaskList] = useState(newTaskList)
+  const [isNewTaskList, setIsNewTaskList] = useState(newTaskList)
   const [taskListTitle, setTaskListTitle] = useState(boardList.taskListTitle)
+  const [newTitle, setNewTitle] = useState()
+
+  useEffect(() => {
+    console.log("newTitle",newTitle)
+  }, [newTitle]);
 
   function onUpdateBoardList(value) {
     if (isNewTaskList && value) {
@@ -36,7 +41,7 @@ export function TaskList({ boardList, newTaskList }) {
   }
 
   function onRemoveCurrentList(value) {
-    if(value) return
+    if (value) return
     console.log("removing list", boardList._id)
     dispatch(removeBoardListFromBoard(boardList._id))
   }
@@ -49,13 +54,48 @@ export function TaskList({ boardList, newTaskList }) {
   return (
     <div className="task-list">
       {isNewTaskList ? (
-        <ItemNameForm
-          IsEditing={isNewTaskList}
-          setIsEditing={setIsNewTaskList}
-          noValueOnExit={onRemoveCurrentList}
-          onAddItem={onUpdateBoardList}
-          itemType={"add list"}
-        ></ItemNameForm>
+        <div>
+          <ItemNameForm
+            IsEditing={isNewTaskList}
+            setIsEditing={setIsNewTaskList}
+            setText={setNewTitle}
+            noValueOnExit={onRemoveCurrentList}
+            onAddItem={onUpdateBoardList}
+            itemType={"add list"}
+          ></ItemNameForm>
+          {/* <div className="input-new-item-buttons">
+            <div onClick={() => onChangeTextInput(inputValue)}>
+              <button
+                className="icon-container-button input-new-item-label"
+                style={{ backgroundColor: "#0000FF", color: "#FFFFFF" }}
+              >
+                add list
+              </button>
+            </div>
+            <div
+              className="input-new-item-svg"
+              onClick={(e) => {
+                console.log("onRemoveCurrentList")
+                onRemoveCurrentList()
+              }}
+            >
+              <IconButton
+                // onClick={(e) => {
+                //   console.log("disableBlur = true")
+                //   // disableBlur = true
+                //   onRemoveCurrentList() // Prevent blur from firing
+                // }}
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12Z"
+                  fill="currentColor"
+                ></path>
+              </IconButton>
+            </div>
+          </div> */}
+        </div>
       ) : (
         <div className="task-list-header">
           <div className="task-list-header-name">
@@ -79,7 +119,7 @@ export function TaskList({ boardList, newTaskList }) {
         </div>
       )}
 
-      <ol className="scrollable-task-list" >
+      <ol className="scrollable-task-list">
         {boardList.taskList?.length > 0 ? ( //
           boardList.taskList.map((task) => (
             <li key={task._id} style={{ listStyle: "none" }}>
@@ -97,15 +137,14 @@ export function TaskList({ boardList, newTaskList }) {
         ) : (
           <div />
         )}
-        </ol>
-        <div>
-          <AddItemCard
-            cardDescription={"Add a card"}
-            itemType={"add task"}
-            onItemCardClick={addNewEmptyTask}
-          ></AddItemCard>
-        </div>
-      
+      </ol>
+      <div>
+        <AddItemCard
+          cardDescription={"Add a card"}
+          itemType={"add task"}
+          onItemCardClick={addNewEmptyTask}
+        ></AddItemCard>
+      </div>
     </div>
   )
 }

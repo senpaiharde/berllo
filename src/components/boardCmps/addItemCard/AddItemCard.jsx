@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react"
-import { ItemNameForm } from "./ItemNameForm"
 import { IconButton } from "../../IconButton"
 
 export function AddItemCard({
   cardDescription,
   backgroundColor,
   textColor,
+  addListClass,
   onItemCardClick,
 }) {
- 
+
+  const listClass = addListClass ? "add-a-card-button-list" : "";
   return (
     <div>
         <div
@@ -16,8 +17,8 @@ export function AddItemCard({
           onClick={() => onItemCardClick()}
         >
           <span
-            className="add-a-card-button"
-            style={{ backgroundColor: backgroundColor, color: textColor }}
+            className={`${listClass} add-a-card-button `}
+            // style={{ backgroundColor: backgroundColor, color: textColor }}
           >
             <span style={{ marginRight: "8px" }}>
               <IconButton label={cardDescription}>

@@ -4,7 +4,7 @@ import { IconButton } from "../../IconButton"
 
 export function TaskInfoBadges({ task }) {
   function getReleventDate(date) {
-    const options = { month: "long", day: "numeric" }
+    const options = { month: "short", day: "numeric" }
     if (date)
       //return  new Date(date).toISOString().split("T")[0]
       return new Date(date).toLocaleDateString("en-US", options)

@@ -123,6 +123,7 @@ const boardSlice = createSlice({
     },
     updateTaskInBoard: (state, action) => {
       const updatedTask = action.payload
+      console.log("updateTaskInBoard updatedTask",updatedTask)
       for (let list of state.boardLists) {
         const taskIndex = list.taskList.findIndex(
           (task) => task._id === updatedTask._id

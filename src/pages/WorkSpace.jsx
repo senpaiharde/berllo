@@ -42,7 +42,7 @@ const Workspace = () => {
     return <div>Loading...</div>
   } else {
     return (
-      <div classname="work-space">
+      <div className="work-space">
         <GlobalHeader />
         <div className="popover-boundary">
           <div className="content-wrapper">

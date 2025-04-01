@@ -73,11 +73,6 @@ export function TextEditInput({
             <div className="input-new-item-buttons">
               <div onClick={() => onChangeTextInput(inputValue)}>
                 <button className="icon-container-button input-new-item-label" style={{backgroundColor : "#0000FF", color: "#FFFFFF"}}>{itemType}</button>
-                {/* <IconButton
-                  label={itemType}
-                  backgColor={"#0000FF"}
-                  textColor={"#FFFFFF"}
-                ></IconButton> */}
               </div>
               <div className="input-new-item-svg" onClick={(e) => {
                     console.log("disableBlur = true")
@@ -90,13 +85,6 @@ export function TextEditInput({
                     // disableBlur = true
                     noValueOnExit() // Prevent blur from firing
                   }}
-                  // onClick={(e) => {
-                  //   disableBlur = true
-                  //   console.log("pressed X")
-                  //   e.preventDefault() // Prevents losing focus before click
-                  //   e.stopPropagation() // Prevents triggering onBlur indirectly
-                  //   noValueOnExit()
-                  // }}
                 >
                   <path
                     fillRule="evenodd"

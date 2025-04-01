@@ -4,7 +4,7 @@ import {
   Bell, HelpCircle, Plus, Settings, User, Activity,
   CreditCard, HelpCircle as Help, Building2, ExternalLink, LayoutGrid
 } from 'lucide-react';
-import '../styles/GlobalHeader.scss';
+// import '../styles/GlobalHeader.scss';
 import { useNavigate} from 'react-router-dom';
 
 // Local image imports for templates
