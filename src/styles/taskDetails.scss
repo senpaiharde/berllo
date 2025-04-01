@@ -58,33 +58,38 @@
   .td-checkbox {
     width: 16px;
     height: 16px;
-    margin-top: -20px;
+    margin-top: -15px;
     flex-shrink: 0;
     cursor: pointer;
     margin-left:-10px;
+    
   }
   
   // === Title Input ===
   .td-title-input {
     flex: 1;
     max-width: 660px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     border: none;
     background: transparent;
-    border-radius: 4px;
-    height: 36px;
-    padding: 6px 10px;
+    border-radius: 2px;
+    height: 30px;
+    padding: 2px 10px;
     resize: none;
     line-height: 24px;
     overflow: hidden;
     margin-top:-5px;
+    width: 90%;
+    
     
   
     &:focus {
-      outline: 2px solid #388bff;
+      outline: 1px solid #388bff;
       background-color: #ffffff;
       box-shadow: 0 0 0 2px #388bff33;
+      
+      margin-right: 30px;
     }
   
     &::placeholder {
@@ -95,10 +100,9 @@
   //  Close Button 
   .td-close-btn {
     position: absolute;
-    top: 8px;
+    top: 11px;
     right: 11px;
-    width: 24px;
-    height: 24px;
+    
     font-size: 20px;
     background: transparent;
     border: none;
@@ -114,7 +118,8 @@
   
   //  In List Text 
   .td-inlist-text {
-    margin: 1px 24px 30px 53px;
+    margin: 1px 24px 16px 53px;
+    
     font-size: 13px;
     color: #44546f;
     
@@ -122,14 +127,7 @@
     
      
   }
-  .td-inlist-text-button{
-    background: #dfe1e6;
-      border: none;
-      padding: 2px 6px;
-      font-size: 13px;
-      border-radius: 3px;
-      cursor: pointer;
-  }
+  
   
   //  Main Layout 
   .td-main {
@@ -206,7 +204,16 @@
    
     
     
-    
+    .td-description-null {
+        width: 100%;
+        min-height: 80px;
+        resize: vertical;
+        
+        
+        padding: 8px 2px;
+        font-size: 14px;
+        
+      }
     
     
   

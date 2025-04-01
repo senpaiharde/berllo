@@ -5,7 +5,8 @@ import React from "react";
 import '../../../styles/taskDetailsFolder/TaskDetailsLabel.scss';
 const TaskDetailsLabel = () => {
     const labels = [
-        { title: "dsgsg", color: "orange" },
+        { title: "dsgsg", color: "#42d23a" },
+        { title: "", color: "orange" },
         { title: "", color: "red" },
         { title: "", color: "mediumpurple" },
         { title: "", color: "royalblue" },
@@ -21,12 +22,14 @@ const TaskDetailsLabel = () => {
                     style={{
                         display: 'inline-flex',
                         alignItems: 'center',
+                        justifyContent:'center',
                         position: 'relative',
                         boxSizing: 'border-box',
                         height: '28px',
-                        minWidth: '48px',
+                        minWidth: '44px',
                         maxWidth: '100%',
                         marginBottom: 0,
+                        paddingLeft:'1px',
                         padding: '15px 8px',
                         overflow: 'hidden',
                         borderRadius: '3px',

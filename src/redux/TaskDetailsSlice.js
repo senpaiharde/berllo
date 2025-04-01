@@ -23,10 +23,11 @@ const taskDetailsSlice = createSlice({
             state.isOpen = false;
         },
         updateSelectedTaskLive: (state, action) => {
-            const updatedFields = action.payload;
-           state.selectedTask = {
-            ...state.selectedTask,
-            ...updatedFields,
+           if (state.selectedTask) {
+            state.selectedTask = {
+                ...state.selectedTask,
+                ...action.payload,
+            }
            }
         },
         addChecklistItem: (state, action) => {
@@ -65,7 +66,7 @@ export const {openTaskDetails,
 editChecklistItem,
 deleteChecklistItem,} = taskDetailsSlice.actions
 
-// we are gonna call this function on despatch to update taskdetailsslice and the the boardslice
+
 export const liveUpdateTask = (updatedFields) => (dispatch, getState) => { 
     dispatch(updateSelectedTaskLive(updatedFields));
 

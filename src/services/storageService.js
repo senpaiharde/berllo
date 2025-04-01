@@ -1,46 +1,60 @@
+// utils/storageService.js (or wherever this lives)
 
-export const fetchData = async () => {
-    console.log("fetchData")
-    const response = await fetch('/berllo.json');
-    // console.log(response)
-    const data = await response.json();
-    // console.log("fetchData data", data)
-    return data;
-}
-
-// Function to get data from localStorage  or json
- export const getLocalData = async () => {
-    // console.log("getLocalData")
-    const storedData = JSON.parse(localStorage.getItem('trelloData'));
-    // console.log("storedData",storedData)
-    if(storedData) return storedData;
-
-
-    const jsonData = await fetchData();
-    localStorage.setItem('trelloData', JSON.stringify(jsonData));
-    return jsonData;
-};
-
-export const getBoardById = async (boardId) =>{
-    
-    const data = await getLocalData()
-    // console.log("getBoardById data", data)
-    const board = data?.boards?.find((board) => board._id.toString() === boardId.toString())
-    if (!board) {
-        console.warn(" Board not found for id:", boardId, "in data:", data);
+// Load data from localStorage or JSON
+export const getLocalData = async () => {
+    try {
+      const storedData = localStorage.getItem('trelloData');
+      if (storedData) {
+        return JSON.parse(storedData);
       }
-    // console.log("getBoardById", boardId, board)
-    return board
-}
-
-
-export const saveTolocal = (newData) => {
-    const prevData = JSON.parse(localStorage.getItem("trelloData")) || {};
-    const merged = {
-      ...prevData,
-      ...newData, 
-    };
-    localStorage.setItem("trelloData", JSON.stringify(merged));
+  
+      const response = await fetch('/berllo.json');
+      const data = await response.json();
+  
+      if (!data.boards) {
+        data.boards = [];
+      }
+  
+      localStorage.setItem('trelloData', JSON.stringify(data));
+      return data;
+    } catch (error) {
+      console.error("getLocalData - Error:", error);
+      return { boards: [] };
+    }
   };
   
-
+  // Get a board by ID from trelloData.boards
+  export const getBoardById = async (boardId) => {
+    try {
+      const data = await getLocalData();
+      return data?.boards?.find(
+        (board) => board._id.toString() === boardId.toString()
+      );
+    } catch (error) {
+      console.error("getBoardById error:", error);
+      return undefined;
+    }
+  };
+  
+  // Save a SINGLE updated board inside the existing boards array
+  export const saveTolocal = async (updatedBoard) => {
+    try {
+      const prevData = await getLocalData();
+      const prevBoards = prevData.boards || [];
+  
+      const updatedBoards = prevBoards.map((board) =>
+        board._id === updatedBoard._id ? updatedBoard : board
+      );
+  
+      const newData = {
+        ...prevData,
+        boards: updatedBoards,
+      };
+  
+      localStorage.setItem("trelloData", JSON.stringify(newData));
+      console.log(" saveTolocal: updated board saved");
+    } catch (error) {
+      console.error("saveTolocal error:", error);
+    }
+  };
+  
