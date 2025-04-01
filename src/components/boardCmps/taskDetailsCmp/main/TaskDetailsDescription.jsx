@@ -5,7 +5,7 @@ import { liveUpdateTask } from "../../../../redux/TaskDetailsSlice";
 const TaskDescription = () => {
   const dispatch = useDispatch();
   const taskDescription = useSelector((state) => state.taskDetailsReducer?.selectedTask?.taskDescription || "");
-
+  const textareaClassName = taskDescription ? "td-description" : "td-description-null";
   const handleDescriptionChange = (e) => {
     dispatch(liveUpdateTask({ taskDescription: e.target.value }));
   };
@@ -57,9 +57,9 @@ const TaskDescription = () => {
           </button>
         </div>
       </div>
-
+      {handleDescriptionChange}
       <textarea
-        className="td-description"
+        className={textareaClassName}
         value={taskDescription}
         onChange={handleDescriptionChange}
         style={{

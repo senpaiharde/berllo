@@ -2,7 +2,7 @@ import React from "react";
 
 const TaskDetailsDate = () => {
     return (
-        <section className="td-section-top-section">
+        <section style={{marginLeft:'-15px'}} className="td-section-top-section">
                 <h3 className="td-section-top-h3">Due date</h3>
                 <div>
                 <button className="notification-button"

@@ -78,6 +78,7 @@ const boardSlice = createSlice({
         boardTitle: state.boardTitle,
         isStarred: state.isStarred,
         boardLists: state.boardLists,
+        boards: state.boards,
       });
     },
   },
