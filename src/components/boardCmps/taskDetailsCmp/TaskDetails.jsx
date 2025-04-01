@@ -20,6 +20,7 @@ import TaskDetailsActivity from "./main/TaskDetailsActivity";
 import TaskDetailsSidebar from "./sidebar/TaskDetailsSidebar";
 import TaskDescription from "./main/TaskDetailsDescription";
 import TaskChecklist from "./main/TaskdetailsChecklist";
+import { fetchBoardById } from "../../../redux/BoardSlice";
 const TaskDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,16 +32,21 @@ const TaskDetails = () => {
   const boardLists = useSelector((state) => state.boardReducer.boardLists);
 
   useEffect(() => {
-    if (!selectedTask && taskId && boardLists.length > 0) {
-      const task = boardLists
-        .flatMap((list) => list.taskList || [])
-        .find((task) => task._id === pureTaskId);
-
-      if (task && (!selectedTask || selectedTask.id !== task.id)) {
-        dispatch(openTaskDetails(task));
-      }
+    // Fetch board data if boardLists is empty and we have a boardId
+    if (boardLists.length === 0 && boardId) {
+        dispatch(fetchBoardById(boardId));
     }
-  }, [selectedTask?.id, taskId, boardLists, dispatch]);
+    if (!selectedTask && taskId && boardLists.length > 0) {
+        const task = boardLists
+            .flatMap((list) => list.taskList || [])
+            .find((task) => task._id === pureTaskId);
+
+        if (task && (!selectedTask || selectedTask.id !== task.id)) {
+            dispatch(openTaskDetails(task));
+        }
+    }
+}, [selectedTask?.id, taskId, boardLists, dispatch, boardId]);
+
 
   useEffect(() => {
     const hanldeEsc = (e) => {

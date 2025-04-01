@@ -7,7 +7,7 @@ export const generateRandomId = () => {
     return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   };
   
-  export const createBoard = (title) => {
+  export const createBoard = async (title) => {
     const id = generateRandomId();
     const slug = slugify(title);
   
@@ -19,20 +19,35 @@ export const generateRandomId = () => {
       boardLists: []
     };
   
-    const data = JSON.parse(localStorage.getItem('trelloData')) || { boards: [] };
-    data.boards.push(newBoard);
-    localStorage.setItem('trelloData', JSON.stringify(data));
+    try {
+      const data = await getLocalData(); 
+      data.boards = data.boards || []; 
+      data.boards.push(newBoard);
+      localStorage.setItem('trelloData', JSON.stringify(data)); // Save updated data
   
-    return `/b/${id}/${slug}`;
+      return `/b/${id}/${slug}`;
+    } catch (error) {
+      console.error("createBoard error:", error);
+      return null;
+    }
   };
   
-  export const getBoardById = (id) => {
-    const data = JSON.parse(localStorage.getItem('trelloData')) || { boards: [] };
-    return data.boards.find(x => x._id === id);
+  export const getBoardById = async (id) => {
+    try {
+      const data = await getLocalData(); 
+      return data?.boards?.find(x => x._id === id); 
+    } catch (error) {
+      console.error("getBoardById error:", error);
+      return undefined;
+    }
   };
   
   export const getLocalData = async () => {
-    const stored = JSON.parse(localStorage.getItem('trelloData'));
-    return stored ? stored : { boards: [] };
+    try {
+      const stored = JSON.parse(localStorage.getItem('trelloData'));
+      return stored ? stored : { boards: [] };
+    } catch (error) {
+      console.error("getLocalData error:", error);
+      return { boards: [] };
+    }
   };
-  

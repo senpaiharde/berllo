@@ -43,56 +43,86 @@ const boardSlice = createSlice({
         users: [],
       }
       state.boards.push(newBoard)
-      // saveTolocal({ boards: state.boards });
+      saveTolocal({ 
+        _id: state._id,
+        boardTitle: state.boardTitle,
+        isStarred: state.isStarred,
+        boardLists: state.boardLists,
+        boards: state.boards,
+    });
     },
     removeboard: (state, action) => {
-      // state.boards = state.boards.filter((x) => x.id !== action.payload);
-      // saveTolocal({ boards: state.boards });
+        state.boards = state.boards.filter((x) => x._id !== action.payload);
+        saveTolocal({ // FIX: Save the entire state
+            _id: state._id,
+            boardTitle: state.boardTitle,
+            isStarred: state.isStarred,
+            boardLists: state.boardLists,
+            boards: state.boards,
+        });
     },
     updateStarStatus: (state, action) => {
-      state.isStarred = action.payload
-      // saveTolocal( state );
+        state.isStarred = action.payload;
+        saveTolocal({ // FIX: Save the entire state
+            _id: state._id,
+            boardTitle: state.boardTitle,
+            isStarred: state.isStarred,
+            boardLists: state.boardLists,
+            boards: state.boards,
+        });
     },
     updateboardTitle: (state, action) => {
-      console.log("updateboardTitle action.payload", action.payload)
-      // const board = state.boards.find((x) => {
-      //   console.log("x._id === action.payload.id",x._id === action.payload.id)
-      //   x._id === action.payload.id
-      // });
-
-      // console.log("old board.boardTitle",board.boardTitle)
-      state.boardTitle = action.payload
-      // console.log("new board.boardTitle",board.boardTitle)
-      // saveTolocal({ state });
+        state.boardTitle = action.payload;
+        saveTolocal({ // FIX: Save the entire state
+            _id: state._id,
+            boardTitle: state.boardTitle,
+            isStarred: state.isStarred,
+            boardLists: state.boardLists,
+            boards: state.boards,
+        });
     },
     addBoardList: (state, action) => {
-      console.log("addList action.payload", action.payload)
-      const newList = {
-        _id: nanoid(),
-        taskListTitle: "",
-        taskListBoard: state._id,
-        taskList: [],
-        state: "idle",
-        error: null,
-      }
-      console.log("addList newList", newList)
-      state.boardLists.push(newList)
-      //saveTolocal({list:state.lists});
+        const newList = {
+            _id: nanoid(),
+            taskListTitle: "",
+            taskListBoard: state._id,
+            taskList: [],
+            state: "idle",
+            error: null,
+        };
+        state.boardLists.push(newList);
+        saveTolocal({ // FIX: Save the entire state
+            _id: state._id,
+            boardTitle: state.boardTitle,
+            isStarred: state.isStarred,
+            boardLists: state.boardLists,
+            boards: state.boards,
+        });
     },
     updateBoardlist: (state, action) => {
-      console.log("updateBoardlist action.payload", action.payload)
-      const updatedList = action.payload
-      const index = state.boardLists.findIndex(
-        (list) => list._id === updatedList._id
-      )
-      if (index !== -1) {
-        state.boardLists[index] = updatedList // Update the correct list in the array
-      }
+        const updatedList = action.payload;
+        const index = state.boardLists.findIndex((list) => list._id === updatedList._id);
+        if (index !== -1) {
+            state.boardLists[index] = updatedList;
+        }
+        saveTolocal({ // FIX: Save the entire state
+            _id: state._id,
+            boardTitle: state.boardTitle,
+            isStarred: state.isStarred,
+            boardLists: state.boardLists,
+            boards: state.boards,
+        });
     },
     removeBoardListFromBoard: (state, action) => {
-      console.log("removeBoardListFromBoard", action.payload)
-      const newBoardLists = state.boardLists.filter(list => list._id !== action.payload)
-      state.boardLists = newBoardLists
+        const newBoardLists = state.boardLists.filter((list) => list._id !== action.payload);
+        state.boardLists = newBoardLists;
+        saveTolocal({ // FIX: Save the entire state
+            _id: state._id,
+            boardTitle: state.boardTitle,
+            isStarred: state.isStarred,
+            boardLists: state.boardLists,
+            boards: state.boards,
+        });
     },
     addTaskToBoard: (state, action) => {
       const task = {
@@ -120,29 +150,41 @@ const boardSlice = createSlice({
           (task) => task._id !== action.payload._id
         )
       }
-    },
-    updateTaskInBoard: (state, action) => {
-      const updatedTask = action.payload
-      for (let list of state.boardLists) {
-        const taskIndex = list.taskList.findIndex(
-          (task) => task._id === updatedTask._id
-        )
-        if (taskIndex !== -1) {
-          list.taskList = list.taskList.map((task) =>
-            task._id === updatedTask._id ? { ...updatedTask } : task
-          )
-          break
-        }
-      }
-
-      saveTolocal({
+      saveTolocal({ // FIX: Save the entire state
         _id: state._id,
         boardTitle: state.boardTitle,
         isStarred: state.isStarred,
         boardLists: state.boardLists,
         boards: state.boards,
-      });
-
+    });
+    },
+    updateTaskInBoard: (state, action) => {
+        const updatedTask = action.payload;
+        console.log("updateTaskInBoard - Updated Task:", updatedTask);
+        console.log("updateTaskInBoard - Board Lists before update:", state.boardLists);
+        
+        for (let list of state.boardLists) {
+            const taskIndex = list.taskList.findIndex(
+                (task) => task._id === updatedTask._id
+            );
+            if (taskIndex !== -1) {
+                console.log("Task found in list:", list._id, "at index:", taskIndex);
+                list.taskList = list.taskList.map((task) =>
+                    task._id === updatedTask._id ? { ...updatedTask } : task
+                );
+                break;
+            }
+        }
+        console.log("updateTaskInBoard - Board Lists after update:", state.boardLists);
+    console.log("updateTaskInBoard - Boards before save to local:", state.boards);
+        saveTolocal({
+        id: state._id,
+        boardTitle: state.boardTitle,
+        isStarred: state.isStarred,
+        boardLists: state.boardLists,
+        boards: state.boards,
+        });
+        console.log('updateTaskInBoard - boards saved to local');
     },
   },
 
