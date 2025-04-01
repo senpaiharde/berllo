@@ -23,10 +23,11 @@ const taskDetailsSlice = createSlice({
             state.isOpen = false;
         },
         updateSelectedTaskLive: (state, action) => {
-            const updatedFields = action.payload;
-           state.selectedTask = {
-            ...state.selectedTask,
-            ...updatedFields,
+           if (state.selectedTask) {
+            state.selectedTask = {
+                ...state.selectedTask,
+                ...action.payload,
+            }
            }
         },
         addChecklistItem: (state, action) => {
@@ -61,7 +62,7 @@ export const {openTaskDetails,
      closeTaskDetails,
       updateSelectedTaskLive,
     addChecklistItem,
-toogleChecklistItem,
+     toogleChecklistItem,
 editChecklistItem,
 deleteChecklistItem,} = taskDetailsSlice.actions
 

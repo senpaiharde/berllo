@@ -1,154 +1,328 @@
-/* taskDetails.scss */
-
-.task-details-modal {
+// === Modal Overlay Background ===
+.td-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(2px);
-    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.75); // darkened backdrop
     display: flex;
+    padding-left: 15px;
+    align-items: flex-start;
+    padding-top: 43px;
+    padding-bottom: 87px;
     justify-content: center;
-    align-items: center;
+    
+    overflow-y: auto;
+    z-index: 999;
   }
   
-  .task-details-backdrop {
+  // === Click-to-Close Backdrop ===
+  .td-backdrop {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
   }
   
-  .task-details-container {
-    background-color: #f4f5f7;
-    width: 960px;
-    min-height: 600px;
-    display: flex;
+  // === Main Container Box ===
+  .td-container {
+    width: 692px;
+    background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+    position: relative;
+    padding-bottom: 40px;
     overflow: hidden;
   }
   
-  .task-details-left {
-    flex: 3;
-    padding: 24px;
+  // === Top Header ===
+  .td-header {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 24px 0 24px;
+    background-color: #ffffff;
+    position: relative;
   }
   
-  .task-title-section {
+  // === Left Side of Header: Checkbox + Title 
+  .td-header-left {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex: 1;
   }
   
-  .task-title {
+  .td-checkbox {
+    width: 16px;
+    height: 16px;
+    margin-top: -15px;
+    flex-shrink: 0;
+    cursor: pointer;
+    margin-left:-10px;
+    
+  }
+  
+  // === Title Input ===
+  .td-title-input {
     flex: 1;
-    font-size: 1.4rem;
+    max-width: 660px;
+    font-size: 18px;
     font-weight: 600;
     border: none;
     background: transparent;
-    padding: 8px 12px;
-    border-radius: 6px;
-    background-color: white;
-    box-shadow: inset 0 0 0 1px #ccc;
+    border-radius: 2px;
+    height: 30px;
+    padding: 2px 10px;
+    resize: none;
+    line-height: 24px;
+    overflow: hidden;
+    margin-top:-5px;
+    width: 90%;
+    
+    
+  
+    &:focus {
+      outline: 1px solid #388bff;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 2px #388bff33;
+      
+      margin-right: 30px;
+    }
+  
+    &::placeholder {
+      color: #a5adba;
+    }
   }
   
-  .task-done-toggle {
-    transform: scale(1.4);
-  }
-  
-  .task-close-btn {
+  //  Close Button 
+  .td-close-btn {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    
+    font-size: 20px;
     background: transparent;
     border: none;
-    font-size: 1.5rem;
+    color: #6b778c;
     cursor: pointer;
-    color: #888;
+  
+    &:hover {
+      background-color: #e2e4e9;
+      border-radius: 5px;
+      color: #172b4d;
+    }
   }
   
-  .section {
-    background-color: white;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-  
-  .section-header {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #42526e;
-  }
-  
-  .task-description {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    resize: vertical;
-    font-size: 14px;
-    background-color: #fafbfc;
-  }
-  
-  .checklist-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  
-  .checklist-item input[type="text"] {
-    flex: 1;
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: #fefefe;
+  //  In List Text 
+  .td-inlist-text {
+    margin: 1px 24px 16px 53px;
+    
     font-size: 13px;
+    color: #44546f;
+    
+  
+    
+     
   }
   
-  .checklist-item button {
-    background: none;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    color: #c92c2c;
+  
+  //  Main Layout 
+  .td-main {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap:8px;
+    padding: 0 8px 24px 0;
   }
   
-  .task-details-right {
-    flex: 1;
-    background-color: #f4f5f7;
-    border-left: 1px solid #ccc;
-    padding: 24px 16px;
+  //  Left Column 
+  .td-main-left {
+    width: 551px;
+    padding-left: 35px;
+    padding-bottom: 8px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
+  
+    .td-section {
+      
+      padding: 16px;
+      
+     
+    }
+    .td-section-top {
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 0px;
+        column-gap: 8px;
+        row-gap: 8px;
+        margin-bottom: 16px;
+    }
+    
+    .td-section-top-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        max-width: 100%;
+        padding-left: 15px;
+        
+        
+    }
+    
+    .td-section-header {
+        font-weight: bold;
+        font-size: 14px;
+        color: #42526e;
+        margin-bottom: 12px;
+    }
+    
+    .td-section-top-h3 {
+        font-size: 12px;
+        font-weight: 300;
+        text-overflow: ellipsis;
+        margin-top: 0;
+        margin-bottom: 4px;
+        line-height: 20px;
+        color: #44546f;
+    }
+    
+    
+    
+    
+    
+    .td-section-members-add:hover,
+    .td-section-members-button:hover {
+        cursor: pointer;
+        background-color: #dcdfe4;
+    }
+    
+    
+    
+   
+    
+    
+    .td-description-null {
+        width: 100%;
+        min-height: 80px;
+        resize: vertical;
+        
+        
+        padding: 8px 2px;
+        font-size: 14px;
+        
+      }
+    
+    
+  
+    .td-description {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+      
+      
+      padding: 8px 2px;
+      font-size: 14px;
+      background: #fafbfc;
+    }
+  
+
   }
   
-  .action-button {
-    background-color: #e4f0f6;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    text-align: left;
-    font-weight: 500;
-    cursor: pointer;
-    font-size: 14px;
-    color: #172b4d;
-    transition: background 0.2s;
-  }
+  .td-sidebar {
+    width: 164px;
+    display: flex;
+    flex-direction: column;
+    padding-right: 8px;  
+    padding-left: 8px;   // balance left side
+    gap: 6px;
   
-  .action-button:hover {
-    background-color: #d0e3f0;
-  }
+    .section-header {
+        font-weight:400;
+        font-size:11px;
+        line-height: 20px;
+        color:#44546f;
+        padding-top: 15px;
+        
+    }
   
-  .divider {
-    border-top: 1px solid #ccc;
-    margin: 12px 0;
+    .trello-btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px; //  space between icon and text
+      padding: 4px 8px; //  tighter padding
+      font-size: 13px; //  slightly smaller text
+      font-weight: 500;
+      width:150px;
+      height:30px;
+      color: #172b4d;
+      background-color: #091e420f;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 85ms ease;
+      text-decoration: none;
+  
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+  
+      &:hover {
+        background-color: #091e4224;
+      }
+  
+      &:active {
+        background-color: #091e424f;
+      }
+  
+      &:focus {
+        outline: 2px solid #388bff;
+      }
+    }
+  
+    .divider {
+      border-top: 1px solid #ccc;
+      
+    }
   }
+
+
+  .td-icons > svg {
+    overflow: hidden;
+    pointer-events: none;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  td-sidebar-h4{
+    text-align: start;
+  }
+  .trello-btn-text{
+    text-align: center;
+    justify-content: center;
+    flex: auto;
+  }
+  .td-sidebar-power{
+    font-weight:400;
+    font-size:11px;
+    line-height: 20px;
+    color:#44546f;
+    padding-top: 15px;
+    margin-left: -5px;
+  }
+
+
+  .notification-button {
+    &:hover {
+      background-color: #f7e600;
+    }
+  
+    &:active {
+      background-color: #091e424f;
+    }
+  }
+
   

@@ -1,0 +1,30 @@
+.notification-button {
+    background-color: #091e420f; // Add the base color here
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    white-space: normal;
+    
+    border: none;
+    box-shadow: none;
+    color: #172b4d;
+    font-weight: 500;
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 85ms;
+    transition-timing-function: ease;
+    gap: 8px;
+  
+    &:hover {
+        background-color: #091e4224;
+        cursor: pointer;
+      
+    }
+  
+    &:active {
+      background-color: #091e424f;
+    }
+  }

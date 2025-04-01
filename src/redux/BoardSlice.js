@@ -26,7 +26,7 @@ const boardSlice = createSlice({
   initialState: {
     _id: "",
     boardTitle: "",
-    slug: "", // ✅ added here so GlobalHeader can use it
+    slug: "", //  added here so GlobalHeader can use it
     isStarred: null,
     boardLists: [],
     boards: [], // used by your manual reducers (add/remove/update)
@@ -135,12 +135,14 @@ const boardSlice = createSlice({
         }
       }
 
-      // saveTolocal({
-      //   _id: state._id,
-      //   boardTitle: state.boardTitle,
-      //   isStarred: state.isStarred,
-      //   boardLists: state.boardLists,
-      // });
+      saveTolocal({
+        _id: state._id,
+        boardTitle: state.boardTitle,
+        isStarred: state.isStarred,
+        boardLists: state.boardLists,
+        boards: state.boards,
+      });
+
     },
   },
 
