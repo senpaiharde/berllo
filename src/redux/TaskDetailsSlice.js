@@ -66,7 +66,7 @@ export const {openTaskDetails,
 editChecklistItem,
 deleteChecklistItem,} = taskDetailsSlice.actions
 
-// we are gonna call this function on despatch to update taskdetailsslice and the the boardslice
+
 export const liveUpdateTask = (updatedFields) => (dispatch, getState) => { 
     dispatch(updateSelectedTaskLive(updatedFields));
 

@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addChecklistItem,
-  toogleChecklistItem,
-  editChecklistItem,
-  deleteChecklistItem,
-} from "../../../../redux/TaskDetailsSlice";
+import { liveUpdateTask } from "../../../../redux/TaskDetailsSlice";
+
+const generateId = () => Math.random().toString(36).substr(2, 9);
 
 const TaskChecklist = () => {
   const dispatch = useDispatch();
   const selectedTask = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const [hideChecked, setHideChecked] = useState(false);
-  const [editingItemId, setEditingItemId] = useState(null);
 
   if (!selectedTask) return null;
 
@@ -23,7 +19,46 @@ const TaskChecklist = () => {
 
   const visibleItems = hideChecked ? checklistItems.filter((item) => !item.isDone) : checklistItems;
 
- 
+  const handleToggleCheck = (id) => {
+    dispatch(
+      liveUpdateTask({
+        taskCheckList: checklistItems.map((item) =>
+          item.id === id ? { ...item, isDone: !item.isDone } : item
+        ),
+      })
+    );
+  };
+
+  const handleEditText = (id, text) => {
+    dispatch(
+      liveUpdateTask({
+        taskCheckList: checklistItems.map((item) =>
+          item.id === id ? { ...item, text } : item
+        ),
+      })
+    );
+  };
+
+  const handleDeleteItem = (id) => {
+    dispatch(
+      liveUpdateTask({
+        taskCheckList: checklistItems.filter((item) => item.id !== id),
+      })
+    );
+  };
+
+  const handleAddItem = () => {
+    const newItem = {
+      id: generateId(),
+      text: "New Item",
+      isDone: false,
+    };
+    dispatch(
+      liveUpdateTask({
+        taskCheckList: [...checklistItems, newItem],
+      })
+    );
+  };
 
   return (
     <div style={{ padding: "16px", paddingTop: "-34px" }}>
@@ -57,108 +92,49 @@ const TaskChecklist = () => {
             <div style={{ display: "flex", alignItems: "center" }}>
               <button
                 className="notification-button"
-                style={{
-                  display: "inline-flex",
-                  boxSizing: "border-box",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "6px 12px",
-                  borderRadius: "3px",
-                  textDecoration: "none",
-                  whiteSpace: "normal",
-                  border: "none",
-                  boxShadow: "none",
-                  color: "#172b4d",
-                  fontWeight: 500,
-                  transitionProperty: "background-color, border-color, box-shadow",
-                  transitionDuration: "85ms",
-                  transitionTimingFunction: "ease",
-                  gap: "8px",
-                    marginTop: "-3px",
-                    marginRight: "8px",
-                  }}
+                style={{ marginRight: "8px" }}
                 onClick={() => setHideChecked(!hideChecked)}
-                
               >
                 {hideChecked ? "Show Checked items" : "Hide Checked items"}
               </button>
               <button
                 className="notification-button"
-                style={{
-                  display: "inline-flex",
-                  boxSizing: "border-box",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "6px 12px",
-                  borderRadius: "3px",
-                  textDecoration: "none",
-                  whiteSpace: "normal",
-                  border: "none",
-                  boxShadow: "none",
-                  color: "#172b4d",
-                  fontWeight: 500,
-                  transitionProperty: "background-color, border-color, box-shadow",
-                  transitionDuration: "85ms",
-                  transitionTimingFunction: "ease",
-                  gap: "8px",
-                  marginTop: "-3px", 
-                  marginRight: '-15px'
-                }}
-                onClick={() => dispatch(deleteChecklistItem("all"))}
-                
+                onClick={() => dispatch(liveUpdateTask({ taskCheckList: [] }))}
               >
                 Delete
               </button>
             </div>
           </div>
+
+
           <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", marginTop: "8px" }}>
             <div style={{ marginRight: "8px", fontSize: "12px" }}>{completionPercentage.toFixed(0)}%</div>
-            <div
-              style={{
-                width: "100%",
-                height: "5px",
-                backgroundColor: "#e0e0e0",
-                borderRadius: "4px",
-                marginRight: "8px",
-                maxWidth: "100%"
-              }}
-            >
-              <div
-                style={{
-                  width: `${completionPercentage}%`,
-                  height: "5px",
-                  backgroundColor: "green",
-                  borderRadius: "4px",
-                  transition: "width 0.3s ease-in-out",
-                }}
-              />
+            <div style={{ width: "100%", height: "5px", backgroundColor: "#e0e0e0", borderRadius: "4px", maxWidth: "100%" }}>
+              <div style={{ width: `${completionPercentage}%`, height: "5px", backgroundColor: "green", borderRadius: "4px", transition: "width 0.3s ease-in-out" }} />
             </div>
           </div>
         </div>
 
         {visibleItems.map((item) => (
-          <div
-            key={item.id}
-            style={{ display: "flex", alignItems: "center", marginTop: "8px", marginLeft: "-32px" }}
-          >
+          <div key={item.id} style={{ display: "flex", alignItems: "center", marginTop: "8px", marginLeft: "-32px" }}>
             <input
               type="checkbox"
               checked={item.isDone}
-              onChange={() => dispatch(toogleChecklistItem(item.id))}
+              onChange={() => handleToggleCheck(item.id)}
               style={{ marginRight: "8px" }}
             />
-            <div style={{position:"relative", flex: 1}}>
+            <div style={{ position: "relative", flex: 1 }}>
               <input
                 type="text"
                 value={item.text || ""}
-                onChange={(e) => dispatch(editChecklistItem({ id: item.id, text: e.target.value }))}
+                onChange={(e) => handleEditText(item.id, e.target.value)}
                 style={{
                   flex: 1,
                   border: "none",
                   outline: "none",
                   textDecoration: item.isDone ? "line-through" : "none",
                   filter: item.isDone ? "blur(1px)" : "none",
-                  width: "100%"
+                  width: "100%",
                 }}
                 onFocus={(e) => {
                   e.target.style.border = "1px solid #388bff";
@@ -168,41 +144,23 @@ const TaskChecklist = () => {
                   e.target.style.border = "none";
                   e.target.style.boxShadow = "none";
                 }}
-                onMouseOver={(e) => {e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.05)'}}
-                onMouseLeave={(e) => {e.target.style.backgroundColor = 'transparent'}}
+                onMouseOver={(e) => (e.target.style.backgroundColor = "rgba(0, 0, 0, 0.05)")}
+                onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
               />
-              <div style={{position: "absolute", top: "0", right: "0", display: "flex"}}>
-                <button style={{width: "15px", height: "15px", fontSize: "10px", display: "none"}}>+</button>
-                <button style={{width: "15px", height: "15px", fontSize: "10px", display: "none"}}>...</button>
-                <button style={{width: "15px", height: "15px", fontSize: "10px", display: "none"}}>x</button>
-              </div>
+              <button
+                style={{ position: "absolute", right: "-20px", fontSize: "10px" }}
+                onClick={() => handleDeleteItem(item.id)}
+              >x</button>
             </div>
           </div>
         ))}
+
+
+
         <button
-         className="notification-button"
-         style={{
-           display: "inline-flex",
-           boxSizing: "border-box",
-           alignItems: "center",
-           justifyContent: "center",
-           padding: "6px 12px",
-           borderRadius: "3px",
-           textDecoration: "none",
-           whiteSpace: "normal",
-           border: "none",
-           boxShadow: "none",
-           color: "#172b4d",
-           fontWeight: 500,
-           transitionProperty: "background-color, border-color, box-shadow",
-           transitionDuration: "85ms",
-           transitionTimingFunction: "ease",
-           gap: "8px",
-            marginTop: "-3px",
-            marginRight: "-15px",
-          }}
-          onClick={() => dispatch(addChecklistItem("New Item"))}
-          
+          className="notification-button"
+          style={{ marginTop: "12px" }}
+          onClick={handleAddItem}
         >
           + Add Checklist Item
         </button>
@@ -210,4 +168,7 @@ const TaskChecklist = () => {
     </div>
   );
 };
+
+
+
 export default TaskChecklist;

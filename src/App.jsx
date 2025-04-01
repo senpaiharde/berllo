@@ -26,7 +26,7 @@ useEffect(() => {
       const firstBoard = data?.boards?.[0];
   
       if (firstBoard) {
-        localStorage.setItem("trelloData", JSON.stringify(data)); //  Makes sure its stored
+       
         dispatch(fetchBoardById(firstBoard._id)); 
       }
     };

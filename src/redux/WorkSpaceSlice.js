@@ -39,17 +39,17 @@ const workSpaceSlice = createSlice({
         users: [],
       }
       state.boards.push(newBoard)
-      saveTolocal({ boards: state.boards })
+      
     },
     removeworkSpace: (state, action) => {
       state.boards = state.boards.filter((x) => x.id !== action.payload)
-      saveTolocal({ boards: state.boards })
+      
     },
     updateworkSpaceName: (state, action) => {
       const workSpace = state.boards.find((x) => x.id === action.payload.id)
       if (workSpace) {
         workSpace.name = action.payload.name
-        saveTolocal({ boards: state.boards })
+        
       }
     },
     deleteBoardlist:(state, action) => {
