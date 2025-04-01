@@ -9,21 +9,36 @@
   background-color: #dcdfe4;
   // background-color: var(--accent-background, var(--tr-background-list));
   justify-content: center;
-  align-items: center;
+  // align-items: center;
   // padding: 0 6px;
   // margin: 20px;
   padding: 10px;
   list-style: none;
-  
 }
 
+.task-list-header {
+  display: flex;
+  position: relative;
+  flex-grow: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 8px 8px 0;
+  min-height: 40px;
+  row-gap: 0;
+}
+
+.task-list-header-name {
+  padding-left: 5px;
+  padding-top: 5px;
+}
 .add-a-card-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px 8px 0;
   column-gap: 4px;
-  
 }
 
 .add-a-card-button {
@@ -40,6 +55,9 @@
   user-select: none;
 }
 .add-a-card-button:hover {
-    background-color: var(--accent-background-hovered, var(--ds-background-neutral-hovered, #091e4224));
-    color: var(--accent-text-bolder, var(--ds-text, #172b4d));
+  background-color: var(
+    --accent-background-hovered,
+    var(--ds-background-neutral-hovered, #091e4224)
+  );
+  color: var(--accent-text-bolder, var(--ds-text, #172b4d));
 }

@@ -12,9 +12,10 @@
 }
 
 .board-name-input{
-  display: none;
+  display: block;
   height: 32px;
   margin: 0;
+  width: auto;
   padding: 0 10px;
   border: 0;
   background-color: var(--ds-background-input, #ffffff);
@@ -24,7 +25,6 @@
 
 .board-name-display{
   height: 100%;
-  margin-bottom: 12px;
   padding: 0 10px;
   overflow: hidden;
   background: transparent;

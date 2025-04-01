@@ -1,5 +1,5 @@
 @use 'boardHeaderStyles/board-name-container';
-@use 'boardHeaderStyles/star-container';
+@use 'boardHeaderStyles/icon-container';
 
 $--dynamic-button-hovered: rgba(255, 255, 255, 0.20);
 $--dynamic-button-pressed: rgba(255, 255, 255, 0.20);
@@ -45,6 +45,7 @@ $--dynamic-button-pressed-hovered: rgba(255, 255, 255, 0.20);
 .header-clickable {
   background-color: transparent;
   height: 32px;
+  border-radius: 5px;
   transition: background-color 0.2s ease;
   cursor: pointer;
   align-items: center;
