@@ -24,7 +24,7 @@ const GlobalHeader = () => {
   const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0;
 
   
-  console.log(" boardReducer:", board);
+  // console.log(" boardReducer:", board);
 
   const dropdownRefs = {
     workspaces: useRef(null),

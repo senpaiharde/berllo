@@ -1,26 +1,16 @@
-export function IconButton(props) {
-
-
-
+export function IconButton({ label, children, backgColor,textColor }) {
+  if(textColor){
+    // console.log("label textColor",label,textColor)
+  }
   return (
-    
-    <button className="star-container-button">
-      <span className="star-container-starred-icon-container">
-        <svg
-          className="icon-svg"
-          width="24"
-          height="24"
-          src="src/assets/TerlloIcons/asset-14.svg"
-        >
-          {props.children}
-          {/* <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d={path}
-            fill="currentColor"
-          ></path> */}
+    <button className="icon-container-button" style={{backgroundColor: backgColor}}>
+      <span className="icon-grid">
+        <svg className="icon-svg" width="24" height="24">
+          {children} 
         </svg>
+        {label && <span className="icon-label" style={{color: textColor}}>{label}</span>}
       </span>
+      
     </button>
   )
 }

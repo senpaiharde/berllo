@@ -4,8 +4,6 @@ $--dynamic-icon: #FFFFFF;
 $--dynamic-star: var(--dynamic-icon);
 
 .icon-svg{
-    // width: 80%;
-    // height: 50%;
-    align-self: center;
-    line-height: 16px;
+    display: block;
+    margin: auto;
 }

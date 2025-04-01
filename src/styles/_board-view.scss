@@ -49,3 +49,12 @@
     padding: 0 6px;
     height: 100%;
 }
+
+.create-new-list-container{
+    box-sizing: border-box;
+    width: 272px;
+    padding: 8px;
+    border-radius: 12px;
+    background-color: var(--tr-background-list);
+    box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
+}
