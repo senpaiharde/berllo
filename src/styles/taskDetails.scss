@@ -9,7 +9,7 @@
     display: flex;
     padding-left: 15px;
     align-items: flex-start;
-    padding-top: 43px;
+    padding-top: 48px;
     padding-bottom: 87px;
     justify-content: center;
     
@@ -26,8 +26,8 @@
   
   // === Main Container Box ===
   .td-container {
-    width: 692px;
-    background-color: #ffffff;
+    width: 768px;
+    background-color: #F7F8F9;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -35,16 +35,20 @@
     position: relative;
     padding-bottom: 40px;
     overflow: hidden;
+    height: 925px;
+    margin-left: -8px;
   }
   
-  // === Top Header ===
+
   .td-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 16px 24px 0 24px;
-    background-color: #ffffff;
+    padding: 4px 52px 0 0px;
+    background-color: #F7F8F9;
     position: relative;
+    padding-left: 3px;
+    margin-top: 8px;
   }
   
   // === Left Side of Header: Checkbox + Title 
@@ -53,43 +57,77 @@
     align-items: center;
     gap: 12px;
     flex: 1;
-  }
-  
-  .td-checkbox {
-    width: 16px;
-    height: 16px;
-    margin-top: -15px;
-    flex-shrink: 0;
-    cursor: pointer;
-    margin-left:-10px;
     
   }
   
-  // === Title Input ===
+  
+    
+  .td-checkbox-div {
+    width: 40px;
+    height: 24px;
+    padding-left: 13px;
+    margin-bottom: 10px;
+    
+    
+    flex-shrink: 0;
+    cursor: pointer;
+    
+    .td-checkbox{
+    width: 16px;
+    height: 16px;
+    margin-top: 5px;
+    margin-left: 1px;
+    }}
+
+  
+
   .td-title-input {
-    flex: 1;
-    max-width: 660px;
-    font-size: 18px;
-    font-weight: 600;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 12px;
+    
+    transform: translate3d(0, 0, 0);
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 85ms;
+    transition-timing-function: ease;
     border: none;
-    background: transparent;
-    border-radius: 2px;
-    height: 30px;
-    padding: 2px 10px;
+    border-radius: 4px;
+    outline: none;
+    background-color: transparent;
+    box-shadow: none;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 12px;
     resize: none;
-    line-height: 24px;
-    overflow: hidden;
-    margin-top:-5px;
-    width: 90%;
+    padding-left: 8px;  //inside text
+    
+    margin-bottom: 2px;
+    margin-left: -7px;
+    width: 660px;
+    height: 34px;
+   
+    
+    
+    
+    
+    
+    
+   
+    color: #172b4d;
+    
     
     
   
     &:focus {
-      outline: 1px solid #388bff;
+      outline: 2px solid #388bff;
       background-color: #ffffff;
       box-shadow: 0 0 0 2px #388bff33;
       
-      margin-right: 30px;
+      
+      
+      
+     
     }
   
     &::placeholder {
@@ -100,8 +138,8 @@
   //  Close Button 
   .td-close-btn {
     position: absolute;
-    top: 11px;
-    right: 11px;
+    top: 8px;
+    right: 15px;
     
     font-size: 20px;
     background: transparent;
@@ -118,10 +156,15 @@
   
   //  In List Text 
   .td-inlist-text {
-    margin: 1px 24px 16px 53px;
     
-    font-size: 13px;
+    margin-left: 45px;
+    font-size: 14px;
     color: #44546f;
+    padding-bottom: 15px;
+    padding-left: 12px;
+    padding-bottom: 20px;
+    padding-top: -15px;
+    
     
   
     
@@ -134,14 +177,14 @@
     display: flex;
     width: 100%;
     height: 100%;
-    gap:8px;
-    padding: 0 8px 24px 0;
+    
+    
   }
   
   //  Left Column 
   .td-main-left {
-    width: 551px;
-    padding-left: 35px;
+    width: 568px;
+    padding-left: 38px;
     padding-bottom: 8px;
     display: flex;
     flex-direction: column;
@@ -156,10 +199,12 @@
     .td-section-top {
         display: flex;
         flex-wrap: wrap;
-        padding-left: 0px;
+        padding-left: 4px;
         column-gap: 8px;
-        row-gap: 8px;
+        row-gap: 9px;
         margin-bottom: 16px;
+        padding-top: 8px;
+        margin-top: -5px;
     }
     
     .td-section-top-section {
@@ -167,7 +212,7 @@
         flex-direction: column;
         justify-content: flex-start;
         max-width: 100%;
-        padding-left: 15px;
+        padding-left: 16px;
         
         
     }
@@ -177,11 +222,12 @@
         font-size: 14px;
         color: #42526e;
         margin-bottom: 12px;
+        
     }
     
     .td-section-top-h3 {
         font-size: 12px;
-        font-weight: 300;
+        font-weight: 500;
         text-overflow: ellipsis;
         margin-top: 0;
         margin-bottom: 4px;
@@ -215,9 +261,12 @@
     width: 164px;
     display: flex;
     flex-direction: column;
-    padding-right: 8px;  
-    padding-left: 8px;   // balance left side
-    gap: 6px;
+    padding-left: 15px;
+    margin-top: 8px;
+    
+     
+    
+    gap: 7px;
   
     .section-header {
         font-weight:400;
@@ -245,6 +294,8 @@
       cursor: pointer;
       transition: background-color 85ms ease;
       text-decoration: none;
+      height: 32px;
+      width: 168px;
   
       svg {
         width: 16px;
@@ -266,6 +317,9 @@
   
     .divider {
       border-top: 1px solid #ccc;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      width: 150px;
       
     }
   }

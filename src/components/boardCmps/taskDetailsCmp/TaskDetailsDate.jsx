@@ -15,6 +15,7 @@ const TaskDetailsDate = () => {
               borderRadius: "3px",
               textDecoration: "none",
               whiteSpace: "normal",
+              height:'32px',
               
               border: "none",
               
