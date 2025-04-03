@@ -14,7 +14,7 @@ const TaskDescription = () => {
   const textareaClassName = isEmpty ? "td-description-null" : "td-description";
   return (
     <section className="td-section">
-      <div style={{ display: "flex", alignItems: "center",marginTop:'-27px',marginLeft:'2px'}}>
+      <div style={{ display: "flex", alignItems: "center",marginTop:'-27px',marginLeft:'2px',marginBottom:'15px'}}>
         <svg
           width="22px"
           height="22px"
@@ -31,7 +31,7 @@ const TaskDescription = () => {
           />
         </svg>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: '100%' }}>
-          <div className="td-section-header">Description</div>
+          <div className="td-section-header" style={{fontSize:'16px'}}>Description</div>
 
 
           {!isEmpty && (
@@ -71,12 +71,12 @@ const TaskDescription = () => {
         onChange={handleDescriptionChange}
         style={{
             marginLeft:'5px',
-            backgroundColor: isEmpty ? "#eaecf0" : "white", // Light gray vs white
+            backgroundColor: isEmpty ? "#eaecf0" : "#F7F8F9", // Light gray vs white
             border: "none",
             resize: "none",
-            padding: "8px 12px",
-            marginTop: "4px",
-            minHeight: "72px",
+            padding: "1px 1px",
+            marginTop: "-2px",
+            minHeight: "42px",
             borderRadius: "6px",
             width: "100%", 
             fontSize: "14px",
