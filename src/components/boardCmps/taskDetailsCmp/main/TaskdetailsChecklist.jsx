@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DropdownMenu from './DropdownUi';
 import { liveUpdateTask } from "../../../../redux/TaskDetailsSlice";
+import DropdownChecklist from "./dropdownHardcoded/DropdownChecklist";
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -189,7 +190,7 @@ const TaskChecklist = () => {
             right: "9px",
           }}
         >
-          <DropdownMenu
+          <DropdownChecklist
             trigger={
               <button
                 style={{
@@ -226,18 +227,12 @@ const TaskChecklist = () => {
                 </svg>
               </button>
             }
+            onDelete={() => handleDeleteItem(item.id)}
+
           >
-            <div
-              style={{
-                padding: "8px 12px",
-                cursor: "pointer",
-                fontSize: "14px",
-              }}
-              onClick={() => handleDeleteItem(item.id)}
-            >
-              🗑 Delete
-            </div>
-          </DropdownMenu>
+            
+            
+          </DropdownChecklist>
         </div>
       )}
     </div>

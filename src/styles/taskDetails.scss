@@ -341,11 +341,11 @@
   }
   .td-sidebar-power{
     font-weight:400;
-    font-size:11px;
+    font-size:12px;
     line-height: 20px;
     color:#44546f;
     padding-top: 15px;
-    margin-left: -5px;
+    margin-left: 2px;
   }
 
 
@@ -364,3 +364,41 @@
 
 
 
+  .trello-btn-powerup {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 55px;
+    gap: 3px; //  space between icon and text
+    padding: 4px 16px; //  tighter padding
+    font-size: 14px; //  slightly smaller text
+    font-weight: 500;
+    width:150px;
+    height:30px;
+    color: #172b4d;
+    background-color: #F7F8F9;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 85ms ease;
+    text-decoration: none;
+    height: 32px;
+    width: 168px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      background-color: #091e4224;
+    }
+
+    &:active {
+      background-color: #091e424f;
+    }
+
+    &:focus {
+      outline: 2px solid #388bff;
+    }
+  }

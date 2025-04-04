@@ -1,61 +1,88 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 
-const DropdownMenu = ({ trigger, children }) => {
+const DropdownMenu = ({ trigger, onClose, onDelete, onConvert, children }) => {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
 
-  const handleClickOutside = (e) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-      setOpen(false);
+
+  const updatePosition = () => {
+    const rect = triggerRef.current?.getBoundingClientRect();
+    if (rect) {
+      setPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
     }
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    if (open) {
+      updatePosition();
+    }
+  }, [open]);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target) &&
+        !triggerRef.current.contains(e.target)
+      ) {
+        setOpen(false);
+        onClose?.();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
+  const dropdownContent = open ? (
+    <div
+      ref={dropdownRef}
+      style={{
+        position: "absolute",
+        top: position.top,
+        left: position.left,
+        width: "304px",
+        height: "124px",
+        backgroundColor: "#fff",
+        boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
+        zIndex: 9999,
+        borderRadius: "8px",
+        overflow: "hidden",
+        display: "grid",
+        gridTemplateRows: "48px auto",
+      }}
+      
+    >
+        <div style={{padding:'12px'}}
+       >
+         {children}
+
+        </div>
+      
+     
+    </div>
+  ) : null;
+
   return (
-    <div ref={dropdownRef} style={{ position: "relative", display: "inline-block",}}>
-      <div onClick={() => setOpen(!open)} style={{ cursor: "pointer" }}>
+    <>
+      <div
+        ref={triggerRef}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen((prev) => !prev);
+        }}
+        style={{ display: "inline-block" }}
+      >
         {trigger}
       </div>
-      {open && (
-        <div
-          style={{
-            top:'110%',
-            height:'124px',
-            position: "absolute",
-            
-            right: 0,
-            backgroundColor: "#fff",
-            border: "1px solid #ccc",
-            borderRadius: "6px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            padding: "6px",
-            zIndex: 1000,
-            minWidth: "120px",
-            width:'304px',
-          }}
-        >
-            <header style={{height:'48px',width:'304px', padding:'4px 8px'}}>
-                <h2 style={{height:'40px',width:'288px', padding:'0 32px', 
-                   fontsize: "11px",
-                   fontweight: "600",
-                   display:'block',
-                   position:'relative',
-                   gridColumn:'1 / span 3 ',
-                   lineHeight:'40px',
-                }}>Item actions
-
-
-</h2></header>
-            <div style={{}}>
-          {children}
-          </div>
-        </div>
-      )}
-    </div>
+      {ReactDOM.createPortal(dropdownContent, document.getElementById("dropdown-root"))}
+    </>
   );
 };
 
