@@ -2,7 +2,7 @@ import { title } from "framer-motion/client";
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
-const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern,title }) => {
+const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,title }) => {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -44,11 +44,12 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern,title }
   return (
     <div className="DropdownUi">
       {/* Header */}
-      <div className="DropdownUiHeader">
+      <div className="DropdownUiHeader" >
         <h2 className="DropdownHeaderH2">
           {title}
         </h2>
-        <button onClick={onClose} className="DropdownClose">
+        <button className="DropdownClose" onClick={onClose} >
+
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18 6L6 18M6 6l12 12" stroke="#172b4d" strokeWidth="2" strokeLinecap="round" />
           </svg>
@@ -56,12 +57,27 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern,title }
       </div>
 
       {/* Options */}
-      <div className="DropdownOptions">
-        <button onClick={() => { onConvert?.(); onClose(); }} className="CheckListDropdown">Convert to card</button>
-        <button onClick={() => { onDelete?.(); onClose(); }} className="CheckListDropdown">Delete</button>
+      <div className="DropdownOptions" style={{
+       
+      }}>
+       <input placeholder="Search Members" style={{padding:'13px'}}/>
+       <div className="DropdownMembers">
+        <h3 className="DropdownMembersh3" >
+            Card members</h3>
+            </div>
+        <button className="DropdownButton" ></button>
+        
+        <div className="DropdownMembers">
+        <h3 className="DropdownMembersh3" >board members</h3>
+        </div>
+        <button  className="DropdownButton" >
+            <span></span>
+            <div></div>
+            <span></span>
+        </button>
       </div>
     </div>
   );
 };
 
-export default DropdownLabel;
+export default DropdownMembers;

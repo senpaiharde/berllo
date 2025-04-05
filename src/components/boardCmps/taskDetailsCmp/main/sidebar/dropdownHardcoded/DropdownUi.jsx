@@ -37,18 +37,13 @@ const DropdownUi = ({ trigger, children, onClose }) => {
   }, []);
 
   const dropdownContent = open ? (
-    <div
+    <div className="dropDownContent"
       ref={dropdownRef}
       style={{
-        position: "absolute",
+        
         top: position.top,
         left: position.left,
-        width: "304px",
-        backgroundColor: "#fff",
-        boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
-        zIndex: 9999,
-        borderRadius: "8px",
-        overflow: "hidden",
+        
       }}
     >
       {typeof children === "function" ? children({ onClose: () => setOpen(false) }) : children}

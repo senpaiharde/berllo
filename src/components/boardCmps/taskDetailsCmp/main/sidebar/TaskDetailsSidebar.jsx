@@ -18,6 +18,7 @@ import MakeSvg from "../.././../../../assets/svgDesgin/MakeSvg";
 import ArchiveSvg from "../.././../../../assets/svgDesgin/ArchiveSvg";
 import ShareSvg from "../.././../../../assets/svgDesgin/ShareSvg";
 import PowerUpSvg from "../.././../../../assets/svgDesgin/PowerUpSvg";
+import DropdownMembers from "./dropdownHardcoded/DropdownMembers";
 
 
 const TaskDetailsSidebar = () => {
@@ -35,7 +36,7 @@ const TaskDetailsSidebar = () => {
         label: "Members",
         icon: <MembersSvg />,
         content: (props) => (
-          <DropdownLabel
+          <DropdownMembers
             {...props}
             title="Members"
             options={[
