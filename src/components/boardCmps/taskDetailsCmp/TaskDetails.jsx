@@ -62,8 +62,8 @@ const TaskDetails = () => {
       document.body.style.overflow = "auto";
     };
   });
-
-  if (!selectedTask) return <div className="td-loading">Loading task...</div>;
+  if (!selectedTask) return <div></div>
+  // if (!selectedTask) return <div className="td-loading">Loading task...</div>;
 
   const handleClose = () => {
     dispatch(closeTaskDetails());

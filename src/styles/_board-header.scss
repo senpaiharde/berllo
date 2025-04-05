@@ -42,8 +42,17 @@ $--dynamic-button-pressed-hovered: rgba(255, 255, 255, 0.20);
   margin-left: auto;
   gap: 4px;
 }
-
+.header-button{
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 6px;
+}
 .header-clickable {
+  display: flex;
   background-color: transparent;
   height: 32px;
   border-radius: 5px;

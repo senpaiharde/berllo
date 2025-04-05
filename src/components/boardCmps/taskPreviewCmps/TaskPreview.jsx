@@ -13,7 +13,7 @@ import TaskDetailsMembers from "../taskDetailsCmp/TaskDetailsMembers"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
-export function TaskPreview({ task, boardId, NewTask }) {
+export function TaskPreview({ task, boardId, NewTask,onAddedNewTask }) {
   // TaskPreview.propTypes = {
   //   Task: PropTypes.object.isRequired,
   // }
@@ -32,11 +32,12 @@ export function TaskPreview({ task, boardId, NewTask }) {
   }
 
   function onUpdateTask(value) {
-    console.log("onUpdateTask value", value)
+    // console.log("onUpdateTask value", value)
     if (value === true || value === false) {
       dispatch(updateTaskInBoard({ ...task, taskChecked: value }))
     } else {
       dispatch(updateTaskInBoard({ ...task, taskTitle: value }))
+      onAddedNewTask()
     }
   }
 
@@ -72,7 +73,7 @@ export function TaskPreview({ task, boardId, NewTask }) {
 
   return (
     <div
-      className="task-preview"
+      className="task-preview parent-container"
       // ref={TaskPreviewRef}
       // onMouseEnter={handleMouseEnter}
       // onMouseLeave={handleMouseLeave}
@@ -88,54 +89,15 @@ export function TaskPreview({ task, boardId, NewTask }) {
       // }}
     >
       {isNewtask ? (
-        <div style={{ padding: "10px", paddingLeft: "15px" }}>
           <ItemNameForm
             IsEditing={isNewtask}
             setIsEditing={setIsNewTask}
             noValueOnExit={onRemoveCurrentTask}
+            isNewItem={true}
+            isList={false}
             onAddItem={onUpdateTask}
             itemType={"add task"}
           ></ItemNameForm>
-          {/* <ItemNameForm
-            IsEditing={isNewtask}
-            setIsEditing={setIsNewTask}
-            noValueOnExit={onRemoveCurrentTask}
-            onAddItem={onUpdateTask}
-            // itemType={"add task"}
-          ></ItemNameForm>
-          <div className="input-new-item-buttons">
-            <div onClick={() => onChangeTextInput(inputValue)}>
-              <button
-                className="icon-container-button input-new-item-label"
-                style={{ backgroundColor: "#0000FF", color: "#FFFFFF" }}
-              >
-                add list
-              </button>
-            </div>
-            <div
-              className="input-new-item-svg"
-              onClick={(e) => {
-                console.log("onRemoveCurrentList")
-                onRemoveCurrentList()
-              }}
-            >
-              <IconButton
-                // onClick={(e) => {
-                //   console.log("disableBlur = true")
-                //   // disableBlur = true
-                //   onRemoveCurrentList() // Prevent blur from firing
-                // }}
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12Z"
-                  fill="currentColor"
-                ></path>
-              </IconButton>
-            </div>
-          </div> */}
-        </div>
       ) : (
         <div
           style={{ display: "flex", flexGrow: 1, zIndex: 0 }}
@@ -177,7 +139,9 @@ export function TaskPreview({ task, boardId, NewTask }) {
                   onChange={setTaskChecked}
                 ></input> */}
                 {taskChecked && (
-                  <IconButton iconSize={"25px"} offset={-8}>
+                  <IconButton alternativeViewBox={"0 0 16 16"} iconSize={"16px"} displayOnHover={false} textColor={"#ffffff"} 
+                  // offset={-4}
+                  >
                     <path
                       fill="#22a06b"
                       fillRule="evenodd"
@@ -187,7 +151,10 @@ export function TaskPreview({ task, boardId, NewTask }) {
                   </IconButton>
                 )}
                 {!taskChecked && (
-                  <IconButton iconSize={"25px"} backgColor={"#ffffff"} offset={-8}>
+                  
+                  <IconButton alternativeViewBox={"0 0 16 16"} iconSize={"16px"} textColor={"#ffffff"} backgColor={"#ffffff"} displayOnHover={true} 
+                  // offset={-8}
+                  >
                     <circle
                       cx="8"
                       cy="8"

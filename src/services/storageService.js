@@ -40,7 +40,7 @@ export const getLocalData = async () => {
   export const saveTolocal = async (updatedBoard) => {
     try {
       const prevData = await getLocalData();
-      console.log("prevData:", prevData);
+      // console.log("prevData:", prevData);
       const prevBoards = prevData.boards || [];
   
       const updatedBoards = prevBoards.map((board) =>
@@ -53,7 +53,7 @@ export const getLocalData = async () => {
       };
   
       localStorage.setItem("trelloData", JSON.stringify(newData));
-      console.log(" saveTolocal: updated board saved");
+      // console.log(" saveTolocal: updated board saved");
     } catch (error) {
       console.error("saveTolocal error:", error);
     }

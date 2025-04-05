@@ -15,15 +15,20 @@
   // align-items: center;
   // padding: 0 6px;
   // margin: 20px;
-  padding: 10px;
+  // padding: 10px;
   list-style: none;
+  padding-bottom: 8px;
 }
 
 .scrollable-task-list{
   display: flex;
   flex-direction: column;
-  max-height: 100%; /* Adjust as needed */
+  // max-height: 100%; 
+  flex: 1 1 auto;
   overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 4px;
+  padding: 0px 4px;
   row-gap: 8px;  /* Enables vertical scrolling */
   scrollbar-width: thin; /* Optional: For Firefox */
   scrollbar-color: #091e4224 #091e420f; /* Optional: Customize scrollbar */
@@ -40,10 +45,11 @@
   // padding: 8px 8px 0;
   min-height: 40px;
   row-gap: 0;
+  padding: 8px 8px 0;
 }
 
 .task-list-header-name {
-  padding-left: 5px;
+  // padding-left: 5px;
   // padding-top: 5px;
   color: #172B4D;
   font-size: 14;
@@ -52,7 +58,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // padding: 8px 8px 0;
+  padding: 8px 8px 0;
   column-gap: 4px;
 }
 
@@ -60,6 +66,7 @@
   display: flex;
   flex-grow: 1;
   align-items: center;
+  align-content: center;
   justify-content: flex-start;
   margin: 0;
   padding: 6px 12px 6px 8px;

@@ -1,7 +1,8 @@
 // import { IconButton } from "../boardCmps/boardHeaderCmp/IconButton"
 
+import { use } from "react"
 import { IconButton } from "../../IconButton"
-
+import { useState, useRef, useEffect } from "react"
 export function TaskInfoBadges({ task }) {
   function getReleventDate(date) {
     const options = { month: "short", day: "numeric" }
@@ -9,20 +10,61 @@ export function TaskInfoBadges({ task }) {
       //return  new Date(date).toISOString().split("T")[0]
       return new Date(date).toLocaleDateString("en-US", options)
   }
-  const dateBackgroundColor = task.taskChecked ? "#1f845a" : "#ffd5d2"
-  const dateColor = task.taskChecked ? "#ffffff" : "#ae2e244"
+  // const dateBackgroundColor = task.taskChecked ? "#1f845a" : "#ffd5d2"
+  // const dateColor = task.taskChecked ? "#ffffff" : "#ae2e244"
+  const [dateBackgroundColor, setDateBackgroundColor] = useState(task.taskChecked ? "#1f845a" : "#ffd5d2")
+  const [dateColor, setDateColor] = useState(task.taskChecked ? "#ffffff" : "#ae2a19")
+  
+
+  useEffect(() => {
+    
+    setDateBackgroundColor(task.taskChecked ? "#1f845a" : "#ffd5d2")
+    setDateColor(task.taskChecked ? "#ffffff" : "#ae2a19")
+    // console.log("task.taskChecked",task.taskChecked)
+    // console.log("dateColor",dateColor)
+  }, [task.taskChecked])
+  
   /// its not nott updated by store becouse it had hardcoded once usestate so it took the data from there
   return (
-    <span className="task-preview-info-badges" >
+    <span className="task-preview-info-badges">
       {task.taskDueDate && task.taskStartDate && (
-        <span className="task-preview-info-badges-date" style={{backgroundColor: dateBackgroundColor, color: dateColor ,alignContent: "center"}}>
-          {getReleventDate(task.taskStartDate)} -{" "}
-          {getReleventDate(task.taskDueDate)}
+        <span
+          className="task-preview-info-badges-date"
+          style={{ backgroundColor: dateBackgroundColor, color: dateColor }}
+        >
+          <IconButton
+            label={`${getReleventDate(task.taskStartDate)} - ${getReleventDate(
+              task.taskDueDate
+            )}`}
+            //  style={{backgroundColor: dateBackgroundColor, color: dateColor}}
+            textColor={dateColor}
+          >
+            <path
+              d="M13 6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44772 11 6V12C11 12.2652 11.1054 12.5196 11.2929 12.7071L13.7929 15.2071C14.1834 15.5976 14.8166 15.5976 15.2071 15.2071C15.5976 14.8166 15.5976 14.1834 15.2071 13.7929L13 11.5858V6Z"
+              fill={dateColor}
+              // color={"purple"}
+              fillRule="evenodd"
+              clipRule="evenodd"
+            ></path>
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20Z"
+              fill={dateColor}
+              color={dateColor}
+            ></path>
+          </IconButton>
         </span>
       )}
 
       {task.taskDescription && (
-        <span>
+        <span
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
           <IconButton>
             <path
               fillRule="evenodd"
@@ -35,8 +77,10 @@ export function TaskInfoBadges({ task }) {
       )}
 
       {task.taskActivityComments && (
-        <span>
-          <IconButton label={task.taskActivityComments.length}>
+        <span style={{ display: "flex", alignItems: "center" }}>
+          <IconButton 
+          // label={task.taskActivityComments.length}
+          >
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -44,6 +88,7 @@ export function TaskInfoBadges({ task }) {
               fill="currentColor"
             ></path>
           </IconButton>
+          {task.taskActivityComments.length}
         </span>
       )}
     </span>

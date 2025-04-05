@@ -8,7 +8,7 @@ export function ViewTypeChooser({ togglePressed }) {
     >
       <div style={{ display: "flex", gap: "4px" }}>
         <div
-          className="header-clickable"
+          className="header-button header-clickable"
           onClick={(e) => togglePressed(e.currentTarget, "board")}
         >
           <IconButton label="Board" iconSize={"16px"}>
@@ -33,10 +33,10 @@ export function ViewTypeChooser({ togglePressed }) {
           </IconButton>
         </div>
         <div
-          className="header-clickable"
+          className="header-button header-clickable"
           onClick={(e) => togglePressed(e.currentTarget, "choose")}
         >
-          <IconButton iconSize={"16px"}>
+          <IconButton iconSize={"16px"} centerd={true}>
             <path
               fillRule="evenodd"
               clipRule="evenodd"

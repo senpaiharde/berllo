@@ -47,14 +47,11 @@ const Workspace = () => {
         <div className="popover-boundary">
           <div className="content-wrapper">
             <div
-              style={{
-                position: "relative",
-                flexGrow: "1",
-                overflowY: "auto",
-                outline: "none",
-              }}
+              style={{ height: "100%",}}
             >
-              <div style={{display: "block"}}>
+              <div 
+              style={{ height: "100%", }}
+              >
                 <div className="board-wrapper">
                   <div className="board-main-content">
                     <BoardHeader board={board} />
