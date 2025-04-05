@@ -17,7 +17,7 @@ import TaskDetailsLabel from "./TaskDetailsLabel";
 import TaskDetailsNotifcations from "./TaskDetailsNotifcations";
 import TaskDetailsDate from "./TaskDetailsDate";
 import TaskDetailsActivity from "./main/TaskDetailsActivity";
-import TaskDetailsSidebar from "./sidebar/TaskDetailsSidebar";
+import TaskDetailsSidebar from "./main/sidebar/TaskDetailsSidebar";
 import TaskDescription from "./main/TaskDetailsDescription";
 import TaskChecklist from "./main/TaskdetailsChecklist";
 import { fetchBoardById } from "../../../redux/BoardSlice";
@@ -83,7 +83,10 @@ const TaskDetails = () => {
       <div className="td-container">
         <div className="td-header">
           <div className="td-header-left">
+            <div className="td-checkbox-div">
             <input type="radio" className="td-checkbox"/>
+            </div>
+
             <textarea
               className="td-title-input"
               value={selectedTask.taskTitle || ""}
@@ -92,8 +95,8 @@ const TaskDetails = () => {
             />
           </div>
           <button className="td-close-btn" onClick={handleClose}><svg
-          width="22px"
-          height="22px"
+          width="24px"
+          height="24px"
           viewBox="0 0 24 24"
           fill="currentColor"
           
@@ -119,12 +122,12 @@ const TaskDetails = () => {
                   whiteSpace: "normal",
                   border: "none",
                   boxShadow: "none",
-                  color: "#172b4d",
-                  fontWeight: 600,
-                  fontSize: '10px',
+                  color: "#44546F",
+                  fontWeight: 800,
+                  fontSize: '11px',
                   
                  paddingRight: '4px',
-                  marginTop: "-7px",
+                  marginTop: "-1px",
                   paddingTop: '2px',
                   paddingBottom: '2px', 
                   marginBottom: "-10px", 
@@ -142,8 +145,8 @@ const TaskDetails = () => {
                 <path d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z"
               /></svg></button> <svg
               
-              width="14px"
-              height="14px"
+              width="16px"
+              height="16px"
               viewBox="0 0 24 24"
               fill="currentColor"
               style={{

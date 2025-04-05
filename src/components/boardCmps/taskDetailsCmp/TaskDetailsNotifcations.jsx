@@ -16,7 +16,8 @@ const TaskDetailsNotifcations = () => {
               borderRadius: "3px",
               textDecoration: "none",
               whiteSpace: "normal",
-              
+              height:'32px',
+              width:'128px',
               border: "none",
               
               boxShadow: "none",
