@@ -17,7 +17,7 @@ import TaskDetailsLabel from "./TaskDetailsLabel";
 import TaskDetailsNotifcations from "./TaskDetailsNotifcations";
 import TaskDetailsDate from "./TaskDetailsDate";
 import TaskDetailsActivity from "./main/TaskDetailsActivity";
-import TaskDetailsSidebar from "./sidebar/TaskDetailsSidebar";
+import TaskDetailsSidebar from "./main/sidebar/TaskDetailsSidebar";
 import TaskDescription from "./main/TaskDetailsDescription";
 import TaskChecklist from "./main/TaskdetailsChecklist";
 import { fetchBoardById } from "../../../redux/BoardSlice";

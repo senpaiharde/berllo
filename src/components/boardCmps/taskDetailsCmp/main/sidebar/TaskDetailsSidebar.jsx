@@ -1,27 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { User, Tag, Calendar, Paperclip, MapPin, Image, Settings, Copy, Archive, Share } from 'lucide-react';
-import DropdownMenu from "../main/DropdownUi";
+import DropdownUi from "./dropdownHardcoded/DropdownUi";
 import { useSelector } from "react-redux";
-import DropdownLabel from "../main/dropdownHardcoded/DropdownLabel";
-import LeaveSvg from "../../../../assets/svgDesgin/LeaveSvg";
-import LabelsSvg from "../../../../assets/svgDesgin/LabelsSvg";
-import MembersSvg from "../../../../assets/svgDesgin/MembersSvg";
-import CheckListSvg from "../../../../assets/svgDesgin/CheckListSvg";
-import DatesSvg from "../../../../assets/svgDesgin/DatesSvg";
-import AttachmentSvg from "../../../../assets/svgDesgin/AttachmentSvg";
-import CoverSvg from "../../../../assets/svgDesgin/CoverSvg";
-import CustomSvg from "../../../../assets/svgDesgin/CustomSvg";
-import MoveSvg from "../../../../assets/svgDesgin/MoveSvg";
-import CopySvg from "../../../../assets/svgDesgin/CopySvg";
-import MirrorSvg from "../../../../assets/svgDesgin/MirrorSvg";
-import MakeSvg from "../../../../assets/svgDesgin/MakeSvg";
-import ArchiveSvg from "../../../../assets/svgDesgin/ArchiveSvg";
-import ShareSvg from "../../../../assets/svgDesgin/ShareSvg";
-import PowerUpSvg from "../../../../assets/svgDesgin/PowerUpSvg";
+import DropdownLabel from "./dropdownHardcoded/DropdownLabel";
+import LeaveSvg from '../.././../../../assets/svgDesgin/LeaveSvg'
+import LabelsSvg from "../.././../../../assets/svgDesgin/LabelsSvg";
+import MembersSvg from "../.././../../../assets/svgDesgin/MembersSvg";
+import CheckListSvg from "../.././../../../assets/svgDesgin/CheckListSvg";
+import DatesSvg from "../.././../../../assets/svgDesgin/DatesSvg";
+import AttachmentSvg from "../.././../../../assets/svgDesgin/AttachmentSvg";
+import CoverSvg from "../.././../../../assets/svgDesgin/CoverSvg";
+import CustomSvg from "../.././../../../assets/svgDesgin/CustomSvg";
+import MoveSvg from "../.././../../../assets/svgDesgin/MoveSvg";
+import CopySvg from "../.././../../../assets/svgDesgin/CopySvg";
+import MirrorSvg from "../.././../../../assets/svgDesgin/MirrorSvg";
+import MakeSvg from "../.././../../../assets/svgDesgin/MakeSvg";
+import ArchiveSvg from "../.././../../../assets/svgDesgin/ArchiveSvg";
+import ShareSvg from "../.././../../../assets/svgDesgin/ShareSvg";
+import PowerUpSvg from "../.././../../../assets/svgDesgin/PowerUpSvg";
+
 
 const TaskDetailsSidebar = () => {
 
-
+    const [activeDropdownId, setActiveDropdownId] = useState(null);
     const boardUsers = useSelector((state) => state.boardReducer?.currentBoard?.boardMembers || []);
 
   const sidebarButtons = [
@@ -29,33 +30,65 @@ const TaskDetailsSidebar = () => {
       label: "Leave",
       icon: (<LeaveSvg/>),
     },
-    {   
+    {
         id: "members",
         label: "Members",
-        icon: (
-          <MembersSvg/>),
-        content:(props)=> <DropdownLabel {...props}/>,
+        icon: <MembersSvg />,
+        content: (props) => (
+          <DropdownLabel
+            {...props}
+            title="Members"
+            options={[
+              {
+                label: "Invite Member",
+                onClick: () => console.log("Invite logic"),
+              },
+              {
+                label: "Manage Access",
+                onClick: () => console.log("Manage Access logic"),
+              },
+            ]}
+          />
+        ),
       },
       {
         id: "labels",
         label: "Labels",
-        icon: (
-          <LabelsSvg/>),
-        content:(props)=> <DropdownLabel {...props}/>,
+        icon: <LabelsSvg />,
+        content: (props) => (
+          <DropdownLabel
+            {...props}
+            title="Labels"
+            options={[
+              {
+                label: "Create Label",
+                onClick: () => console.log("New label"),
+              },
+              {
+                label: "Edit Labels",
+                onClick: () => console.log("Manage labels"),
+              },
+            ]}
+          />
+        ),
       },
+      
       {
+        id: "Checklist",
         label: "Checklist",
         icon: (
           <CheckListSvg/>),
         content:(props)=> <DropdownLabel {...props}/>,
       },
       {
+        id: "Dates",
         label: "Dates",
         icon: (
           <DatesSvg/>),
           content:(props)=> <DropdownLabel {...props}/>,
       },
       {
+        id: "Attachment",
         label: "Attachment",
         icon: (
           <AttachmentSvg/>),
@@ -63,12 +96,14 @@ const TaskDetailsSidebar = () => {
       },
       
       {
+        id: "Cover",
         label: "Cover",
         icon: (
           <CoverSvg/>),
           content:(props)=> <DropdownLabel {...props}/>,
       },
       {
+        id: "Custom Fields",
         label: "Custom Fields",
         icon: (
           <CustomSvg/>),
@@ -78,24 +113,28 @@ const TaskDetailsSidebar = () => {
   ];
   const sidebarButtonsBottom = [
     {
+        id: "Move",
         label: "Move",
         icon: (
           <MoveSvg/>),
           content:(props)=> <DropdownLabel {...props}/>,
       },
       {
+        id: "Copy",
         label: "Copy",
         icon: (
           <CopySvg/>),
           content:(props)=> <DropdownLabel {...props}/>,
       },
       {
+        id: "Mirror",
         label: "Mirror",
         icon: (
           <MirrorSvg/>
         ),
       },
       {
+        id: "Make Template",
         label: "Make Template",
         icon: (
           <MakeSvg/>
@@ -106,12 +145,14 @@ const TaskDetailsSidebar = () => {
 
   const BottomButtons = [
     {
+        id: "Archive",
         label: "Archive",
         icon: (
           <ArchiveSvg/>
         ),
       },
       {
+        id: "Share",
         label: "Share",
         icon: (
           <ShareSvg/>
@@ -123,21 +164,23 @@ const TaskDetailsSidebar = () => {
   return (
     <div className="td-sidebar" style={{marginRight:'15px'}}>
       {sidebarButtons.map((button, index) => (
-        <DropdownMenu  key={index} 
-        trigger={
-        <button  className="trello-btn">
-        {button.icon} {button.label}
-      </button>
-      }
-      > 
-      {button.content?.({
-         
-        
-             
-      })}
-        
-        </DropdownMenu>
-      ))}
+  <DropdownUi
+  trigger={
+    <button key={index} className="trello-btn">
+      {button.icon} {button.label}
+    </button>
+  }
+>
+  {(controlProps) => button.content?.({
+    title: button.label,
+    ...controlProps,
+  })}
+</DropdownUi>
+
+))}
+
+
+
 
       <section className="td-sidebar" style={{marginLeft:'-15px'}}  >
         <hgroup>

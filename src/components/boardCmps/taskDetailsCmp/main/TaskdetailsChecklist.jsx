@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DropdownMenu from './DropdownUi';
+
 import { liveUpdateTask } from "../../../../redux/TaskDetailsSlice";
-import DropdownChecklist from "./dropdownHardcoded/DropdownChecklist";
+import DropdownChecklist from "../main/sidebar/dropdownHardcoded/DropdownChecklist";
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
