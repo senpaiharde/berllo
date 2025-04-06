@@ -11,7 +11,10 @@ import DropdownLabel from "./main/sidebar/dropdownHardcoded/DropdownLabel";
 
 const TaskDetailsLabel = () => {
 
-    const task = useSelector((state) => state.tastReducer?.selectedTask);
+    const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+
+
+    console.log('color', task)
     const labels = (task?.taskLabels || []).map((color) => ({
         title: "", 
         color,

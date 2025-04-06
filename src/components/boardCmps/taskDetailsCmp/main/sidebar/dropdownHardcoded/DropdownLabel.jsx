@@ -13,7 +13,8 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
 
   const dispatch = useDispatch();
   
-  const task = useSelector((state) => state.taskReducer?.selectedTask);
+  const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+
 
   
   
@@ -29,7 +30,8 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
   const colorList = [...defaultLabelColors,...taskLabels];
   
   const uniqueColors = colorList.filter((color,index) => colorList.indexOf(color) === index)
-
+  
+  
   const toggleLabel = (color) => {
     if (!task) return;
     const hasLabel = task.taskLabels.includes(color);

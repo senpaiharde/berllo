@@ -27,8 +27,8 @@ const TaskDetails = () => {
   const { taskId, boardId } = useParams();
   const pureTaskId = taskId.split("-")[0];
 
-  const taskDetailsState = useSelector((state) => state.taskDetailsReducer || {});
-  const { selectedTask, isOpen } = taskDetailsState;
+  const selectedTask = useSelector((state) => state.taskDetailsReducer.selectedTask);
+
   const boardLists = useSelector((state) => state.boardReducer.boardLists);
 
   useEffect(() => {
