@@ -98,3 +98,111 @@
     overflow: hidden;
     z-index: 1000;
 }
+
+
+.DropdownLabelOption{
+padding: 0px 12px 12px 12px;
+display: grid;
+grid-template-rows: repeat(2,32px);
+gap: 4px;
+.DropdownLabelH3{
+    margin-top: 16px;
+                font-size: 12px;
+                line-height: 16px;
+                font-weight: 600;
+                color: #44546F;
+}
+.DropdownUL{
+    padding: 4px 0 8px;
+
+    .DropDownULlabel{
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0px;
+        padding: 0 0 4px 4px;
+        cursor: pointer;
+    }
+    
+    
+}
+}
+
+.DropdownLabelButton{
+    border:none;
+    background-color: #091e420f;
+    box-shadow: none;
+    color:#172b4d;
+    text-decoration: none;
+    cursor: pointer;
+    height: 32px;
+    font-weight: 600;
+    &:hover{
+        background-color: #091e4224;
+
+    }
+    &:active {
+        background-color: #091e424f;
+      }
+  
+      &:focus {
+        outline: 2px solid #388bff;
+      }
+}
+
+.DropdownHr{
+    margin: 8px 0;
+    background-color: #091e4224;
+    
+}
+
+
+.DropdownLabelItem {
+    height: 36px;
+    width: 280px;
+    display: flex;
+    align-items: center;
+    
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  
+    &:hover {
+      background-color: #f4f5f7;
+    }
+  }
+  
+  .DropdownLabelColorBox {
+    width: 212px;
+    height: 32px;
+    border-radius: 3px;
+    
+  }
+  
+  .DropdownLabelName {
+    flex: 1;
+    font-size: 14px;
+    color: #172b4d;
+  }
+  
+  .DropdownLabelEditBtn {
+    font-size: 12px;
+    background: none;
+    border: none;
+    color: #5e6c84;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+  
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .DropdownLabelCheckbox{
+  width: 16px;
+  height: 16px;
+  margin-right: 14px;
+  
+  margin-left: 4px;
+  }
+  
+  

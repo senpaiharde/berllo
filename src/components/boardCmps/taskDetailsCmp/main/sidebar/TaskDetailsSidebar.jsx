@@ -25,7 +25,7 @@ const TaskDetailsSidebar = () => {
 
     const [activeDropdownId, setActiveDropdownId] = useState(null);
     const boardUsers = useSelector((state) => state.boardReducer?.currentBoard?.boardMembers || []);
-
+    
   const sidebarButtons = [
     {
       label: "Leave",
@@ -60,8 +60,11 @@ const TaskDetailsSidebar = () => {
           <DropdownLabel
             {...props}
             title="Labels"
+            allLabels={[ "red", "blue", "green", "yellow" ]}
+            activeLabels={["red", "blue"]}
             options={[
               {
+                
                 label: "Create Label",
                 onClick: () => console.log("New label"),
               },
