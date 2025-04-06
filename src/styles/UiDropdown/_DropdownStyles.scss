@@ -161,14 +161,13 @@ gap: 4px;
     width: 280px;
     display: flex;
     align-items: center;
+    gap: 4px;
     
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.2s ease;
   
-    &:hover {
-      background-color: #f4f5f7;
-    }
+    
   }
   
   .DropdownLabelColorBox {
@@ -192,15 +191,17 @@ gap: 4px;
     cursor: pointer;
     width: 32px;
     height: 32px;
+    padding: 8px;
+    gap: 4px;
   
     &:hover {
-      text-decoration: underline;
-    }
+        background-color: #f4f5f7;
+      }
   }
   .DropdownLabelCheckbox{
   width: 16px;
   height: 16px;
-  margin-right: 14px;
+  margin-right: 8px;
   
   margin-left: 4px;
   }

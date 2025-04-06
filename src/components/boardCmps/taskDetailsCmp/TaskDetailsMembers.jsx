@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import DropdownMembers from "./main/sidebar/dropdownHardcoded/DropdownMembers";
-
+;
 
 
 const TaskDetailsMembers = () => {
+
+    const member = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+
+
     const [members, setMembers] = useState([]);
     useEffect(() => {
         const hardMembers = [

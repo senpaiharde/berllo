@@ -1,61 +1,49 @@
-
-
-
-import React from "react";
+import React from 'react';
 import '../../../styles/taskDetailsFolder/TaskDetailsLabel.scss';
-import SvgPlus from "../../../assets/svgDesgin/SvgPlus";
-import { useSelector } from "react-redux";
-import DropdownUi from "./main/sidebar/dropdownHardcoded/DropdownUi";
-import DropdownLabel from "./main/sidebar/dropdownHardcoded/DropdownLabel";
-
+import SvgPlus from '../../../assets/svgDesgin/SvgPlus';
+import { useSelector } from 'react-redux';
+import DropdownUi from './main/sidebar/dropdownHardcoded/DropdownUi';
+import DropdownLabel from './main/sidebar/dropdownHardcoded/DropdownLabel';
 
 const TaskDetailsLabel = () => {
+  const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
-    const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  console.log('color', task);
+  const labels = (task?.taskLabels || []).map((color) => ({
+    title: '',
+    color,
+  }));
 
-
-    console.log('color', task)
-    const labels = (task?.taskLabels || []).map((color) => ({
-        title: "", 
-        color,
-      }));
-      
-
-    return(
-        <section className="td-section-top-section">
-            <h3 className="td-section-top-h3">labels</h3>
-            <div className="td-section-label" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                {labels.map((template, index) => (
-                    <div key={index} 
-                    className="td-section-label-color"
-                    >
-                        <span 
-                        style={{
-                            backgroundColor: template.color,
-                            position: 'absolute', // Use absolute positioning
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            borderRadius: '3px',
-                          }}>
-
-              </span>
-              <div style={{ textAlign:'center', zIndex: 1 }}>{template.title}</div>
-                    </div>
-                ))}
-               <DropdownUi trigger={ <button
-          className="td-section-members-add"
-          
-        >
-          <SvgPlus/>
-        </button>}
-        >
-            {(props) => (<DropdownLabel {...props }/>)}
+  return (
+    <section className="td-section-top-section">
+      <h3 className="td-section-top-h3">labels</h3>
+      <div className="td-section-label" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+        {labels.map((template, index) => (
+          <div key={index} className="td-section-label-color">
+            <span
+              style={{
+                backgroundColor: template.color,
+                position: 'absolute', // Use absolute positioning
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                borderRadius: '3px',
+              }}></span>
+            <div style={{ textAlign: 'center', zIndex: 1 }}>{template.title}</div>
+          </div>
+        ))}
+        <DropdownUi
+          trigger={
+            <button className="td-section-members-add">
+              <SvgPlus />
+            </button>
+          }>
+          {(props) => <DropdownLabel {...props} />}
         </DropdownUi>
-            </div>
-        </section>
-    );
+      </div>
+    </section>
+  );
 };
 
 export default TaskDetailsLabel;

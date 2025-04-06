@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
 import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
+import SvgAdd from '../../../../../../assets/svgDesgin/SvgAdd';
+import DropdownUi from './DropdownUi';
 
 const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title }) => {
   const [open, setOpen] = useState(false);
@@ -12,26 +14,21 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const dispatch = useDispatch();
-  
+
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
-
-  
-  
   const defaultLabelColors = [
-    "#61BD4F", // green
-    "#EB5A46", // red
-    "#F2D600", // yellow
-    "#C377E0", // purple
+    '#61BD4F', // green
+    '#EB5A46', // red
+    '#F2D600', // yellow
+    '#C377E0', // purple
   ];
-  
 
   const taskLabels = task?.taskLabels || [];
-  const colorList = [...defaultLabelColors,...taskLabels];
-  
-  const uniqueColors = colorList.filter((color,index) => colorList.indexOf(color) === index)
-  
-  
+  const colorList = [...defaultLabelColors, ...taskLabels];
+
+  const uniqueColors = colorList.filter((color, index) => colorList.indexOf(color) === index);
+
   const toggleLabel = (color) => {
     if (!task) return;
     const hasLabel = task.taskLabels.includes(color);
@@ -45,9 +42,8 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
     };
     dispatch(liveUpdateTask(updateTask));
   };
-  
 
-  console.log("🎨 Color List:", colorList);
+  console.log(' Color List:', colorList);
 
   // Calculate position of the trigger
   const updatePosition = () => {
@@ -107,21 +103,22 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
                   type="checkbox"
                   checked={isChecked}
                   className="DropdownLabelCheckbox"
-                  onChange={() => toggleLabel(label)}>
-                  
-                  </input>
-                <div className="DropdownLabelColorBox" style={{ background: label}}>
+                  onChange={() => toggleLabel(label)}></input>
+                <div className="DropdownLabelColorBox" style={{ background: label }}>
                   {label.title || 'No name'}
                 </div>
-
-                <button className="DropdownLabelEditBtn">edit</button>
+                 
+                  <button className="DropdownLabelEditBtn">
+                    <SvgAdd />
+                  </button>
+                
               </li>
             );
           })}
         </ul>
 
         <button className="DropdownLabelButton">Create a new label</button>
-        <hr className="DropdownHr"/>
+        <hr className="DropdownHr" />
         <button className="DropdownLabelButton">Enable colorblind friendly mode</button>
       </div>
     </div>
