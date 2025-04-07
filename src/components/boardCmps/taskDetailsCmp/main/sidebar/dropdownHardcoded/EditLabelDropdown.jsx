@@ -4,6 +4,7 @@ import React, { useRef, useState,useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
 import { color } from 'framer-motion';
+import Svgback from '../../../../../../assets/svgDesgin/Svgback';
 
 const EditLabelDropdown = ({onClose,title,onSave}) => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
@@ -15,14 +16,36 @@ const EditLabelDropdown = ({onClose,title,onSave}) => {
   const [labelTitle, setLabelTitle] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const defaultLabelColors = [
-    '#61BD4F', // green
-    '#EB5A46', // red
-    '#F2D600', // yellow
-    '#C377E0', // purple
-    '#61BD4F', // green
-    '#EB5A46', // red
-    '#F2D600', // yellow
-    '#C377E0', // purple
+    '#BAF3DB', //1
+    '#F8E6A0',//2
+    '#FEDEC8', //3
+    '#FFD5D2',//4
+    '#DFD8FD',//5
+    '#4BCE97', //6
+    '#F5CD47', //7
+    '#FEA362', //8
+    '#F87168', //9
+    '#9F8FEF',//10
+    '#1F845A', //11
+    '#946F00',//12
+    '#C25100',//13
+    '#C9372C', //14
+    '#6E5DC6', //15
+    '#CCE0FF', //16
+    '#C6EDFB',//17
+    '#D3F1A7', //18
+    '#FDD0EC', //19
+    '#DCDFE4', //20
+    '#579DFF', //21
+    '#6CC3E0',//22
+    '#94C748', //23
+    '#E774BB', //24
+    '#8590A2', //25
+    '#0C66E4', //26
+    '#227D9B',//27
+    '#5B7F24', //28
+    '#AE4787', //29
+    '#626F86', //30
   ];
   const [open,setOpen] = useState(false);
   const labels = (task?.taskLabels || []).map((color) => ({
@@ -66,6 +89,9 @@ const EditLabelDropdown = ({onClose,title,onSave}) => {
     <div className="DropdownUiEdit">
       {/* Header */}
       <div className="DropdownUiHeader">
+      <button onClick={onClose} className="DropdownClose">
+         <Svgback/>
+        </button>
         <h2 className="DropdownHeaderH2">{title}</h2>
         <button onClick={onClose} className="DropdownClose">
          <SvgClose/>
@@ -93,9 +119,10 @@ const EditLabelDropdown = ({onClose,title,onSave}) => {
                         border: selectedColor === label ? '2px solid #000' : 'none',
                     }}
                     onClick={() => setSelectedColor(label)}
-                     className='EditDropdownLabelBoxbutton'>2</button></div>)
+                     className='EditDropdownLabelBoxbutton'></button></div>)
          })}</div>
-         <button className='EditDropdownLabelBoxbuttonADD'>Remove Button</button>
+         
+         <button className='EditDropdownLabelBoxbuttonADD'><SvgClose/> Remove Button</button>
          <hr className="DropdownHr" />
          <div className='EditDropDownBottom'>
             <button className='EditDropDownBottom1' 
@@ -103,7 +130,8 @@ const EditLabelDropdown = ({onClose,title,onSave}) => {
                 if (selectedColor) {
                   onClose?.(); 
                  
-                  onSave?.({ backgroundColor: selectedColor, title: labelTitle });
+                  onSave?.({ color: selectedColor, title: labelTitle });
+
                 }
               }}
             >

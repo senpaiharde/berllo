@@ -1,4 +1,4 @@
-import { title } from 'framer-motion/client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
@@ -19,34 +19,40 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   const defaultLabelColors = [
-    '#61BD4F', // green
-    '#EB5A46', // red
-    '#F2D600', // yellow
-    '#C377E0', // purple
-  ];
+  { color: '#61BD4F', title: 'Feature' },
+  { color: '#EB5A46', title: 'Bug' },
+  { color: '#F2D600', title: 'Warning' },
+  { color: '#C377E0', title: 'Idea' },
+];
 
   const taskLabels = task?.taskLabels || [];
-  const colorList = [...defaultLabelColors, ...taskLabels];
+  const colorList = [
+    ...defaultLabelColors,
+    ...taskLabels
+      .filter(color => !defaultLabelColors.some(l => l.color === color))
+      .map(color => ({ color, title: '' }))
+  ];
+  
 
-  const uniqueColors = colorList.filter((color, index) => colorList.indexOf(color) === index);
+  const uniqueColors = colorList.filter(
+    (item, index, self) => index === self.findIndex((i) => i.color === item.color)
+  );
 
   const toggleLabel = (color) => {
     if (!task) return;
+
+
     const hasLabel = task.taskLabels.includes(color);
     const updateLabels = hasLabel
       ? task.taskLabels.filter((colors) => colors !== color)
       : [...(task.taskLabels || []), color];
 
-    const updateTask = {
-      ...task,
-      taskLabels: updateLabels,
-    };
-    dispatch(liveUpdateTask(updateTask));
+      dispatch(liveUpdateTask({ ...task, taskLabels: updateLabels }));
   };
 
-  console.log(' Color List:', colorList);
+ ;
 
-  // Calculate position of the trigger
+  
   const updatePosition = () => {
     const rect = triggerRef.current?.getBoundingClientRect();
     if (rect) {
@@ -118,16 +124,16 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
         <h3 className="DropdownLabelH3">Labels</h3>
         <ul className="DropdownUL">
           {uniqueColors.map((label) => {
-            const isChecked = task?.taskLabels?.includes(label);
+            const isChecked = task?.taskLabels?.includes(label.color);
             return (
-              <li key={label.id} className="DropdownLabelItem">
+              <li key={label.color + label.title} className="DropdownLabelItem">
                 <input
                   type="checkbox"
                   checked={isChecked}
                   className="DropdownLabelCheckbox"
-                  onChange={() => toggleLabel(label)}></input>
-                <div className="DropdownLabelColorBox" style={{ background: label }}>
-                  {label.title || 'No name'}
+                  onChange={() => toggleLabel(label.color)}></input>
+                <div className="DropdownLabelColorBox" style={{ background: label.color }}>
+                  {label.title || ''}
                 </div>
 
                 <button className="DropdownLabelEditBtn"
