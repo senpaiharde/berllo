@@ -8,7 +8,8 @@
 @use "taskDetails";
 @use 'loginpage';
 @use "input-new-item";
-
+@use "sideBar/board-sidebar";
+// src\styles\sideBar
 html, body, #root {
     height: 100%;
     margin: 0;

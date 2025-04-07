@@ -25,7 +25,7 @@ export function BoardView({ board }) {
   return (
     <div className="board-view">
       <ol className="TaskList-list">
-        {board.boardLists.map((list) => {
+        {board.boardLists && board.boardLists.map((list) => {
           return (
             <li className="TaskList-list-item" key={list._id}>
               {list.taskListTitle === "" ? (
