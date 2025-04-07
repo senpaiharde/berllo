@@ -1,6 +1,8 @@
 import React from "react";
-
+import { useSelector } from "react-redux";
 const TaskDetailsDate = () => {
+    const data = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+
     return (
         <section style={{marginLeft:'-15px'}} className="td-section-top-section">
                 <h3 className="td-section-top-h3">Due date</h3>

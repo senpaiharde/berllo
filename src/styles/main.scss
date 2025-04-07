@@ -8,4 +8,5 @@
 @use "taskDetails";
 @use 'loginpage';
 @use "input-new-item";
-@use './UiDropdown//DropdownStyles'
+@use './UiDropdown//DropdownStyles';
+@use './taskDetailsFolder/TaskDetailsLabel.scss';

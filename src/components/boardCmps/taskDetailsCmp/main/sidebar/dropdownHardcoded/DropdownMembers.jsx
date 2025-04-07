@@ -1,6 +1,7 @@
 import { title } from "framer-motion/client";
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
+import SvgClose from "../../../../../../assets/svgDesgin/SvgClose";
 
 const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,title }) => {
   const [open, setOpen] = useState(false);
@@ -50,9 +51,7 @@ const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,title
         </h2>
         <button className="DropdownClose" onClick={onClose} >
 
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18 6L6 18M6 6l12 12" stroke="#172b4d" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          <SvgClose/>
         </button>
       </div>
 

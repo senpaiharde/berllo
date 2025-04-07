@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 
 const DropdownUi = ({ trigger, children, onClose }) => {
   const [open, setOpen] = useState(false);
@@ -32,23 +32,19 @@ const DropdownUi = ({ trigger, children, onClose }) => {
         onClose?.();
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const dropdownContent = open ? (
-    <div className="dropDownContent"
+    <div
+      className="dropDownContent"
       ref={dropdownRef}
       style={{
-        
         top: position.top,
         left: position.left,
-        
-      }}
-    >
-      {typeof children === "function" ? children({ onClose: () => setOpen(false) }) : children}
-
-
+      }}>
+      {typeof children === 'function' ? children({ onClose: () => setOpen(false) }) : children}
     </div>
   ) : null;
 
@@ -60,12 +56,11 @@ const DropdownUi = ({ trigger, children, onClose }) => {
           e.stopPropagation();
           setOpen((prev) => !prev);
         }}
-        style={{ display: "inline-block" }}
-      >
+        style={{ display: 'inline-block' }}>
         {trigger}
       </div>
 
-      {open && ReactDOM.createPortal(dropdownContent, document.getElementById("dropdown-root"))}
+      {open && ReactDOM.createPortal(dropdownContent, document.getElementById('dropdown-root'))}
     </>
   );
 };
