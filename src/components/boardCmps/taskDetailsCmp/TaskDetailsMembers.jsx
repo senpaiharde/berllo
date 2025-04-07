@@ -1,9 +1,14 @@
 import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import DropdownMembers from "./main/sidebar/dropdownHardcoded/DropdownMembers";
+;
 
 
 const TaskDetailsMembers = () => {
+
+    const member = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+
+
     const [members, setMembers] = useState([]);
     useEffect(() => {
         const hardMembers = [
@@ -22,8 +27,11 @@ const TaskDetailsMembers = () => {
 
     return(
         <section className="td-section-top-section">
-            {/* <h3 className="td-section-top-h3">Members</h3> */}
-            <div className="td-section-members">
+            { <h3 className="td-section-top-h3">Members</h3> }
+            <div className="td-section-members"
+            style={{
+                paddingLeft:'0px',
+            }}>
             <div className="members-icon" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     {members.map((member) => {
                         return(
@@ -34,11 +42,12 @@ const TaskDetailsMembers = () => {
                             padding: 0,
                             border: 0,
                             borderRadius: "100%",
-                            height: "28px",
-                            width: "28px",
+                            height: "32px",
+                            width: "32px",
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            
                             
                                                   }}
                         >
@@ -48,6 +57,7 @@ const TaskDetailsMembers = () => {
                     )
                     })}
                     <button
+                    
           className="td-section-members-add"
           style={{
             marginRight: '-4px',

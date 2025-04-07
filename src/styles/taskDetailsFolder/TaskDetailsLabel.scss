@@ -11,3 +11,40 @@
       cursor: pointer;
     }
   }
+
+
+  .td-section-members-add{
+    margin-right: 8px;
+    padding: 3px 4px;
+    border: none;
+    justify-content: center;
+    display: inline-flex;
+    height: 32px;
+    width: 32px;
+    line-height: 14px;
+    font-size: 10px;
+    align-items: center;
+    border-radius:  3px;
+  }
+
+  .td-section-label-color{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    height: 32px;
+    min-width: 48px;
+    max-width: 100%;
+    margin-bottom: 0;
+    padding-left: 1px;
+    padding: 15px 8px;
+    overflow: hidden;
+    border-radius:3px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    text-align: left;
+    background-color:#e0e0e0;
+    color: black;
+  }

@@ -14,13 +14,13 @@ const TaskDescription = () => {
   const textareaClassName = isEmpty ? "td-description-null" : "td-description";
   return (
     <section className="td-section">
-      <div style={{ display: "flex", alignItems: "center",marginTop:'-27px', }}>
+      <div style={{ display: "flex", alignItems: "center",marginTop:'-27px',marginLeft:'2px',marginBottom:'15px'}}>
         <svg
-          width="24px"
-          height="24px"
+          width="22px"
+          height="22px"
           viewBox="0 0 24 24"
           fill="currentColor"
-          style={{ marginRight: "8px", marginLeft: "-30px"
+          style={{ marginRight: "12px", marginLeft: "-32px"
             , marginTop:'-14px'
            }} 
         >
@@ -31,7 +31,7 @@ const TaskDescription = () => {
           />
         </svg>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: '100%' }}>
-          <div className="td-section-header">Description</div>
+          <div className="td-section-header" style={{fontSize:'16px'}}>Description</div>
 
 
           {!isEmpty && (
@@ -70,14 +70,19 @@ const TaskDescription = () => {
         value={taskDescription}
         onChange={handleDescriptionChange}
         style={{
-            backgroundColor: isEmpty ? "#eaecf0" : "white", 
+            marginLeft:'5px',
+            backgroundColor: isEmpty ? "#eaecf0" : "#F7F8F9", // Light gray vs white
             border: "none",
             resize: "none",
-            padding: "8px",
-            marginTop: "4px",
-            minHeight: "60px",
-            borderRadius: "4px",
-            width: "100%",
+            padding: "1px 1px",
+            marginTop: "-2px",
+            minHeight: "42px",
+            borderRadius: "6px",
+            width: "100%", 
+            fontSize: "14px",
+            color: "#172b4d",
+            
+            
         }}
       />
     </section>
