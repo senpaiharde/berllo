@@ -1,4 +1,4 @@
-import { title } from "framer-motion/client";
+
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import SvgClose from "../../../../../../assets/svgDesgin/SvgClose";

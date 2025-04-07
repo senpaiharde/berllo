@@ -27,7 +27,7 @@ useEffect(() => {
   
       if (firstBoard) {
        
-        dispatch(fetchBoardById(firstBoard._id)); 
+        // dispatch(fetchBoardById(firstBoard._id)); 
       }
     };
   
@@ -36,7 +36,9 @@ useEffect(() => {
   // using *  telling that Workspace is responsible for all nested routes under /b/:boardId/:boardName/
   return (
     <BrowserRouter>
-      <div>
+      <div 
+      style={{ height: "100%",}}
+      >
         
         <Routes>
         <Route path="/" element={<Home />} />

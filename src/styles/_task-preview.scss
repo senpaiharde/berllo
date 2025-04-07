@@ -32,6 +32,7 @@
   // gap: 10px;
   padding-top: 5px;
   align-items: center;
+  margin-bottom: 4px;
 }
 .task-preview-header-completion-status{
   display: flex;
@@ -44,7 +45,7 @@
   display: flex  ;
   flex-wrap: wrap;
   gap: 4px;
-  padding-left: 5px;
+  // padding-left: 5px;
   margin-bottom: 4px;
 }
 
@@ -74,6 +75,7 @@
   // padding: auto;
   // align-items: center;
 }
+
 .task-preview-info-users {
   display: "flex";
 //   flex-direction: "row";
@@ -98,7 +100,7 @@
   display: flex;
   // gap: 5px;
   // padding: 4px;
-
+  margin-bottom: 4px;
   flex-wrap: wrap;
     max-width: 100%;
     float: left;
@@ -109,7 +111,10 @@
 }
 .task-preview-info-badges-date{
   border: 1px transparent;
-  border-radius: 8px;
+  align-content: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 3px;
 }
 .task-complete-svg{
   display: inline-flex;

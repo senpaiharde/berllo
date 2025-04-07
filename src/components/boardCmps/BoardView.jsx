@@ -21,15 +21,18 @@ export function BoardView({ board }) {
     console.log("board is missing or boardLists undefined")
     return <div>Loading board view...</div>
   }
+  if(board.boardLists.length === 0){
+    AddNewEmptyTaskList()
+  }
   // console.log(" boardLists loaded:", board.boardLists)
   return (
     <div className="board-view">
       <ol className="TaskList-list">
-        {board.boardLists.map((list) => {
+        {board.boardLists && board.boardLists.map((list) => {
           return (
             <li className="TaskList-list-item" key={list._id}>
               {list.taskListTitle === "" ? (
-                <TaskList boardList={list} newTaskList={true}></TaskList>
+                <TaskList boardList={list} newTaskList={true} onAddedNewList={AddNewEmptyTaskList}></TaskList>
               ) : (
                 <TaskList boardList={list} />
               )}

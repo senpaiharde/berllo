@@ -7,9 +7,12 @@ export function ItemNameForm({
   onAddItem,
   itemType,
   setText,
+  isNewItem,
+  isList,
   setIsEditing,
   noValueOnExit,
 }) {
+  const [inputValue, setInputValue] = useState()
   function exitEditing(value) {
     console.log("exitEditing(value)", value)
     if (value && value != "") {
@@ -20,31 +23,51 @@ export function ItemNameForm({
       setIsEditing(false)
     }
   }
+  useEffect(() => {
+    console.log("ItemNameForm inputValue", inputValue)
+    
+  }, [inputValue])
+
+  const textareaSize = !isList ? { height: "56px" } : { height: "32px" }
+  const textareaClass = isList ? "input-new-item-new-list-textarea" : "input-new-item-new-task-textarea"
+  const inputNameFormPadding = isList ? "8px" : "0px"
+  const inputFormButtonsPadding = isList ? "4px" : "0px"
 
   return (
-    <div className="input-new-item">
-      <div className="input-new-item-text-box">
-        <TextEditInput
+    <div className="input-new-item"
+    style={{padding: inputNameFormPadding}}
+    >
+      <div 
+      className="input-new-item-text-box"
+      >
+        {!isNewItem && <TextEditInput
           value={""}
           onChangeTextInput={exitEditing}
           activateEditing={IsEditing}
           noValueOnExit={noValueOnExit}
           isNewItem={true}
           itemType={itemType}
-        ></TextEditInput>
-        {/* <textarea
+        ></TextEditInput>}
+        {isNewItem && <textarea
           // class="qJv26NWQGVKzI9"
+          className={textareaClass}
           dir="auto"
-          onChange={setText}
-          placeholder="Enter a title or paste a link"
-          // style={{height: 56px}}
-        ></textarea> */}
+          autoFocus={true}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && exitEditing(inputValue)}
+          placeholder={itemType}
+          style={textareaSize}
+        ></textarea>
+        }
+      
       </div>
-      {/* <div className="input-new-item-buttons">
-        <div onClick={() => onChangeTextInput(inputValue)}>
+      <div className="input-new-item-buttons" style={{ paddingLeft: inputFormButtonsPadding }}>
+        <div onClick={() => exitEditing(inputValue)}>
           <button
-            className="icon-container-button input-new-item-label"
-            style={{ backgroundColor: "#0000FF", color: "#FFFFFF" }}
+            // className="icon-container-button input-new-item-label"
+            className="input-new-item-add-button"
+            // style={{ backgroundColor: "#0000FF", color: "#FFFFFF" }}
           >
             {itemType}
           </button>
@@ -57,13 +80,7 @@ export function ItemNameForm({
             noValueOnExit() // Prevent blur from firing
           }}
         >
-          <IconButton
-            onClick={(e) => {
-              console.log("disableBlur = true")
-              // disableBlur = true
-              noValueOnExit() // Prevent blur from firing
-            }}
-          >
+          <IconButton centerd={true}>
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -72,7 +89,7 @@ export function ItemNameForm({
             ></path>
           </IconButton>
         </div>
-      </div> */}
+      </div>
     </div>
   )
 }

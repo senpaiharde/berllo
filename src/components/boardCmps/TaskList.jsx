@@ -13,7 +13,7 @@ import {
   updateTaskInBoard,
 } from "../../redux/BoardSlice.js"
 import { ItemNameForm } from "./addItemCard/ItemNameForm.jsx"
-export function TaskList({ boardList, newTaskList }) {
+export function TaskList({ boardList, newTaskList,onAddedNewList }) {
   //console.log("boardList received by TaskList:", boardList);
   // TaskList.propTypes = {
   //   Tasks: PropTypes.array.isRequired,
@@ -25,14 +25,15 @@ export function TaskList({ boardList, newTaskList }) {
   const [newTitle, setNewTitle] = useState()
 
   useEffect(() => {
-    console.log("newTitle",newTitle)
-  }, [newTitle]);
+    console.log("newTitle", newTitle)
+  }, [newTitle])
 
   function onUpdateBoardList(value) {
     if (isNewTaskList && value) {
       setTaskListTitle(value)
       // boardList.taskListTitle = value
       dispatch(updateBoardlist({ ...boardList, taskListTitle: value }))
+      onAddedNewList()
       // console.log("TaskList boardid", boardList)
     }
   }
@@ -61,7 +62,9 @@ export function TaskList({ boardList, newTaskList }) {
             setText={setNewTitle}
             noValueOnExit={onRemoveCurrentList}
             onAddItem={onUpdateBoardList}
-            itemType={"add list"}
+            isList={true}
+            isNewItem={true}
+            itemType={"Add list"}
           ></ItemNameForm>
           {/* <div className="input-new-item-buttons">
             <div onClick={() => onChangeTextInput(inputValue)}>
@@ -106,7 +109,10 @@ export function TaskList({ boardList, newTaskList }) {
               onChangeTextInput={onUpdateBoardList}
             ></TextEditInput>
           </div>
-          <div className="task-list-header-actions header-clickable" onClick={()=>onRemoveCurrentList()}>
+          <div
+            className="task-list-header-actions header-clickable"
+            onClick={() => onRemoveCurrentList()}
+          >
             <IconButton>
               <path
                 fillRule="nonzero"
@@ -119,32 +125,62 @@ export function TaskList({ boardList, newTaskList }) {
         </div>
       )}
 
-      <ol className="scrollable-task-list">
-        {boardList.taskList?.length > 0 ? ( //
-          boardList.taskList.map((task) => (
-            <li key={task._id} style={{ listStyle: "none" }}>
-              {task.taskTitle === "" ? (
-                <TaskPreview
-                  task={task}
-                  boardId={boardList.taskListBoard}
-                  NewTask={true}
-                />
-              ) : (
-                <TaskPreview task={task} boardId={boardList.taskListBoard} />
-              )}
-            </li>
-          ))
-        ) : (
-          <div />
-        )}
-      </ol>
-      <div>
-        <AddItemCard
-          cardDescription={"Add a card"}
-          itemType={"add task"}
-          onItemCardClick={addNewEmptyTask}
-        ></AddItemCard>
-      </div>
+      {!isNewTaskList &&
+        <ol className="scrollable-task-list">
+          {boardList.taskList?.length > 0 ? ( //
+            boardList.taskList.map((task) => (
+              <li key={task._id} style={{ listStyle: "none" }}>
+                {task.taskTitle === "" ? (
+                  <TaskPreview
+                    task={task}
+                    boardId={boardList.taskListBoard}
+                    NewTask={true}
+                    onAddedNewTask={addNewEmptyTask}
+                  />
+                ) : (
+                  <TaskPreview task={task} boardId={boardList.taskListBoard} />
+                )}
+              </li>
+            ))
+          ) : (
+            <div />
+          )}
+        </ol>}
+        {!isNewTaskList &&<AddItemCard
+            cardDescription={"Add a card"}
+            itemType={"add task"}
+            onItemCardClick={addNewEmptyTask}
+          ></AddItemCard>}
+      
+
+      {/* {!isNewTaskList &&<div className="task-list-body">
+        <ol className="scrollable-task-list">
+          {boardList.taskList?.length > 0 ? ( //
+            boardList.taskList.map((task) => (
+              <li key={task._id} style={{ listStyle: "none" }}>
+                {task.taskTitle === "" ? (
+                  <TaskPreview
+                    task={task}
+                    boardId={boardList.taskListBoard}
+                    NewTask={true}
+                  />
+                ) : (
+                  <TaskPreview task={task} boardId={boardList.taskListBoard} />
+                )}
+              </li>
+            ))
+          ) : (
+            <div />
+          )}
+        </ol>
+        <div>
+          <AddItemCard
+            cardDescription={"Add a card"}
+            itemType={"add task"}
+            onItemCardClick={addNewEmptyTask}
+          ></AddItemCard>
+        </div>
+      </div>} */}
     </div>
   )
 }

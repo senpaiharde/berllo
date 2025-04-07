@@ -202,6 +202,7 @@ const boardSlice = createSlice({
       })
       .addCase(fetchBoardById.rejected, (state, action) => {
         state.state = "failed"
+        console.log("fetchBoardById error:", action.payload)
         state.error = action.payload
       })
   },

@@ -3,7 +3,7 @@ import React, { useRef, useState,useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
-import { color } from 'framer-motion';
+
 import Svgback from '../../../../../../assets/svgDesgin/Svgback';
 
 const EditLabelDropdown = ({onClose,title,onSave}) => {

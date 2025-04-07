@@ -10,3 +10,9 @@
 @use "input-new-item";
 @use './UiDropdown//DropdownStyles';
 @use './taskDetailsFolder/TaskDetailsLabel.scss';
+@use "sideBar/board-sidebar";
+// src\styles\sideBar
+html, body, #root {
+    height: 100%;
+    margin: 0;
+  }
