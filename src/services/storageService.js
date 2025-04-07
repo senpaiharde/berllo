@@ -42,7 +42,7 @@ export const saveTolocal = async (updatedBoard) => {
     const prevData = await getLocalData()
     // console.log("prevData:", prevData);
     const prevBoards = prevData.boards || []
-    const IsBoardInPrevBoards = false
+    let IsBoardInPrevBoards = false
 
     prevBoards.find((board) => {
       if (board._id === updatedBoard._id) {

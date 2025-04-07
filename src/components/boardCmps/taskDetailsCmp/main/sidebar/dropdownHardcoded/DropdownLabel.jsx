@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
@@ -19,20 +18,19 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   const defaultLabelColors = [
-  { color: '#61BD4F', title: 'Feature' },
-  { color: '#EB5A46', title: 'Bug' },
-  { color: '#F2D600', title: 'Warning' },
-  { color: '#C377E0', title: 'Idea' },
-];
+    { color: '#61BD4F', title: 'Feature' },
+    { color: '#EB5A46', title: 'Bug' },
+    { color: '#F2D600', title: 'Warning' },
+    { color: '#C377E0', title: 'Idea' },
+  ];
 
-  const taskLabels = task?.taskLabels || [];
+  const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];
   const colorList = [
     ...defaultLabelColors,
     ...taskLabels
-      .filter(color => !defaultLabelColors.some(l => l.color === color))
-      .map(color => ({ color, title: '' }))
+      .filter((color) => !defaultLabelColors.some((l) => l.color === color))
+      .map((color) => ({ color, title: '' })),
   ];
-  
 
   const uniqueColors = colorList.filter(
     (item, index, self) => index === self.findIndex((i) => i.color === item.color)
@@ -41,18 +39,14 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
   const toggleLabel = (color) => {
     if (!task) return;
 
-
     const hasLabel = task.taskLabels.includes(color);
     const updateLabels = hasLabel
       ? task.taskLabels.filter((colors) => colors !== color)
       : [...(task.taskLabels || []), color];
 
-      dispatch(liveUpdateTask({ ...task, taskLabels: updateLabels }));
+    dispatch(liveUpdateTask({ ...task, taskLabels: updateLabels }));
   };
 
- ;
-
-  
   const updatePosition = () => {
     const rect = triggerRef.current?.getBoundingClientRect();
     if (rect) {
@@ -87,73 +81,68 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
 
   return (
     <>
-    
-
       {/* Options */}
 
-        {editModeLabel ? (
-            <EditLabelDropdown 
-            title = 'edit Label'
-            label={editModeLabel}
-            onClose={ () => setEditModeLabel(null)}
-            onSave={(newLabel) => {
-                const updateTask = {
-                    ...task,
-                    taskLabels: task.taskLabels.map((color) =>
-                    color === editModeLabel.color ? newLabel.color : color
-                ),
-
-                };
-                dispatch(liveUpdateTask(updateTask));
-                setEditModeLabel(null)
-
-            }}></EditLabelDropdown>
-        ):( 
+      {editModeLabel ? (
+        <EditLabelDropdown
+          title="edit Label"
+          label={editModeLabel}
+          onClose={() => setEditModeLabel(null)}
+          onSave={(newLabel) => {
+            const updateTask = {
+              ...task,
+              taskLabels: task.taskLabels.map((color) =>
+                color === editModeLabel.color ? newLabel.color : color
+              ),
+            };
+            dispatch(liveUpdateTask(updateTask));
+            setEditModeLabel(null);
+          }}></EditLabelDropdown>
+      ) : (
         <div className="DropdownUi">
-      {/* Header */}
-      <div className="DropdownUiHeader">
-        <h2 className="DropdownHeaderH2">Labels</h2>
-        <button onClick={onClose} className="DropdownClose">
-          <SvgClose />
-        </button>
-      </div>
+          {/* Header */}
+          <div className="DropdownUiHeader">
+            <h2 className="DropdownHeaderH2">Labels</h2>
+            <button onClick={onClose} className="DropdownClose">
+              <SvgClose />
+            </button>
+          </div>
 
-      {/* Options */}
-      <div className="DropdownLabelOption">
-        <input style={{ paddingLeft: '13px' }} placeholder="Search labels..." />
-        <h3 className="DropdownLabelH3">Labels</h3>
-        <ul className="DropdownUL">
-          {uniqueColors.map((label) => {
-            const isChecked = task?.taskLabels?.includes(label.color);
-            return (
-              <li key={label.color + label.title} className="DropdownLabelItem">
-                <input
-                  type="checkbox"
-                  checked={isChecked}
-                  className="DropdownLabelCheckbox"
-                  onChange={() => toggleLabel(label.color)}></input>
-                <div className="DropdownLabelColorBox" style={{ background: label.color }}>
-                  {label.title || ''}
-                </div>
+          {/* Options */}
+          <div className="DropdownLabelOption">
+            <input style={{ paddingLeft: '13px' }} placeholder="Search labels..." />
+            <h3 className="DropdownLabelH3">Labels</h3>
+            <ul className="DropdownUL">
+              {uniqueColors.map((label) => {
+                const isChecked = task?.taskLabels?.includes(label.color);
+                return (
+                  <li key={label.color + label.title} className="DropdownLabelItem">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      className="DropdownLabelCheckbox"
+                      onChange={() => toggleLabel(label.color)}
+                    />
+                    <div className="DropdownLabelColorBox" style={{ background: label.color }}>
+                      {label.title || ''}
+                    </div>
 
-                <button className="DropdownLabelEditBtn"
-                onClick={() => setEditModeLabel(label)}>
-<SvgAdd />
-</button>
-              </li>
-            );
-          })}
-        </ul>
-        <button className="DropdownLabelButton">Create a new label</button>
-        <hr className="DropdownHr" />
-        <button className="DropdownLabelButton">Enable colorblind friendly mode</button>
+                    <button
+                      className="DropdownLabelEditBtn"
+                      onClick={() => setEditModeLabel(label)}>
+                      <SvgAdd />
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            <button className="DropdownLabelButton">Create a new label</button>
+            <hr className="DropdownHr" />
+            <button className="DropdownLabelButton">Enable colorblind friendly mode</button>
+          </div>
         </div>
-       </div>
-        )}
-
-        
-      </>
-    
+      )}
+    </>
   );
 };
 
