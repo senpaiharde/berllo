@@ -6,13 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 import SvgAdd from '../../../../../../assets/svgDesgin/SvgAdd';
 import DropdownUi from './DropdownUi';
+import EditLabelDropdown from './EditLabelDropdown';
 
 const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title }) => {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
-
+  const [editModeLabel, setEditModeLabel] = useState(null);
   const dispatch = useDispatch();
 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
@@ -79,21 +80,42 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
   }, []);
 
   return (
-    <div className="DropdownUi">
+    <>
+    
+
+      {/* Options */}
+
+        {editModeLabel ? (
+            <EditLabelDropdown 
+            title = 'edit Label'
+            label={editModeLabel}
+            onClose={ () => setEditModeLabel(null)}
+            onSave={(newLabel) => {
+                const updateTask = {
+                    ...task,
+                    taskLabels: task.taskLabels.map((color) =>
+                    color === editModeLabel.color ? newLabel.color : color
+                ),
+
+                };
+                dispatch(liveUpdateTask(updateTask));
+                setEditModeLabel(null)
+
+            }}></EditLabelDropdown>
+        ):( 
+        <div className="DropdownUi">
       {/* Header */}
       <div className="DropdownUiHeader">
-        <h2 className="DropdownHeaderH2">{title}</h2>
+        <h2 className="DropdownHeaderH2">Labels</h2>
         <button onClick={onClose} className="DropdownClose">
           <SvgClose />
         </button>
       </div>
 
       {/* Options */}
-
       <div className="DropdownLabelOption">
         <input style={{ paddingLeft: '13px' }} placeholder="Search labels..." />
         <h3 className="DropdownLabelH3">Labels</h3>
-
         <ul className="DropdownUL">
           {uniqueColors.map((label) => {
             const isChecked = task?.taskLabels?.includes(label);
@@ -107,21 +129,25 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
                 <div className="DropdownLabelColorBox" style={{ background: label }}>
                   {label.title || 'No name'}
                 </div>
-                 
-                  <button className="DropdownLabelEditBtn">
-                    <SvgAdd />
-                  </button>
-                
+
+                <button className="DropdownLabelEditBtn"
+                onClick={() => setEditModeLabel(label)}>
+<SvgAdd />
+</button>
               </li>
             );
           })}
         </ul>
-
         <button className="DropdownLabelButton">Create a new label</button>
         <hr className="DropdownHr" />
         <button className="DropdownLabelButton">Enable colorblind friendly mode</button>
-      </div>
-    </div>
+        </div>
+       </div>
+        )}
+
+        
+      </>
+    
   );
 };
 
