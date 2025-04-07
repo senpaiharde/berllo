@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 
 import { fetchBoardById } from "../redux/BoardSlice.js"
+import { addnewBoard } from "../redux/WorkSpaceSlice.js"
 import { getLocalData } from "../services/storageService.js"
 import GlobalHeader from "../components/GlobalHeader"
 import { BoardHeader } from "../components/boardCmps/boardHeaderCmps/BoardHeader.jsx"
@@ -15,11 +16,15 @@ const Workspace = () => {
   const navigate = useNavigate()
 
   const board = useSelector((state) => state.boardReducer)
-
+  // const workSpace = useSelector((state) => state.workSpaceReducer)
+  // console.log("workSpace.boards[0]",workSpace.boards[0])
   //  Load the board if ID exists
   useEffect(() => {
     if (boardId) {
       dispatch(fetchBoardById(boardId))
+      
+    }else{
+      // dispatch(addnewBoard("test board"))
     }
   }, [dispatch, boardId])
 

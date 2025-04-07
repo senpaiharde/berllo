@@ -1,7 +1,19 @@
 import { IconButton } from "../../IconButton"
-import { useState } from "react"
-export function BoardSideBar({ workSpace, chosenBoard }) {
+import { addnewBoard, fetchWorkSpaces } from "../../../redux/WorkSpaceSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { useParams, useNavigate, Outlet } from "react-router-dom"
+import { useState,useEffect } from "react"
+export function BoardSideBar({  chosenBoard }) {
   // console.log("board in BoardSideBar", board)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const workSpace = useSelector((state) => state.workSpaceReducer)
+//   console.log("workSpace", workSpaceredux)
+//   console.log("workSpace.boards[0]", workSpaceredux.boards[0])
+    useEffect(() => {
+      dispatch(fetchWorkSpaces())  
+  }, [])
   const [isCollapsed, setIsCollapsed] = useState(true)
   const sidebarWidth = isCollapsed ? "16px" : "260px"
   const currentWorkSpace = workSpace
@@ -12,13 +24,13 @@ export function BoardSideBar({ workSpace, chosenBoard }) {
         icon: "T",
         boards: [
           {
-            id: "l101",
+            _id: "dgsgs1",
             title: "Work Flow",
             primaryColor: "#912c5d",
             starred: true,
           },
           {
-            id: "l102",
+            _id: "l102",
             title: "Basic Board",
             primaryColor: "#61bd33",
             starred: false,
@@ -26,34 +38,71 @@ export function BoardSideBar({ workSpace, chosenBoard }) {
         ],
       }
 
+  function createNewboard() {
+    dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
+  }
   function SidebarChooseBoard({ board }) {
-    console.log("boardId", board.title)
+    console.log("SidebarChooseBoard board", board)
     const chosenBoardClassName = board.id === chosenBoard ? "chosen-board" : ""
-
+    const primaryColor ="#912c5d"
     return (
       <div className="">
         <a
           href=""
           className="sidebar-link sidebar-body-link chosen-board-link"
           style={{ paddingLeft: "12px" }}
+          onClick={() => {
+            console.log("🧠 Navigating to board:", board._id)
+            // "/b/:boardId/:boardName/*"
+            navigate(`/b/${board._id}/${encodeURIComponent(board.boardTitle)}/*`)
+          }}
         >
           <div
             className="board-background-img"
-            style={{ backgroundColor: board.primaryColor }}
+            style={{ backgroundColor: primaryColor }}
           ></div>
-          <p className="sidebar-link-text">{board.title}</p>
+          <p className="sidebar-link-text">{board.boardTitle}</p>
           <div className="sidebar-link-button-container">
-            <IconButton centerd={true}>
-              <path
-                d="M12 3C11.4477 3 11 3.44772 11 4V11L4 11C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H11V20C11 20.5523 11.4477 21 12 21C12.5523 21 13 20.5523 13 20V13H20C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11L13 11V4C13 3.44772 12.5523 3 12 3Z"
-                fill="currentColor"
-              ></path>
-            </IconButton>
+            <div className="header-button header-clickable">
+              <IconButton center={true}>
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M5 14C6.10457 14 7 13.1046 7 12C7 10.8954 6.10457 10 5 10C3.89543 10 3 10.8954 3 12C3 13.1046 3.89543 14 5 14ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14ZM21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12Z"
+                  fill="currentColor"
+                ></path>
+              </IconButton>
+            </div>
+            <div
+              className="header-button header-clickable"
+              onClick={() => {
+                // dispatch(updateStarStatus(!board.isStarred))
+              }}
+            >
+              {board.isStarred === false || board.isStarred === null ? (
+                <IconButton iconSize={"16px"} centerd={true}>
+                  <path
+                    fillRule="nonzero"
+                    clipRule="evenodd"
+                    d="M7.49495 20.995L11.9999 18.6266L16.5049 20.995C16.8059 21.1533 17.1507 21.2079 17.4859 21.1504C18.3276 21.006 18.893 20.2066 18.7486 19.3649L17.8882 14.3485L21.5328 10.7959C21.7763 10.5585 21.9348 10.2475 21.9837 9.91094C22.1065 9.06576 21.5209 8.28106 20.6758 8.15825L15.6391 7.42637L13.3866 2.86236C13.2361 2.55739 12.9892 2.31054 12.6843 2.16003C11.9184 1.78206 10.9912 2.0965 10.6132 2.86236L8.36072 7.42637L3.32403 8.15825C2.98747 8.20715 2.67643 8.36564 2.43904 8.60917C1.84291 9.22074 1.85542 10.1998 2.46699 10.7959L6.11158 14.3485L5.25121 19.3649C5.19372 19.7 5.24833 20.0448 5.40658 20.3459C5.80401 21.1018 6.739 21.3924 7.49495 20.995ZM19.3457 10.0485L15.6728 13.6287L16.5398 18.684L11.9999 16.2972L7.45995 18.684L8.327 13.6287L4.65411 10.0485L9.72993 9.31093L11.9999 4.71146L14.2699 9.31093L19.3457 10.0485Z"
+                    fill="currentColor"
+                  ></path>
+                </IconButton>
+              ) : (
+                <IconButton iconSize={"16px"} centerd={true}>
+                  <path
+                    d="M11.9999 18.6266L7.49495 20.995C6.739 21.3924 5.80401 21.1018 5.40658 20.3459C5.24833 20.0448 5.19372 19.7 5.25121 19.3649L6.11158 14.3485L2.46699 10.7959C1.85542 10.1998 1.84291 9.22074 2.43904 8.60917C2.67643 8.36564 2.98747 8.20715 3.32403 8.15825L8.36072 7.42637L10.6132 2.86236C10.9912 2.0965 11.9184 1.78206 12.6843 2.16003C12.9892 2.31054 13.2361 2.55739 13.3866 2.86236L15.6391 7.42637L20.6758 8.15825C21.5209 8.28106 22.1065 9.06576 21.9837 9.91094C21.9348 10.2475 21.7763 10.5585 21.5328 10.7959L17.8882 14.3485L18.7486 19.3649C18.893 20.2066 18.3276 21.006 17.4859 21.1504C17.1507 21.2079 16.8059 21.1533 16.5049 20.995L11.9999 18.6266Z"
+                    fill="currentColor"
+                  ></path>
+                </IconButton>
+              )}
+            </div>
           </div>
         </a>
       </div>
     )
   }
+
   return (
     <nav className="board-sidebar-navigation" style={{ width: sidebarWidth }}>
       {isCollapsed && (
@@ -79,7 +128,7 @@ export function BoardSideBar({ workSpace, chosenBoard }) {
           <div className="board-sidebar-open">
             <div className="side-bar-header">
               <a href="" className="sidebar-link">
-                <div className="workspace-logo">{currentWorkSpace.icon}</div>
+                <div className="workspace-logo">{"T"}</div>
                 <p className="">Trello Workspace</p>
               </a>
               <div
@@ -98,7 +147,7 @@ export function BoardSideBar({ workSpace, chosenBoard }) {
                 </div>
               </div>
             </div>
-
+            <div className="sidebar-body">
             <div className="">
               <a href="" className="sidebar-link sidebar-body-link">
                 {/* <div className="workspace-logo">{workSpace}</div> */}
@@ -132,12 +181,14 @@ export function BoardSideBar({ workSpace, chosenBoard }) {
                 </IconButton>
                 <p className="sidebar-link-text">Members</p>
                 <div className="sidebar-link-button-container">
-                  <IconButton centerd={true}>
-                    <path
-                      d="M12 3C11.4477 3 11 3.44772 11 4V11L4 11C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H11V20C11 20.5523 11.4477 21 12 21C12.5523 21 13 20.5523 13 20V13H20C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11L13 11V4C13 3.44772 12.5523 3 12 3Z"
-                      fill="currentColor"
-                    ></path>
-                  </IconButton>
+                  <div className="header-button header-clickable">
+                    <IconButton centerd={true}>
+                      <path
+                        d="M12 3C11.4477 3 11 3.44772 11 4V11L4 11C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H11V20C11 20.5523 11.4477 21 12 21C12.5523 21 13 20.5523 13 20V13H20C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11L13 11V4C13 3.44772 12.5523 3 12 3Z"
+                        fill="currentColor"
+                      ></path>
+                    </IconButton>
+                  </div>
                 </div>
               </a>
             </div>
@@ -171,13 +222,38 @@ export function BoardSideBar({ workSpace, chosenBoard }) {
                 <p className="">Table</p>
               </a>
             </div>
+            <div className="sidebar-link ">
+              <h2 className="sidebar-collection-title sidebar-link-text">
+                Your Boards
+              </h2>
+              <div className="sidebar-link-button-container">
+                <div
+                  className="header-button header-clickable"
+                  onClick={() => createNewboard()}
+                >
+                  <IconButton centerd={true}>
+                    <path
+                      d="M12 3C11.4477 3 11 3.44772 11 4V11L4 11C3.44772 11 3 11.4477 3 12C3 12.5523 3.44772 13 4 13H11V20C11 20.5523 11.4477 21 12 21C12.5523 21 13 20.5523 13 20V13H20C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11L13 11V4C13 3.44772 12.5523 3 12 3Z"
+                      fill="currentColor"
+                    ></path>
+                  </IconButton>
+                </div>
+              </div>
+            </div>
 
-            <h2 className="sidebar-collection-title sidebar-link-text">
-              Your Boards
-            </h2>
-            <SidebarChooseBoard
+            {currentWorkSpace.boards?.length > 0 ? ( //
+                        currentWorkSpace.boards.map((board) => (
+                            <SidebarChooseBoard
+                            key={board._id}
+                            board={board}
+                          ></SidebarChooseBoard>
+                        ))
+                      ) : (
+                        <div />
+                      )}
+            {/* <SidebarChooseBoard
               board={currentWorkSpace.boards[0]}
-            ></SidebarChooseBoard>
+            ></SidebarChooseBoard> */}
 
             {/* <div className="">
               <a href="" className="sidebar-link sidebar-body-link">
@@ -186,6 +262,7 @@ export function BoardSideBar({ workSpace, chosenBoard }) {
                 <p className="">Basic Board</p>
               </a>
             </div> */}
+            </div>
           </div>
         </div>
       )}

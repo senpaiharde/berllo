@@ -6,7 +6,8 @@ $--dynamic-button-pressed: rgba(255, 255, 255, 0.20);
 $--dynamic-button-pressed-hovered: rgba(255, 255, 255, 0.20);
 .board-header {
   display: inline-flex;
-  background-color: hsla(331, 53%, 37%, 0.5);
+  background-color: hsla(331, 53%, 37%, 0.699);
+  // background-color: #cd5a91;
   position: relative;
   flex-direction: row;
   flex-grow: 1;

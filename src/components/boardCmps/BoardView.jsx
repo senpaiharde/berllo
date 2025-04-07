@@ -21,6 +21,9 @@ export function BoardView({ board }) {
     console.log("board is missing or boardLists undefined")
     return <div>Loading board view...</div>
   }
+  if(board.boardLists.length === 0){
+    AddNewEmptyTaskList()
+  }
   // console.log(" boardLists loaded:", board.boardLists)
   return (
     <div className="board-view">

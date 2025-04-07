@@ -27,7 +27,7 @@ useEffect(() => {
   
       if (firstBoard) {
        
-        dispatch(fetchBoardById(firstBoard._id)); 
+        // dispatch(fetchBoardById(firstBoard._id)); 
       }
     };
   
