@@ -29,10 +29,14 @@ const DropdownLabel = ({onClose, onDelete, onConvert, childern }) => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   const defaultLabelColors = [
-    { id: 'd1', color: '#61Bd4f', title: 'Feature' },
-    { id: 'd2', color: '#eb5a46', title: 'Bug' },
-    { id: 'd3', color: '#f2d600', title: 'Warning' },
-    { id: 'd4', color: '#c377e0', title: 'Idea' },
+    { id: 'd1', color: '#4BCE97', title: '' },
+    { id: 'd2', color: '#F5CD47', title: '' },
+    { id: 'd3', color: '#FEA362', title: '' },
+    { id: 'd4', color: '#F87168', title: '' },
+    { id: 'd5', color: '#9F8FEF', title: '' },
+    { id: 'd6', color: '#6CC3E0', title: '' },
+    { id: 'd7', color: '#0C66E4', title: '' },
+    
   ];
 
   const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];

@@ -317,7 +317,7 @@ gap: 4px;
     position: relative;
     box-sizing: border-box;
     min-width: 48px;
-    max-width: 100%;
+    width: 232px;
     height: 32px;
     margin-bottom: 0;
     padding: 0 12px;
@@ -330,6 +330,7 @@ gap: 4px;
     text-overflow: ellipsis;
     white-space: nowrap;
     color:#164B35;
+    text-align: left;
     }
     
 }
