@@ -7,18 +7,15 @@ import DropdownLabel from './main/sidebar/dropdownHardcoded/DropdownLabel';
 
 const TaskDetailsLabel = () => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-
+  const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];
   console.log('color', task);
-  const labels = (task?.taskLabels || []).map((color) => ({
-    title: '',
-    color,
-  }));
+  
 
   return (
     <section className="td-section-top-section">
       <h3 className="td-section-top-h3">labels</h3>
       <div className="td-section-label" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-        {labels.map((template, index) => (
+        {taskLabels.map((template, index) => (
           <div key={index} className="td-section-label-color">
             <span
               style={{

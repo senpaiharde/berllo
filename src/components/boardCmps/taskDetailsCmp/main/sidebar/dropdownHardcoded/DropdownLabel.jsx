@@ -6,6 +6,7 @@ import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 import SvgAdd from '../../../../../../assets/svgDesgin/SvgAdd';
 import DropdownUi from './DropdownUi';
 import EditLabelDropdown from './EditLabelDropdown';
+import { label } from 'framer-motion/client';
 
 
 
@@ -27,33 +28,35 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   const defaultLabelColors = [
-    { id: 'd1', color: '#61BD4F', title: 'Feature' },
-    { id: 'd2', color: '#EB5A46', title: 'Bug' },
-    { id: 'd3', color: '#F2D600', title: 'Warning' },
-    { id: 'd4', color: '#C377E0', title: 'Idea' },
+    { id: 'd1', color: '#61Bd4f', title: 'Feature' },
+    { id: 'd2', color: '#eb5a46', title: 'Bug' },
+    { id: 'd3', color: '#f2d600', title: 'Warning' },
+    { id: 'd4', color: '#c377e0', title: 'Idea' },
   ];
 
   const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];
   const colorList = [
     ...defaultLabelColors,
     ...taskLabels
-      .filter((color) => !defaultLabelColors.some((l) => l.color === color))
-      .map((color) => ({ color, title: '' })),
+      .filter((label) => !defaultLabelColors
+      .some((lbl) => lbl.color.toLowerCase() === label.color.toLowerCase())
+  ),
   ];
 
   const uniqueColors = colorList.filter(
     (item, index, self) => index === self.findIndex((i) => i.color === item.color)
   );
 
-  const toggleLabel = (color) => {
+  const toggleLabel = (label) => {
     if (!task) return;
 
-    const hasLabel = task.taskLabels.some((lbl) => lbl.color === color);
+    const hasLabel = task.taskLabels.some(
+        (lbl) => lbl.color.toLowerCase() === label.color.toLowerCase());
 
     const updateLabels = hasLabel
-      ?  task.taskLabels.filter((lbl) => lbl.color !== color)
+      ?  task.taskLabels.filter((lbl) => lbl.color !== label.color)
 
-      : [...(task.taskLabels || []), color];
+      : [...(task.taskLabels || []), label];
 
     dispatch(liveUpdateTask({ ...task, taskLabels: updateLabels }));
   };
@@ -100,13 +103,13 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
           label={editModeLabel}
           onClose={() => setEditModeLabel(null)}
           onSave={(newLabel) => {
-            const updateTask = {
-              ...task,
-              taskLabels: task.taskLabels.map((color) =>
-                color === editModeLabel.color ? newLabel.color : color
-              ),
-            };
-            dispatch(liveUpdateTask(updateTask));
+            const updateTask =  task.taskLabels.map((lbl) =>
+                lbl.color === editModeLabel.color ? newLabel : lbl);
+          
+            dispatch(liveUpdateTask({
+                ...task,
+                taskLabels:updateTask,
+            }));
             setEditModeLabel(null);
           }}></EditLabelDropdown>
       ) : (
@@ -125,16 +128,21 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
             <h3 className="DropdownLabelH3">Labels</h3>
             <ul className="DropdownUL">
               {uniqueColors.map((label) => {
-                const isChecked = task?.taskLabels?.includes(label.color);
+                const isChecked = task?.taskLabels?.some(
+                    (l) => l.color.toLowerCase() === label.color.toLowerCase()
+                  );
+
                 return (
                   <li key={label.color + label.title} className="DropdownLabelItem">
                     <input
                       type="checkbox"
                       checked={isChecked}
                       className="DropdownLabelCheckbox"
-                      onChange={() => toggleLabel(label.color)}
+                      onChange={() => toggleLabel(label)}
                     />
-                    <div className="DropdownLabelColorBox" style={{ background: label.color }}>
+                    <div className="DropdownLabelColorBox" 
+                    style={{ backgroundColor: label.color || '#ccc'
+ }}>
                       {label.title || ''}
                     </div>
 
