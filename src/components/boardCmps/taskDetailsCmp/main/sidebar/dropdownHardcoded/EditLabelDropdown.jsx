@@ -67,10 +67,13 @@ const EditLabelDropdown = ({ onClose, title, onSave, label,onDelete }) => {
             );
           })}
         </div>
-
-        <button className="EditDropdownLabelBoxbuttonADD">
-          <SvgClose /> Remove Button
+        
+            <button 
+             onClick={() => {onDelete?.(label); onClose?.();}}
+             className="EditDropdownLabelBoxbuttonADD">
+          <SvgClose  /> Remove color
         </button>
+        
         <hr className="DropdownHr" />
         <div className="EditDropDownBottom">
           <button
