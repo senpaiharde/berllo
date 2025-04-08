@@ -7,23 +7,21 @@ import DropdownLabel from './main/sidebar/dropdownHardcoded/DropdownLabel';
 
 const TaskDetailsLabel = () => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-
+  const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];
   console.log('color', task);
-  const labels = (task?.taskLabels || []).map((color) => ({
-    title: '',
-    color,
-  }));
+  
 
   return (
     <section className="td-section-top-section">
       <h3 className="td-section-top-h3">labels</h3>
       <div className="td-section-label" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-        {labels.map((template, index) => (
-          <div key={index} className="td-section-label-color">
-            <span
+        {taskLabels.map((template, index) => (
+          <DropdownUi
+          trigger={<div key={index} className="td-section-label-color">
+            <span 
               style={{
                 backgroundColor: template.color,
-                position: 'absolute', // Use absolute positioning
+                position: 'absolute', 
                 top: 0,
                 left: 0,
                 width: '100%',
@@ -31,7 +29,9 @@ const TaskDetailsLabel = () => {
                 borderRadius: '3px',
               }}></span>
             <div style={{ textAlign: 'center', zIndex: 1 }}>{template.title}</div>
-          </div>
+          </div> }>
+          {(props) => <DropdownLabel {...props} />}
+        </DropdownUi>
         ))}
         <DropdownUi
           trigger={

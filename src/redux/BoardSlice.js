@@ -29,6 +29,7 @@ const boardSlice = createSlice({
     slug: "", 
     isStarred: null,
     boardLists: [],
+    boardLabels: [],
     boards: [], 
     state: "idle",
     error: null,
@@ -110,6 +111,18 @@ const boardSlice = createSlice({
             boardTitle: state.boardTitle,
             isStarred: state.isStarred,
             boardLists: state.boardLists,
+            boardLabels: state.boardLabels,
+            boards: state.boards,
+        });
+    },
+    updateBoardLabels: (state, action) => {
+       state.boardLabels = action.payload
+        saveTolocal({ 
+            _id: state._id,
+            boardTitle: state.boardTitle,
+            isStarred: state.isStarred,
+            boardLists: state.boardLists,
+            boardLabels: state.boardLabels,
             boards: state.boards,
         });
     },
@@ -196,6 +209,7 @@ const boardSlice = createSlice({
         state._id = board._id
         state.boardTitle = board.boardTitle
         state.slug = board.slug || "" 
+        state.boardLabels = board.boardLabels || [];
         state.boardLists = board.boardLists || []
         const existing = state.boards?.filter((b) => b._id !== board._id) || [];
         state.boards = [...existing, board];
@@ -219,5 +233,6 @@ export const {
   addBoardList,
   removeBoardListFromBoard,
   updateBoardlist,
+  updateBoardLabels,
 } = boardSlice.actions
 export default boardSlice.reducer

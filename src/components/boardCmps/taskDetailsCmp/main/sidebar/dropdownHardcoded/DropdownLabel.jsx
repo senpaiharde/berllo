@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
@@ -7,52 +6,66 @@ import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 import SvgAdd from '../../../../../../assets/svgDesgin/SvgAdd';
 import DropdownUi from './DropdownUi';
 import EditLabelDropdown from './EditLabelDropdown';
+import { updateBoardLabels } from '../../../../../../redux/BoardSlice';
 
-const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title }) => {
+
+const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [editModeLabel, setEditModeLabel] = useState(null);
+  const [addModeLabel, setAddModeLabel] = useState(null);
   const dispatch = useDispatch();
 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
-  const defaultLabelColors = [
-  { color: '#61BD4F', title: 'Feature' },
-  { color: '#EB5A46', title: 'Bug' },
-  { color: '#F2D600', title: 'Warning' },
-  { color: '#C377E0', title: 'Idea' },
-];
+  const boardLabels = useSelector((state) => state.boardReducer.boardLabels) || [];
 
-  const taskLabels = task?.taskLabels || [];
-  const colorList = [
-    ...defaultLabelColors,
-    ...taskLabels
-      .filter(color => !defaultLabelColors.some(l => l.color === color))
-      .map(color => ({ color, title: '' }))
-  ];
   
+
+  const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];
+  const colorList = [
+    ...boardLabels,
+    ...taskLabels.filter(
+      (label) =>
+        !boardLabels.some((lbl) => lbl.color.toLowerCase() === label.color.toLowerCase())
+    ),
+  ];
 
   const uniqueColors = colorList.filter(
     (item, index, self) => index === self.findIndex((i) => i.color === item.color)
   );
 
-  const toggleLabel = (color) => {
+  const toggleLabel = (label) => {
     if (!task) return;
 
+    const hasLabel = task.taskLabels.some(
+      (lbl) => lbl.color.toLowerCase() === label.color.toLowerCase()
+    );
 
-    const hasLabel = task.taskLabels.includes(color);
     const updateLabels = hasLabel
-      ? task.taskLabels.filter((colors) => colors !== color)
-      : [...(task.taskLabels || []), color];
+      ? task.taskLabels.filter((lbl) => lbl.color !== label.color)
+      : [...(task.taskLabels || []), label];
 
-      dispatch(liveUpdateTask({ ...task, taskLabels: updateLabels }));
+    dispatch(liveUpdateTask({ ...task, taskLabels: updateLabels }));
   };
 
- ;
+  const handleDeleteLabel = (label) => {
+    if (!task) return;
 
-  
+    const updateLabel = task.taskLabels.filter(
+      (lbl) => lbl.color.toLowerCase() !== label.color.toLowerCase()
+    );
+
+    dispatch(
+      liveUpdateTask({
+        ...task,
+        taskLabels: updateLabel,
+      })
+    );
+  };
+
   const updatePosition = () => {
     const rect = triggerRef.current?.getBoundingClientRect();
     if (rect) {
@@ -87,73 +100,98 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
 
   return (
     <>
-    
-
       {/* Options */}
 
-        {editModeLabel ? (
-            <EditLabelDropdown 
-            title = 'edit Label'
-            label={editModeLabel}
-            onClose={ () => setEditModeLabel(null)}
-            onSave={(newLabel) => {
-                const updateTask = {
-                    ...task,
-                    taskLabels: task.taskLabels.map((color) =>
-                    color === editModeLabel.color ? newLabel.color : color
-                ),
+      {editModeLabel || addModeLabel ? (
+        <EditLabelDropdown
+          title={editModeLabel ? 'Edit Label' : 'create Label'}
+          label={editModeLabel}
+          onDelete={handleDeleteLabel}
+          onClose={() => {
+            setEditModeLabel(null);
+            setAddModeLabel(false);
+          }}
+          onSave={(newLabel) => {
+            let updateTask;
+            if (editModeLabel) {
+              updateTask = task.taskLabels.map((lbl) =>
+                lbl.color === editModeLabel.color ? newLabel : lbl
+              );
+            } else {
+              updateTask = [...(task.taskLabels || []), newLabel];
+              
+              if (!boardLabels.some((b) => b.color.toLowerCase() === newLabel.color.toLowerCase())) {
+                dispatch(updateBoardLabels([
+                    ...boardLabels,
+                    { ...newLabel, id: `l${Date.now()}` }
+                  ]));
+                  
+              }
+            }
+            
+              
 
-                };
-                dispatch(liveUpdateTask(updateTask));
-                setEditModeLabel(null)
-
-            }}></EditLabelDropdown>
-        ):( 
-        <div className="DropdownUi">
-      {/* Header */}
-      <div className="DropdownUiHeader">
-        <h2 className="DropdownHeaderH2">Labels</h2>
-        <button onClick={onClose} className="DropdownClose">
-          <SvgClose />
-        </button>
-      </div>
-
-      {/* Options */}
-      <div className="DropdownLabelOption">
-        <input style={{ paddingLeft: '13px' }} placeholder="Search labels..." />
-        <h3 className="DropdownLabelH3">Labels</h3>
-        <ul className="DropdownUL">
-          {uniqueColors.map((label) => {
-            const isChecked = task?.taskLabels?.includes(label.color);
-            return (
-              <li key={label.color + label.title} className="DropdownLabelItem">
-                <input
-                  type="checkbox"
-                  checked={isChecked}
-                  className="DropdownLabelCheckbox"
-                  onChange={() => toggleLabel(label.color)}></input>
-                <div className="DropdownLabelColorBox" style={{ background: label.color }}>
-                  {label.title || ''}
-                </div>
-
-                <button className="DropdownLabelEditBtn"
-                onClick={() => setEditModeLabel(label)}>
-<SvgAdd />
-</button>
-              </li>
+            dispatch(
+              liveUpdateTask({
+                ...task,
+                taskLabels: updateTask,
+              })
             );
-          })}
-        </ul>
-        <button className="DropdownLabelButton">Create a new label</button>
-        <hr className="DropdownHr" />
-        <button className="DropdownLabelButton">Enable colorblind friendly mode</button>
-        </div>
-       </div>
-        )}
+            setEditModeLabel(null);
+            setAddModeLabel(false);
+          }}></EditLabelDropdown>
+      ) : (
+        <div className="DropdownUi">
+          {/* Header */}
+          <div className="DropdownUiHeader">
+            <h2 className="DropdownHeaderH2">Labels</h2>
+            <button onClick={onClose} className="DropdownClose">
+              <SvgClose />
+            </button>
+          </div>
 
-        
-      </>
-    
+          {/* Options */}
+          <div className="DropdownLabelOption">
+            <input style={{ paddingLeft: '13px' }} placeholder="Search labels..." />
+            <h3 className="DropdownLabelH3">Labels</h3>
+            <ul className="DropdownUL">
+              {uniqueColors.map((label) => {
+                const isChecked = task?.taskLabels?.some(
+                  (l) => l.color.toLowerCase() === label.color.toLowerCase()
+                );
+
+                return (
+                  <li key={label.color + label.title} className="DropdownLabelItem">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      className="DropdownLabelCheckbox"
+                      onChange={() => toggleLabel(label)}
+                    />
+                    <div
+                      className="DropdownLabelColorBox"
+                      style={{ backgroundColor: label.color || '#ccc' }}>
+                      {label.title || ''}
+                    </div>
+
+                    <button
+                      className="DropdownLabelEditBtn"
+                      onClick={() => setEditModeLabel(label)}>
+                      <SvgAdd />
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            <button onClick={() => setAddModeLabel(true)} className="DropdownLabelButton">
+              Create a new label
+            </button>
+            <hr className="DropdownHr" />
+            <button className="DropdownLabelButton">Enable colorblind friendly mode</button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

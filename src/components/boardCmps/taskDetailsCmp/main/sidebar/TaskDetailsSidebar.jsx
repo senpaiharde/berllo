@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Tag, Calendar, Paperclip, MapPin, Image, Settings, Copy, Archive, Share } from 'lucide-react';
+
 import DropdownUi from "./dropdownHardcoded/DropdownUi";
 import { useSelector } from "react-redux";
 import DropdownLabel from "./dropdownHardcoded/DropdownLabel";
@@ -23,7 +23,7 @@ import DropdownMembers from "./dropdownHardcoded/DropdownMembers";
 
 const TaskDetailsSidebar = () => {
 
-    const [activeDropdownId, setActiveDropdownId] = useState(null);
+    
     const boardUsers = useSelector((state) => state.boardReducer?.currentBoard?.boardMembers || []);
     
   const sidebarButtons = [
@@ -59,20 +59,7 @@ const TaskDetailsSidebar = () => {
         content: (props) => (
           <DropdownLabel
             {...props}
-            title="Labels"
-            allLabels={[ "red", "blue", "green", "yellow" ]}
-            activeLabels={["red", "blue"]}
-            options={[
-              {
-                
-                label: "Create Label",
-                onClick: () => console.log("New label"),
-              },
-              {
-                label: "Edit Labels",
-                onClick: () => console.log("Manage labels"),
-              },
-            ]}
+            
           />
         ),
       },
