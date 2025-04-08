@@ -62,6 +62,19 @@ const DropdownLabel = ({onClose, onDelete, onConvert, childern }) => {
     dispatch(liveUpdateTask({ ...task, taskLabels: updateLabels }));
   };
 
+
+  const handleDeleteLabel = (label) => {
+    if(!task) return;
+
+    const updateLabel = task.taskLabels.filter(
+        (lbl) => lbl.color.toLowerCase() !== label.color.toLowerCase());
+
+        dispatch(liveUpdateTask({
+            ...task,
+            taskLabels: updateLabel
+        }))
+  }
+
   const updatePosition = () => {
     const rect = triggerRef.current?.getBoundingClientRect();
     if (rect) {
@@ -102,6 +115,7 @@ const DropdownLabel = ({onClose, onDelete, onConvert, childern }) => {
         <EditLabelDropdown
           title = {editModeLabel ? "Edit Label" :'create Label'}
           label={editModeLabel}
+          onDelete = {handleDeleteLabel}
           onClose={() => {
             setEditModeLabel(null);
             setAddModeLabel(false);

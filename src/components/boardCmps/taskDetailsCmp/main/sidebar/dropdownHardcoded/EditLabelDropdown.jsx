@@ -6,7 +6,7 @@ import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
 import Svgback from '../../../../../../assets/svgDesgin/Svgback';
 import defaultLabelColors from '../../../../../../services/ColorStorage';
 
-const EditLabelDropdown = ({ onClose, title, onSave, label }) => {
+const EditLabelDropdown = ({ onClose, title, onSave, label,onDelete }) => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   console.log('color', task);
@@ -84,7 +84,8 @@ const EditLabelDropdown = ({ onClose, title, onSave, label }) => {
             }}>
             Save
           </button>
-          <button className="EditDropDownBottom2">Delete</button>
+          <button className="EditDropDownBottom2" onClick={() => {onDelete?.(label); onClose?.();}}>
+            Delete</button>
         </div>
       </div>
 
