@@ -17,12 +17,13 @@ import { label } from 'framer-motion/client';
 
 
 
-const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title }) => {
+const DropdownLabel = ({onClose, onDelete, onConvert, childern }) => {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [editModeLabel, setEditModeLabel] = useState(null);
+  const [addModeLabel, setAddModeLabel] = useState(null);
   const dispatch = useDispatch();
 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
@@ -97,20 +98,29 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
     <>
       {/* Options */}
 
-      {editModeLabel ? (
+      {editModeLabel || addModeLabel ? (
         <EditLabelDropdown
-          title="edit Label"
+          title = {editModeLabel ? "Edit Label" :'create Label'}
           label={editModeLabel}
-          onClose={() => setEditModeLabel(null)}
+          onClose={() => {
+            setEditModeLabel(null);
+            setAddModeLabel(false);
+          }}
           onSave={(newLabel) => {
-            const updateTask =  task.taskLabels.map((lbl) =>
+            let updateTask;
+            if(editModeLabel){
+            updateTask =  task.taskLabels.map((lbl) =>
                 lbl.color === editModeLabel.color ? newLabel : lbl);
+        }else{
+            updateTask = [...(task.taskLabels || []), newLabel];
+        }
           
             dispatch(liveUpdateTask({
                 ...task,
                 taskLabels:updateTask,
             }));
             setEditModeLabel(null);
+            setAddModeLabel(false);
           }}></EditLabelDropdown>
       ) : (
         <div className="DropdownUi">
@@ -155,7 +165,8 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
                 );
               })}
             </ul>
-            <button className="DropdownLabelButton">Create a new label</button>
+            <button onClick={() => setAddModeLabel(true)}  className="DropdownLabelButton">
+                Create a new label</button>
             <hr className="DropdownHr" />
             <button className="DropdownLabelButton">Enable colorblind friendly mode</button>
           </div>
