@@ -194,7 +194,11 @@
                             "taskMembers": ["u102"],
                             "taskTitle": "Set up CI/CD",
                             "taskDescription": "Configured GitHub Actions",
-                            "taskLabels": ["yellow"],
+                            "taskLabels": [{
+                                "id": "l104",
+                                "title": "Done",
+                                "color": "#61bd4f"
+                            }],
                             "taskStartDate": 1710945000000,
                             "taskCoordinates": [32.0, 34.6],
                             "taskDueDate": 1711005000000,

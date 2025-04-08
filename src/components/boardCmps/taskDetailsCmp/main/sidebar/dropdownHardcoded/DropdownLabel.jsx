@@ -7,6 +7,15 @@ import SvgAdd from '../../../../../../assets/svgDesgin/SvgAdd';
 import DropdownUi from './DropdownUi';
 import EditLabelDropdown from './EditLabelDropdown';
 
+
+
+
+
+
+
+
+
+
 const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title }) => {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef(null);
@@ -18,10 +27,10 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   const defaultLabelColors = [
-    { color: '#61BD4F', title: 'Feature' },
-    { color: '#EB5A46', title: 'Bug' },
-    { color: '#F2D600', title: 'Warning' },
-    { color: '#C377E0', title: 'Idea' },
+    { id: 'd1', color: '#61BD4F', title: 'Feature' },
+    { id: 'd2', color: '#EB5A46', title: 'Bug' },
+    { id: 'd3', color: '#F2D600', title: 'Warning' },
+    { id: 'd4', color: '#C377E0', title: 'Idea' },
   ];
 
   const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];
@@ -39,9 +48,11 @@ const DropdownLabel = ({ trigger, onClose, onDelete, onConvert, childern, title 
   const toggleLabel = (color) => {
     if (!task) return;
 
-    const hasLabel = task.taskLabels.includes(color);
+    const hasLabel = task.taskLabels.some((lbl) => lbl.color === color);
+
     const updateLabels = hasLabel
-      ? task.taskLabels.filter((colors) => colors !== color)
+      ?  task.taskLabels.filter((lbl) => lbl.color !== color)
+
       : [...(task.taskLabels || []), color];
 
     dispatch(liveUpdateTask({ ...task, taskLabels: updateLabels }));
