@@ -14,16 +14,13 @@
                 "backgroundImage": ""
             },
             "boardLabels": [
-                {
-                    "id": "l101",
-                    "title": "Done",
-                    "color": "#61bd4f"
-                },
-                {
-                    "id": "l102",
-                    "title": "Progress",
-                    "color": "#61bd33"
-                }
+                { "id": "d1", "color": "#4BCE97", "title": "" },
+                { "id": "d2", "color": "#F5CD47", "title": "" },
+                { "id": "d3", "color": "#FEA362", "title": "" },
+                { "id": "d4", "color": "#F87168", "title": "" },
+                { "id": "d5", "color": "#9F8FEF", "title": "" },
+                { "id": "d6", "color": "#6CC3E0", "title": "" },
+                { "id": "d7", "color": "#0C66E4", "title": "" }
             ],
             "boardMembers": [
                 {
