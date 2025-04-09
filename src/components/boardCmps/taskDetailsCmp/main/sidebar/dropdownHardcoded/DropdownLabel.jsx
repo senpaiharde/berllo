@@ -122,10 +122,16 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
           }}
           onSave={(newLabel) => {
             let updateTask;
+            let updatedBoardLabels;
             if (editModeLabel) {
               updateTask = task.taskLabels.map((lbl) =>
                 lbl.color === editModeLabel.color ? newLabel : lbl
               );
+              
+  updatedBoardLabels = boardLabels.map((lbl) =>
+    lbl.color === editModeLabel.color ? { ...lbl, ...newLabel } : lbl
+  );
+  dispatch(updateBoardLabels(updatedBoardLabels));
             } else {
               updateTask = [...(task.taskLabels || []), newLabel];
               
@@ -167,7 +173,7 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
             placeholder="Search labels..." />
             <h3 className="DropdownLabelH3">Labels</h3>
             <ul className="DropdownUL">
-              {filteredLabels.map((label) => {
+              {uniqueColors.map((label) => {
                 const isChecked = task?.taskLabels?.some(
                   (l) => l.color.toLowerCase() === label.color.toLowerCase()
                 );
