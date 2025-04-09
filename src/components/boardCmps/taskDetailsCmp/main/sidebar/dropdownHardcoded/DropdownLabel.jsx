@@ -43,8 +43,13 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
   const uniqueColors = colorList.filter(
     (item, index, self) => index === self.findIndex((i) => i.color === item.color)
   );
-  const filteredLabels = uniqueColors.filter((label) => 
-    label.title?.toLowerCase().includes(searchTerm.toLowerCase()) );
+  const filteredLabels = uniqueColors.filter(
+    (label) => {
+        if(!searchTerm.trim()) return true;
+        return label.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    }
+      
+  );
 
   const toggleLabel = (label) => {
     if (!task) return;
@@ -173,7 +178,7 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
             placeholder="Search labels..." />
             <h3 className="DropdownLabelH3">Labels</h3>
             <ul className="DropdownUL">
-              {uniqueColors.map((label) => {
+              {filteredLabels.map((label) => {
                 const isChecked = task?.taskLabels?.some(
                   (l) => l.color.toLowerCase() === label.color.toLowerCase()
                 );
