@@ -11,7 +11,7 @@ import {
 } from "../../../redux/taskDetailsSlice";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { User, Tag, Calendar, Paperclip, MapPin, Image, Settings, Copy, Archive, Share } from 'lucide-react';
+
 import TaskDetailsMembers from "./TaskDetailsMembers";
 import TaskDetailsLabel from "./TaskDetailsLabel";
 import TaskDetailsNotifcations from "./TaskDetailsNotifcations";
@@ -26,7 +26,10 @@ const TaskDetails = () => {
   const navigate = useNavigate();
   const { taskId, boardId } = useParams();
   const pureTaskId = taskId.split("-")[0];
-
+  const hasLabels = useSelector((state) => {
+    const task = state.taskDetailsReducer.selectedTask;
+    return Array.isArray(task?.taskLabels) && task.taskLabels.length > 0;
+  });
   const selectedTask = useSelector((state) => state.taskDetailsReducer.selectedTask);
 
   const boardLists = useSelector((state) => state.boardReducer.boardLists);
@@ -63,7 +66,7 @@ const TaskDetails = () => {
     };
   });
   if (!selectedTask) return <div></div>
-  // if (!selectedTask) return <div className="td-loading">Loading task...</div>;
+ 
 
   const handleClose = () => {
     dispatch(closeTaskDetails());
@@ -168,7 +171,8 @@ const TaskDetails = () => {
 
          <TaskDetailsMembers/>
   
-            <TaskDetailsLabel/>
+         {hasLabels && <TaskDetailsLabel />}
+
 
             <TaskDetailsNotifcations/>
 
