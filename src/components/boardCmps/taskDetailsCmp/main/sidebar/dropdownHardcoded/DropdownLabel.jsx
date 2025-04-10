@@ -17,11 +17,13 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
   const [editModeLabel, setEditModeLabel] = useState(null);
   const [addModeLabel, setAddModeLabel] = useState(null);
   const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState('');
 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   const boardLabels = useSelector((state) => state.boardReducer.boardLabels) || [];
-
+  
+  
   
 
   const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];
@@ -30,11 +32,23 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
     ...taskLabels.filter(
       (label) =>
         !boardLabels.some((lbl) => lbl.color.toLowerCase() === label.color.toLowerCase())
-    ),
+      
+    )
+    .map((label) => ({
+        color: label.color,
+        title: label.title || '',
+    })),
   ];
 
   const uniqueColors = colorList.filter(
     (item, index, self) => index === self.findIndex((i) => i.color === item.color)
+  );
+  const filteredLabels = uniqueColors.filter(
+    (label) => {
+        if(!searchTerm.trim()) return true;
+        return label.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    }
+      
   );
 
   const toggleLabel = (label) => {
@@ -113,10 +127,16 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
           }}
           onSave={(newLabel) => {
             let updateTask;
+            let updatedBoardLabels;
             if (editModeLabel) {
               updateTask = task.taskLabels.map((lbl) =>
                 lbl.color === editModeLabel.color ? newLabel : lbl
               );
+              
+  updatedBoardLabels = boardLabels.map((lbl) =>
+    lbl.color === editModeLabel.color ? { ...lbl, ...newLabel } : lbl
+  );
+  dispatch(updateBoardLabels(updatedBoardLabels));
             } else {
               updateTask = [...(task.taskLabels || []), newLabel];
               
@@ -152,10 +172,13 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
 
           {/* Options */}
           <div className="DropdownLabelOption">
-            <input style={{ paddingLeft: '13px' }} placeholder="Search labels..." />
+            <input style={{ paddingLeft: '13px' }} 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search labels..." />
             <h3 className="DropdownLabelH3">Labels</h3>
             <ul className="DropdownUL">
-              {uniqueColors.map((label) => {
+              {filteredLabels.map((label) => {
                 const isChecked = task?.taskLabels?.some(
                   (l) => l.color.toLowerCase() === label.color.toLowerCase()
                 );
@@ -171,7 +194,7 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
                     <div
                       className="DropdownLabelColorBox"
                       style={{ backgroundColor: label.color || '#ccc' }}>
-                      {label.title || ''}
+                      {label.title}
                     </div>
 
                     <button
