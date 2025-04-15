@@ -1,4 +1,5 @@
 .notification-button1{
+    background-color: #091E420F;
     display: inline-flex;
     box-sizing: border-box;
     align-items: center;
@@ -31,3 +32,38 @@
     }
 
 }
+.Date-Button{
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    white-space: normal;
+    height: 32px;
+    border: none;
+    box-shadow: none;
+    color:#172b4d;
+    font-weight: 500;
+    gap: 8px;
+    font-size: 14px;
+    background-color: #091E420F;
+    .notification-button-span{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    &:hover {
+        background-color: #091e4224;
+        cursor: pointer;
+      
+    }
+  
+    &:active {
+      background-color: #091e424f;
+    }
+}
+
