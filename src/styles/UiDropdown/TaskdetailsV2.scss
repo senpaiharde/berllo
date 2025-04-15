@@ -1,0 +1,24 @@
+.notification-button1{
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    white-space: normal;
+    height: 32px;
+    width: 128px;
+    border: none;
+    box-shadow:none;
+    color:"#172b4d";
+    font-weight: 500;
+    gap: 8px;
+    .notification-button-span{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+
+}
