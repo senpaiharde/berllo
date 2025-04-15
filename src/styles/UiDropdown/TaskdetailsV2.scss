@@ -11,14 +11,23 @@
     width: 128px;
     border: none;
     box-shadow:none;
-    color:"#172b4d";
+    color:#172b4d;
     font-weight: 500;
     gap: 8px;
     .notification-button-span{
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        
+
+    }
+    &:hover {
+        background-color: #091e4224;
+        cursor: pointer;
+      
+    }
+  
+    &:active {
+      background-color: #091e424f;
     }
 
 }
