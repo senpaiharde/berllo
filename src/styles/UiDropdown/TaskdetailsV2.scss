@@ -67,3 +67,56 @@
     }
 }
 
+.DateBoard{
+    display: flex;
+    justify-content: center;
+    margin-top: -8px;
+    width: 304px;
+    height: 632px;
+    
+   
+    .DateBoardDiv{
+        display: flex;
+    flex-direction: column;
+    height: 292px;
+    width: 316px;
+    padding: 16px;
+
+    .DateDates{
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        width: 277px;
+        height: 24px;
+        padding: 0 8px;
+        .DateDatesleft{
+            align-items: center;
+            width: 56px;
+            height: 24px;
+            
+            .DateDatesButton{
+            padding: 2px 6px;
+            
+            vertical-align: bottom;
+            border: none;
+            height: 24px;
+            width: 24px;
+            background-color: white;
+            align-items: baseline;
+            justify-content: center;
+            flex-shrink: 0;
+            text-align: center;
+            vertical-align: middle;
+            column-gap: 4px;
+            border-radius: 3px;
+            &:hover{
+                background-color: #091e4224;
+        cursor: pointer;
+            }
+
+        }}
+        
+
+    }
+    }
+}
