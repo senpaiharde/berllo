@@ -35,6 +35,7 @@ const boardSlice = createSlice({
     state: "idle",
     error: null,
     activeBoard: null,
+    boardMembers: [],
   },
   reducers: {
     addboard: (state, action) => {
@@ -159,6 +160,7 @@ const boardSlice = createSlice({
         state.boardLists = board.boardLists || [];
         const existing = state.boards?.filter((b) => b._id !== board._id) || [];
         state.boards = [...existing, board];
+        state.boardMembers = board.boardMembers || [];
       })
       .addCase(fetchBoardById.rejected, (state, action) => {
         state.state = "failed"

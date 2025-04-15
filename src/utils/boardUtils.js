@@ -63,4 +63,5 @@ export const BuildBoardFromState = (state) => ({
   boardLists: state.boardLists,
   boardLabels: state.boardLabels,
   boards: state.boards,
+  boardMembers: state.boardMembers,
 });
