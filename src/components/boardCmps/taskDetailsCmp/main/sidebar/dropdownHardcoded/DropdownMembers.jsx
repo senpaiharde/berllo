@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 
-const DropdownMembers = ({ trigger, onClose}) => {
-  const [open, setOpen] = useState(false);
-  const triggerRef = useRef(null);
-  const dropdownRef = useRef(null);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
-
+const DropdownMembers = ({ trigger, onClose }) => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   const boardMembers = useSelector((state) => state.boardReducer.boardMembers) || [];
@@ -16,46 +12,45 @@ const DropdownMembers = ({ trigger, onClose}) => {
   const taskMembers = Array.isArray(member?.taskMembers) ? member.taskMembers : [];
   const [members, setMembers] = useState([]);
   const [boardNembers, setBoardMembers] = useState([]);
+  const dispatch = useDispatch();
+
+
+  const memberList = [
+    ...boardMembers,
+    ...taskMembers.filter(
+        (mem) =>
+            !boardMembers.some((lbl) => lbl._id.toLowerCase() === mem._id.toLowerCase())
+    )
+    .map((label) => ({
+        icon : label.icon,
+        title: label.title,
+        _id : label._id
+
+    }))
+  ];
   useEffect(() => {
     const hardMembers = taskMembers;
     const HardboardMembers = boardMembers;
-    console.log(boardMembers)
-    setBoardMembers(HardboardMembers)
+    console.log(boardMembers);
+    setBoardMembers(HardboardMembers);
 
     setMembers(hardMembers);
   }, []);
-  // Calculate position of the trigger
-  const updatePosition = () => {
-    const rect = triggerRef.current?.getBoundingClientRect();
-    if (rect) {
-      setPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
-    }
+
+  const handleDeleteMember = (member) => {
+    if (!task) return;
+
+    const updateMember = members.filter(
+      (mem) => mem._id.toLowerCase() !== member._id.toLowerCase()
+    );
+
+    dispatch(
+      liveUpdateTask({
+        ...task,
+        taskMembers: updateMember,
+      })
+    );
   };
-
-  useEffect(() => {
-    if (open) {
-      updatePosition();
-    }
-  }, [open]);
-
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target) &&
-        !triggerRef.current.contains(e.target)
-      ) {
-        setOpen(false);
-        onClose?.();
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, []);
 
   return (
     <div className="DropdownUi">
@@ -72,29 +67,31 @@ const DropdownMembers = ({ trigger, onClose}) => {
         <input placeholder="Search Members" style={{ padding: '13px' }} />
         <div className="DropdownMembers">
           <h3 className="DropdownMembersh3">Card members</h3>
-        </div>{members.map((member) => {
-            return(
-            <button key={member.title} className="DropdownButton">
-           <img className='memberIcon' alt={`Members ${member.id}`} 
-                   src={member.icon} />
-              <div className='memberTitle'> {member.title}</div>
-              <span  onClick={() => {}}><SvgClose/></span>
+        </div>
+        {members.map((member) => {
+          return (
+            <button onClick={() => {handleDeleteMember(member)}} key={member.title} className="DropdownButton">
+              <img className="memberIcon" alt={`Members ${member.id}`} src={member.icon} />
+              <div className="memberTitle"> {member.title}</div>
+              <span>
+                <SvgClose />
+              </span>
             </button>
-        ) })}
-        
+          );
+        })}
 
         <div className="DropdownMembers">
           <h3 className="DropdownMembersh3">board members</h3>
         </div>
         {boardNembers.map((member) => {
-            return(
+          return (
             <button key={member.title} className="DropdownButton">
-           <img className='memberIcon' alt={`Members ${member.id}`} 
-                   src={member.icon} />
-              <div className='memberTitle'> {member.title}</div>
-              <span  onClick={() => {}}><SvgClose/></span>
+              <img className="memberIcon" alt={`Members ${member.id}`} src={member.icon} />
+              <div className="memberTitle"> {member.title}</div>
+              
             </button>
-        ) })}
+          );
+        })}
       </div>
     </div>
   );

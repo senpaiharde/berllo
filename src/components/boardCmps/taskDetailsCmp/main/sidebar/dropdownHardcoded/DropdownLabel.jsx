@@ -10,10 +10,7 @@ import { updateBoardLabels } from '../../../../../../redux/BoardSlice';
 
 
 const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
-  const [open, setOpen] = useState(false);
-  const triggerRef = useRef(null);
-  const dropdownRef = useRef(null);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+
   const [editModeLabel, setEditModeLabel] = useState(null);
   const [addModeLabel, setAddModeLabel] = useState(null);
   const dispatch = useDispatch();
@@ -80,37 +77,6 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
     );
   };
 
-  const updatePosition = () => {
-    const rect = triggerRef.current?.getBoundingClientRect();
-    if (rect) {
-      setPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (open) {
-      updatePosition();
-    }
-  }, [open]);
-
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target) &&
-        !triggerRef.current.contains(e.target)
-      ) {
-        setOpen(false);
-        onClose?.();
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, []);
 
   return (
     <>
