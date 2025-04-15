@@ -2,12 +2,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import SvgClose from "../../../../../../assets/svgDesgin/SvgClose";
+import { useSelector } from "react-redux";
 
-const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,title }) => {
+const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,taskMembers }) => {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
+
+  const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+
+  const boardMembers = useSelector((state) => state.boardReducer.boardMembers) || [];
 
   // Calculate position of the trigger
   const updatePosition = () => {
@@ -47,7 +52,7 @@ const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,title
       {/* Header */}
       <div className="DropdownUiHeader" >
         <h2 className="DropdownHeaderH2">
-          {title}
+          Members
         </h2>
         <button className="DropdownClose" onClick={onClose} >
 
@@ -63,13 +68,14 @@ const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,title
        <div className="DropdownMembers">
         <h3 className="DropdownMembersh3" >
             Card members</h3>
+            
             </div>
         <button className="DropdownButton" ></button>
         
         <div className="DropdownMembers">
         <h3 className="DropdownMembersh3" >board members</h3>
         </div>
-        <button  className="DropdownButton" >
+        <button onClick={() => {}} className="DropdownButton" >
             <span></span>
             <div></div>
             <span></span>
