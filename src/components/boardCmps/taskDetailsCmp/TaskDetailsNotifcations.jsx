@@ -1,18 +1,30 @@
-import React, {  useState } from "react";
+import React  from "react";
 import '../../../styles/taskDetailsFolder/TaskDetailsNotifications.scss';
 import SvgWatching from "../../../assets/svgDesgin/SvgWatching";
 import SvgCheck from "../../../assets/svgDesgin/SvgCheck";
+import { useDispatch, useSelector } from "react-redux";
+import { liveUpdateTask } from "../../../redux/taskDetailsSlice";
 const TaskDetailsNotifcations = () => {
-    const [isWatching, setIsWatching] = useState(false);
-
-
+    const dispatch = useDispatch();
+    const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  
+    const isWatching = task?.isWatching || false;
+  
+    function toogleWatching() {
+      dispatch(
+        liveUpdateTask({
+          isWatching: !isWatching,
+        })
+      );
+    }
+    
     return (
         <section className="td-section-top-section">
         <h3 className="td-section-top-h3">Notifications</h3>
         <div>
             {isWatching ? (
                 <button style={{width:'88px'}}
-                onClick={() => setIsWatching(prev => !prev)} className="notification-button1">
+                onClick={toogleWatching} className="notification-button1">
             <span className="notification-button-span">
               <span className="notification-button-span">
                 <SvgWatching/>
@@ -29,7 +41,7 @@ const TaskDetailsNotifcations = () => {
               </span>
             </span>
           </button>) : (<button  
-          onClick={() => setIsWatching(prev => !prev)} className="notification-button1">
+          onClick={toogleWatching} className="notification-button1">
             <span className="notification-button-span">
               <span className="notification-button-span">
                 <SvgWatching/>

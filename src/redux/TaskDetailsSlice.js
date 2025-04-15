@@ -7,6 +7,7 @@ import { updateTaskInBoard } from "./BoardSlice";
 const initialState = {
     selectedTask : null,
     isOpen: false,
+    isWatching: false,
 };
 
 
