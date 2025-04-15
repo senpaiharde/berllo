@@ -11,12 +11,22 @@ const DropdownMembers = ({ trigger, onClose }) => {
   const boardMembers = useSelector((state) => state.boardReducer.boardMembers) || [];
   const taskMembers = Array.isArray(task?.taskMembers) ? task.taskMembers : [];
   
-  const mergedMembers = [
-    ...boardMembers,
-    ...taskMembers.filter(
-        (mem) => !boardMembers.some((bm) => bm._id.toLowerCase() === mem._id.toLowerCase())
-    )
-  ];
+ 
+   
+  const availableBoardMembers = boardMembers.filter(
+    (bm) => !taskMembers.some((tm) => tm._id.toLowerCase() === bm._id.toLowerCase())
+  );
+
+    const handleAddMember = (memberToAdd) => {
+        if(!task) return;
+        const updatedMembers = [...taskMembers,memberToAdd]
+        dispatch(liveUpdateTask({
+            ...task,
+            taskMembers:updatedMembers
+        }))
+
+    }
+
 
  const handleDeleteMember = (memberToDelete) => {
     if(!task) return;
@@ -62,9 +72,9 @@ const DropdownMembers = ({ trigger, onClose }) => {
         <div className="DropdownMembers">
           <h3 className="DropdownMembersh3">board members</h3>
         </div>
-        {boardMembers.map((member) => {
+        {availableBoardMembers.map((member) => {
           return (
-            <button key={member.title} className="DropdownButton">
+            <button onClick={() => {handleAddMember(member)}} key={member.title} className="DropdownButton">
               <img className="memberIcon" alt={`Members ${member.id}`} src={member.icon} />
               <div className="memberTitle"> {member.title}</div>
               
