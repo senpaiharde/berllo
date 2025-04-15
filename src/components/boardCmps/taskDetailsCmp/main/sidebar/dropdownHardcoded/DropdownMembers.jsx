@@ -74,9 +74,9 @@ const DropdownMembers = ({ trigger, onClose }) => {
         </div>
         {availableBoardMembers.map((member) => {
           return (
-            <button onClick={() => {handleAddMember(member)}} key={member.title} className="DropdownButton">
+            <button  onClick={() => {handleAddMember(member)}} key={member.title} className="DropdownButton">
               <img className="memberIcon" alt={`Members ${member.id}`} src={member.icon} />
-              <div className="memberTitle"> {member.title}</div>
+              <div style={{width:'220px'}} className="memberTitle"> {member.title}</div>
               
             </button>
           );
