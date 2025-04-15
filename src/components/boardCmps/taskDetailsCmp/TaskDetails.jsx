@@ -114,7 +114,7 @@ const TaskDetails = () => {
             <button className="notification-button">BACKLOG-SERVER 
                 <SvgDrop/>
                 </button>
-                {isWatching && <SvgEye/>}
+                {!isWatching && <SvgEye/>}
                 </span>
         </div>
 
