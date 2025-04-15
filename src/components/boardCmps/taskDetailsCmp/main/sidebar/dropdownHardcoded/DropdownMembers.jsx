@@ -65,7 +65,7 @@ const DropdownMembers = ({ trigger, onClose }) => {
         onChange={(e) => {setSearchTerm(e.target.value.toLowerCase())}} 
         placeholder="Search Members" style={{ padding: '13px' }} />
         
-        {!hasMatches ? (<div>No members</div>) : (
+        {!hasMatches ? (<p className='noResult'>No results</p>) : (
             <>
             {filterTaskMembers.length > 0 && (
                 <><div className="DropdownMembers">

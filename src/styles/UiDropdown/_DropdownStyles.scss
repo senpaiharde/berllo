@@ -38,7 +38,19 @@
         padding: 0px 12px 12px 12px;
         display: grid;
         grid-template-rows: repeat(2,32px);
+        min-height: 116px;
         gap: 4px;
+        .noResult{
+            height: 68px;
+            width: 280px;
+            margin: 0;
+            padding: 24px 6px;
+            border-radius: 3px;
+            text-align: center;
+            color:#44546f;
+            background-color: #A1BDD914;
+            
+        }
 
         .DropdownMembers{
             display: flex;
