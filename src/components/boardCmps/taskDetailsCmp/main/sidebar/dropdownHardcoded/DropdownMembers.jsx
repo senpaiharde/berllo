@@ -1,10 +1,9 @@
+import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
+import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
+import { useSelector } from 'react-redux';
 
-import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
-import SvgClose from "../../../../../../assets/svgDesgin/SvgClose";
-import { useSelector } from "react-redux";
-
-const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,taskMembers }) => {
+const DropdownMembers = ({ trigger, onClose}) => {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -13,7 +12,18 @@ const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,taskM
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   const boardMembers = useSelector((state) => state.boardReducer.boardMembers) || [];
+  const member = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  const taskMembers = Array.isArray(member?.taskMembers) ? member.taskMembers : [];
+  const [members, setMembers] = useState([]);
+  const [boardNembers, setBoardMembers] = useState([]);
+  useEffect(() => {
+    const hardMembers = taskMembers;
+    const HardboardMembers = boardMembers;
+    console.log(boardMembers)
+    setBoardMembers(HardboardMembers)
 
+    setMembers(hardMembers);
+  }, []);
   // Calculate position of the trigger
   const updatePosition = () => {
     const rect = triggerRef.current?.getBoundingClientRect();
@@ -43,43 +53,48 @@ const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,taskM
       }
     };
 
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
   return (
     <div className="DropdownUi">
       {/* Header */}
-      <div className="DropdownUiHeader" >
-        <h2 className="DropdownHeaderH2">
-          Members
-        </h2>
-        <button className="DropdownClose" onClick={onClose} >
-
-          <SvgClose/>
+      <div className="DropdownUiHeader">
+        <h2 className="DropdownHeaderH2">Members</h2>
+        <button className="DropdownClose" onClick={onClose}>
+          <SvgClose />
         </button>
       </div>
 
       {/* Options */}
-      <div className="DropdownOptions" style={{
-       
-      }}>
-       <input placeholder="Search Members" style={{padding:'13px'}}/>
-       <div className="DropdownMembers">
-        <h3 className="DropdownMembersh3" >
-            Card members</h3>
-            
-            </div>
-        <button className="DropdownButton" ></button>
-        
+      <div className="DropdownOptions" style={{}}>
+        <input placeholder="Search Members" style={{ padding: '13px' }} />
         <div className="DropdownMembers">
-        <h3 className="DropdownMembersh3" >board members</h3>
+          <h3 className="DropdownMembersh3">Card members</h3>
+        </div>{members.map((member) => {
+            return(
+            <button key={member.title} className="DropdownButton">
+           <img className='memberIcon' alt={`Members ${member.id}`} 
+                   src={member.icon} />
+              <div className='memberTitle'> {member.title}</div>
+              <span  onClick={() => {}}><SvgClose/></span>
+            </button>
+        ) })}
+        
+
+        <div className="DropdownMembers">
+          <h3 className="DropdownMembersh3">board members</h3>
         </div>
-        <button onClick={() => {}} className="DropdownButton" >
-            <span></span>
-            <div></div>
-            <span></span>
-        </button>
+        {boardNembers.map((member) => {
+            return(
+            <button key={member.title} className="DropdownButton">
+           <img className='memberIcon' alt={`Members ${member.id}`} 
+                   src={member.icon} />
+              <div className='memberTitle'> {member.title}</div>
+              <span  onClick={() => {}}><SvgClose/></span>
+            </button>
+        ) })}
       </div>
     </div>
   );
