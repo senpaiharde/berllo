@@ -6,7 +6,7 @@ import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 
 const DropdownMembers = ({ trigger, onClose }) => {
     const dispatch = useDispatch();
-
+  const [searchTerm, setSearchTerm] = useState('');
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const boardMembers = useSelector((state) => state.boardReducer.boardMembers) || [];
   const taskMembers = Array.isArray(task?.taskMembers) ? task.taskMembers : [];
@@ -16,6 +16,14 @@ const DropdownMembers = ({ trigger, onClose }) => {
   const availableBoardMembers = boardMembers.filter(
     (bm) => !taskMembers.some((tm) => tm._id.toLowerCase() === bm._id.toLowerCase())
   );
+
+  const filterTaskMembers = taskMembers.filter(member => 
+    member?.title?.toLowerCase().includes(searchTerm)
+   )
+   const filterBoardMembers = availableBoardMembers.filter(member => 
+    member?.title?.toLowerCase().includes(searchTerm)
+   )
+   const hasMatches  = filterTaskMembers.length > 0 || filterBoardMembers.length > 0;
 
     const handleAddMember = (memberToAdd) => {
         if(!task) return;
@@ -53,11 +61,17 @@ const DropdownMembers = ({ trigger, onClose }) => {
 
       {/* Options */}
       <div className="DropdownOptions" style={{}}>
-        <input placeholder="Search Members" style={{ padding: '13px' }} />
-        <div className="DropdownMembers">
+        <input value={searchTerm} 
+        onChange={(e) => {setSearchTerm(e.target.value.toLowerCase())}} 
+        placeholder="Search Members" style={{ padding: '13px' }} />
+        
+        {!hasMatches ? (<div>No members</div>) : (
+            <>
+            {filterTaskMembers.length > 0 && (
+                <><div className="DropdownMembers">
           <h3 className="DropdownMembersh3">Card members</h3>
         </div>
-        {taskMembers.map((member) => {
+        {filterTaskMembers.map((member) => {
           return (
             <button onClick={() => {handleDeleteMember(member)}} key={member.title} className="DropdownButton">
               <img className="memberIcon" alt={`Members ${member.id}`} src={member.icon} />
@@ -68,11 +82,13 @@ const DropdownMembers = ({ trigger, onClose }) => {
             </button>
           );
         })}
-
-        <div className="DropdownMembers">
+        </>
+        )} {filterBoardMembers.length > 0 && (
+            <>
+            <div className="DropdownMembers">
           <h3 className="DropdownMembersh3">board members</h3>
         </div>
-        {availableBoardMembers.map((member) => {
+        {filterBoardMembers.map((member) => {
           return (
             <button  onClick={() => {handleAddMember(member)}} key={member.title} className="DropdownButton">
               <img className="memberIcon" alt={`Members ${member.id}`} src={member.icon} />
@@ -81,6 +97,13 @@ const DropdownMembers = ({ trigger, onClose }) => {
             </button>
           );
         })}
+        </>
+        )}
+         </>
+        )}
+        
+
+        
       </div>
     </div>
   );
