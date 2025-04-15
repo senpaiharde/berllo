@@ -1,85 +1,76 @@
+import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
+import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
+import { useDispatch, useSelector } from 'react-redux';
+import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 
-import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
-import SvgClose from "../../../../../../assets/svgDesgin/SvgClose";
-import { useSelector } from "react-redux";
-
-const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,taskMembers }) => {
-  const [open, setOpen] = useState(false);
-  const triggerRef = useRef(null);
-  const dropdownRef = useRef(null);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+const DropdownMembers = ({ trigger, onClose }) => {
+    const dispatch = useDispatch();
 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-
   const boardMembers = useSelector((state) => state.boardReducer.boardMembers) || [];
+  const taskMembers = Array.isArray(task?.taskMembers) ? task.taskMembers : [];
+  
+  const mergedMembers = [
+    ...boardMembers,
+    ...taskMembers.filter(
+        (mem) => !boardMembers.some((bm) => bm._id.toLowerCase() === mem._id.toLowerCase())
+    )
+  ];
 
-  // Calculate position of the trigger
-  const updatePosition = () => {
-    const rect = triggerRef.current?.getBoundingClientRect();
-    if (rect) {
-      setPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (open) {
-      updatePosition();
-    }
-  }, [open]);
-
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target) &&
-        !triggerRef.current.contains(e.target)
-      ) {
-        setOpen(false);
-        onClose?.();
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
-  }, []);
+ const handleDeleteMember = (memberToDelete) => {
+    if(!task) return;
+    const updatedMembers = taskMembers.filter(
+        (mem) => mem._id.toLowerCase() !== memberToDelete._id.toLowerCase()
+    );
+    dispatch(
+        liveUpdateTask({
+            ...task,
+            taskMembers: updatedMembers,
+        })
+    );
+ } ;
 
   return (
     <div className="DropdownUi">
       {/* Header */}
-      <div className="DropdownUiHeader" >
-        <h2 className="DropdownHeaderH2">
-          Members
-        </h2>
-        <button className="DropdownClose" onClick={onClose} >
-
-          <SvgClose/>
+      <div className="DropdownUiHeader">
+        <h2 className="DropdownHeaderH2">Members</h2>
+        <button className="DropdownClose" onClick={onClose}>
+          <SvgClose />
         </button>
       </div>
 
       {/* Options */}
-      <div className="DropdownOptions" style={{
-       
-      }}>
-       <input placeholder="Search Members" style={{padding:'13px'}}/>
-       <div className="DropdownMembers">
-        <h3 className="DropdownMembersh3" >
-            Card members</h3>
-            
-            </div>
-        <button className="DropdownButton" ></button>
-        
+      <div className="DropdownOptions" style={{}}>
+        <input placeholder="Search Members" style={{ padding: '13px' }} />
         <div className="DropdownMembers">
-        <h3 className="DropdownMembersh3" >board members</h3>
+          <h3 className="DropdownMembersh3">Card members</h3>
         </div>
-        <button onClick={() => {}} className="DropdownButton" >
-            <span></span>
-            <div></div>
-            <span></span>
-        </button>
+        {taskMembers.map((member) => {
+          return (
+            <button onClick={() => {handleDeleteMember(member)}} key={member.title} className="DropdownButton">
+              <img className="memberIcon" alt={`Members ${member.id}`} src={member.icon} />
+              <div className="memberTitle"> {member.title}</div>
+              <span>
+                <SvgClose />
+              </span>
+            </button>
+          );
+        })}
+
+        <div className="DropdownMembers">
+          <h3 className="DropdownMembersh3">board members</h3>
+        </div>
+        {boardMembers.map((member) => {
+          return (
+            <button key={member.title} className="DropdownButton">
+              <img className="memberIcon" alt={`Members ${member.id}`} src={member.icon} />
+              <div className="memberTitle"> {member.title}</div>
+              
+            </button>
+          );
+        })}
       </div>
     </div>
   );

@@ -33,6 +33,10 @@ const TaskDetails = () => {
     const task = state.taskDetailsReducer.selectedTask;
     return Array.isArray(task?.taskLabels) && task.taskLabels.length > 0;
   });
+  const hasMembers = useSelector((state) => {
+    const task = state.taskDetailsReducer.selectedTask;
+    return Array.isArray(task?.taskMembers) && task.taskMembers.length > 0;
+  });
   const selectedTask = useSelector((state) => state.taskDetailsReducer.selectedTask);
 
   const boardLists = useSelector((state) => state.boardReducer.boardLists);
@@ -117,7 +121,7 @@ const TaskDetails = () => {
           <div className="td-section-top">
 
 
-         <TaskDetailsMembers/>
+          {hasMembers && <TaskDetailsMembers/>}
   
          {hasLabels && <TaskDetailsLabel />}
 
