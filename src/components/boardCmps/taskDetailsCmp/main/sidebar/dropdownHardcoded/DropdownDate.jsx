@@ -158,10 +158,19 @@ const DropdownDate = ({ onClose }) => {
                   <div className="BoardReminderDivText2">At time of due date</div>
                 </div>
                 <div className="BoardReminderDivSVG">
-                  <span className="BoardReminderDivSVG2"><SvgDropdown/></span>
+                  <span className="BoardReminderDivSVG2">
+                    <SvgDropdown />
+                  </span>
                 </div>
               </div>
             </label>
+            <div className="BoardText">
+              Reminders will be sent to all members and watchers of this card.
+            </div>
+            <div className='BoardButtonsArea'>
+                <button className='BoardButtonsAreaSave'>Save</button>
+                <button className='BoardButtonsAreaRemove'>Remove</button>
+            </div>
           </div>
         </form>
       </div>

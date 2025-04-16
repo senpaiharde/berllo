@@ -318,13 +318,13 @@
       align-self: stretch;
       display: flex;
       flex-shrink: 0;
-      
+
       box-sizing: border-box;
 
       .BoardReminderDivSVG2 {
         display: flex;
         box-sizing: border-box;
-        
+
         align-items: start;
         flex-direction: row;
         padding: 6px;
@@ -332,5 +332,72 @@
         color: #d1dbec;
       }
     }
+    &:hover {
+      cursor: pointer;
+      background-color: #f7f8f9;
+      border-color: #8590a2;
+    }
+  }
+}
+
+.BoardText {
+    margin: 8px 0 0px 0;
+  color: #44546f;
+  font-size: 14px;
+  width: 280px;
+  height: 40px;
+  opacity: 0.9;
+}
+
+.BoardButtonsArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 8px;
+  margin-top: 8px;
+  width: 280px;
+  height: 72px;
+  margin-bottom: 12px;
+
+  .BoardButtonsAreaSave{
+    flex: 1;
+    margin-right: 2px;
+    overflow: hidden;
+    width: 100%;
+    border: none;
+    background-color:#0c66e4;
+    box-shadow: none;
+    color: #ffffff;
+    padding: 6px 12px;
+    width: 280px;
+    height: 32px;
+    border-radius: 3px;
+    
+    &:hover{
+        cursor: pointer;
+        background-color: #0055CC;
+    }
+  }
+  .BoardButtonsAreaRemove{
+    flex: 1;
+    margin-right: 2px;
+    overflow: hidden;
+    width: 100%;
+    border: none;
+    background-color:#091E420F;
+    box-shadow: none;
+    color: #172B4D;
+    padding: 6px 12px;
+    width: 280px;
+    height: 32px;
+    border-radius: 3px;
+    
+    &:hover{
+        cursor: pointer;
+        background-color: #091E4224;
+        color:#172b4d;
+
+    }
+
   }
 }
