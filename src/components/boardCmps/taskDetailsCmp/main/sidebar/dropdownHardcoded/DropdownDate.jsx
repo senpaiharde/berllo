@@ -51,7 +51,7 @@ const DropdownDate = ({onClose}) => {
   
   
   return (
-    <div className="DropdownUi">
+    <div  className="DropdownUi">
       {/* Header */}
       <div className="DropdownUiHeader">
         <h2 style={{marginLeft:'25px'}} className="DropdownHeaderH2">Dates</h2>
@@ -101,7 +101,13 @@ const DropdownDate = ({onClose}) => {
             </button>
         ))}
         </div>
+        
       </div>
+      <div className='BoardDInput'>
+      <div className='BoardDInputDate'>555</div>
+      <div className='BoardDInputDate'>555</div>
+      </div>
+
       </div>
       </form>
       </div>
