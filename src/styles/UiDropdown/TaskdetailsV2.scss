@@ -1,184 +1,193 @@
-.notification-button1{
-    background-color: #091E420F;
+.notification-button1 {
+  background-color: #091e420f;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: normal;
+  height: 32px;
+  width: 128px;
+  border: none;
+  box-shadow: none;
+  color: #172b4d;
+  font-weight: 500;
+  gap: 8px;
+  .notification-button-span {
     display: inline-flex;
-    box-sizing: border-box;
     align-items: center;
     justify-content: center;
-    padding: 6px 12px;
-    border-radius: 3px;
-    text-decoration: none;
-    white-space: normal;
-    height: 32px;
-    width: 128px;
-    border: none;
-    box-shadow:none;
-    color:#172b4d;
-    font-weight: 500;
-    gap: 8px;
-    .notification-button-span{
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+  }
+  &:hover {
+    background-color: #091e4224;
+    cursor: pointer;
+  }
 
-    }
-    &:hover {
-        background-color: #091e4224;
-        cursor: pointer;
-      
-    }
-  
-    &:active {
-      background-color: #091e424f;
-    }
-
+  &:active {
+    background-color: #091e424f;
+  }
 }
-.Date-Button{
+.Date-Button {
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: normal;
+  height: 32px;
+  border: none;
+  box-shadow: none;
+  color: #172b4d;
+  font-weight: 500;
+  gap: 8px;
+  font-size: 14px;
+  background-color: #091e420f;
+  .notification-button-span {
     display: inline-flex;
-    box-sizing: border-box;
     align-items: center;
     justify-content: center;
-    padding: 6px 12px;
-    border-radius: 3px;
-    text-decoration: none;
-    white-space: normal;
-    height: 32px;
-    border: none;
-    box-shadow: none;
-    color:#172b4d;
-    font-weight: 500;
-    gap: 8px;
-    font-size: 14px;
-    background-color: #091E420F;
-    .notification-button-span{
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+  }
 
-    }
+  &:hover {
+    background-color: #091e4224;
+    cursor: pointer;
+  }
 
-    &:hover {
-        background-color: #091e4224;
-        cursor: pointer;
-      
-    }
-  
-    &:active {
-      background-color: #091e424f;
-    }
+  &:active {
+    background-color: #091e424f;
+  }
 }
 
-.DateBoard{
+.DateBoard {
+  display: flex;
+  justify-content: center;
+  margin-top: -8px;
+  width: 304px;
+  height: 632px;
+
+  .DateBoardDiv {
     display: flex;
-    justify-content: center;
-    margin-top: -8px;
-    width: 304px;
-    height: 632px;
-    
-    
-   
-    .DateBoardDiv{
-        display: flex;
     flex-direction: column;
     height: 292px;
     width: 316px;
     padding: 16px;
-    .BoardDisplay{
-        width: 284px;
-        height: 224px;
-        grid-template-columns: repeat(7, minmax(max-content, 1fr));
-        display: grid;
-       
-        margin-top: 14px;
-        .BoardDisplayDate{
-            padding: 8px;
-            height: 32px;
-            max-width: 42px;
-            min-width: 40px;
-            justify-content: center;
-            display: flex;
-            text-align: center;
-            padding-inline-end: 8px;
-            .BoardDisplayDate5{
-                font-size: 12px;
-                font-weight: 500;
-                color:#172b4d;
-            }
-        }
-    }
+    .BoardDisplay {
+      width: 284px;
+      height: 224px;
+      grid-template-columns: repeat(7, 1fr);
+      display: grid;
 
-    .DateDates{
-        justify-content: space-between;
+      margin-top: 14px;
+      .BoardDisplayDate {
+        padding: 8px;
+        height: 32px;
+        max-width: 42px;
+        min-width: 40px;
+        justify-content: center;
         display: flex;
-        align-items: center;
-        width: 267px;
-        height: 24px;
-        padding: 8px 0px;
         text-align: center;
-        margin-left: 7px;
-        .DateDatesright{
-            align-items:end;
-            flex-direction: row;
-            align-items: center;
-            width: 56px;
-            height: 24px;
-            
-            .DateDatesButton{
-            padding: 2px 6px;
-            
-            vertical-align: bottom;
-            border: none;
-            height: 24px;
-            width: 24px;
-            background-color: white;
-            align-items: baseline;
-            justify-content: center;
-            flex-shrink: 0;
-            text-align: center;
-            vertical-align: middle;
-            column-gap: 4px;
-            border-radius: 3px;
-            &:hover{
-                background-color: #091e4224;
+        padding-inline-end: 8px;
+        .BoardDisplayDate5 {
+          font-size: 12px;
+          font-weight: 500;
+          color: #172b4d;
+        }
+      }
+      .CalendarDay {
+        padding: 10px;
+        border-radius: 5px;
+        background-color: white;
+        border: none;
         cursor: pointer;
-            }
-
+        font-weight: bold;
+        font-size: 14px;
+        color: #172b4d;
+        font-weight: 400;
+        &:hover{
+            background-color: #EBECF0;
         }
-
+        &:active{
+            color:#DEEBFF
         }
-        .DataDisplay{
-            margin: 0;
-            font-size: 14px;
-            font-weight: 500;
-            color: #172b4d;
-        }
-        .DateDatesleft{
-            align-items: center;
-            width: 56px;
-            height: 24px;
-            
-            .DateDatesButton{
-            padding: 2px 6px;
-            
-            vertical-align: bottom;
-            border: none;
-            height: 24px;
-            width: 24px;
-            background-color: white;
-            align-items: baseline;
-            justify-content: center;
-            flex-shrink: 0;
-            text-align: center;
-            vertical-align: middle;
-            column-gap: 4px;
-            border-radius: 3px;
-            &:hover{
-                background-color: #091e4224;
-        cursor: pointer;
-            }
-
-        }}
-        
-
+      }
+      .CalendarDay.other-month {
+        opacity: 0.6;
+      }
     }
+
+    .DateDates {
+      justify-content: space-between;
+      display: flex;
+      align-items: center;
+      width: 267px;
+      height: 24px;
+      padding: 8px 0px;
+      text-align: center;
+      margin-left: 7px;
+      .DateDatesright {
+        align-items: end;
+        flex-direction: row;
+        align-items: center;
+        width: 56px;
+        height: 24px;
+
+        .DateDatesButton {
+          padding: 2px 6px;
+
+          vertical-align: bottom;
+          border: none;
+          height: 24px;
+          width: 24px;
+          background-color: white;
+          align-items: baseline;
+          justify-content: center;
+          flex-shrink: 0;
+          text-align: center;
+          vertical-align: middle;
+          column-gap: 4px;
+          border-radius: 3px;
+          &:hover {
+            background-color: #091e4224;
+            cursor: pointer;
+          }
+        }
+      }
+      .DataDisplay {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #172b4d;
+      }
+      .DateDatesleft {
+        align-items: center;
+        width: 56px;
+        height: 24px;
+
+        .DateDatesButton {
+          padding: 2px 6px;
+
+          vertical-align: bottom;
+          border: none;
+          height: 24px;
+          width: 24px;
+          background-color: white;
+          align-items: baseline;
+          justify-content: center;
+          flex-shrink: 0;
+          text-align: center;
+          vertical-align: middle;
+          column-gap: 4px;
+          border-radius: 3px;
+          &:hover {
+            background-color: #091e4224;
+            cursor: pointer;
+          }
+        }
+      }
     }
+  }
 }
