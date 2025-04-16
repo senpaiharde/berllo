@@ -7,6 +7,7 @@ import SvgDateRight from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRigh
 import SvgDateRightsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRightSmall';
 import { DayName, generateCalendarDays } from '../../../../../../utils/CalendarDays';
 import { CalendarDays } from 'lucide-react';
+import SvgDropdown from '../../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
 
 const DropdownDate = ({ onClose }) => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
@@ -122,7 +123,10 @@ const DropdownDate = ({ onClose }) => {
                     type="checkbox"></input>
                 </label>
                 <div style={{ marginRight: '8px' }}>
-                  <input placeholder="D/M/YYYY" className="BoardinputDateinputDate-disable" disabled></input>
+                  <input
+                    placeholder="D/M/YYYY"
+                    className="BoardinputDateinputDate-disable"
+                    disabled></input>
                 </div>
               </div>
               <div className="BoardDInputDate">
@@ -133,15 +137,31 @@ const DropdownDate = ({ onClose }) => {
                     type="checkbox"></input>
                 </label>
                 <div style={{ marginRight: '8px' }}>
-                  <input placeholder="D/M/YYYY" className="BoardinputDateinputDate-disable" disabled></input>
-                  
+                  <input
+                    placeholder="D/M/YYYY"
+                    className="BoardinputDateinputDate-disable"
+                    disabled></input>
                 </div>
                 <div style={{ marginRight: '8px' }}>
-                  <input placeholder="H:mm" className="BoardinputDateinputDate-disable" disabled></input>
-                  
+                  <input
+                    placeholder="H:mm"
+                    className="BoardinputDateinputDate-disable"
+                    disabled></input>
                 </div>
               </div>
             </div>
+
+            <label className="BoardReminder">
+              Set due date reminder
+              <div className="BoardReminderDiv">
+                <div className="BoardReminderDivText">
+                  <div className="BoardReminderDivText2">At time of due date</div>
+                </div>
+                <div className="BoardReminderDivSVG">
+                  <span className="BoardReminderDivSVG2"><SvgDropdown/></span>
+                </div>
+              </div>
+            </label>
           </div>
         </form>
       </div>
