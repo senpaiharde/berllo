@@ -40,7 +40,9 @@ const TaskDetails = () => {
   const selectedTask = useSelector((state) => state.taskDetailsReducer.selectedTask);
 
   const boardLists = useSelector((state) => state.boardReducer.boardLists);
-
+ 
+   
+     const isWatching = selectedTask?.isWatching;
   useEffect(() => {
     
     if (boardLists.length === 0 && boardId) {
@@ -112,7 +114,7 @@ const TaskDetails = () => {
             <button className="notification-button">BACKLOG-SERVER 
                 <SvgDrop/>
                 </button>
-                <SvgEye/>
+                {!isWatching && <SvgEye/>}
                 </span>
         </div>
 
