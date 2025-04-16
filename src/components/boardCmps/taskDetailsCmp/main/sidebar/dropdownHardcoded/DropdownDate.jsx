@@ -125,7 +125,22 @@ const DropdownDate = ({ onClose }) => {
                   <input placeholder="D/M/YYYY" className="BoardinputDateinputDate-disable" disabled></input>
                 </div>
               </div>
-              <div className="BoardDInputDate">555</div>
+              <div className="BoardDInputDate">
+                <label className="BoardinputDateLabel">Due Date</label>
+                <label className="BoardinputDateinput">
+                  <input
+                    style={{ height: '16px', width: '16px', alignItems: 'center' }}
+                    type="checkbox"></input>
+                </label>
+                <div style={{ marginRight: '8px' }}>
+                  <input placeholder="D/M/YYYY" className="BoardinputDateinputDate-disable" disabled></input>
+                  
+                </div>
+                <div style={{ marginRight: '8px' }}>
+                  <input placeholder="H:mm" className="BoardinputDateinputDate-disable" disabled></input>
+                  
+                </div>
+              </div>
             </div>
           </div>
         </form>
