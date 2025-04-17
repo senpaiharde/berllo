@@ -5,16 +5,27 @@ import SvgDateLeft from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeft'
 import SvgDateLeftsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeftsmall';
 import SvgDateRight from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRight';
 import SvgDateRightsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRightSmall';
-import { DayName, generateCalendarDays } from '../../../../../../utils/CalendarDays';
-import { CalendarDays } from 'lucide-react';
+import { createHandleNextMonth, createHandleNextYear, createHandlePrevMonth, createHandlePrevYear, DayName, generateCalendarDays, isSelect } from '../../../../../../utils/CalendarDays';
+
 import SvgDropdown from '../../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
 
 const DropdownDate = ({ onClose }) => {
   const [isStartDateActive, setIsStartDateActive] = useState(false);
   const [isDueDateActive, setIsDueDateActive] = useState(false);
   const [startDateValue, setStartDateValue] = useState('');
-  
+  const [dueDateValue, setDueDateValue] = useState('');
+  const [selectedCalendarDay, setSelectedCalendarDay] = useState(null);
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  const taskDate = task?.taskDueDate;
+  const isSelected = isSelect(selectedCalendarDay,calendarDate,day)
+  const formattedDate = taskDate
+    ? new Date(taskDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : 'no Date';
+
   const day = DayName();
   const Today = new Date();
   const [calendarDate, setCalenderDate] = useState({
@@ -22,44 +33,23 @@ const DropdownDate = ({ onClose }) => {
     month: Today.getMonth(),
     day: Today.getDay(),
     hour: Today.getHours(),
-    min: Today.getMinutes()
+    min: Today.getMinutes(),
   });
 
-  const formattedHour = String(calendarDate.hour).padStart(2,'0');
-  const formattedMin = String(calendarDate.min).padStart(2,'0');
-
+  const formattedHour = String(calendarDate.hour).padStart(2, '0');
+  const formattedMin = String(calendarDate.min).padStart(2, '0');
 
   const [dueTimeValue, setDueTimeValue] = useState(`${formattedHour}:${formattedMin}`);
   const calenderDays = generateCalendarDays(calendarDate.year, calendarDate.month);
 
-  const handlePrevMonth = () => {
-    setCalenderDate((prev) => {
-      const newMonth = prev.month - 1;
-      return newMonth < 0
-        ? { year: prev.year - 1, month: 11 }
-        : { year: prev.year, month: newMonth };
-    });
-  };
-  const handleNextMonth = () => {
-    setCalenderDate((prev) => {
-      const newMonth = prev.month + 1;
-      return newMonth < 0
-        ? { year: prev.year + 1, month: 0 }
-        : { year: prev.year, month: newMonth };
-    });
-  };
-  const handleNextYear = () => {
-    setCalenderDate((prev) => ({
-      year: prev.year + 1,
-      month: prev.month,
-    }));
-  };
-  const handlePrevYear = () => {
-    setCalenderDate((prev) => ({
-      year: prev.year - 1,
-      month: prev.month,
-    }));
-  };
+  const handlePrevMonth = createHandlePrevMonth(setCalenderDate);
+  const handleNextMonth = createHandleNextMonth(setCalenderDate);
+  const handleNextYear = createHandleNextYear(setCalenderDate);
+  const handlePrevYear = createHandlePrevYear(setCalenderDate);
+const handleSave = () => {
+
+}
+
 
   return (
     <div className="DropdownUi">
@@ -117,13 +107,30 @@ const DropdownDate = ({ onClose }) => {
                     </div>
                   );
                 })}
-                {calenderDays.map((day, idx) => (
+                {calenderDays.map((day, idx) => {
+                    
+                    return(
                   <button
+                  
                     key={idx}
-                    className={`CalendarDay ${day.CurrentMonth ? 'current-month' : 'other-month'}`}>
+                    onClick={() => {
+                        const selectedDate = {
+                            day: day.day,
+                            month: calendarDate.month,
+                            year: calendarDate.year,
+                        }
+                        setSelectedCalendarDay(selectedDate);
+                        setIsDueDateActive((prev) => !prev);
+
+                        const formatted = `${String(day.day).padStart(2,0)}/
+                        ${String(calendarDate.month + 1).padStart(2,0)}${calendarDate.year}`;
+                        setDueDateValue(formatted)
+                    }}
+                    className={`CalendarDay ${day.CurrentMonth ? 'current-month' : 'other-month'}
+                    ${isSelected ? 'selected-day' : ''}`}>
                     {day.day}
                   </button>
-                ))}
+                )})}
               </div>
             </div>
             <div className="BoardDInput">
@@ -131,56 +138,75 @@ const DropdownDate = ({ onClose }) => {
                 <label className="BoardinputDateLabel">Start Date</label>
                 <label className="BoardinputDateinput">
                   <input
-                  checked={isStartDateActive}
-                    onChange={() => setIsStartDateActive(prev => !prev)}
+                    checked={isStartDateActive}
+                    onChange={() => setIsStartDateActive((prev) => !prev)}
                     style={{ height: '16px', width: '16px', alignItems: 'center' }}
                     type="checkbox"></input>
                 </label>
+
+
+
                 <div style={{ marginRight: '8px' }}>
                   <input
-                    
-                    placeholder={isStartDateActive ? '' : 
-                        "D/M/YYYY"
+                    placeholder={isStartDateActive ? '' : 'D/M/YYYY'}
+                    className={
+                      isStartDateActive
+                        ? 'BoardinputDateinputDate'
+                        : 'BoardinputDateinputDate-disable'
                     }
-                    className={isStartDateActive ? 
-                        'BoardinputDateinputDate' : 'BoardinputDateinputDate-disable'}
                     disabled={!isStartDateActive}
                     value={startDateValue}
-                    onChange={(e)=> setStartDateValue(e.target.value)}></input>
+                    onChange={(e) => setStartDateValue(e.target.value)}></input>
                 </div>
               </div>
 
-
-
-              
               <div className="BoardDInputDate">
                 <label className="BoardinputDateLabel">Due Date</label>
                 <label className="BoardinputDateinput">
                   <input
-                  checked={isDueDateActive}
-                  onChange={() => {setIsDueDateActive(prev => !prev)}}
+                    checked={isDueDateActive}
+                    onChange={() => {
+                      setIsDueDateActive((prev) => !prev);
+                    }}
                     style={{ height: '16px', width: '16px', alignItems: 'center' }}
                     type="checkbox"></input>
+
+
+
                 </label>
                 <div style={{ marginRight: '8px' }}>
                   <input
-                    placeholder={isDueDateActive ? '' :"D/M/YYYY"}
-                    className={isDueDateActive ? 
-                        'BoardinputDateinputDate' : 'BoardinputDateinputDate-disable'}
+                  value={dueDateValue}
+                  onChange={(e) => setDueDateValue(e.target.value)}
+                    placeholder={isDueDateActive ? '' : 'D/M/YYYY'}
+                    className={
+                      isDueDateActive
+                        ? 'BoardinputDateinputDate'
+                        : 'BoardinputDateinputDate-disable'
+                    }
                     disabled={!isDueDateActive}></input>
                 </div>
+
+
+
+
+
                 <div style={{ marginRight: '8px' }}>
                   <input
-                 value={dueTimeValue ? dueTimeValue : ''}
-                    placeholder= "H:mm"
-                    className={isDueDateActive ? 
-                        'BoardinputDateinputDate' : 'BoardinputDateinputDate-disable'}
+                    value={dueTimeValue ? dueTimeValue : 'H:mm'}
+                    placeholder="H:mm"
+                    className={
+                      isDueDateActive
+                        ? 'BoardinputDateinputDate'
+                        : 'BoardinputDateinputDate-disable'
+                    }
                     readOnly={!isDueDateActive}
-                    onChange={(e)=> {
-                         if(isDueDateActive){
-                           setDueTimeValue(e.target.value);
-                         }
-                    }} />
+                    onChange={(e) => {
+                      if (isDueDateActive) {
+                        setDueTimeValue(e.target.value);
+                      }
+                    }}
+                  />
                 </div>
               </div>
             </div>

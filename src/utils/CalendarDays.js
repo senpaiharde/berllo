@@ -42,5 +42,51 @@ export function DayName() {
       ]
       return day;
 }
+export function isSelect(selectedCalendarDay,calendarDate,day) {
+    const isSelected = 
+                    selectedCalendarDay &&
+                    selectedCalendarDay.year === calendarDate.year &&
+                    selectedCalendarDay.month === calendarDate.month &&
+                    selectedCalendarDay.day == day.day;
+    return isSelected;
+}
+
+export function createHandlePrevMonth(setCalenderDate) {
+    return () => {
+    setCalenderDate((prev) => {
+        const newMonth = prev.month - 1;
+        return newMonth < 0
+          ? { year: prev.year - 1, month: 11 }
+          : { year: prev.year, month: newMonth };
+      }); }
+}
+export function createHandleNextMonth(setCalenderDate) {
+    return () => {
+        setCalenderDate((prev) => {
+            const newMonth = prev.month + 1;
+            return newMonth < 0
+              ? { year: prev.year + 1, month: 0 }
+              : { year: prev.year, month: newMonth };
+          }); 
+        }
+}
+
+export function createHandleNextYear(setCalenderDate) {
+    return () => {
+        setCalenderDate((prev) => ({
+            year: prev.year + 1,
+            month: prev.month,
+          }));
+        }
+}
+
+export function createHandlePrevYear(setCalenderDate) {
+    return () => {
+        setCalenderDate((prev) => ({
+            year: prev.year - 1,
+            month: prev.month,
+          }));
+        }
+}
 
 
