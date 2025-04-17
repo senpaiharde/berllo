@@ -2,7 +2,7 @@
     
     
     
-    font-weight: 600;
+    font-weight: 500;
     display: inline-block;
     
     height: 16px;
@@ -23,8 +23,12 @@
     }
   
     &.overdue-late {
-      background-color: #e3fcef;
-      color: #36b37e;
+      background-color: #FFECEB;
+      color: #ae2e24;
+    }
+    &.complete{
+        background-color: #1f845a;
+      color: #ffffff;
     }
   }
   

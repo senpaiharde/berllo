@@ -20,7 +20,7 @@ const taskDetailsSlice = createSlice({
               state.selectedTask = {
                 ...action.payload,
                 taskDueDate: action.payload.taskDueDate ?? null,
-                reminderSetting: action.payload.reminderSetting ?? '5 minutes before',
+                reminderSettings: action.payload.reminderSetting ?? '5 minutes before',
                 isDueComplete: action.payload.isDueComplete ?? false,
             };
             state.isOpen = true;

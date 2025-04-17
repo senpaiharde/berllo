@@ -33,7 +33,7 @@ const TaskDetailsDate = () => {
                     <span className={`task-due-tag ${dueStatus}`}>
                       {dueStatus === 'complete' && 'Complete'}
                       {dueStatus === 'overdue' && 'Overdue'}
-                      {dueStatus === 'due-soon' && 'due soon'}
+                      {dueStatus === 'due-soon' && 'Due soon'}
                       {dueStatus === 'overdue-late' && 'Overdue2'}
                     </span>
                   )}
