@@ -98,3 +98,33 @@ export function IsTodayDay(day) {
     return day.fullDate.toDateString() === new Date().toDateString();
   };
   ;
+
+
+  export function getTaskDueStatus(task) {
+    if(!task.taskDueDate) return 'no-date'
+
+    const now  = new Date().getTime()
+    const due = task.taskDueDate;
+    const reminder = task.reminderSettings || 'None';
+    const isCompleted = task.isDueComplete;
+  
+    const reminderOffsets = {
+        'None' : 0,
+        'at Time Due Date': 0,
+       '5 minutes before' : 5 * 60 * 1000,
+       '10 minutes before' : 10 * 60 * 1000,
+       '30 minutes before' : 30 * 60 * 1000,
+       '1 hour before' : 60 * 60 * 1000,
+       '1 day before': 24 * 60 * 60 * 1000,
+       '2 day before': 2 * 24 * 60 * 60 * 1000,
+
+    };
+
+    const offset = reminderOffsets[reminder] || 0;
+    const reminderTime = due - offset;
+    if (isCompleted) return 'complete';
+    if (now >= due + 24 * 60 * 60 * 1000) return 'overdue-late';
+    if(now >= due) return 'overdue';
+    if (now >= reminderTime || now >= due - 24 * 60 * 60 * 1000) return 'due-soon';
+    return '';
+  }

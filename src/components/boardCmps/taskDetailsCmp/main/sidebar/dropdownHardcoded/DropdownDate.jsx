@@ -5,7 +5,16 @@ import SvgDateLeft from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeft'
 import SvgDateLeftsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeftsmall';
 import SvgDateRight from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRight';
 import SvgDateRightsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRightSmall';
-import { createHandleNextMonth, createHandleNextYear, createHandlePrevMonth, createHandlePrevYear, DayName, generateCalendarDays, isSelect, IsTodayDay } from '../../../../../../utils/CalendarDays';
+import {
+  createHandleNextMonth,
+  createHandleNextYear,
+  createHandlePrevMonth,
+  createHandlePrevYear,
+  DayName,
+  generateCalendarDays,
+  isSelect,
+  IsTodayDay,
+} from '../../../../../../utils/CalendarDays';
 
 import SvgDropdown from '../../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
@@ -14,15 +23,16 @@ const DropdownDate = ({ onClose }) => {
   const dispatch = useDispatch();
 
   const [isStartDateActive, setIsStartDateActive] = useState(false);
-
+  const [showReminderOptions, setShowReminderOptions] = useState(false);
   const [isDueDateActive, setIsDueDateActive] = useState(false);
   const [startDateValue, setStartDateValue] = useState('');
   const [dueDateValue, setDueDateValue] = useState('');
+  const [dropdownTitle, setDropdownTitle] = useState('none');
   const day = DayName();
   const Today = new Date();
   const [selectedCalendarDay, setSelectedCalendarDay] = useState(null);
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
- 
+
   const [calendarDate, setCalenderDate] = useState({
     year: Today.getFullYear(),
     month: Today.getMonth(),
@@ -30,9 +40,6 @@ const DropdownDate = ({ onClose }) => {
     hour: Today.getHours(),
     min: Today.getMinutes(),
   });
-  
-  
-
 
   const formattedHour = String(calendarDate.hour).padStart(2, '0');
   const formattedMin = String(calendarDate.min).padStart(2, '0');
@@ -44,34 +51,40 @@ const DropdownDate = ({ onClose }) => {
   const handleNextMonth = createHandleNextMonth(setCalenderDate);
   const handleNextYear = createHandleNextYear(setCalenderDate);
   const handlePrevYear = createHandlePrevYear(setCalenderDate);
-;
-  
   const handleSave = () => {
     if (!isDueDateActive || !dueDateValue || !dueTimeValue) return;
-  
+
     const [day, month, year] = dueDateValue.split('/');
     const [hour, minute] = dueTimeValue.split(':');
     const dueDate = new Date(+year, +month - 1, +day, +hour, +minute);
-  
-    dispatch(liveUpdateTask({
-      ...task,
-      taskDueDate: dueDate.getTime(),
-    }));
-  
-    onClose();
-  };
-  
-  const handleRemove = () => {
-    console.log("Saving task due date:", dueDateValue, dueTimeValue);
 
-    dispatch(liveUpdateTask({
-      ...task,
-      taskDueDate: null,
-    }));
-  
+    dispatch(
+      liveUpdateTask({
+        ...task,
+        taskDueDate: dueDate.getTime(),
+        reminderSettings: dropdownTitle,
+        isDueComplete: false,
+      })
+    );
+
     onClose();
   };
-  
+
+  const handleRemove = () => {
+    console.log('Saving task due date:', dueDateValue, dueTimeValue);
+
+    dispatch(
+      liveUpdateTask({
+        ...task,
+        taskDueDate: null,
+        reminderSettings: 'None',
+        isDueComplete: false,
+      })
+    );
+
+    onClose();
+  };
+
   return (
     <div className="DropdownUi">
       {/* Header */}
@@ -129,36 +142,35 @@ const DropdownDate = ({ onClose }) => {
                   );
                 })}
                 {calenderDays.map((day, idx) => {
-                    const isSelected = isSelect(selectedCalendarDay,calendarDate,day)
-                    const isToday = IsTodayDay(day)
-                    return(
-                  <button
-                  
-                    key={idx}
-                    onClick={() => {
-                        
+                  const isSelected = isSelect(selectedCalendarDay, calendarDate, day);
+                  const isToday = IsTodayDay(day);
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => {
                         setSelectedCalendarDay({
-                            day: day.fullDate.getDate(),
-                            month: day.fullDate.getMonth(),
-                            year: day.fullDate.getFullYear(),
-                          });
-                          
+                          day: day.fullDate.getDate(),
+                          month: day.fullDate.getMonth(),
+                          year: day.fullDate.getFullYear(),
+                        });
+
                         setIsDueDateActive(true);
 
-                        const formatted = `${String(day.day)
-                            .padStart(2, '0')}/${String(calendarDate.month + 1)
-                            .padStart(2, '0')}/${calendarDate.year}`;
+                        const formatted = `${String(day.day).padStart(2, '0')}/${String(
+                          calendarDate.month + 1
+                        ).padStart(2, '0')}/${calendarDate.year}`;
 
-                        setDueDateValue(formatted)
-                    }}
-                    className={`CalendarDay 
-                        ${day.CurrentMonth  ? 'current-month' : 'other-month'}
+                        setDueDateValue(formatted);
+                      }}
+                      className={`CalendarDay 
+                        ${day.CurrentMonth ? 'current-month' : 'other-month'}
                         ${isToday ? 'today' : ''}
                     ${isSelected ? 'selected-day' : ''}
                     `}>
-                    {day.day}
-                  </button>
-                )})}
+                      {day.day}
+                    </button>
+                  );
+                })}
               </div>
             </div>
             <div className="BoardDInput">
@@ -171,8 +183,6 @@ const DropdownDate = ({ onClose }) => {
                     style={{ height: '16px', width: '16px', alignItems: 'center' }}
                     type="checkbox"></input>
                 </label>
-
-
 
                 <div style={{ marginRight: '8px' }}>
                   <input
@@ -198,16 +208,13 @@ const DropdownDate = ({ onClose }) => {
                     }}
                     style={{ height: '16px', width: '16px', alignItems: 'center' }}
                     type="checkbox"></input>
-
-
-
                 </label>
                 <div style={{ marginRight: '8px' }}>
                   <input
-                  value={dueDateValue}
-                  onChange={(e) => {
-                    
-                    setDueDateValue(e.target.value)}}
+                    value={dueDateValue}
+                    onChange={(e) => {
+                      setDueDateValue(e.target.value);
+                    }}
                     placeholder={isDueDateActive ? '' : 'D/M/YYYY'}
                     className={
                       isDueDateActive
@@ -216,10 +223,6 @@ const DropdownDate = ({ onClose }) => {
                     }
                     disabled={!isDueDateActive}></input>
                 </div>
-
-
-
-
 
                 <div style={{ marginRight: '8px' }}>
                   <input
@@ -240,26 +243,61 @@ const DropdownDate = ({ onClose }) => {
                 </div>
               </div>
             </div>
-
-            <label className="BoardReminder">
-              Set due date reminder
-              <div className="BoardReminderDiv">
-                <div className="BoardReminderDivText">
-                  <div className="BoardReminderDivText2">At time of due date</div>
+            <div className="BoardReminderWrapper">
+              <label
+                className="BoardReminder"
+                onClick={() => setShowReminderOptions((prev) => !prev)}>
+                Set due date reminder
+                <div className="BoardReminderDiv">
+                  <div className="BoardReminderDivText">
+                    <div className="BoardReminderDivText2">{dropdownTitle}</div>
+                  </div>
+                  <div className="BoardReminderDivSVG">
+                    <span className="BoardReminderDivSVG2">
+                      <SvgDropdown />
+                    </span>
+                  </div>
                 </div>
-                <div className="BoardReminderDivSVG">
-                  <span className="BoardReminderDivSVG2">
-                    <SvgDropdown />
-                  </span>
+              </label>
+              {showReminderOptions && (
+                <div className="ReminderDropdown">
+                  <ul>
+                    {[
+                      'None',
+                      'At Time Due Date',
+                      '5 minutes before',
+                      '10 minutes before',
+                      '30 minutes before',
+                      '1 hour before',
+                      '1 day before',
+                      '2 day before',
+                    ].map((li) => {
+                      return (
+                        <li
+                          key={li}
+                          className={li === dropdownTitle ? 'selected' : ''}
+                          onClick={() => {
+                            setDropdownTitle(li);
+                            setShowReminderOptions(false);
+                          }}>
+                          {li}
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
-              </div>
-            </label>
+              )}
+            </div>
             <div className="BoardText">
               Reminders will be sent to all members and watchers of this card.
             </div>
             <div className="BoardButtonsArea">
-              <button onClick={handleSave} className="BoardButtonsAreaSave">Save</button>
-              <button onClick={handleRemove} className="BoardButtonsAreaRemove">Remove</button>
+              <button onClick={handleSave} className="BoardButtonsAreaSave">
+                Save
+              </button>
+              <button onClick={handleRemove} className="BoardButtonsAreaRemove">
+                Remove
+              </button>
             </div>
           </div>
         </form>

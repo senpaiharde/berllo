@@ -8,7 +8,7 @@ const initialState = {
     selectedTask : null,
     isOpen: false,
     isWatching: false,
-    taskDueDate:null,
+    
 };
 
 
@@ -17,9 +17,12 @@ const taskDetailsSlice = createSlice({
     initialState,
     reducers: {
         openTaskDetails: (state, action) => {
+            if (state.selectedTask?._id === action.payload._id) return;
               state.selectedTask = {
                 ...action.payload,
                 taskDueDate: action.payload.taskDueDate ?? null,
+                reminderSettings: action.payload.reminderSetting ?? '5 minutes before',
+                isDueComplete: action.payload.isDueComplete ?? false,
             };
             state.isOpen = true;
         },
