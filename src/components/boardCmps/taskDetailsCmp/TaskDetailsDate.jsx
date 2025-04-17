@@ -34,7 +34,7 @@ const TaskDetailsDate = () => {
                       {dueStatus === 'complete' && 'Complete'}
                       {dueStatus === 'overdue' && 'Overdue'}
                       {dueStatus === 'due-soon' && 'Due soon'}
-                      {dueStatus === 'overdue-late' && 'Overdue2'}
+                      {dueStatus === 'overdue-late' && 'Overdue'}
                     </span>
                   )}
                   <SvgDropDate />

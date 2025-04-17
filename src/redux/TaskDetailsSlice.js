@@ -17,6 +17,7 @@ const taskDetailsSlice = createSlice({
     initialState,
     reducers: {
         openTaskDetails: (state, action) => {
+            if (state.selectedTask?._id === action.payload._id) return;
               state.selectedTask = {
                 ...action.payload,
                 taskDueDate: action.payload.taskDueDate ?? null,

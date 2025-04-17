@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   closeTaskDetails,
@@ -27,9 +27,11 @@ const TaskDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { taskId, boardId } = useParams();
+  
 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-
+  const board = useSelector((state) => state.boardReducer);
+  const slug = board.slug || (board.boardTitle ? board.boardTitle.toLowerCase().replace(/\s+/g, "-") : "board");
   const taskDate = task?.taskDueDate;
   const pureTaskId = taskId.split('-')[0];
   const hasLabels = useSelector((state) => {
@@ -78,7 +80,8 @@ const TaskDetails = () => {
 
   const handleClose = () => {
     dispatch(closeTaskDetails());
-    navigate(-1);
+    
+    navigate(`/b/${board._id}/${slug}`);
   };
 
   const handleTitleChange = (e) => {
