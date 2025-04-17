@@ -110,18 +110,19 @@ const handleSave = () => {
                 })}
                 {calenderDays.map((day, idx) => {
                     const isSelected = isSelect(selectedCalendarDay,calendarDate,day)
-                    const isToday = IsTodayDay(calendarDate,day,Today)
+                    const isToday = IsTodayDay(day)
                     return(
                   <button
                   
                     key={idx}
                     onClick={() => {
-                        const selectedDate = {
-                            day: day.day,
-                            month: calendarDate.month,
-                            year: calendarDate.year,
-                        }
-                        setSelectedCalendarDay(selectedDate);
+                        
+                        setSelectedCalendarDay({
+                            day: day.fullDate.getDate(),
+                            month: day.fullDate.getMonth(),
+                            year: day.fullDate.getFullYear(),
+                          });
+                          
                         setIsDueDateActive(true);
 
                         const formatted = `${String(day.day)
@@ -130,9 +131,11 @@ const handleSave = () => {
 
                         setDueDateValue(formatted)
                     }}
-                    className={`CalendarDay ${day.CurrentMonth ? 'current-month' : 'other-month'}
+                    className={`CalendarDay 
+                        ${day.CurrentMonth  ? 'current-month' : 'other-month'}
+                        ${isToday ? 'today' : ''}
                     ${isSelected ? 'selected-day' : ''}
-                    ${isToday && day.CurrentMonth ? 'today' : ''}`}>
+                    `}>
                     {day.day}
                   </button>
                 )})}

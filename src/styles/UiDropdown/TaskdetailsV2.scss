@@ -111,6 +111,8 @@
         color: #172b4d;
         font-weight: 400;
         height: 32px;
+        position: relative;
+        overflow: visible;
 
         &:hover {
           background-color: #ebecf0;
@@ -135,6 +137,11 @@
         }
         
       }
+      .CalendarDay.today{
+        color: #0052CC;
+        font-weight: 700;
+      }
+      
       .CalendarDay.today::after {
         content: "";
         position: absolute;
@@ -142,9 +149,12 @@
         left: 7.5%;  
         width: 85%;  
         height: 2px;
-        background-color: #0052CC;
+        font-weight: 500;
+        
+        background-color: #0052CC !important;
         border-radius: 0; 
         pointer-events: none;
+        z-index: 1;
       }
       
     }
