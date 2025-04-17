@@ -28,6 +28,8 @@ const TaskDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { taskId, boardId } = useParams();
+  const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  const taskDate = task?.taskDueDate;
   const pureTaskId = taskId.split("-")[0];
   const hasLabels = useSelector((state) => {
     const task = state.taskDetailsReducer.selectedTask;
@@ -130,7 +132,7 @@ const TaskDetails = () => {
 
             <TaskDetailsNotifcations/>
 
-            <TaskDetailsDate/>
+             {taskDate &&  <TaskDetailsDate/>}
 
             </div>
             <TaskDescription/>

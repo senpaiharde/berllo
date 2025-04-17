@@ -1,3 +1,5 @@
+import { useDispatch, useSelector } from "react-redux"
+import { liveUpdateTask } from "../redux/taskDetailsSlice"
 
 
 
@@ -12,18 +14,21 @@ export function generateCalendarDays(year,month) {
 
     const offset = startDay === 0 ? 6 :startDay - 1
 
-    for(let i = offset - 1; i >= 0; i--){
-        const date = prevMonthLastDate - i
-        days.push({day: date, CurrentMonth: false})
-    }
+    for (let i = offset - 1; i >= 0; i--) {
+        const date = prevMonthLastDate - i;
+        const fullDate = new Date(year, month - 1, date); 
+        days.push({ day: date, CurrentMonth: false, fullDate });
+      }
 
-    for(let i = 1; i <= currectMonthLastDate; i++){
-        days.push({day:i,CurrentMonth:true})
-    }
+      for (let i = 1; i <= currectMonthLastDate; i++) {
+        const fullDate = new Date(year, month, i); 
+        days.push({ day: i, CurrentMonth: true, fullDate });
+      }
 
     const nextMonthDays = 42 - days.length
     for(let i = 1 ; i <=nextMonthDays ; i++){
-        days.push({day: i, CurrentMonth:false})
+        const fullDate = new Date(year, month + 1, i);
+        days.push({ day: i, CurrentMonth: false, fullDate });
 
     }
     return days
@@ -42,5 +47,54 @@ export function DayName() {
       ]
       return day;
 }
+export function isSelect(selectedCalendarDay, calendarDate, day) {
+    if (!selectedCalendarDay || !day.fullDate) return false;
+  
+    const selected = new Date(selectedCalendarDay.year, selectedCalendarDay.month, selectedCalendarDay.day);
+    return selected.toDateString() === day.fullDate.toDateString();
+  }
+  
 
+export function createHandlePrevMonth(setCalenderDate) {
+    return () => {
+    setCalenderDate((prev) => {
+        const newMonth = prev.month - 1;
+        return newMonth < 0
+          ? { year: prev.year - 1, month: 11 }
+          : { year: prev.year, month: newMonth };
+      }); }
+}
+export function createHandleNextMonth(setCalenderDate) {
+    return () => {
+        setCalenderDate((prev) => {
+            const newMonth = prev.month + 1;
+            return newMonth < 0
+              ? { year: prev.year + 1, month: 0 }
+              : { year: prev.year, month: newMonth };
+          }); 
+        }
+}
 
+export function createHandleNextYear(setCalenderDate) {
+    return () => {
+        setCalenderDate((prev) => ({
+            year: prev.year + 1,
+            month: prev.month,
+          }));
+        }
+}
+
+export function createHandlePrevYear(setCalenderDate) {
+    return () => {
+        setCalenderDate((prev) => ({
+            year: prev.year - 1,
+            month: prev.month,
+          }));
+        }
+}
+
+export function IsTodayDay(day) {
+    if (!day.fullDate) return false;
+    return day.fullDate.toDateString() === new Date().toDateString();
+  };
+  ;

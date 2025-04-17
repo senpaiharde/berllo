@@ -8,6 +8,7 @@ const initialState = {
     selectedTask : null,
     isOpen: false,
     isWatching: false,
+    taskDueDate:null,
 };
 
 
@@ -16,7 +17,10 @@ const taskDetailsSlice = createSlice({
     initialState,
     reducers: {
         openTaskDetails: (state, action) => {
-            state.selectedTask = action.payload;
+              state.selectedTask = {
+                ...action.payload,
+                taskDueDate: action.payload.taskDueDate ?? null,
+            };
             state.isOpen = true;
         },
         closeTaskDetails: (state) => {
@@ -69,13 +73,14 @@ deleteChecklistItem,} = taskDetailsSlice.actions
 
 
 export const liveUpdateTask = (updatedFields) => (dispatch, getState) => { 
-    dispatch(updateSelectedTaskLive(updatedFields));
+const {selectedTask} = getState().taskDetailsReducer;;
 
-    const {selectedTask} = getState().taskDetailsReducer;;
+
     const updatedTask = {
         ...selectedTask,
         ...updatedFields,
     };
     dispatch(updateTaskInBoard(updatedTask));
+    dispatch(updateSelectedTaskLive(updatedFields));
 }
 export default taskDetailsSlice.reducer;
