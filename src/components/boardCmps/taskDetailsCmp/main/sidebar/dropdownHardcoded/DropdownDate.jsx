@@ -14,10 +14,11 @@ const DropdownDate = ({ onClose }) => {
   const dispatch = useDispatch();
 
   const [isStartDateActive, setIsStartDateActive] = useState(false);
-
+  const [showReminderOptions,setShowReminderOptions] = useState(false);
   const [isDueDateActive, setIsDueDateActive] = useState(false);
   const [startDateValue, setStartDateValue] = useState('');
   const [dueDateValue, setDueDateValue] = useState('');
+  const [dropdownTitle,setDropdownTitle] =useState("none")
   const day = DayName();
   const Today = new Date();
   const [selectedCalendarDay, setSelectedCalendarDay] = useState(null);
@@ -240,12 +241,12 @@ const DropdownDate = ({ onClose }) => {
                 </div>
               </div>
             </div>
-
-            <label className="BoardReminder">
+            <div className="BoardReminderWrapper">
+            <label className="BoardReminder" onClick={() => setShowReminderOptions(prev => !prev)}>
               Set due date reminder
               <div className="BoardReminderDiv">
                 <div className="BoardReminderDivText">
-                  <div className="BoardReminderDivText2">At time of due date</div>
+                  <div className="BoardReminderDivText2">{dropdownTitle}</div>
                 </div>
                 <div className="BoardReminderDivSVG">
                   <span className="BoardReminderDivSVG2">
@@ -254,6 +255,19 @@ const DropdownDate = ({ onClose }) => {
                 </div>
               </div>
             </label>
+            {showReminderOptions && (<div className='ReminderDropdown'>
+                <ul >{['None','At Time Due Date','5 minutes before','10 minutes before'
+                    ,'30 minutes before','1 hour before','1 day before','2 day before'
+                ].map((li) => {
+                    return(<li key={li} >{li}</li>
+                    
+                )})}
+                     
+
+                </ul>
+            </div>
+        )}
+        </div>
             <div className="BoardText">
               Reminders will be sent to all members and watchers of this card.
             </div>
