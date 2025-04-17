@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
 import SvgDateLeft from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeft';
@@ -8,9 +8,13 @@ import SvgDateRightsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDat
 import { createHandleNextMonth, createHandleNextYear, createHandlePrevMonth, createHandlePrevYear, DayName, generateCalendarDays, isSelect, IsTodayDay } from '../../../../../../utils/CalendarDays';
 
 import SvgDropdown from '../../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
+import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 
 const DropdownDate = ({ onClose }) => {
+  const dispatch = useDispatch();
+
   const [isStartDateActive, setIsStartDateActive] = useState(false);
+
   const [isDueDateActive, setIsDueDateActive] = useState(false);
   const [startDateValue, setStartDateValue] = useState('');
   const [dueDateValue, setDueDateValue] = useState('');
@@ -18,7 +22,7 @@ const DropdownDate = ({ onClose }) => {
   const Today = new Date();
   const [selectedCalendarDay, setSelectedCalendarDay] = useState(null);
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-  const taskDate = task?.taskDueDate;
+ 
   const [calendarDate, setCalenderDate] = useState({
     year: Today.getFullYear(),
     month: Today.getMonth(),
@@ -27,14 +31,7 @@ const DropdownDate = ({ onClose }) => {
     min: Today.getMinutes(),
   });
   
-  const formattedDate = taskDate
-    ? new Date(taskDate).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
-    : 'no Date';
-
+  
 
 
   const formattedHour = String(calendarDate.hour).padStart(2, '0');
@@ -47,11 +44,34 @@ const DropdownDate = ({ onClose }) => {
   const handleNextMonth = createHandleNextMonth(setCalenderDate);
   const handleNextYear = createHandleNextYear(setCalenderDate);
   const handlePrevYear = createHandlePrevYear(setCalenderDate);
-const handleSave = () => {
+;
+  
+  const handleSave = () => {
+    if (!isDueDateActive || !dueDateValue || !dueTimeValue) return;
+  
+    const [day, month, year] = dueDateValue.split('/');
+    const [hour, minute] = dueTimeValue.split(':');
+    const dueDate = new Date(+year, +month - 1, +day, +hour, +minute);
+  
+    dispatch(liveUpdateTask({
+      ...task,
+      taskDueDate: dueDate.getTime(),
+    }));
+  
+    onClose();
+  };
+  
+  const handleRemove = () => {
+    console.log("Saving task due date:", dueDateValue, dueTimeValue);
 
-}
-
-
+    dispatch(liveUpdateTask({
+      ...task,
+      taskDueDate: null,
+    }));
+  
+    onClose();
+  };
+  
   return (
     <div className="DropdownUi">
       {/* Header */}
@@ -238,8 +258,8 @@ const handleSave = () => {
               Reminders will be sent to all members and watchers of this card.
             </div>
             <div className="BoardButtonsArea">
-              <button className="BoardButtonsAreaSave">Save</button>
-              <button className="BoardButtonsAreaRemove">Remove</button>
+              <button onClick={handleSave} className="BoardButtonsAreaSave">Save</button>
+              <button onClick={handleRemove} className="BoardButtonsAreaRemove">Remove</button>
             </div>
           </div>
         </form>
