@@ -10,14 +10,26 @@ import { CalendarDays } from 'lucide-react';
 import SvgDropdown from '../../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
 
 const DropdownDate = ({ onClose }) => {
+  const [isStartDateActive, setIsStartDateActive] = useState(false);
+  const [isDueDateActive, setIsDueDateActive] = useState(false);
+  const [startDateValue, setStartDateValue] = useState('');
+  
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const day = DayName();
   const Today = new Date();
   const [calendarDate, setCalenderDate] = useState({
     year: Today.getFullYear(),
     month: Today.getMonth(),
+    day: Today.getDay(),
+    hour: Today.getHours(),
+    min: Today.getMinutes()
   });
 
+  const formattedHour = String(calendarDate.hour).padStart(2,'0');
+  const formattedMin = String(calendarDate.min).padStart(2,'0');
+
+
+  const [dueTimeValue, setDueTimeValue] = useState(`${formattedHour}:${formattedMin}`);
   const calenderDays = generateCalendarDays(calendarDate.year, calendarDate.month);
 
   const handlePrevMonth = () => {
@@ -119,34 +131,56 @@ const DropdownDate = ({ onClose }) => {
                 <label className="BoardinputDateLabel">Start Date</label>
                 <label className="BoardinputDateinput">
                   <input
+                  checked={isStartDateActive}
+                    onChange={() => setIsStartDateActive(prev => !prev)}
                     style={{ height: '16px', width: '16px', alignItems: 'center' }}
                     type="checkbox"></input>
                 </label>
                 <div style={{ marginRight: '8px' }}>
                   <input
-                    placeholder="D/M/YYYY"
-                    className="BoardinputDateinputDate-disable"
-                    disabled></input>
+                    
+                    placeholder={isStartDateActive ? '' : 
+                        "D/M/YYYY"
+                    }
+                    className={isStartDateActive ? 
+                        'BoardinputDateinputDate' : 'BoardinputDateinputDate-disable'}
+                    disabled={!isStartDateActive}
+                    value={startDateValue}
+                    onChange={(e)=> setStartDateValue(e.target.value)}></input>
                 </div>
               </div>
+
+
+
+              
               <div className="BoardDInputDate">
                 <label className="BoardinputDateLabel">Due Date</label>
                 <label className="BoardinputDateinput">
                   <input
+                  checked={isDueDateActive}
+                  onChange={() => {setIsDueDateActive(prev => !prev)}}
                     style={{ height: '16px', width: '16px', alignItems: 'center' }}
                     type="checkbox"></input>
                 </label>
                 <div style={{ marginRight: '8px' }}>
                   <input
-                    placeholder="D/M/YYYY"
-                    className="BoardinputDateinputDate-disable"
-                    disabled></input>
+                    placeholder={isDueDateActive ? '' :"D/M/YYYY"}
+                    className={isDueDateActive ? 
+                        'BoardinputDateinputDate' : 'BoardinputDateinputDate-disable'}
+                    disabled={!isDueDateActive}></input>
                 </div>
                 <div style={{ marginRight: '8px' }}>
                   <input
-                    placeholder="H:mm"
-                    className="BoardinputDateinputDate-disable"
-                    disabled></input>
+                 value={dueTimeValue ? dueTimeValue : ''}
+                    placeholder= "H:mm"
+                    className={isDueDateActive ? 
+                        'BoardinputDateinputDate' : 'BoardinputDateinputDate-disable'}
+                    readOnly={!isDueDateActive}
+                    onChange={(e)=> {
+                         if(isDueDateActive){
+                           setDueTimeValue(e.target.value);
+                         }
+                    }} />
                 </div>
               </div>
             </div>
@@ -167,9 +201,9 @@ const DropdownDate = ({ onClose }) => {
             <div className="BoardText">
               Reminders will be sent to all members and watchers of this card.
             </div>
-            <div className='BoardButtonsArea'>
-                <button className='BoardButtonsAreaSave'>Save</button>
-                <button className='BoardButtonsAreaRemove'>Remove</button>
+            <div className="BoardButtonsArea">
+              <button className="BoardButtonsAreaSave">Save</button>
+              <button className="BoardButtonsAreaRemove">Remove</button>
             </div>
           </div>
         </form>

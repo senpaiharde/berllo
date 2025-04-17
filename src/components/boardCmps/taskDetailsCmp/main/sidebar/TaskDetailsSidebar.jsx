@@ -19,6 +19,7 @@ import ArchiveSvg from "../.././../../../assets/svgDesgin/ArchiveSvg";
 import ShareSvg from "../.././../../../assets/svgDesgin/ShareSvg";
 import PowerUpSvg from "../.././../../../assets/svgDesgin/PowerUpSvg";
 import DropdownMembers from "./dropdownHardcoded/DropdownMembers";
+import DropdownDate from "./dropdownHardcoded/DropdownDate";
 
 
 const TaskDetailsSidebar = () => {
@@ -76,7 +77,7 @@ const TaskDetailsSidebar = () => {
         label: "Dates",
         icon: (
           <DatesSvg/>),
-          content:(props)=> <DropdownLabel {...props}/>,
+          content:(props)=> <DropdownDate {...props}/>,
       },
       {
         id: "Attachment",

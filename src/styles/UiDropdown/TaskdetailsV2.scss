@@ -223,6 +223,28 @@
         opacity: 0.5;
         cursor: not-allowed;
       }
+      .BoardinputDateinputDate{
+        width: 90px;
+        height: 32px;
+        
+        box-sizing: border-box;
+    border: 1px solid gray;
+    border-radius: 3px;
+    outline: none;
+        
+        padding: 6px;
+        color: black;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20;
+        
+        background-color: white;
+        &:hover{
+            background-color: #091e4208;
+        }
+        
+        
+      }
       .BoardinputDateLabel {
         max-width: 100%;
         margin-top: 0;
