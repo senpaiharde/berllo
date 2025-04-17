@@ -259,7 +259,9 @@ const DropdownDate = ({ onClose }) => {
                 <ul >{['None','At Time Due Date','5 minutes before','10 minutes before'
                     ,'30 minutes before','1 hour before','1 day before','2 day before'
                 ].map((li) => {
-                    return(<li key={li} >{li}</li>
+                    return(<li key={li} 
+                        className={li === dropdownTitle ? 'selected' : ''}
+                        onClick={() => setDropdownTitle(li)}>{li}</li>
                     
                 )})}
                      

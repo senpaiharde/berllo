@@ -125,38 +125,35 @@
         opacity: 0.6;
       }
       .CalendarDay.selected-day {
-        
         position: relative;
-        color: #0052CC;
+        color: #0052cc;
         font-weight: 500;
         border-radius: 4px;
-        background-color:#e9f2ff ;
-        
-        &:hover{
-            background-color:#DEEBFF ;
+        background-color: #e9f2ff;
+
+        &:hover {
+          background-color: #deebff;
         }
-        
       }
-      .CalendarDay.today{
-        color: #0052CC;
+      .CalendarDay.today {
+        color: #0052cc;
         font-weight: 700;
       }
-      
+
       .CalendarDay.today::after {
-        content: "";
+        content: '';
         position: absolute;
-        bottom: 3px; 
-        left: 7.5%;  
-        width: 85%;  
+        bottom: 3px;
+        left: 7.5%;
+        width: 85%;
         height: 2px;
         font-weight: 500;
-        
-        background-color: #0052CC !important;
-        border-radius: 0; 
+
+        background-color: #0052cc !important;
+        border-radius: 0;
         pointer-events: none;
         z-index: 1;
       }
-      
     }
 
     .DateDates {
@@ -258,27 +255,25 @@
         opacity: 0.5;
         cursor: not-allowed;
       }
-      .BoardinputDateinputDate{
+      .BoardinputDateinputDate {
         width: 90px;
         height: 32px;
-        
+
         box-sizing: border-box;
-    border: 1px solid gray;
-    border-radius: 3px;
-    outline: none;
-        
+        border: 1px solid gray;
+        border-radius: 3px;
+        outline: none;
+
         padding: 6px;
         color: black;
         font-size: 14px;
         font-weight: 400;
         line-height: 20;
-        
+
         background-color: white;
-        &:hover{
-            background-color: #091e4208;
+        &:hover {
+          background-color: #091e4208;
         }
-        
-        
       }
       .BoardinputDateLabel {
         max-width: 100%;
@@ -303,8 +298,6 @@
       }
     }
   }
-  
-  
 }
 
 .BoardReminder {
@@ -400,7 +393,7 @@
 }
 
 .BoardText {
-    margin: 8px 0 0px 0;
+  margin: 8px 0 0px 0;
   color: #44546f;
   font-size: 14px;
   width: 280px;
@@ -418,80 +411,89 @@
   height: 72px;
   margin-bottom: 12px;
 
-  .BoardButtonsAreaSave{
+  .BoardButtonsAreaSave {
     flex: 1;
     margin-right: 2px;
     overflow: hidden;
     width: 100%;
     border: none;
-    background-color:#0c66e4;
+    background-color: #0c66e4;
     box-shadow: none;
     color: #ffffff;
     padding: 6px 12px;
     width: 280px;
     height: 32px;
     border-radius: 3px;
-    
-    &:hover{
-        cursor: pointer;
-        background-color: #0055CC;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #0055cc;
     }
   }
-  .BoardButtonsAreaRemove{
+  .BoardButtonsAreaRemove {
     flex: 1;
     margin-right: 2px;
     overflow: hidden;
     width: 100%;
     border: none;
-    background-color:#091E420F;
+    background-color: #091e420f;
     box-shadow: none;
-    color: #172B4D;
+    color: #172b4d;
     padding: 6px 12px;
     width: 280px;
     height: 32px;
     border-radius: 3px;
-    
-    &:hover{
-        cursor: pointer;
-        background-color: #091E4224;
-        color:#172b4d;
 
+    &:hover {
+      cursor: pointer;
+      background-color: #091e4224;
+      color: #172b4d;
     }
-
   }
 }
 .BoardReminderWrapper {
-    position: relative;
-  }
+  position: relative;
+}
 
-  .ReminderDropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 6px;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    max-height: 150px;
-    overflow-y: auto;
-    width: 100%;
-    z-index: 999;
-    font-size: 14px;
-    color:  #44546f !important;
-    font-weight: 400;
-  
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 10px 0;
-  
-      li {
-        padding: 8px 8px;
-        cursor: pointer;
-  
-        &:hover {
-          background-color: #f0f0f0;
-        }
+.ReminderDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 6px;
+  background: white;
+  border: 1px solid #ccc;
+
+  max-height: 150px;
+  overflow-y: auto;
+  width: 100%;
+  z-index: 999;
+  font-size: 14px;
+  color: #44546f !important;
+  font-weight: 400;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+
+    li {
+      padding: 8px 8px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f0f0f0;
+        border-left: 2px solid #0052cc;
+      }
+    }
+    li.selected {
+      color: #0c66e4;
+      font-weight: 400;
+      border-left: 2px solid #0052cc;
+      background-color: #e9f2ff;
+
+      &:hover {
+        background-color: #deebff;
       }
     }
   }
+}
