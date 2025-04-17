@@ -261,7 +261,8 @@ const DropdownDate = ({ onClose }) => {
                 ].map((li) => {
                     return(<li key={li} 
                         className={li === dropdownTitle ? 'selected' : ''}
-                        onClick={() => setDropdownTitle(li)}>{li}</li>
+                        onClick={() => {setDropdownTitle(li); setShowReminderOptions(false)}
+                        }>{li}</li>
                     
                 )})}
                      

@@ -29,6 +29,7 @@ const TaskDetails = () => {
   const navigate = useNavigate();
   const { taskId, boardId } = useParams();
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  
   const taskDate = task?.taskDueDate;
   const pureTaskId = taskId.split("-")[0];
   const hasLabels = useSelector((state) => {

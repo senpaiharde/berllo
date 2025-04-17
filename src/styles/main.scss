@@ -12,6 +12,7 @@
 @use './taskDetailsFolder/TaskDetailsLabel.scss';
 @use "sideBar/board-sidebar";
 @use './UiDropdown/TaskdetailsV2.scss';
+@use './UiDropdown/Taskdetailsv3.scss';
 // src\styles\sideBar
 html, body, #root {
     height: 100%;

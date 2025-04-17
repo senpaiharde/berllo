@@ -4,8 +4,10 @@ import SvgDropDate from "../../../assets/svgDesgin/SvgTaskdetails/SvgDropDate";
 import DropdownUi from "./main/sidebar/dropdownHardcoded/DropdownUi";
 
 import DropdownDate from "./main/sidebar/dropdownHardcoded/DropdownDate";
+import { getTaskDueStatus } from "../../../utils/CalendarDays";
 const TaskDetailsDate = () => {
     const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+    const dueStatus = getTaskDueStatus(task);
     const taskDate = task?.taskDueDate;
     const formattedDate = taskDate 
     ? new Date(taskDate).toLocaleDateString('en-US',{
@@ -20,8 +22,7 @@ const TaskDetailsDate = () => {
                 <DropdownUi
           trigger={
            <button className="Date-Button"
-            
-          >
+            > 
                         <span>{formattedDate}</span>
                         <span className="notification-button-span">
               <span className="notification-button-span"
