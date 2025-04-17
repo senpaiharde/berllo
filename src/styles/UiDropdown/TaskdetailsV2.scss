@@ -122,6 +122,31 @@
       .CalendarDay.other-month {
         opacity: 0.6;
       }
+      .CalendarDay.selected-day {
+        
+        position: relative;
+        color: #0052CC;
+        font-weight: 500;
+        border-radius: 4px;
+        background-color:#e9f2ff ;
+        
+        &:hover{
+            background-color:#DEEBFF ;
+        }
+        
+      }
+      .CalendarDay.today::after {
+        content: "";
+        position: absolute;
+        bottom: 3px; 
+        left: 7.5%;  
+        width: 85%;  
+        height: 2px;
+        background-color: #0052CC;
+        border-radius: 0; 
+        pointer-events: none;
+      }
+      
     }
 
     .DateDates {

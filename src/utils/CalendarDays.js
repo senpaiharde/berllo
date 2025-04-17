@@ -89,4 +89,12 @@ export function createHandlePrevYear(setCalenderDate) {
         }
 }
 
+export function IsTodayDay(calendarDate,day,Today) {
+    const isToday = 
+                    day.day === Today.getDate() &&
+                    calendarDate.month === Today.getMonth() &&
+                    calendarDate.year === Today.getFullYear() &&
+                    day.CurrentMonth;
+    return isToday;
+}
 

@@ -5,7 +5,7 @@ import SvgDateLeft from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeft'
 import SvgDateLeftsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeftsmall';
 import SvgDateRight from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRight';
 import SvgDateRightsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRightSmall';
-import { createHandleNextMonth, createHandleNextYear, createHandlePrevMonth, createHandlePrevYear, DayName, generateCalendarDays, isSelect } from '../../../../../../utils/CalendarDays';
+import { createHandleNextMonth, createHandleNextYear, createHandlePrevMonth, createHandlePrevYear, DayName, generateCalendarDays, isSelect, IsTodayDay } from '../../../../../../utils/CalendarDays';
 
 import SvgDropdown from '../../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
 
@@ -14,10 +14,19 @@ const DropdownDate = ({ onClose }) => {
   const [isDueDateActive, setIsDueDateActive] = useState(false);
   const [startDateValue, setStartDateValue] = useState('');
   const [dueDateValue, setDueDateValue] = useState('');
+  const day = DayName();
+  const Today = new Date();
   const [selectedCalendarDay, setSelectedCalendarDay] = useState(null);
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const taskDate = task?.taskDueDate;
-  const isSelected = isSelect(selectedCalendarDay,calendarDate,day)
+  const [calendarDate, setCalenderDate] = useState({
+    year: Today.getFullYear(),
+    month: Today.getMonth(),
+    day: Today.getDay(),
+    hour: Today.getHours(),
+    min: Today.getMinutes(),
+  });
+  
   const formattedDate = taskDate
     ? new Date(taskDate).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -26,15 +35,7 @@ const DropdownDate = ({ onClose }) => {
       })
     : 'no Date';
 
-  const day = DayName();
-  const Today = new Date();
-  const [calendarDate, setCalenderDate] = useState({
-    year: Today.getFullYear(),
-    month: Today.getMonth(),
-    day: Today.getDay(),
-    hour: Today.getHours(),
-    min: Today.getMinutes(),
-  });
+
 
   const formattedHour = String(calendarDate.hour).padStart(2, '0');
   const formattedMin = String(calendarDate.min).padStart(2, '0');
@@ -108,7 +109,8 @@ const handleSave = () => {
                   );
                 })}
                 {calenderDays.map((day, idx) => {
-                    
+                    const isSelected = isSelect(selectedCalendarDay,calendarDate,day)
+                    const isToday = IsTodayDay(calendarDate,day,Today)
                     return(
                   <button
                   
@@ -120,14 +122,17 @@ const handleSave = () => {
                             year: calendarDate.year,
                         }
                         setSelectedCalendarDay(selectedDate);
-                        setIsDueDateActive((prev) => !prev);
+                        setIsDueDateActive(true);
 
-                        const formatted = `${String(day.day).padStart(2,0)}/
-                        ${String(calendarDate.month + 1).padStart(2,0)}${calendarDate.year}`;
+                        const formatted = `${String(day.day)
+                            .padStart(2, '0')}/${String(calendarDate.month + 1)
+                            .padStart(2, '0')}/${calendarDate.year}`;
+
                         setDueDateValue(formatted)
                     }}
                     className={`CalendarDay ${day.CurrentMonth ? 'current-month' : 'other-month'}
-                    ${isSelected ? 'selected-day' : ''}`}>
+                    ${isSelected ? 'selected-day' : ''}
+                    ${isToday && day.CurrentMonth ? 'today' : ''}`}>
                     {day.day}
                   </button>
                 )})}
@@ -177,7 +182,9 @@ const handleSave = () => {
                 <div style={{ marginRight: '8px' }}>
                   <input
                   value={dueDateValue}
-                  onChange={(e) => setDueDateValue(e.target.value)}
+                  onChange={(e) => {
+                    
+                    setDueDateValue(e.target.value)}}
                     placeholder={isDueDateActive ? '' : 'D/M/YYYY'}
                     className={
                       isDueDateActive
