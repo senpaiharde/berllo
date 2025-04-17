@@ -23,6 +23,7 @@ import { fetchBoardById } from '../../../redux/BoardSlice';
 import SvgcloseTop from '../../../assets/svgDesgin/SvgTaskdetails/SvgcloseTop';
 import SvgEye from '../../../assets/svgDesgin/SvgTaskdetails/SvgEye';
 import SvgDrop from '../../../assets/svgDesgin/SvgTaskdetails/SvgDrop';
+import TaskdetailsBackLog from './main/TaskdetailsBackLog';
 const TaskDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const TaskDetails = () => {
   const isDueComplete = selectedTask?.isDueComplete ?? false;
   const boardLists = useSelector((state) => state.boardReducer.boardLists);
 
-  const isWatching = selectedTask?.isWatching;
+  
   useEffect(() => {
     if (boardLists.length === 0 && boardId) {
       dispatch(fetchBoardById(boardId));
@@ -123,16 +124,7 @@ const TaskDetails = () => {
           </button>
         </div>
 
-        <div className="td-inlist-text">
-          in list{' '}
-          <span>
-            <button className="notification-button">
-              BACKLOG-SERVER
-              <SvgDrop />
-            </button>
-            {!isWatching && <SvgEye />}
-          </span>
-        </div>
+        <TaskdetailsBackLog />
 
         <div className="td-main">
           <div className="td-main-left">
