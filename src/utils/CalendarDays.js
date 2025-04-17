@@ -105,9 +105,9 @@ export function IsTodayDay(day) {
 
     const now  = new Date().getTime()
     const due = task.taskDueDate;
-    const reminder = task.reminderSettings;
-
-
+    const reminder = task.reminderSettings || 'None';
+    const isCompleted = task.isCompleted;
+  
     const reminderOffsets = {
         'None' : 0,
         'at Time Due Date': 0,
@@ -122,8 +122,9 @@ export function IsTodayDay(day) {
 
     const offset = reminderOffsets[reminder] || 0;
     const reminderTime = due - offset;
-
+    if (isCompleted) return 'complete';
+    if (now >= due + 24 * 60 * 60 * 1000) return 'overdue-late';
     if(now >= due) return 'overdue';
-    if(now >= reminderTime) return 'due-soon'
-    return 'upcoming';
+    if(now >= reminderTime) return 'due-soon';
+    return '';
   }

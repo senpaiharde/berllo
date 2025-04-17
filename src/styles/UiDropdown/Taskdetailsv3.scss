@@ -1,0 +1,30 @@
+.task-due-tag {
+    
+    
+    
+    font-weight: 600;
+    display: inline-block;
+    
+    height: 16px;
+    margin: auto 6px auto 8px;
+    padding: 0  6px;
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 16px;
+    
+    &.overdue {
+      background-color: #c9373c;
+      color: white;
+    }
+  
+    &.due-soon {
+      background-color: #f5cd47;
+      color: #172b4d;
+    }
+  
+    &.overdue-late {
+      background-color: #e3fcef;
+      color: #36b37e;
+    }
+  }
+  

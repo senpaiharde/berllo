@@ -57,6 +57,7 @@ const DropdownDate = ({ onClose }) => {
     dispatch(liveUpdateTask({
       ...task,
       taskDueDate: dueDate.getTime(),
+      reminderSettings: dueDateValue,
     }));
   
     onClose();
