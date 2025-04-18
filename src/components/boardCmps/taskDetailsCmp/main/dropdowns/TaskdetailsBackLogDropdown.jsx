@@ -9,12 +9,14 @@ import DropdownUi from '../sidebar/dropdownHardcoded/DropdownUi';
 import BackLogDropdown from './BackLogDropdown';
 
 const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
-    const dispatch = useDispatch();
-  
+  const dispatch = useDispatch();
+
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-  const [showReminderOptions, setShowReminderOptions] = useState(false);
-   
-  
+  const [selectedBoard, setSelectedBoard] = useState('');
+  const [selectedList, setSelectedList] = useState('');
+  const [selectedPosition, setSelectedPosition] = useState('');
+  const listOptions = [{ title: 'To Do' }, { title: 'Done' }];
+  const positionOptions = [{ title: '1' }, { title: '2' }];
   return (
     <div className="DropdownUi">
       {/* Header */}
@@ -26,79 +28,78 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
       </div>
 
       {/* Options */}
-      <div style={{gap:'0px'}} className="DropdownOptions">
-        <h4 className='WorkflowAreah4'>Select destination</h4>
-        <div className='workFlowCard'>
-        <div className="BoardReminderWrapper">
-        <div   
-        className='WorkflowArea'>
-            <label className='WorkflowAreaLabel'>Board</label>
+      <div style={{ gap: '0px' }} className="DropdownOptions">
+        <h4 className="WorkflowAreah4">Select destination</h4>
+        <div className="workFlowCard">
+          <div className="BoardReminderWrapper">
+            <div className="WorkflowArea">
+              <label className="WorkflowAreaLabel">Board</label>
 
-            
-            <div onClick={() => setShowReminderOptions(prev => !prev)}
-             className="BoardReminderDiv">
-                  <div className="BoardReminderDivText">
-                    <div className="BoardReminderDivText2"> title</div>
-                  </div>
-                  <div className="BoardReminderDivSVG">
-                    <span className="BoardReminderDivSVG2">
-                      <SvgDropdown />
-                    </span>
-                  </div>
-                  
+              <div onClick={() => setSelectedBoard((prev) => !prev)} className="BoardReminderDiv">
+                <div className="BoardReminderDivText">
+                  <div className="BoardReminderDivText2"> title</div>
                 </div>
-        </div>
-        {showReminderOptions && (
-                <div className="ReminderDropdown" style={{maxHeight:'250px',}} 
+                <div className="BoardReminderDivSVG">
+                  <span className="BoardReminderDivSVG2">
+                    <SvgDropdown />
+                  </span>
+                </div>
+              </div>
+            </div>
+            {selectedBoard && (
+              <div
+                className="ReminderDropdown"
+                style={{ maxHeight: '250px' }}
                 onClick={(e) => e.stopPropagation()}>
-                    
-                  <ul>
-                    {[
-                      {id:'NTerllo WorkSpace', title:'Work Flow'},
-                      {id:'Terllo Workspace',title:'1-on-1 Meeting Agenda'
-                        
-                      },
-                      {title:'slava',
-                        
-                      }
-                    ].map((li,) => {
-                      return (
-                        <>
-                        <h2 style={{marginTop:'-0px',paddingLeft:'8px',}} 
-                        className='WorkflowAreah4'>{li.id}</h2>
+                <ul>
+                  {[
+                    { id: 'NTerllo WorkSpace', title: 'Work Flow' },
+                    { id: 'Terllo Workspace', title: '1-on-1 Meeting Agenda' },
+                    { title: 'slava' },
+                  ].map((li) => {
+                    return (
+                      <>
+                        <h2
+                          style={{ marginTop: '-0px', paddingLeft: '8px' }}
+                          className="WorkflowAreah4">
+                          {li.id}
+                        </h2>
                         <li
                           key={li.id}
                           className={li.id === '' ? 'selected' : ''}
                           onClick={() => {
-                           
-                            setShowReminderOptions(false);
+                            setSelectedBoard(false);
                           }}>
-                            
                           {li.title}
                         </li>
-                        </>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
-              </div>    
-        <div className='WorkflowRow'>
-        <div className='WorkflowList'>
-        <BackLogDropdown />
-        
+                      </>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
+          <div className="WorkflowRow">
+            <div className="WorkflowList">
+              <BackLogDropdown 
+              label='list'
+              value={selectedList}
+              onselect={setSelectedList}
+              options={listOptions} />
+            </div>
+            
+            <div className="WorkflowPosition">
+              <BackLogDropdown 
+               label='position'
+               value={selectedPosition}
+               onselect={setSelectedPosition}
+               options={positionOptions}/>
+            </div>
+            
+          </div>
         </div>
-        {}
-        <div className='WorkflowPosition'>
-        <BackLogDropdown />
-        
-        </div>
-        {}
-        </div>
-        </div>
-        
 
-        <button className='MoveCardButton'>Move</button>
+        <button className="MoveCardButton">Move</button>
       </div>
     </div>
   );
