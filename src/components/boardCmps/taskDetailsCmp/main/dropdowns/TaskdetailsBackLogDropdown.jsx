@@ -10,7 +10,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
     const dispatch = useDispatch();
   
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-  
+  const [showReminderOptions, setShowReminderOptions] = useState(false);
    
   
   return (
@@ -24,13 +24,17 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
       </div>
 
       {/* Options */}
-      <div className="DropdownOptions">
+      <div style={{gap:'0px'}} className="DropdownOptions">
         <h4 className='WorkflowAreah4'>Select destination</h4>
         <div className='workFlowCard'>
-            
-        <div className='WorkflowArea'>
+        <div className="BoardReminderWrapper">
+        <div   
+        className='WorkflowArea'>
             <label className='WorkflowAreaLabel'>Board</label>
-            <div className="BoardReminderDiv">
+
+            
+            <div onClick={() => setShowReminderOptions(true)}
+             className="BoardReminderDiv">
                   <div className="BoardReminderDivText">
                     <div className="BoardReminderDivText2"> title</div>
                   </div>
@@ -42,6 +46,35 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
                   
                 </div>
         </div>
+        {showReminderOptions && (
+                <div className="ReminderDropdown" style={{}} 
+                onClick={(e) => e.stopPropagation()}>
+                    
+                  <ul>
+                    {[
+                      {id:'NTerllo WorkSpace', title:'Work Flow'},
+                      {id:'Terllo Workspace', title:'1-on-1 Meeting Agenda',}
+                    ].map((li,) => {
+                      return (
+                        <>
+                        <h2 style={{marginTop:'-0px',paddingLeft:'8px',}} className='WorkflowAreah4'>{li.id}</h2>
+                        <li
+                          key={li.id}
+                          className={li.id === '' ? 'selected' : ''}
+                          onClick={() => {
+                           
+                            setShowReminderOptions(false);
+                          }}>
+                            
+                          {li.title}
+                        </li>
+                        </>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+              </div>    
         <div className='WorkflowRow'>
         <div className='WorkflowList'>
         <label className='WorkflowAreaLabel'>List</label>
@@ -58,6 +91,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
                 </div>
         
         </div>
+        {}
         <div className='WorkflowPosition'>
         <label className='WorkflowAreaLabel'>Position</label>
             <div className="BoardReminderDiv">
@@ -73,11 +107,12 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
                 </div>
         
         </div>
+        {}
         </div>
         </div>
         
 
-        
+        <button className='MoveCardButton'>Move</button>
       </div>
     </div>
   );
