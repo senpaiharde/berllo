@@ -453,15 +453,17 @@
 }
 .BoardReminderWrapper {
   position: relative;
+  
 }
 
 .ReminderDropdown {
-  position: absolute;
+  position:absolute;
   top: 100%;
   left: 0;
   margin-top: 6px;
   background: white;
   border: 1px solid #ccc;
+  
 
   max-height: 150px;
   overflow-y: auto;

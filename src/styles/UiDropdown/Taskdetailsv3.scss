@@ -1,34 +1,142 @@
 .task-due-tag {
-    
-    
-    
-    font-weight: 500;
-    display: inline-block;
-    
-    height: 16px;
-    margin: auto 6px auto 8px;
-    padding: 0  6px;
-    border-radius: 2px;
-    font-size: 12px;
-    line-height: 16px;
-    
-    &.overdue {
-      background-color: #c9373c;
-      color: white;
-    }
-  
-    &.due-soon {
-      background-color: #f5cd47;
-      color: #172b4d;
-    }
-  
-    &.overdue-late {
-      background-color: #FFECEB;
-      color: #ae2e24;
-    }
-    &.complete{
-        background-color: #1f845a;
-      color: #ffffff;
-    }
+  font-weight: 500;
+  display: inline-block;
+
+  height: 16px;
+  margin: auto 6px auto 8px;
+  padding: 0 6px;
+  border-radius: 2px;
+  font-size: 12px;
+  line-height: 16px;
+
+  &.overdue {
+    background-color: #c9373c;
+    color: white;
   }
+
+  &.due-soon {
+    background-color: #f5cd47;
+    color: #172b4d;
+  }
+
+  &.overdue-late {
+    background-color: #ffeceb;
+    color: #ae2e24;
+  }
+  &.complete {
+    background-color: #1f845a;
+    color: #ffffff;
+  }
+}
+
+//here is the dropdown of inlist Backlog
+
+.WorkflowAreah4 {
+  margin: 16px 0 8px;
+  color: #44546f;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.workFlowCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Shared label styling */
+.WorkflowAreaLabel {
+  color: #172b4d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  margin-bottom: 4px;
+  margin-top: 12px;
+  display: block;
+}
+
+/* Board section */
+.WorkflowArea {
+  width: 100%;
+}
+
+/* Flex row for List + Position */
+.WorkflowRow {
+  display: flex;
   
+  width: 100%;
+}
+
+/* List input styling */
+.WorkflowList {
+  flex: 2.5;
+  margin: 12px 8px 8px 0px;
+  
+}
+
+/* Position input styling */
+.WorkflowPosition {
+  flex: 1;
+  margin: 12px 0px 8px;
+}
+
+/* Trello-style dropdown look */
+.BoardReminderDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #8590a2;
+  border-radius: 3px;
+  padding-left: 6px;
+  min-height: 40px;
+  background: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f7f8f9;
+    border-color: #8590a2;
+  }
+}
+
+.BoardReminderDivText2 {
+  font-size: 14px;
+  color: #172b4d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 6px 2px;
+}
+
+.BoardReminderDivSVG2 {
+  padding: 6px;
+  color: #d1dbec;
+  display: flex;
+}
+
+.MoveCardButton{
+    margin: 8px 0 0;
+    padding: 6px 24px;
+    border: none;
+    box-shadow:none;
+    background-color: #0c66e4;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 500;
+    align-items: start;
+    height: 32px;
+    width: 83.73px;
+    &:hover{
+        border: none;
+    background-color: #0055cc;
+    box-shadow: none;
+    color:#ffffff;
+    text-decoration: none
+    }
+
+}
+
+
