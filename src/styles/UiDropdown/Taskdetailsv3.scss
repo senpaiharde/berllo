@@ -1,148 +1,116 @@
 .task-due-tag {
-    
-    
-    
-    font-weight: 500;
-    display: inline-block;
-    
-    height: 16px;
-    margin: auto 6px auto 8px;
-    padding: 0  6px;
-    border-radius: 2px;
-    font-size: 12px;
-    line-height: 16px;
-    
-    &.overdue {
-      background-color: #c9373c;
-      color: white;
-    }
-  
-    &.due-soon {
-      background-color: #f5cd47;
-      color: #172b4d;
-    }
-  
-    &.overdue-late {
-      background-color: #FFECEB;
-      color: #ae2e24;
-    }
-    &.complete{
-        background-color: #1f845a;
-      color: #ffffff;
-    }
+  font-weight: 500;
+  display: inline-block;
+
+  height: 16px;
+  margin: auto 6px auto 8px;
+  padding: 0 6px;
+  border-radius: 2px;
+  font-size: 12px;
+  line-height: 16px;
+
+  &.overdue {
+    background-color: #c9373c;
+    color: white;
   }
-  
 
-  //here is the dropdown of inlist Backlog 
-
-
-
-  .WorkflowAreah4{
-    margin:  16px 0px 8px;
-    color: #44546f;
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: 500;
-    height: 16px;
-}
-
-
-.WorkflowArea{
-    flex: 1 1 100%;
-    max-width: 100%;
-    margin: 0 0 8px;
-    flex-direction: column;
-    align-items: flex-start;
-    height: 76px;
-    
-}
-.WorkflowAreaLabel{
+  &.due-soon {
+    background-color: #f5cd47;
     color: #172b4d;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 20px;
-    margin:  12px 0px 4px;
-    width: 100%;
-    display: block;
-    
-}
-  
-
-.BoardReminderDiv {
-    position: relative;
-    font:
-      normal 400 14px / 20px ui-sans-serif,
-      'Segoe UI',
-      'Helvetica Neue',
-      sans-serif;
-    pointer-events: all;
-    box-sizing: border-box;
-    -webkit-box-align: center;
-    align-items: center;
-    cursor: default;
-    display: flex;
-    flex-wrap: wrap;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    position: relative;
-    background-color: #ffffff;
-    border-color: #8590a2;
-    border-style: solid;
-    border-radius: 3px;
-    border-width: 1px;
-    box-shadow: none;
-    min-height: 40px;
-    padding: 0px;
-    transition:
-      background-color 200ms ease-in-out,
-      border-color 200ms ease-in-out;
-    box-sizing: border-box;
-    outline: 0px !important;
-
-    .BoardReminderDivText {
-      align-items: center;
-      display: grid;
-      flex: 1 1 0%;
-      flex-wrap: wrap;
-      position: relative;
-      overflow: hidden;
-      padding: 2px 6px;
-      box-sizing: border-box;
-
-      .BoardReminderDivText2 {
-        grid-area: 1 / 1 / 2 / 3;
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        margin: 2px;
-        color: #172b4d;
-        box-sizing: border-box;
-      }
-    }
-
-    .BoardReminderDivSVG {
-      align-items: center;
-      align-self: stretch;
-      display: flex;
-      flex-shrink: 0;
-
-      box-sizing: border-box;
-
-      .BoardReminderDivSVG2 {
-        display: flex;
-        box-sizing: border-box;
-
-        align-items: start;
-        flex-direction: row;
-        padding: 6px;
-        font-size: 400 !important;
-        color: #d1dbec;
-      }
-    }
-    &:hover {
-      cursor: pointer;
-      background-color: #f7f8f9;
-      border-color: #8590a2;
-    }
   }
+
+  &.overdue-late {
+    background-color: #ffeceb;
+    color: #ae2e24;
+  }
+  &.complete {
+    background-color: #1f845a;
+    color: #ffffff;
+  }
+}
+
+//here is the dropdown of inlist Backlog
+
+.WorkflowAreah4 {
+  margin: 16px 0 8px;
+  color: #44546f;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.workFlowCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Shared label styling */
+.WorkflowAreaLabel {
+  color: #172b4d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  margin-bottom: 4px;
+  margin-top: 12px;
+  display: block;
+}
+
+/* Board section */
+.WorkflowArea {
+  width: 100%;
+}
+
+/* Flex row for List + Position */
+.WorkflowRow {
+  display: flex;
+  
+  width: 100%;
+}
+
+/* List input styling */
+.WorkflowList {
+  flex: 2.5;
+  margin: 12px 8px 8px 0px;
+  
+}
+
+/* Position input styling */
+.WorkflowPosition {
+  flex: 1;
+  margin: 12px 0px 8px;
+}
+
+/* Trello-style dropdown look */
+.BoardReminderDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #8590a2;
+  border-radius: 3px;
+  padding-left: 6px;
+  min-height: 40px;
+  background: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f7f8f9;
+    border-color: #8590a2;
+  }
+}
+
+.BoardReminderDivText2 {
+  font-size: 14px;
+  color: #172b4d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 6px 2px;
+}
+
+.BoardReminderDivSVG2 {
+  padding: 6px;
+  color: #d1dbec;
+  display: flex;
+}

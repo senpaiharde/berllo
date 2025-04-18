@@ -24,8 +24,10 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
       </div>
 
       {/* Options */}
-      <div className="DropdownOptions" style={{}}>
+      <div className="DropdownOptions">
         <h4 className='WorkflowAreah4'>Select destination</h4>
+        <div className='workFlowCard'>
+            
         <div className='WorkflowArea'>
             <label className='WorkflowAreaLabel'>Board</label>
             <div className="BoardReminderDiv">
@@ -37,7 +39,41 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
                       <SvgDropdown />
                     </span>
                   </div>
+                  
                 </div>
+        </div>
+        <div className='WorkflowRow'>
+        <div className='WorkflowList'>
+        <label className='WorkflowAreaLabel'>List</label>
+            <div className="BoardReminderDiv">
+                  <div className="BoardReminderDivText">
+                    <div className="BoardReminderDivText2"> title</div>
+                  </div>
+                  <div className="BoardReminderDivSVG">
+                    <span className="BoardReminderDivSVG2">
+                      <SvgDropdown />
+                    </span>
+                  </div>
+                  
+                </div>
+        
+        </div>
+        <div className='WorkflowPosition'>
+        <label className='WorkflowAreaLabel'>Position</label>
+            <div className="BoardReminderDiv">
+                  <div className="BoardReminderDivText">
+                    <div className="BoardReminderDivText2"> title</div>
+                  </div>
+                  <div className="BoardReminderDivSVG">
+                    <span className="BoardReminderDivSVG2">
+                      <SvgDropdown />
+                    </span>
+                  </div>
+                  
+                </div>
+        
+        </div>
+        </div>
         </div>
         
 
