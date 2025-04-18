@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SvgClose from '../../../../../assets/svgDesgin/SvgClose';
 import SvgDropdown from '../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
+import DropdownUi from '../sidebar/dropdownHardcoded/DropdownUi';
+import BackLogDropdown from './BackLogDropdown';
 
 const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
     const dispatch = useDispatch();
@@ -33,7 +35,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
             <label className='WorkflowAreaLabel'>Board</label>
 
             
-            <div onClick={() => setShowReminderOptions(true)}
+            <div onClick={() => setShowReminderOptions(prev => !prev)}
              className="BoardReminderDiv">
                   <div className="BoardReminderDivText">
                     <div className="BoardReminderDivText2"> title</div>
@@ -47,17 +49,23 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
                 </div>
         </div>
         {showReminderOptions && (
-                <div className="ReminderDropdown" style={{}} 
+                <div className="ReminderDropdown" style={{maxHeight:'250px',}} 
                 onClick={(e) => e.stopPropagation()}>
                     
                   <ul>
                     {[
                       {id:'NTerllo WorkSpace', title:'Work Flow'},
-                      {id:'Terllo Workspace', title:'1-on-1 Meeting Agenda',}
+                      {id:'Terllo Workspace',title:'1-on-1 Meeting Agenda'
+                        
+                      },
+                      {title:'slava',
+                        
+                      }
                     ].map((li,) => {
                       return (
                         <>
-                        <h2 style={{marginTop:'-0px',paddingLeft:'8px',}} className='WorkflowAreah4'>{li.id}</h2>
+                        <h2 style={{marginTop:'-0px',paddingLeft:'8px',}} 
+                        className='WorkflowAreah4'>{li.id}</h2>
                         <li
                           key={li.id}
                           className={li.id === '' ? 'selected' : ''}
@@ -77,34 +85,12 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
               </div>    
         <div className='WorkflowRow'>
         <div className='WorkflowList'>
-        <label className='WorkflowAreaLabel'>List</label>
-            <div className="BoardReminderDiv">
-                  <div className="BoardReminderDivText">
-                    <div className="BoardReminderDivText2"> title</div>
-                  </div>
-                  <div className="BoardReminderDivSVG">
-                    <span className="BoardReminderDivSVG2">
-                      <SvgDropdown />
-                    </span>
-                  </div>
-                  
-                </div>
+        <BackLogDropdown />
         
         </div>
         {}
         <div className='WorkflowPosition'>
-        <label className='WorkflowAreaLabel'>Position</label>
-            <div className="BoardReminderDiv">
-                  <div className="BoardReminderDivText">
-                    <div className="BoardReminderDivText2"> title</div>
-                  </div>
-                  <div className="BoardReminderDivSVG">
-                    <span className="BoardReminderDivSVG2">
-                      <SvgDropdown />
-                    </span>
-                  </div>
-                  
-                </div>
+        <BackLogDropdown />
         
         </div>
         {}
