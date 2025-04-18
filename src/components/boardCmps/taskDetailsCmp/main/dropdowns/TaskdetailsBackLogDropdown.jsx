@@ -17,6 +17,11 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
   const [selectedPosition, setSelectedPosition] = useState('');
   const listOptions = [{ title: 'To Do' }, { title: 'Done' }];
   const positionOptions = [{ title: '1' }, { title: '2' },{ title: '2' },{ title: '2' }];
+  const BoardOptions = [
+    { id: 'NTerllo WorkSpace', title: 'Work Flow' },
+    { id: 'Terllo Workspace', title: '1-on-1 Meeting Agenda' },
+    { title: 'slava' },
+  ]
   return (
     <div className="DropdownUi">
       {/* Header */}
@@ -33,51 +38,13 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
         <div className="workFlowCard">
           <div className="BoardReminderWrapper">
             <div className="WorkflowArea">
-              <label className="WorkflowAreaLabel">Board</label>
-
-              <div onClick={() => setSelectedBoard((prev) => !prev)} className="BoardReminderDiv">
-                <div className="BoardReminderDivText">
-                  <div className="BoardReminderDivText2"> title</div>
-                </div>
-                <div className="BoardReminderDivSVG">
-                  <span className="BoardReminderDivSVG2">
-                    <SvgDropdown />
-                  </span>
-                </div>
-              </div>
+            <BackLogDropdown 
+              label='Board'
+              value={selectedBoard}
+              onselect={setSelectedBoard}
+              options={BoardOptions} />
             </div>
-            {selectedBoard && (
-              <div
-                className="ReminderDropdown"
-                style={{ maxHeight: '250px' }}
-                onClick={(e) => e.stopPropagation()}>
-                <ul>
-                  {[
-                    { id: 'NTerllo WorkSpace', title: 'Work Flow' },
-                    { id: 'Terllo Workspace', title: '1-on-1 Meeting Agenda' },
-                    { title: 'slava' },
-                  ].map((li) => {
-                    return (
-                      <>
-                        <h2
-                          style={{ marginTop: '-0px', paddingLeft: '8px' }}
-                          className="WorkflowAreah4">
-                          {li.id}
-                        </h2>
-                        <li
-                          key={li.id}
-                          className={li.id === '' ? 'selected' : ''}
-                          onClick={() => {
-                            setSelectedBoard(false);
-                          }}>
-                          {li.title}
-                        </li>
-                      </>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
+            
           </div>
           <div className="WorkflowRow">
             <div className="WorkflowList">
