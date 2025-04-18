@@ -16,7 +16,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
   const [selectedList, setSelectedList] = useState('');
   const [selectedPosition, setSelectedPosition] = useState('');
   const listOptions = [{ title: 'To Do' }, { title: 'Done' }];
-  const positionOptions = [{ title: '1' }, { title: '2' }];
+  const positionOptions = [{ title: '1' }, { title: '2' },{ title: '2' },{ title: '2' }];
   return (
     <div className="DropdownUi">
       {/* Header */}
