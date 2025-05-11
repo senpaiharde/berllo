@@ -1,0 +1,20 @@
+@use "variables";
+@use "global-header";
+@use "work-space";
+@use "board-header";
+@use "board-view";
+@use "task-list";
+@use "task-preview";
+@use "taskDetails";
+@use 'loginpage';
+@use "input-new-item";
+@use './UiDropdown//DropdownStyles';
+@use './taskDetailsFolder/TaskDetailsLabel.scss';
+@use "sideBar/board-sidebar";
+@use './UiDropdown/TaskdetailsV2.scss';
+@use './UiDropdown/Taskdetailsv3.scss';
+// src\styles\sideBar
+html, body, #root {
+    height: 100%;
+    margin: 0;
+  }
