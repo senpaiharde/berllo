@@ -29,6 +29,7 @@ const defaultLabelColors = [
     '#5B7F24', //28
     '#AE4787', //29
     '#626F86', //30
+    '#626F86', //30
   ];
 
   export default defaultLabelColors;
