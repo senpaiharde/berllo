@@ -8,6 +8,8 @@ import {
   toogleChecklistItem,
   editChecklistItem,
   deleteChecklistItem,
+  updateSelectedTaskLive,
+  syncTaskAsync,
 } from '../../../redux/taskDetailsSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -101,12 +103,12 @@ const TaskDetails = () => {
                 type="radio"
                 checked={isDueComplete}
                 onClick={() => {
-                  dispatch(
-                    liveUpdateTask({
-                      ...task,
-                      isDueComplete: !task.isDueComplete,
-                    })
-                  );
+                    const newValue = !task.isDueComplete;
+                  dispatch(updateSelectedTaskLive({isDueComplete: newValue}))
+                  dispatch(syncTaskAsync({
+                    method:'update',
+                    args: {taskId: task._id,body: {isDueComplete: newValue}},
+                  }))
                 }}
                 className="td-checkbox"
               />
