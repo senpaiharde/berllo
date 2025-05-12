@@ -117,3 +117,5 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
     })
   );
 };
+
+export default taskDetailsSlice.reducer;
