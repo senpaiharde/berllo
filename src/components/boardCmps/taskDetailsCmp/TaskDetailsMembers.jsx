@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector,  } from 'react-redux';
 import DropdownMembers from './main/sidebar/dropdownHardcoded/DropdownMembers';
 import SvgAddMember from '../../../assets/svgDesgin/SvgAddMember';
 import DropdownUi from './main/sidebar/dropdownHardcoded/DropdownUi';
 const TaskDetailsMembers = () => {
-  const boardUsers = useSelector((state) => state.boardReducer?.boardMembers) || [];
+
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-  const taskMembers = Array.isArray(task?.taskMembers) ? task.taskMembers : [];
+  const taskMembers = Array.isArray(task?.members) ? task.members : [];
   return (
     <section className="td-section-top-section">
       {<h3 className="td-section-top-h3">Members</h3>}

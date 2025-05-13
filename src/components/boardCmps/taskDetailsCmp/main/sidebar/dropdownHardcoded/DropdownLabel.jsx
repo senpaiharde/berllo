@@ -16,7 +16,12 @@ const DropdownLabel = ({ onClose }) => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const boardLabels = useSelector((state) => state.boardReducer.boardLabels) || [];
   const taskLabels = Array.isArray(task?.labels) ? task.labels : [];
-
+ const normalizeLabels = (labels) =>
+  labels.map((label) =>
+    typeof label === 'string'
+      ? { color: label, title: '' }
+      : label
+  );
   const colorList = [
     ...boardLabels,
     ...taskLabels
@@ -36,7 +41,7 @@ const DropdownLabel = ({ onClose }) => {
   const uniqueColors = colorList.filter(
     (item, index, self) => index === self.findIndex((i) => i.color === item.color)
   );
-
+  
   const filteredLabels = uniqueColors.filter((label) => {
     if (!searchTerm.trim()) return true;
     return label.title?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -57,7 +62,7 @@ const DropdownLabel = ({ onClose }) => {
       liveUpdateTask({
         method: 'update',
         workId: 'tasks',
-        labels: updatedLabels,
+        labels: normalizeLabels(updatedLabels),
       })
     );
   };
@@ -73,7 +78,7 @@ const DropdownLabel = ({ onClose }) => {
       liveUpdateTask({
         method: 'update',
         workId: 'tasks',
-        labels: updatedLabels,
+        labels: normalizeLabels(updatedLabels),
       })
     );
   };
@@ -106,7 +111,7 @@ const DropdownLabel = ({ onClose }) => {
       liveUpdateTask({
         method: 'update',
         workId: 'tasks',
-        labels: updatedLabels,
+        labels: normalizeLabels(updatedLabels),
       })
     );
 

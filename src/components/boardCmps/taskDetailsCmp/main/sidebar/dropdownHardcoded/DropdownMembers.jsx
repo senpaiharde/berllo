@@ -9,7 +9,7 @@ const DropdownMembers = ({ trigger, onClose }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const boardMembers = useSelector((state) => state.boardReducer.boardMembers) || [];
-  const taskMembers = Array.isArray(task?.taskMembers) ? task.taskMembers : [];
+  const taskMembers = Array.isArray(task?.members) ? task.members : [];
   
  
    
