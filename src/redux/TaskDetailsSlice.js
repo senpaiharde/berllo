@@ -1,41 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateTaskInBoard } from './BoardSlice';
 import api from '../api/api';
-import { Slice } from 'lucide-react';
+import backendHandler from '../services/backendHandler';
+
 
 export const syncTaskAsync = createAsyncThunk(
   'taskDetails/sync',
   async ({ method, args }, { rejectWithValue, dispatch }) => {
     try {
-      let data;
-
-      switch (method) {
-        case 'fetch': {
-          const { taskId } = args;
-          ({ data } = await api.get(`/tasks/${taskId}`));
-          break;
-        }
-        case 'add': {
-          const { taskId,body } = args;
-          ({ data } = await api.get(`/tasks/${taskId}`,body));
-          break;
-        }
-        case 'update': {
-          const { taskId,body } = args;
-          ({ data } = await api.get(`/tasks/${taskId}`,body));
-          break;
-        }
-        case 'delete': {
-          const { taskId } = args;
-          await api.get(`/tasks/${taskId}`);
-          data = {_id : taskId}
-          break;
-        }
-
-
-
-        default: throw new Error("Unknown method");
-      }
+        const workId = 'tasks' 
+      const data = await   backendHandler({method, args, workId})
+      
       if(method !== 'fetch')dispatch(updateTaskInBoard(data))
         return {method, data}
     } catch (err) {
