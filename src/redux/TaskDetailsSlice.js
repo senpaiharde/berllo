@@ -90,6 +90,8 @@ export const {
   updateSelectedTaskLive,
 } = taskDetailsSlice.actions;
 
+
+let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {
   const { selectedTask } = getState().taskDetails;
   if (!selectedTask) return;
@@ -97,13 +99,21 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
   /* 1 optimistic UI */
   dispatch(updateSelectedTaskLive(fields));
 
-  /* 2 background sync */
-  dispatch(
+
+
+  
+ clearTimeout(debounceId)
+/* 2 background sync */
+ debounceId = setTimeout(() => {
+    dispatch(
     syncTaskAsync({
       method: 'update',
       args: { taskId: selectedTask._id, body: fields },
     })
   );
+ }, 400);
+  
+  
 };
 
 export default taskDetailsSlice.reducer;
