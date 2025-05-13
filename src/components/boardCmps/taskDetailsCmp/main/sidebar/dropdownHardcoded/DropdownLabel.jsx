@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
 import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
 import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
@@ -8,124 +7,126 @@ import DropdownUi from './DropdownUi';
 import EditLabelDropdown from './EditLabelDropdown';
 import { updateBoardLabels } from '../../../../../../redux/BoardSlice';
 
-
-const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
-
+const DropdownLabel = ({ onClose }) => {
   const [editModeLabel, setEditModeLabel] = useState(null);
   const [addModeLabel, setAddModeLabel] = useState(null);
-  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
+  const dispatch = useDispatch();
 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-
   const boardLabels = useSelector((state) => state.boardReducer.boardLabels) || [];
-  
-  
-  
+  const taskLabels = Array.isArray(task?.labels) ? task.labels : [];
 
-  const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];
   const colorList = [
     ...boardLabels,
-    ...taskLabels.filter(
-      (label) =>
-        !boardLabels.some((lbl) => lbl.color.toLowerCase() === label.color.toLowerCase())
-      
-    )
-    .map((label) => ({
+    ...taskLabels
+      .filter(
+        (label) =>
+          label?.color &&
+          !boardLabels.some(
+            (lbl) => lbl?.color && lbl.color.toLowerCase() === label.color.toLowerCase()
+          )
+      )
+      .map((label) => ({
         color: label.color,
         title: label.title || '',
-    })),
+      })),
   ];
 
   const uniqueColors = colorList.filter(
     (item, index, self) => index === self.findIndex((i) => i.color === item.color)
   );
-  const filteredLabels = uniqueColors.filter(
-    (label) => {
-        if(!searchTerm.trim()) return true;
-        return label.title?.toLowerCase().includes(searchTerm.toLowerCase())
-    }
-      
-  );
+
+  const filteredLabels = uniqueColors.filter((label) => {
+    if (!searchTerm.trim()) return true;
+    return label.title?.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   const toggleLabel = (label) => {
     if (!task) return;
 
-    const hasLabel = task.taskLabels.some(
-      (lbl) => lbl.color.toLowerCase() === label.color.toLowerCase()
+    const hasLabel = task.labels?.some(
+      (lbl) => lbl?.color && label?.color && lbl.color.toLowerCase() === label.color.toLowerCase()
     );
 
-    const updateLabels = hasLabel
-      ? task.taskLabels.filter((lbl) => lbl.color !== label.color)
-      : [...(task.taskLabels || []), label];
+    const updatedLabels = hasLabel
+      ? task.labels.filter((lbl) => lbl.color !== label.color)
+      : [...(task.labels || []), label];
 
-    dispatch(liveUpdateTask({ ...task, taskLabels: updateLabels }));
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        labels: updatedLabels,
+      })
+    );
   };
 
   const handleDeleteLabel = (label) => {
     if (!task) return;
 
-    const updateLabel = task.taskLabels.filter(
+    const updatedLabels = task.labels.filter(
       (lbl) => lbl.color.toLowerCase() !== label.color.toLowerCase()
     );
 
     dispatch(
       liveUpdateTask({
-        ...task,
-        taskLabels: updateLabel,
+        method: 'update',
+        workId: 'tasks',
+        labels: updatedLabels,
       })
     );
   };
 
+  const handleSave = (newLabel) => {
+    if (!task) return;
+
+    let updatedLabels;
+    let updatedBoardLabels;
+
+    if (editModeLabel) {
+      updatedLabels = task.labels.map((lbl) =>
+        lbl.color === editModeLabel.color ? newLabel : lbl
+      );
+
+      updatedBoardLabels = boardLabels.map((lbl) =>
+        lbl.color === editModeLabel.color ? { ...lbl, ...newLabel } : lbl
+      );
+
+      dispatch(updateBoardLabels(updatedBoardLabels));
+    } else {
+      updatedLabels = [...(task.labels || []), newLabel];
+
+      if (!boardLabels.some((b) => b.color.toLowerCase() === newLabel.color.toLowerCase())) {
+        dispatch(updateBoardLabels([...boardLabels, { ...newLabel, id: `l${Date.now()}` }]));
+      }
+    }
+
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        labels: updatedLabels,
+      })
+    );
+
+    setEditModeLabel(null);
+    setAddModeLabel(false);
+  };
 
   return (
     <>
-      {/* Options */}
-
       {editModeLabel || addModeLabel ? (
         <EditLabelDropdown
-          title={editModeLabel ? 'Edit Label' : 'create Label'}
+          title={editModeLabel ? 'Edit Label' : 'Create Label'}
           label={editModeLabel}
           onDelete={handleDeleteLabel}
           onClose={() => {
             setEditModeLabel(null);
             setAddModeLabel(false);
           }}
-          onSave={(newLabel) => {
-            let updateTask;
-            let updatedBoardLabels;
-            if (editModeLabel) {
-              updateTask = task.taskLabels.map((lbl) =>
-                lbl.color === editModeLabel.color ? newLabel : lbl
-              );
-              
-  updatedBoardLabels = boardLabels.map((lbl) =>
-    lbl.color === editModeLabel.color ? { ...lbl, ...newLabel } : lbl
-  );
-  dispatch(updateBoardLabels(updatedBoardLabels));
-            } else {
-              updateTask = [...(task.taskLabels || []), newLabel];
-              
-              if (!boardLabels.some((b) => b.color.toLowerCase() === newLabel.color.toLowerCase())) {
-                dispatch(updateBoardLabels([
-                    ...boardLabels,
-                    { ...newLabel, id: `l${Date.now()}` }
-                  ]));
-                  
-              }
-            }
-            
-              
-
-            dispatch(
-              liveUpdateTask({
-                ...task,
-                taskLabels: updateTask,
-              })
-            );
-            setEditModeLabel(null);
-            setAddModeLabel(false);
-          }}></EditLabelDropdown>
+          onSave={handleSave}
+        />
       ) : (
         <div className="DropdownUi">
           {/* Header */}
@@ -138,15 +139,18 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
 
           {/* Options */}
           <div className="DropdownLabelOption">
-            <input style={{ paddingLeft: '13px' }} 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search labels..." />
+            <input
+              style={{ paddingLeft: '13px' }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search labels..."
+            />
             <h3 className="DropdownLabelH3">Labels</h3>
             <ul className="DropdownUL">
               {filteredLabels.map((label) => {
-                const isChecked = task?.taskLabels?.some(
-                  (l) => l.color.toLowerCase() === label.color.toLowerCase()
+                const isChecked = task?.labels?.some(
+                  (l) =>
+                    l?.color && label?.color && l.color.toLowerCase() === label.color.toLowerCase()
                 );
 
                 return (
@@ -162,7 +166,6 @@ const DropdownLabel = ({ onClose, onDelete, onConvert, childern }) => {
                       style={{ backgroundColor: label.color || '#ccc' }}>
                       {label.title}
                     </div>
-
                     <button
                       className="DropdownLabelEditBtn"
                       onClick={() => setEditModeLabel(label)}>
