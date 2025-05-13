@@ -40,6 +40,7 @@ const taskDetailsSlice = createSlice({
         taskDueDate: action.payload.taskDueDate ?? null,
         reminderSettings: action.payload.reminderSetting ?? '5 minutes before',
         isDueComplete: action.payload.isDueComplete ?? false,
+        taskTitle : action.payload.taskTitle ?? '',
       };
       state.isOpen = true;
     },

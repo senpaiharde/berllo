@@ -27,6 +27,7 @@ const TaskDetails = () => {
   const navigate = useNavigate();
   const { taskId, boardId } = useParams();
   const pureTaskId = taskId.split('-')[0];
+  const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
 
   const board = useSelector((s) => s.boardReducer);
   const boardLists = board.boardLists || [];
@@ -80,25 +81,23 @@ const TaskDetails = () => {
   if (!selectedTask) return <div />;
 
   const {
-    taskTitle,
-    taskDueDate,
-    taskLabels = [],
-    taskMembers = [],
+    
     isDueComplete = false,
   } = selectedTask;
 
   const slug = board.slug || board.boardTitle?.toLowerCase().replace(/\s+/g, '-') || 'board';
 
-  const hasLabels = taskLabels.length > 0;
-  const hasMembers = taskMembers.length > 0;
+
 
   function handleClose() {
     dispatch(closeTaskDetails());
     navigate(`/b/${board._id}/${slug}`);
   }
+  const workId = 'tasks';
 
   const handleTitleChange = (e) => {
-    dispatch(liveUpdateTask({ taskTitle: e.target.value }));
+    const method = TaskOps.UPDATE;
+    dispatch(liveUpdateTask({ taskTitle: e.target.value, workId, method }));
   };
 
   return (
@@ -113,9 +112,8 @@ const TaskDetails = () => {
                 type="checkbox"
                 checked={isDueComplete}
                 onChange={() => {
-                    const workId = 'tasks'
-                    const method = TaskOps.UPDATE
-                  dispatch(liveUpdateTask({ isDueComplete: !isDueComplete,workId,method }));
+                  const method = TaskOps.UPDATE;
+                  dispatch(liveUpdateTask({ isDueComplete: !isDueComplete, workId, method }));
                 }}
                 className="td-checkbox"
               />
@@ -123,7 +121,7 @@ const TaskDetails = () => {
 
             <textarea
               className="td-title-input"
-              value={taskTitle || ''}
+              value={task?.title || ''}
               onChange={handleTitleChange}
               placeholder="Enter task title"
             />
@@ -138,10 +136,10 @@ const TaskDetails = () => {
         <div className="td-main">
           <div className="td-main-left">
             <div className="td-section-top">
-              {hasMembers && <TaskDetailsMembers />}
-              {hasLabels && <TaskDetailsLabel />}
+              {task?.members?.length > 0 && <TaskDetailsMembers />}
+              {task?.labels?.length > 0 && <TaskDetailsLabel />}
               <TaskDetailsNotifcations />
-              {taskDueDate && <TaskDetailsDate />}
+              {task?.dueDate && <TaskDetailsDate />}
             </div>
 
             <TaskDescription />
