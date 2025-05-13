@@ -6,9 +6,10 @@ import backendHandler, { TaskOps } from '../services/backendHandler';
 
 export const syncTaskAsync = createAsyncThunk(
   'taskDetails/sync',
-  async ({ method, args }, { rejectWithValue, dispatch }) => {
+  async ({ method, args,workId }, { rejectWithValue, dispatch }) => {
     try {
-        const workId = 'tasks' 
+        
+        console.log(method, workId,args , 'update happens here',workId)
       const data = await   backendHandler({method, args, workId})
       
       if(method !== TaskOps.FETCH)dispatch(updateTaskInBoard(data))
@@ -63,7 +64,7 @@ const taskDetailsSlice = createSlice({
         switch (method) {
          case TaskOps.FETCH:
            state.selectedTask = data;
-           state.isOpen = true;        // ← open the drawer
+           state.isOpen = true;        
            break;
          case TaskOps.UPDATE:
          case TaskOps.ADD:
@@ -107,11 +108,13 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
 
  clearTimeout(debounceId)
 /* 2 background sync */
+console.log( fields.method, fields.workId, fields,'liveupdatetask')
  debounceId = setTimeout(() => {
     dispatch(
     syncTaskAsync({
-      method: TaskOps.UPDATE,
-      args: { taskId: selectedTask._id, body: fields },
+      method: fields.method,
+      args: { taskId: selectedTask._id, body: fields, },
+      workId : fields.workId,
     })
   );
  }, 400);

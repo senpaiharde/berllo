@@ -4,7 +4,6 @@ import {
   closeTaskDetails,
   liveUpdateTask,
   openTaskDetails,
-  
   syncTaskAsync,
 } from '../../../redux/taskDetailsSlice';
 import { TaskOps } from '../../../services/backendHandler';
@@ -29,8 +28,8 @@ const TaskDetails = () => {
   const { taskId, boardId } = useParams();
   const pureTaskId = taskId.split('-')[0];
 
-  const board        = useSelector((s) => s.boardReducer);
-  const boardLists   = board.boardLists || [];
+  const board = useSelector((s) => s.boardReducer);
+  const boardLists = board.boardLists || [];
   const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
 
   // ① find the local JSON task
@@ -88,12 +87,9 @@ const TaskDetails = () => {
     isDueComplete = false,
   } = selectedTask;
 
-  const slug =
-    board.slug ||
-    board.boardTitle?.toLowerCase().replace(/\s+/g, '-') ||
-    'board';
+  const slug = board.slug || board.boardTitle?.toLowerCase().replace(/\s+/g, '-') || 'board';
 
-  const hasLabels  = taskLabels.length > 0;
+  const hasLabels = taskLabels.length > 0;
   const hasMembers = taskMembers.length > 0;
 
   function handleClose() {
@@ -116,11 +112,11 @@ const TaskDetails = () => {
               <input
                 type="checkbox"
                 checked={isDueComplete}
-                onClick={() =>
-                  dispatch(
-                    liveUpdateTask({ isDueComplete: !isDueComplete })
-                  )
-                }
+                onChange={() => {
+                    const workId = 'tasks'
+                    const method = TaskOps.UPDATE
+                  dispatch(liveUpdateTask({ isDueComplete: !isDueComplete,workId,method }));
+                }}
                 className="td-checkbox"
               />
             </div>
@@ -143,7 +139,7 @@ const TaskDetails = () => {
           <div className="td-main-left">
             <div className="td-section-top">
               {hasMembers && <TaskDetailsMembers />}
-              {hasLabels  && <TaskDetailsLabel />}
+              {hasLabels && <TaskDetailsLabel />}
               <TaskDetailsNotifcations />
               {taskDueDate && <TaskDetailsDate />}
             </div>
