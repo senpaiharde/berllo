@@ -61,11 +61,14 @@ const taskDetailsSlice = createSlice({
         const {method , data}  = action.payload
 
         switch (method) {
-            case TaskOps.FETCH:
-            case TaskOps.UPDATE:
-            case TaskOps.ADD:
-                state.selectedTask = data;
-                break;
+         case TaskOps.FETCH:
+           state.selectedTask = data;
+           state.isOpen = true;        // ← open the drawer
+           break;
+         case TaskOps.UPDATE:
+         case TaskOps.ADD:
+          state.selectedTask = data;
+           break;
             case TaskOps.DELETE:
                 if(state.selectedTask?._id === data._id){
                     state.selectedTask = null,
@@ -93,7 +96,7 @@ export const {
 
 let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {
-  const { selectedTask } = getState().taskDetails;
+  const selectedTask = getState().taskDetailsReducer?.selectedTask;
   if (!selectedTask) return;
 
   /* 1 optimistic UI */
@@ -101,13 +104,13 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
 
 
 
-  
+
  clearTimeout(debounceId)
 /* 2 background sync */
  debounceId = setTimeout(() => {
     dispatch(
     syncTaskAsync({
-      method: 'update',
+      method: TaskOps.UPDATE,
       args: { taskId: selectedTask._id, body: fields },
     })
   );
