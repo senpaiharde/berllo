@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateTaskInBoard } from './BoardSlice';
-import api from '../api/api';
-import backendHandler from '../services/backendHandler';
+
+import backendHandler, { TaskOps } from '../services/backendHandler';
 
 
 export const syncTaskAsync = createAsyncThunk(
@@ -11,7 +11,7 @@ export const syncTaskAsync = createAsyncThunk(
         const workId = 'tasks' 
       const data = await   backendHandler({method, args, workId})
       
-      if(method !== 'fetch')dispatch(updateTaskInBoard(data))
+      if(method !== TaskOps.FETCH)dispatch(updateTaskInBoard(data))
         return {method, data}
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || `${method} failed`);
@@ -23,6 +23,9 @@ const initialState = {
   selectedTask: null,
   isOpen: false,
   isWatching: false,
+  
+  loading: false,
+  error: null,
 };
 
 const taskDetailsSlice = createSlice({
@@ -53,20 +56,30 @@ const taskDetailsSlice = createSlice({
   extraReducers: (builder) => {
     builder
     .addCase(syncTaskAsync.fulfilled, (state,action) => {
-        const {method, data} = action.payload
-        switch(method){
-            case'fetch':
-             case'update':
-              case'add':
-              state.selectedTask = data;
-              break;
-              case 'delete':
+        state.loading = false;
+
+        const {method , data}  = action.payload
+
+        switch (method) {
+            case TaskOps.FETCH:
+            case TaskOps.UPDATE:
+            case TaskOps.ADD:
+                state.selectedTask = data;
+                break;
+            case TaskOps.DELETE:
                 if(state.selectedTask?._id === data._id){
-                    state.selectedTask = null;
-                    state.isOpen = false
+                    state.selectedTask = null,
+                    state.isOpen = false;
                 }
                 break;
+            default:
+                break;
         }
+        
+    })
+    .addCase(syncTaskAsync.rejected,(state,action) => {
+        state.loading = false,
+        state.error = action.payload  || action.error.message;
     })
   }
 });

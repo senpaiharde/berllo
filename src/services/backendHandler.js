@@ -33,3 +33,12 @@ const backendHandler = async ({ method, args, workId }) => {
 };
 
 export default backendHandler;
+
+
+
+export const TaskOps = Object.freeze({
+  FETCH: 'fetch',
+  ADD: 'add',
+  UPDATE: 'update',
+  DELETE: 'delete',
+});
