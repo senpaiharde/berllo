@@ -1,8 +1,12 @@
 import { IconButton } from "../../IconButton"
 import DropdownLabel from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownLabel"
+import DropdownMembers from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownMembers"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
+import { Link, useNavigate } from "react-router-dom"
 
 export function TaskPreviewActions({ task, parentPosition }) {
+  const navigate = useNavigate()
+  console.log("TaskPreviewActions task", task)
   const position = parentPosition
     ? {
         transform: `translate3d(${parentPosition.x}px, ${parentPosition.y}px, 0px)`,
@@ -32,13 +36,42 @@ export function TaskPreviewActions({ task, parentPosition }) {
         />
       ),
     }
+    const membersButton={
+      id: "members",
+      label: "Members",
+      content: (props) => (
+        <DropdownMembers
+          {...props}
+          title="Members"
+          options={[
+            {
+              label: "Invite Member",
+              onClick: () => console.log("Invite logic"),
+            },
+            {
+              label: "Manage Access",
+              onClick: () => console.log("Manage Access logic"),
+            },
+          ]}
+        />
+      ),
+    }
+    // navigate(
+    //   `/b/${boardId}/board/${task._id}-${encodeURIComponent(
+    //     task.taskTitle
+    //   )}`
+    // )
   return (
     <section
       className="task-preview-actions-container"
       // style={position}
     >
       <div className="task-preview-actions">
-        <div className="task-preview-action">
+        <div className="task-preview-action"
+          onClick={() => {
+            navigate(`/b/${task.taskboard}/board/${task._id}`)}}
+            
+            >
           <IconButton label={"Open card"}>
             <path
               fillRule="evenodd"
@@ -71,7 +104,9 @@ export function TaskPreviewActions({ task, parentPosition }) {
           </DropdownUi>
         </div>
         <div className="task-preview-action">
-          <IconButton label={"Change members"}>
+        <DropdownUi
+            trigger={
+              <IconButton label={"Change members"}>
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -79,6 +114,23 @@ export function TaskPreviewActions({ task, parentPosition }) {
               fill="currentColor"
             ></path>
           </IconButton>
+            }
+          >
+            {(controlProps) =>
+              membersButton.content?.({
+                title: labelButton.label,
+                ...controlProps,
+              })
+            }
+          </DropdownUi>
+          {/* <IconButton label={"Change members"}>
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M12.0254 3C9.25613 3 7.01123 5.23858 7.01123 8C7.01123 10.7614 9.25613 13 12.0254 13C14.7946 13 17.0395 10.7614 17.0395 8C17.0395 5.23858 14.7946 3 12.0254 3ZM9.01688 8C9.01688 9.65685 10.3638 11 12.0254 11C13.6869 11 15.0338 9.65685 15.0338 8C15.0338 6.34315 13.6869 5 12.0254 5C10.3638 5 9.01688 6.34315 9.01688 8Z"
+              fill="currentColor"
+            ></path>
+          </IconButton> */}
         </div>
         <div className="task-preview-action">
           <IconButton label={"Change cover"}>

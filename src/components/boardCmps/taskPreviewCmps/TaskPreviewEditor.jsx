@@ -112,7 +112,7 @@ export function TaskPreviewEditor({}) {
             Save
           </button>
         </form>
-        <TaskPreviewActions parentPosition={previewEditorPosition}/>
+        <TaskPreviewActions task={task} parentPosition={previewEditorPosition}/>
       </div>
     </div>
   )
