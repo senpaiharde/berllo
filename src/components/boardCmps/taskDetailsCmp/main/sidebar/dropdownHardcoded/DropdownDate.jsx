@@ -51,37 +51,60 @@ const DropdownDate = ({ onClose }) => {
   const handleNextMonth = createHandleNextMonth(setCalenderDate);
   const handleNextYear = createHandleNextYear(setCalenderDate);
   const handlePrevYear = createHandlePrevYear(setCalenderDate);
+
+
   const handleSave = () => {
-    if (!isDueDateActive || !dueDateValue || !dueTimeValue) return;
+  if (!isDueDateActive || !dueDateValue || !dueTimeValue) return;
 
-    const [day, month, year] = dueDateValue.split('/');
-    const [hour, minute] = dueTimeValue.split(':');
-    const dueDate = new Date(+year, +month - 1, +day, +hour, +minute);
+  const [day, month, year] = dueDateValue.split('/');
+  const [hour, minute] = dueTimeValue.split(':');
+  const dueDate = new Date(+year, +month - 1, +day, +hour, +minute);
 
-    dispatch(
-      liveUpdateTask({
-        ...task,
-        taskDueDate: dueDate.getTime(),
-        reminderSettings: dropdownTitle,
-        isDueComplete: false,
-      })
-    );
+  // Map label → offset
+  const reminderOffset = {
+    'At Time Due Date': 0,
+    '5 minutes before': 5,
+    '10 minutes before': 10,
+    '30 minutes before': 30,
+    '1 hour before': 60,
+    '1 day before': 1440,
+    '2 day before': 2880,
+  }[dropdownTitle] ?? null;
 
-    onClose();
-  };
+  const reminder = reminderOffset !== null
+    ? new Date(dueDate.getTime() - reminderOffset * 60000).toISOString()
+    : null;
+
+  dispatch(
+    liveUpdateTask({
+      method: 'update',
+      workId: 'tasks',
+      taskDueDate: dueDate.toISOString(),
+      reminder: reminder,
+      isDueComplete: false,
+      ...(isStartDateActive && startDateValue
+        ? { startDate: new Date(startDateValue).toISOString() }
+        : {})
+    })
+  );
+
+  onClose();
+};
 
   const handleRemove = () => {
     console.log('Saving task due date:', dueDateValue, dueTimeValue);
 
     dispatch(
       liveUpdateTask({
-        ...task,
+        method: 'update',
+        workId: 'tasks',
         taskDueDate: null,
-        reminderSettings: 'None',
+        reminder: 'None',
         isDueComplete: false,
+        taskStartDate: null,
       })
     );
-
+    
     onClose();
   };
 

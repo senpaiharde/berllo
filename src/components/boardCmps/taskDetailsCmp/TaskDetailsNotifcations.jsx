@@ -4,16 +4,18 @@ import SvgWatching from "../../../assets/svgDesgin/SvgWatching";
 import SvgCheck from "../../../assets/svgDesgin/SvgCheck";
 import { useDispatch, useSelector } from "react-redux";
 import { liveUpdateTask } from "../../../redux/taskDetailsSlice";
+import { TaskOps } from "../../../services/backendHandler";
 const TaskDetailsNotifcations = () => {
     const dispatch = useDispatch();
     const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   
     const isWatching = task?.isWatching || false;
-  
+   const workId = 'tasks';
     function toogleWatching() {
+         const method = TaskOps.UPDATE;
       dispatch(
         liveUpdateTask({
-          isWatching: !isWatching,
+          isWatching: !isWatching,workId, method
         })
       );
     }

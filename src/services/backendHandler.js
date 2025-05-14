@@ -1,27 +1,39 @@
-import api from '../api/api';
+import axios from 'axios';
 
-const backendHandler = async ({ method, args, workId }) => {
+
+
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const api = axios.create({ baseURL });
+
+const backendHandler = async ({ args }) => {
   const { taskId, body } = args || {};
+
+  console.log('backendHandler', body.method, body.workId, body);
+  console.log(`/${body.workId}/${body.method}`);
   let data;
-  switch (method) {
+  if (body.method === 'update') {
+    console.log('→ UPDATE case hit!', body.workId, taskId, body);
+    // now we GUARANTEE axios.put() runs before returning:
+    const res = await api.put(`/${body.workId}/${taskId}`, body);
+    console.log('→ axios.put returned status:', res.status);
+    return res.data;
+  }
+  switch (body.method) {
     case 'fetch': {
-     
-      ({ data } = await api.get(`/${workId}/${taskId}`));
+      ({ data } = await api.get(`/${body.workId}/${taskId}`));
       break;
     }
     case 'add': {
-    
-      ({ data } = await api.post(`/${workId}/${taskId}`, body));
+      ({ data } = await api.post(`/${body.workId}/`, body));
       break;
     }
     case 'update': {
-     
-      ({ data } = await api.put(`/${workId}/${taskId}`, body));
+      ({ data } = await api.put(`/${body.workId}/${taskId}`, body));
+      console.log('→ UPDATE case hit!', body.workId, taskId, body);
       break;
     }
     case 'delete': {
-      
-      await api.delete(`/${workId}/${taskId}`);
+      await api.delete(`/${body.workId}/${taskId}`);
       data = { _id: taskId };
       break;
     }
@@ -29,12 +41,11 @@ const backendHandler = async ({ method, args, workId }) => {
     default:
       throw new Error('Unknown method');
   }
-  return data
+  console.log(data, 'data');
+  return data;
 };
 
 export default backendHandler;
-
-
 
 export const TaskOps = Object.freeze({
   FETCH: 'fetch',

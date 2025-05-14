@@ -7,7 +7,7 @@ import DropdownLabel from './main/sidebar/dropdownHardcoded/DropdownLabel';
 
 const TaskDetailsLabel = () => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-  const taskLabels = Array.isArray(task?.taskLabels) ? task.taskLabels : [];
+  const taskLabels = Array.isArray(task?.labels) ? task.labels : [];
   console.log('color', task);
   
 

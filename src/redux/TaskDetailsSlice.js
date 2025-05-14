@@ -3,16 +3,15 @@ import { updateTaskInBoard } from './BoardSlice';
 
 import backendHandler, { TaskOps } from '../services/backendHandler';
 
-
 export const syncTaskAsync = createAsyncThunk(
   'taskDetails/sync',
-  async ({ method, args }, { rejectWithValue, dispatch }) => {
+  async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
     try {
-        const workId = 'tasks' 
-      const data = await   backendHandler({method, args, workId})
-      
-      if(method !== TaskOps.FETCH)dispatch(updateTaskInBoard(data))
-        return {method, data}
+      console.log(method, workId, args, 'update happens here', workId);
+      const data = await backendHandler({ method, args, workId });
+
+      if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data));
+      return { method, data };
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || `${method} failed`);
     }
@@ -23,9 +22,10 @@ const initialState = {
   selectedTask: null,
   isOpen: false,
   isWatching: false,
-  
+  reminder: null,
   loading: false,
   error: null,
+  taskDueDate: null,
 };
 
 const taskDetailsSlice = createSlice({
@@ -36,9 +36,12 @@ const taskDetailsSlice = createSlice({
       if (state.selectedTask?._id === action.payload._id) return;
       state.selectedTask = {
         ...action.payload,
-        taskDueDate: action.payload.taskDueDate ?? null,
-        reminderSettings: action.payload.reminderSetting ?? '5 minutes before',
+        taskDueDate: action.payload.taskDueDate ?? action.payload.dueDate ?? null,
+        reminder: action.payload.reminder ?? null,
         isDueComplete: action.payload.isDueComplete ?? false,
+        taskTitle: action.payload.taskTitle ?? '',
+        isWatching: action.payload.isWatching ?? false,
+        members: Array.isArray(action.payload.members) ? action.payload.members : [],
       };
       state.isOpen = true;
     },
@@ -47,52 +50,45 @@ const taskDetailsSlice = createSlice({
       state.isOpen = false;
     },
     updateSelectedTaskLive(state, action) {
-      if (state.selectedTask)
-        Object.assign(state.selectedTask, action.payload);
+      if (state.selectedTask) Object.assign(state.selectedTask, action.payload);
     },
-   
-    
   },
   extraReducers: (builder) => {
     builder
-    .addCase(syncTaskAsync.fulfilled, (state,action) => {
+      .addCase(syncTaskAsync.fulfilled, (state, action) => {
         state.loading = false;
 
-        const {method , data}  = action.payload
+        const { method, data } = action.payload;
 
         switch (method) {
-         case TaskOps.FETCH:
-           state.selectedTask = data;
-           state.isOpen = true;        // ← open the drawer
-           break;
-         case TaskOps.UPDATE:
-         case TaskOps.ADD:
-          state.selectedTask = data;
-           break;
-            case TaskOps.DELETE:
-                if(state.selectedTask?._id === data._id){
-                    state.selectedTask = null,
-                    state.isOpen = false;
-                }
-                break;
-            default:
-                break;
+          case TaskOps.FETCH:
+            state.selectedTask = data;
+            state.isOpen = true;
+            break;
+          case TaskOps.UPDATE:
+          case TaskOps.ADD:
+            state.selectedTask = {
+              ...state.selectedTask,
+              ...data,
+            };
+            break;
+          case TaskOps.DELETE:
+            if (state.selectedTask?._id === data._id) {
+              (state.selectedTask = null), (state.isOpen = false);
+            }
+            break;
+          default:
+            break;
         }
-        
-    })
-    .addCase(syncTaskAsync.rejected,(state,action) => {
-        state.loading = false,
-        state.error = action.payload  || action.error.message;
-    })
-  }
+      })
+      .addCase(syncTaskAsync.rejected, (state, action) => {
+        (state.loading = false), (state.error = action.payload || action.error.message);
+      });
+  },
 });
 
-export const {
-  openTaskDetails,
-  closeTaskDetails,
-  updateSelectedTaskLive,
-} = taskDetailsSlice.actions;
-
+export const { openTaskDetails, closeTaskDetails, updateSelectedTaskLive } =
+  taskDetailsSlice.actions;
 
 let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {
@@ -102,21 +98,18 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
   /* 1 optimistic UI */
   dispatch(updateSelectedTaskLive(fields));
 
-
-
-
- clearTimeout(debounceId)
-/* 2 background sync */
- debounceId = setTimeout(() => {
+  clearTimeout(debounceId);
+  /* 2 background sync */
+  console.log(fields.method, fields.workId, fields, 'liveupdatetask');
+  debounceId = setTimeout(() => {
     dispatch(
-    syncTaskAsync({
-      method: TaskOps.UPDATE,
-      args: { taskId: selectedTask._id, body: fields },
-    })
-  );
- }, 400);
-  
-  
+      syncTaskAsync({
+        method: fields.method,
+        args: { taskId: selectedTask._id, body: fields },
+        workId: fields.workId,
+      })
+    );
+  }, 400);
 };
 
 export default taskDetailsSlice.reducer;
