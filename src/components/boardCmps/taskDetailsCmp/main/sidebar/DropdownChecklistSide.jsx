@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,14 +13,41 @@ const DropdownChecklistSide = ({ onClose }) => {
 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const [selectedBoard, setSelectedBoard] = useState('');
- 
+
   const [searchTerm, setSearchTerm] = useState('Checklist');
- 
+
+  const normalizeChecklist = (list) =>
+    list.map((item) => ({
+      title: item.title || '',
+      items: Array.isArray(item.items) ? item.items : [],
+    }));
+
+  const toggleChecklist = (newChecklist) => {
+    if (!task) return;
+
+    const hasChecklist = task.checklist?.some(
+      (item) => item?.title?.toLowerCase() === newChecklist?.title?.toLowerCase()
+    );
+
+    const updatedChecklist = hasChecklist
+      ? task.checklist.filter(
+          (item) => item.title.toLowerCase() !== newChecklist.title.toLowerCase()
+        )
+      : [...(task.checklist || []), newChecklist];
+
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        checklist: normalizeChecklist(updatedChecklist),
+      })
+    );
+  };
   const BoardOptions = [
     { id: 'NTerllo WorkSpace', title: 'Work Flow' },
     { id: 'Terllo Workspace', title: '1-on-1 Meeting Agenda' },
     { title: 'slava' },
-  ]
+  ];
   return (
     <div className="DropdownUi">
       {/* Header */}
@@ -34,35 +61,37 @@ const DropdownChecklistSide = ({ onClose }) => {
       {/* Options */}
       <div style={{ gap: '0px' }} className="DropdownOptions">
         <div className="DropdownMembers">
-                  <h3 className="DropdownMembersh3">Title</h3>
-                   
-                </div>
-                <input className='AddchecklistDrop'
+          <h3 className="DropdownMembersh3">Title</h3>
+        </div>
+        <input
+          className="AddchecklistDrop"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
-          
           style={{ padding: '13px' }}
         />
         <div className="workFlowCard">
           <div className="BoardReminderWrapper">
             <div className="WorkflowArea">
-                
-            <BackLogDropdown
-              label='Copy items from…'
-              value={selectedBoard}
-              onselect={setSelectedBoard}
-              options={BoardOptions} />
+              <BackLogDropdown
+                label="Copy items from…"
+                value={selectedBoard}
+                onselect={setSelectedBoard}
+                options={BoardOptions}
+              />
             </div>
-            
           </div>
-         
         </div>
 
-        <button onChange={() => {
-                          const workId = 'tasks'
-                          const method = TaskOps.UPDATE;
-                          dispatch(liveUpdateTask({ isDueComplete: !isDueComplete, workId, method }));
-                        }} className="MoveCardButton">Add</button>
+        <button
+          onClick={() => {
+            if (searchTerm) {
+              onClose?.();
+              toggleChecklist({ title: searchTerm, items: [] });
+            }
+          }}
+          className="MoveCardButton">
+          Add
+        </button>
       </div>
     </div>
   );
