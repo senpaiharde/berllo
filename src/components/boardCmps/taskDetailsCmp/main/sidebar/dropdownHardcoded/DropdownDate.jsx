@@ -80,7 +80,7 @@ const DropdownDate = ({ onClose }) => {
       method: 'update',
       workId: 'tasks',
       taskDueDate: dueDate.toISOString(),
-      reminderSettings: reminder,
+      reminder: reminder,
       isDueComplete: false,
       ...(isStartDateActive && startDateValue
         ? { startDate: new Date(startDateValue).toISOString() }
@@ -99,7 +99,7 @@ const DropdownDate = ({ onClose }) => {
         method: 'update',
         workId: 'tasks',
         taskDueDate: null,
-        reminderSettings: 'None',
+        reminder: 'None',
         isDueComplete: false,
         taskStartDate: null,
       })

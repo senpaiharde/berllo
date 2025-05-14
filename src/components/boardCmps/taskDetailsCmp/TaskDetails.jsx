@@ -139,7 +139,7 @@ const TaskDetails = () => {
               {task?.members?.length > 0 && <TaskDetailsMembers />}
               {task?.labels?.length > 0 && <TaskDetailsLabel />}
               <TaskDetailsNotifcations />
-              {task?.dueDate && <TaskDetailsDate />}
+              {task?.taskDueDate && <TaskDetailsDate />}
             </div>
 
             <TaskDescription />
