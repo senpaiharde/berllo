@@ -6,14 +6,16 @@ import { ItemNameForm } from "../addItemCard/ItemNameForm"
 import {
   removeTaskFromBoard,
   updateTaskInBoard,
+  updatePreviewEditorPositon,
 } from "../../../redux/BoardSlice"
+import { openTaskDetails } from "../../../redux/taskDetailsSlice"
 import { useDispatch } from "react-redux"
 import { TaskPreviewLabels } from "./TaskPreviewLabels"
 import TaskDetailsMembers from "../taskDetailsCmp/TaskDetailsMembers"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
-export function TaskPreview({ task, boardId, NewTask,onAddedNewTask }) {
+export function TaskPreview({ task, boardId, NewTask, onAddedNewTask }) {
   // TaskPreview.propTypes = {
   //   Task: PropTypes.object.isRequired,
   // }
@@ -71,9 +73,32 @@ export function TaskPreview({ task, boardId, NewTask,onAddedNewTask }) {
   }
   // isNewTask =true
 
+  const elementRef = useRef(null)
+  function getElementPosition() {
+    const rect = elementRef.current?.getBoundingClientRect()
+    console.log("getElementPosition", rect.width)
+    // if (rect) {
+    //   console.log("X:", rect.x, "Y:", rect.y)
+    //   console.log("Top:", rect.top, "Left:", rect.left)
+    // }
+    return {
+      width: rect.width,
+      x: rect.x,
+      y: rect.y,
+    }
+  }
+
+  function openPreviewEditor() {
+    // console.log("openPreviewEditor", getElementPosition())
+    dispatch(openTaskDetails(task))
+    dispatch(updatePreviewEditorPositon(getElementPosition()))
+  }
+
   return (
     <div
       className="task-preview parent-container"
+      ref={elementRef}
+
       // ref={TaskPreviewRef}
       // onMouseEnter={handleMouseEnter}
       // onMouseLeave={handleMouseLeave}
@@ -89,15 +114,15 @@ export function TaskPreview({ task, boardId, NewTask,onAddedNewTask }) {
       // }}
     >
       {isNewtask ? (
-          <ItemNameForm
-            IsEditing={isNewtask}
-            setIsEditing={setIsNewTask}
-            noValueOnExit={onRemoveCurrentTask}
-            isNewItem={true}
-            isList={false}
-            onAddItem={onUpdateTask}
-            itemType={"add task"}
-          ></ItemNameForm>
+        <ItemNameForm
+          IsEditing={isNewtask}
+          setIsEditing={setIsNewTask}
+          noValueOnExit={onRemoveCurrentTask}
+          isNewItem={true}
+          isList={false}
+          onAddItem={onUpdateTask}
+          itemType={"add task"}
+        ></ItemNameForm>
       ) : (
         <div
           style={{ display: "flex", flexGrow: 1, zIndex: 0 }}
@@ -118,29 +143,21 @@ export function TaskPreview({ task, boardId, NewTask,onAddedNewTask }) {
               <TaskPreviewLabels task={task}></TaskPreviewLabels>
             </div>
             <div className="task-preview-header">
-              <span className="task-preview-header-completion-status" onClick={(e) => {
-                    e.stopPropagation()
-                    // e.preventDefault()
-                    setTaskChecked(!taskChecked)
-                    onUpdateTask(!taskChecked)
-                  }}>
-                {/* <div style={{zIndex: 1, paddingRight: "6px"}}> */}
-
-                {/* <input
-                  type="checkbox"
-                  id="taskChecked"
-                  checked={taskChecked}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    // e.preventDefault()
-                    setTaskChecked(!taskChecked)
-                    onUpdateTask(!taskChecked)
-                  }}
-                  onChange={setTaskChecked}
-                ></input> */}
+              <span
+                className="task-preview-header-completion-status"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  // e.preventDefault()
+                  setTaskChecked(!taskChecked)
+                  onUpdateTask(!taskChecked)
+                }}
+              >
                 {taskChecked && (
-                  <IconButton alternativeViewBox={"0 0 16 16"} iconSize={"16px"} displayOnHover={false} textColor={"#ffffff"} 
-                  // offset={-4}
+                  <IconButton
+                    alternativeViewBox={"0 0 16 16"}
+                    iconSize={"16px"}
+                    displayOnHover={false}
+                    textColor={"#ffffff"}
                   >
                     <path
                       fill="#22a06b"
@@ -151,9 +168,12 @@ export function TaskPreview({ task, boardId, NewTask,onAddedNewTask }) {
                   </IconButton>
                 )}
                 {!taskChecked && (
-                  
-                  <IconButton alternativeViewBox={"0 0 16 16"} iconSize={"16px"} textColor={"#ffffff"} backgColor={"#ffffff"} displayOnHover={true} 
-                  // offset={-8}
+                  <IconButton
+                    alternativeViewBox={"0 0 16 16"}
+                    iconSize={"16px"}
+                    textColor={"#ffffff"}
+                    backgColor={"#ffffff"}
+                    displayOnHover={true}
                   >
                     <circle
                       cx="8"
@@ -164,7 +184,6 @@ export function TaskPreview({ task, boardId, NewTask,onAddedNewTask }) {
                     ></circle>
                   </IconButton>
                 )}
-                {/* </div> */}
               </span>
               <span className="task-preview-header-title">
                 <a style={{ fontSize: 14 }}>{task.taskTitle}</a>
@@ -174,13 +193,54 @@ export function TaskPreview({ task, boardId, NewTask,onAddedNewTask }) {
               <TaskInfoBadges task={task}></TaskInfoBadges>
               <div className="task-preview-info-users">
                 <TaskDetailsMembers style={{}} />
-                {/* {task.taskMembers &&
-                  task.taskMembers.map((member) => (
-                    <span key={member} className="task-preview-user">
-                      {member}
-                    </span>
-                  ))} */}
               </div>
+            </div>
+          </div>
+          <div className="task-preview-header-action-buttons-container">
+            {taskChecked && (
+              <div className="task-preview-header-action-button archive">
+                <IconButton
+                  iconSize={"16px"}
+                  centerd={true}
+                  alternativeViewBox={"0 0 16 16"}
+                  // onClick={(e) => {
+                  //   e.stopPropagation()
+                  //   onRemoveCurrentTask()
+                  // }}
+                >
+                  <path
+                    fill="currentcolor"
+                    fillRule="evenodd"
+                    d="M1 1h14v5h-1v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6H1zm2.5 5v7a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V6zm10-1.5h-11v-2h11zm-3 4.5h-5V7.5h5z"
+                    clipRule="evenodd"
+                  ></path>
+                </IconButton>
+              </div>
+            )}
+            <div
+              className="task-preview-header-action-button edit"
+              onClick={(e) => {
+                e.stopPropagation()
+                openPreviewEditor()
+                
+              }}
+            >
+              <IconButton
+                iconSize={"16px"}
+                centerd={true}
+                alternativeViewBox={"0 0 16 16"}
+                // onClick={(e) => {
+                //   e.stopPropagation()
+                //   onRemoveCurrentTask()
+                // }}
+              >
+                <path
+                  fill="currentcolor"
+                  fillRule="evenodd"
+                  d="M11.586.854a2 2 0 0 1 2.828 0l.732.732a2 2 0 0 1 0 2.828L10.01 9.551a2 2 0 0 1-.864.51l-3.189.91a.75.75 0 0 1-.927-.927l.91-3.189a2 2 0 0 1 .51-.864zm1.768 1.06a.5.5 0 0 0-.708 0l-.585.586L13.5 3.94l.586-.586a.5.5 0 0 0 0-.707zM12.439 5 11 3.56 7.51 7.052a.5.5 0 0 0-.128.217l-.54 1.89 1.89-.54a.5.5 0 0 0 .217-.127zM3 2.501a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-3H15v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2h3v1.5z"
+                  clipRule="evenodd"
+                ></path>
+              </IconButton>
             </div>
           </div>
         </div>

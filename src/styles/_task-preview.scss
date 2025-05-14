@@ -1,5 +1,6 @@
 .task-preview {
   display: flex;
+  position: relative;
   justify-content: space-between;
   background-color: white;
   background-color: var(#ffffff, #ffffff);
@@ -17,11 +18,11 @@
   );
   // padding: 10px 20px;
 }
-.task-preview:hover{
+.task-preview:hover {
   border: 1px solid;
   border-color: blue;
 }
-.task-preview-details{
+.task-preview-details {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -34,25 +35,43 @@
   align-items: center;
   margin-bottom: 4px;
 }
-.task-preview-header-completion-status{
+.task-preview-header-completion-status {
   display: flex;
   z-index: 1;
   // padding-right: 6px;
   justify-content: center;
   justify-items: center;
 }
-.task-preview-labels-container{
-  display: flex  ;
+.task-preview-header-action-buttons-container {
+  display: flex;
+  position: absolute;
+  z-index: 10;
+  top: 2px;
+  right: 2px;
+}
+.task-preview-header-action-button{
+  padding: 5px;
+  // background-color: #596773;
+  z-index: 11;
+  border-radius: 14px;
+}
+.task-preview-header-action-button:hover{
+  background-color: #596773;
+  border-radius: 14px;
+}
+
+.task-preview-labels-container {
+  display: flex;
   flex-wrap: wrap;
   gap: 4px;
   // padding-left: 5px;
   margin-bottom: 4px;
 }
 
-.task-preview-label{
+.task-preview-label {
   display: inline-flex;
   max-width: calc(100% - 4px);
-  span{
+  span {
     min-width: 40px;
     max-width: 40px;
     height: 8px;
@@ -62,7 +81,6 @@
     padding-left: 0;
     color: transparent;
     border-radius: 5px;
-
   }
 }
 
@@ -78,9 +96,9 @@
 
 .task-preview-info-users {
   display: "flex";
-//   flex-direction: "row";
-//   margin: "1em";
-//   align-items: flex-end;
+  //   flex-direction: "row";
+  //   margin: "1em";
+  //   align-items: flex-end;
   flex-wrap: wrap;
   justify-content: right;
   align-self: flex-end;
@@ -91,9 +109,9 @@
   gap: 4px;
   list-style: none;
 }
-.task-preview-user{
-    padding: 2px;
-    flex-wrap: wrap;
+.task-preview-user {
+  padding: 2px;
+  flex-wrap: wrap;
 }
 .task-preview-info-badges {
   // background-color: aqua;
@@ -102,28 +120,27 @@
   // padding: 4px;
   margin-bottom: 4px;
   flex-wrap: wrap;
-    max-width: 100%;
-    float: left;
-    column-gap: 4px;
+  max-width: 100%;
+  float: left;
+  column-gap: 4px;
 }
-.task-preview-header-title{
-  
+.task-preview-header-title {
 }
-.task-preview-info-badges-date{
+.task-preview-info-badges-date {
   border: 1px transparent;
   align-content: center;
   justify-content: center;
   padding: 2px;
   border-radius: 3px;
 }
-.task-complete-svg{
+.task-complete-svg {
   display: inline-flex;
-    position: relative;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  align-items: center;
+  justify-content: center;
 }
 
-.task-preview circle{
+.task-preview circle {
   cx: 8;
   cy: 8;
   r: 7.25;
