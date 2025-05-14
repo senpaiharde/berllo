@@ -20,6 +20,7 @@ import ShareSvg from '../.././../../../assets/svgDesgin/ShareSvg';
 import PowerUpSvg from '../.././../../../assets/svgDesgin/PowerUpSvg';
 import DropdownMembers from './dropdownHardcoded/DropdownMembers';
 import DropdownDate from './dropdownHardcoded/DropdownDate';
+import DropdownChecklistSide from './dropdownChecklistSide';
 
 const TaskDetailsSidebar = () => {
   const sidebarButtons = [
@@ -59,7 +60,7 @@ const TaskDetailsSidebar = () => {
       id: 'Checklist',
       label: 'Checklist',
       icon: <CheckListSvg />,
-      content: (props) => <DropdownLabel {...props} />,
+      content: (props) => <DropdownChecklistSide {...props} />,
     },
     {
       id: 'Dates',

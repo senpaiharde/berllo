@@ -145,7 +145,7 @@ const TaskDetails = () => {
             <TaskDescription />
             <div style={{ marginTop: '-42px' }} />
 
-            <TaskChecklist />
+            < TaskChecklist />
             <TaskDetailsActivity />
           </div>
 

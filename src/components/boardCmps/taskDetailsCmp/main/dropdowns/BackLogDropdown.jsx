@@ -6,13 +6,10 @@ const BackLogDropdown = ({ label, options, value, onselect }) => {
   const [open, setOpen] = useState(false);
   const [dropdownStyles, setDropdownStyles] = useState({});
   const triggerRef = useRef(null);
-
+  const dropdownRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (
-        triggerRef.current &&
-        !triggerRef.current.contains(e.target)
-      ) {
+      if (!triggerRef.current?.contains(e.target) && !dropdownRef.current?.contains(e.target)) {
         setOpen(false);
       }
     };
@@ -36,13 +33,12 @@ const BackLogDropdown = ({ label, options, value, onselect }) => {
 
   return (
     <>
-      <label className="WorkflowAreaLabel">{label}</label>
+      {label.length > 0 && <label className="WorkflowAreaLabel">{label}</label>}
       <div
         className="BoardReminderDiv"
         ref={triggerRef}
         onClick={handleClick}
-        style={{ cursor: 'pointer' }}
-      >
+        style={{ cursor: 'pointer' }}>
         <div className="BoardReminderDivText">
           <div className="BoardReminderDivText2">{value || 'Select'}</div>
         </div>
@@ -56,14 +52,13 @@ const BackLogDropdown = ({ label, options, value, onselect }) => {
       {open &&
         ReactDOM.createPortal(
           <div
+            ref={dropdownRef}
             className="ReminderDropdown"
             style={{
               ...dropdownStyles,
               maxHeight: '250px',
-             
-            }}
-          >
-            <ul >
+            }}>
+            <ul>
               {options.map((li, idx) => (
                 <React.Fragment key={li.title + idx}>
                   {li.id && (
@@ -73,18 +68,20 @@ const BackLogDropdown = ({ label, options, value, onselect }) => {
                   )}
                   <li
                     style={{ padding: '8px 12px', cursor: 'pointer' }}
-                    onClick={() => {
-                      onselect(li.title);
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setOpen(false);
-                    }}
-                  >
+                      setTimeout(() => {
+                        onselect(li.title);
+                      }, 0);
+                    }}>
                     {li.title}
                   </li>
                 </React.Fragment>
               ))}
             </ul>
           </div>,
-          document.body 
+          document.body
         )}
     </>
   );
