@@ -25,7 +25,21 @@ const DropdownMembers = ({ onClose }) => {
 
   const handleAddMember = (memberToAdd) => {
     if (!task) return;
-    const updatedMembers = [...taskMembers.map((m) => m._id), memberToAdd._id];
+
+    const updatedMembers = [
+      ...taskMembers
+        .filter((m) => m && typeof m === 'object' && m._id)
+        .map((m) => ({
+          _id: m._id,
+          title: m.title,
+          icon: m.icon,
+        })),
+      {
+        _id: memberToAdd._id,
+        title: memberToAdd.title,
+        icon: memberToAdd.icon,
+      },
+    ];
 
     dispatch(
       liveUpdateTask({
@@ -35,12 +49,19 @@ const DropdownMembers = ({ onClose }) => {
       })
     );
   };
-
   const handleDeleteMember = (memberToDelete) => {
     if (!task) return;
+
     const updatedMembers = taskMembers
-      .map((m) => m._id)
-      .filter((id) => id.toLowerCase() !== memberToDelete._id.toLowerCase());
+      .filter(
+        (m) =>
+          m && typeof m === 'object' && m._id?.toLowerCase() !== memberToDelete._id?.toLowerCase()
+      )
+      .map((m) => ({
+        _id: m._id,
+        title: m.title,
+        icon: m.icon,
+      }));
 
     dispatch(
       liveUpdateTask({
@@ -50,7 +71,6 @@ const DropdownMembers = ({ onClose }) => {
       })
     );
   };
-
   return (
     <div className="DropdownUi">
       {/* Header */}
