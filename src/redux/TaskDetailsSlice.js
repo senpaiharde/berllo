@@ -42,6 +42,9 @@ const taskDetailsSlice = createSlice({
         taskTitle: action.payload.taskTitle ?? '',
         isWatching: action.payload.isWatching ?? false,
         members: Array.isArray(action.payload.members) ? action.payload.members : [],
+         checklist: Array.isArray(action.payload.checklist)
+          ? action.payload.checklist
+          : [],
       };
       state.isOpen = true;
     },
