@@ -42,9 +42,7 @@ const taskDetailsSlice = createSlice({
         taskTitle: action.payload.taskTitle ?? '',
         isWatching: action.payload.isWatching ?? false,
         members: Array.isArray(action.payload.members) ? action.payload.members : [],
-         checklist: Array.isArray(action.payload.checklist)
-          ? action.payload.checklist
-          : [],
+        checklist: Array.isArray(action.payload.checklist) ? action.payload.checklist : [],
       };
       state.isOpen = true;
     },
@@ -53,7 +51,27 @@ const taskDetailsSlice = createSlice({
       state.isOpen = false;
     },
     updateSelectedTaskLive(state, action) {
-      if (state.selectedTask) Object.assign(state.selectedTask, action.payload);
+      const payload = action.payload;
+      if (!state.selectedTask) return;
+
+      if (payload.isDueComplete) {
+        state.selectedTask.isDueComplete = payload.isDueComplete;
+      }
+      if (payload.reminder) {
+        state.selectedTask.reminder = payload.reminder;
+      }
+      if (payload.taskDueDate) {
+        state.selectedTask.taskDueDate = payload.taskDueDate;
+      }
+      if (payload.checklist) {
+        state.selectedTask.checklist = payload.checklist;
+      }
+      if (payload.members) {
+        state.selectedTask.members = payload.members;
+      }
+      if (payload.labels) {
+        state.selectedTask.labels = payload.labels;
+      }
     },
   },
   extraReducers: (builder) => {
