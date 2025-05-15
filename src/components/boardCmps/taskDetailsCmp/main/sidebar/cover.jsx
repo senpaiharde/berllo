@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import SvgClose from '../../../../../assets/svgDesgin/SvgClose';
-import { defaultCoverColors } from '../../../../../services/ColorStorage';
+import { defaultCoverColors, defaultCoverIcons } from '../../../../../services/ColorStorage';
 
 const Cover = ({ onClose }) => {
   const [selectedColor, setSelectedColor] = useState('');
 
-  
   return (
     <div className="DropdownUi">
       {/* Header */}
@@ -43,37 +42,60 @@ const Cover = ({ onClose }) => {
         <div className="CoverColor">
           {defaultCoverColors.map((color) => (
             <div className="EditDropdownCoverBox" key={color}>
-            <button
-                  style={{
-                    background: color,
-                    border: selectedColor === color ? '2px solid #000' : 'none',
-                  }}
-                  onClick={() => setSelectedColor(color)}
-                  className="EditDropdowncoverBoxbutton"></button>
+              <button
+                style={{
+                  background: color,
+                  border: selectedColor === color ? '2px solid #000' : 'none',
+                }}
+                onClick={() => setSelectedColor(color)}
+                className="EditDropdowncoverBoxbutton"></button>
             </div>
           ))}
         </div>
         <hr className="DropdownHrCover" />
-            <button className="DropdownCoverButton">Enable colorblind friendly mode
-
-            </button>
-            <h3 style={{ marginTop: '34px' }} className="DropdownLabelH3">
+        <button className="DropdownCoverButton">Enable colorblind friendly mode</button>
+        <h3 style={{ marginTop: '34px' }} className="DropdownLabelH3">
           Attachments
         </h3>
-         <button style={{marginTop:'5px'}} className="DropdownCoverButton">
-            Upload a cover image
+        <button style={{ marginTop: '5px' }} className="DropdownCoverButton">
+          Upload a cover image
+        </button>
 
-            </button>
-
-             <h3 style={{ marginTop: '14px',fontWeight:'400'  }} className="DropdownLabelH3">
+        <h3 style={{ marginTop: '14px', fontWeight: '400' }} className="DropdownLabelH3">
           Tip: Drag an image on to the card to upload it.
         </h3>
 
-        <h3 style={{ marginTop: '17px'}} className="DropdownLabelH3">
+        <h3 style={{ marginTop: '17px' }} className="DropdownLabelH3">
           Photos from Unsplash
-
         </h3>
-            
+
+        <div className="CoverColorImg">
+          {defaultCoverIcons.map((item) => (
+            <div className="EditDropdownCoverBox" key={item.title}>
+              <button
+                type="button"
+                className="EditDropdowncoverBoxbuttonImg"
+                onClick={() => setSelectedColor(item.title)}
+                style={{
+                  border: selectedColor === item.title ? '2px solid #000' : 'none',
+                }}
+               
+              >
+                <img src={item.icon} alt={item.title} />
+                <div className="hover-text">
+                  <div className="hover-text__title">{item.title}</div>
+                  <a
+                    href={item.title}
+                    className="hover-text__src"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    
+                  </a>
+                </div>
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

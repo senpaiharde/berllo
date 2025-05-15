@@ -51,4 +51,19 @@ export  const defaultCoverColors = [
   export default defaultLabelColors;
 
 
+  export const defaultCoverIcons = [
+    {title: 'Wietse Jongsma',
+        icon:"https://images.unsplash.com/photo-1742156345582-b857d994c84e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzQ3MjUxMzY0fA&ixlib=rb-4.1.0&q=80&w=200&quot" },
+        {title: 'Marek Piwnicki',
+        icon:"https://images.unsplash.com/photo-1741812191037-96bb5f12010a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDJ8MzE3MDk5fHx8fHwyfHwxNzQ3MjUxMzY0fA&ixlib=rb-4.1.0&q=80&w=200&quot" },
+        {title: 'Wietse Ingmar H',
+        icon:"https://images.unsplash.com/photo-1742937163916-78fd07cc3b49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDN8MzE3MDk5fHx8fHwyfHwxNzQ3MjUxMzY0fA&ixlib=rb-4.1.0&q=80&w=200&quot" },
+        {title: 'Philipp',
+        icon:"https://images.unsplash.com/photo-1742845918430-c6093f93f740?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDR8MzE3MDk5fHx8fHwyfHwxNzQ3MjUxMzY0fA&ixlib=rb-4.1.0&q=80&w=200&quot" },
+        {title: 'Dextar Vision',
+        icon:"https://images.unsplash.com/photo-1742197062761-1e44b0d7fd2e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDV8MzE3MDk5fHx8fHwyfHwxNzQ3MjUxMzY0fA&ixlib=rb-4.1.0&q=80&w=200&quot" },
+        {title: 'Ahmet Yüksek ✪',
+        icon:"https://images.unsplash.com/photo-1742105682489-94149abb1009?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDZ8MzE3MDk5fHx8fHwyfHwxNzQ3MjUxMzY0fA&ixlib=rb-4.1.0&q=80&w=200&quot" },
+  ]
+
   

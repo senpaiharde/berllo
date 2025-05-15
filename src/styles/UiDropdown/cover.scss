@@ -200,3 +200,69 @@ gap: 4px;
         outline: 2px solid #388bff;
       }
 }
+
+
+
+
+
+
+.CoverColorImg {
+  margin-top: 10px;
+  display: grid;
+  gap: 3px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.EditDropdownCoverBox {
+  width: 88px;
+  height: 52px;
+}
+
+.EditDropdowncoverBoxbuttonImg {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+   position: relative;
+  overflow: hidden;
+}
+
+.EditDropdowncoverBoxbuttonImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.EditDropdowncoverBoxbuttonImg:hover {
+  filter: brightness(85%);
+}
+.hover-text {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1.2;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  text-shadow: 0 0 2px rgba(0,0,0,0.8);
+  pointer-events: none;           /* don’t block underlying clicks */
+}
+
+/* Make the link itself clickable */
+.hover-text__src {
+  display: block;
+  color: #fff;
+  text-decoration: underline;
+  pointer-events: auto;
+ 
+}
+
+/* Reveal on hover */
+.EditDropdowncoverBoxbuttonImg:hover .hover-text {
+  opacity: 1;
+  
+}
