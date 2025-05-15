@@ -271,7 +271,7 @@
 .td-cover-close {
    position: absolute;
     top: 8px;
-    right: 12px;
+    right: 8px;
     color:#42526E;
     border: none;
     border-radius: 50%;
@@ -310,3 +310,45 @@
       cursor: pointer;
     }
 }
+
+
+.td-cover-open{
+position: absolute;
+z-index: 6;
+    right: 0;
+    bottom: 0;
+   
+        margin: 12px;
+        height: 32px;
+        width: 85px;
+        justify-content: center;
+        
+        border-radius: 4px;
+        border: none;
+        text-decoration: none;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      opacity: 0.4;
+      svg{
+        padding-top: 1px;
+      }
+
+      &:hover{
+        filter:brightness(130%);
+        cursor:pointer;
+       
+      }
+}
+
+.CoverHeaderIcon{
+    flex-shrink: 0;
+    margin-right: 8px;
+    display: inline-block;
+    line-height: 1;
+    
+}
+

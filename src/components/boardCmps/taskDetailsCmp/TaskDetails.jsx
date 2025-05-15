@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   closeTaskDetails,
@@ -21,6 +21,9 @@ import TaskChecklist from './main/TaskdetailsChecklist';
 import TaskdetailsBackLog from './main/TaskdetailsBackLog';
 
 import SvgcloseTop from '../../../assets/svgDesgin/SvgTaskdetails/SvgcloseTop';
+import DropdownUi from './main/sidebar/dropdownHardcoded/DropdownUi';
+import Cover from './main/sidebar/cover';
+import CoverHeader from '../../../assets/svgDesgin/SvgDate/Coverheader';
 
 const TaskDetails = () => {
   const dispatch = useDispatch();
@@ -32,7 +35,7 @@ const TaskDetails = () => {
   const board = useSelector((s) => s.boardReducer);
   const boardLists = board.boardLists || [];
   const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
-
+  const [isCoverOpen,setIsCoverOpen] =useState(null);
   // ① find the local JSON task
   const localTask = boardLists
     .flatMap((list) => list.taskList || [])
@@ -112,6 +115,32 @@ const TaskDetails = () => {
               onClick={handleClose}>
               <SvgcloseTop />
             </button>
+            
+
+             <DropdownUi
+            trigger={
+              <button
+              onClick={() => setIsCoverOpen(true)}
+              style={{ 
+                background:
+                  cover.coverType === 'image'
+                    ? `url(${cover.coverImg}) center/cover`
+                    : cover.coverColor,
+                     
+              }}
+              className='td-cover-open'
+             >
+                
+                   <span className='CoverHeaderIcon'>
+                     <CoverHeader/>
+
+                   </span>
+                <span className='CoverText'>Cover</span>
+             
+            </button>
+            }>
+           {isCoverOpen && <Cover onClose={() => setIsCoverOpen(false)} />}
+          </DropdownUi>
           </div>
         )}
         <div className="td-header">
