@@ -31,5 +31,24 @@ const defaultLabelColors = [
     '#626F86', //30
    
   ];
+export  const defaultCoverColors = [
+    
+    '#4BCE97', //6
+    '#F5CD47', //7
+    '#FEA362', //8
+    '#F87168', //9
+    '#9F8FEF',//10
+   
+    '#579DFF', //21
+    '#6CC3E0',//22
+    '#94C748', //23
+    '#E774BB', //24
+    '#8590A2', //25
+    
+   
+  ];
 
   export default defaultLabelColors;
+
+
+  
