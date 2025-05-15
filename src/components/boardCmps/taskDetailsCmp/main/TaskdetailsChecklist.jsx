@@ -18,100 +18,91 @@ const TaskChecklist = () => {
 
   if (!selectedTask || !Array.isArray(selectedTask.checklist)) return null;
 
-  // Helper: use existing _id or generated id as a key
+  // Helpers for keys
+  const getGroupKey = (group) => (group._id ? group._id.toString() : group.id);
   const getItemKey = (item) => (item._id ? item._id.toString() : item.id);
 
-  const handleToggleCheck = (groupId, itemId) => {
-    if (!selectedTask) return;
-    const updatedChecklist = selectedTask.checklist.map((group) => {
-      if (group._id.toString() !== groupId) return group;
+  // Common: rebuild checklist and dispatch
+  const updateChecklist = (updatedChecklist) => {
+    dispatch(
+      liveUpdateTask({ method: TaskOps.UPDATE, workId: 'tasks', checklist: updatedChecklist })
+    );
+  };
+
+  const handleToggleCheck = (groupKey, itemKey) => {
+    const updated = selectedTask.checklist.map((group) => {
+      if (getGroupKey(group) !== groupKey) return group;
+      const items = Array.isArray(group.items) ? group.items : [];
       return {
         ...group,
-        items: group.items.map((item) => {
-          const key = getItemKey(item);
-          return key === itemId ? { ...item, done: !item.done } : item;
-        }),
+        items: items.map((item) =>
+          getItemKey(item) === itemKey ? { ...item, done: !item.done } : item
+        ),
       };
     });
-    dispatch(
-      liveUpdateTask({ method: TaskOps.UPDATE, workId: 'tasks', checklist: updatedChecklist })
-    );
+    updateChecklist(updated);
   };
 
-  const handleEditText = (groupId, itemId, newText) => {
-    if (!selectedTask) return;
-    const updatedChecklist = selectedTask.checklist.map((group) => {
-      if (group._id.toString() !== groupId) return group;
+  const handleEditText = (groupKey, itemKey, newText) => {
+    const updated = selectedTask.checklist.map((group) => {
+      if (getGroupKey(group) !== groupKey) return group;
+      const items = Array.isArray(group.items) ? group.items : [];
       return {
         ...group,
-        items: group.items.map((item) => {
-          const key = getItemKey(item);
-          return key === itemId ? { ...item, text: newText } : item;
-        }),
+        items: items.map((item) =>
+          getItemKey(item) === itemKey ? { ...item, text: newText } : item
+        ),
       };
     });
-    dispatch(
-      liveUpdateTask({ method: TaskOps.UPDATE, workId: 'tasks', checklist: updatedChecklist })
-    );
+    updateChecklist(updated);
   };
 
-  const handleDeleteGroup = (groupId) => {
-    if (!selectedTask) return;
-    const updatedChecklist = selectedTask.checklist.filter(
-      (group) => group._id.toString() !== groupId
-    );
-    dispatch(
-      liveUpdateTask({ method: TaskOps.UPDATE, workId: 'tasks', checklist: updatedChecklist })
-    );
+  const handleDeleteGroup = (groupKey) => {
+    const updated = selectedTask.checklist.filter((group) => getGroupKey(group) !== groupKey);
+    updateChecklist(updated);
   };
 
-  const handleAddItem = (groupId) => {
-    if (!selectedTask) return;
+  const handleAddItem = (groupKey) => {
     const newItem = { id: generateId(), text: 'New Item', done: false };
-    const updatedChecklist = selectedTask.checklist.map((group) =>
-      group._id.toString() !== groupId
+    const updated = selectedTask.checklist.map((group) =>
+      getGroupKey(group) !== groupKey
         ? group
-        : { ...group, items: [...group.items, newItem] }
+        : { ...group, items: [...(Array.isArray(group.items) ? group.items : []), newItem] }
     );
-    dispatch(
-      liveUpdateTask({ method: TaskOps.UPDATE, workId: 'tasks', checklist: updatedChecklist })
-    );
+    updateChecklist(updated);
   };
 
-  const handleClearGroup = (groupId) => {
-    if (!selectedTask) return;
-    const updatedChecklist = selectedTask.checklist.map((group) =>
-      group._id.toString() !== groupId ? group : { ...group, items: [] }
+  const handleClearGroup = (groupKey) => {
+    const updated = selectedTask.checklist.map((group) =>
+      getGroupKey(group) !== groupKey ? group : { ...group, items: [] }
     );
-    dispatch(
-      liveUpdateTask({ method: TaskOps.UPDATE, workId: 'tasks', checklist: updatedChecklist })
-    );
+    updateChecklist(updated);
   };
 
-  const handleDeleteItem = (groupId, itemId) => {
-    if (!selectedTask) return;
-    const updatedChecklist = selectedTask.checklist.map((group) => {
-      if (group._id.toString() !== groupId) return group;
+  const handleDeleteItem = (groupKey, itemKey) => {
+    const updated = selectedTask.checklist.map((group) => {
+      if (getGroupKey(group) !== groupKey) return group;
+      const items = Array.isArray(group.items) ? group.items : [];
       return {
         ...group,
-        items: group.items.filter((item) => getItemKey(item) !== itemId),
+        items: items.filter((item) => getItemKey(item) !== itemKey),
       };
     });
-    dispatch(
-      liveUpdateTask({ method: TaskOps.UPDATE, workId: 'tasks', checklist: updatedChecklist })
-    );
+    updateChecklist(updated);
   };
 
   return (
     <div className="MainChecklist">
       {selectedTask.checklist.map((group) => {
-        const completed = group.items.filter((i) => i.done).length;
-        const total = group.items.length;
+        const gKey = getGroupKey(group);
+        const items = Array.isArray(group.items) ? group.items : [];
+        const completed = items.filter((i) => i.done).length;
+        const total = items.length;
         const pct = total > 0 ? (completed / total) * 100 : 0;
-        const visible = hideChecked ? group.items.filter((i) => !i.done) : group.items;
+        const visible = hideChecked ? items.filter((i) => !i.done) : items;
 
         return (
-          <section key={group._id.toString()}>
+          <section key={gKey}>
             <div className="MainChecklistHeader">
               <div className="MainChecklistHeaderText">
                 <div className="MainChecklistHeaderLeft">
@@ -121,16 +112,19 @@ const TaskChecklist = () => {
                 <div className="MainChecklistHeaderButtons">
                   <button
                     className="notification-button-check"
-                    style={{ marginRight: '8px', height: '32px', width: '147px', fontWeight: '500' }}
-                    onClick={() => setHideChecked(!hideChecked)}
-                  >
+                    style={{
+                      marginRight: '8px',
+                      height: '32px',
+                      width: '147px',
+                      fontWeight: '500',
+                    }}
+                    onClick={() => setHideChecked(!hideChecked)}>
                     {hideChecked ? 'Show Checked items' : 'Hide Checked items'}
                   </button>
                   <button
                     className="notification-button-check"
                     style={{ height: '32px', width: '65px' }}
-                    onClick={() => handleDeleteGroup(group._id.toString())}
-                  >
+                    onClick={() => handleDeleteGroup(gKey)}>
                     Delete
                   </button>
                 </div>
@@ -146,12 +140,11 @@ const TaskChecklist = () => {
                   key={key}
                   className="checklist-item-wrapper"
                   onMouseEnter={() => setHovering(key)}
-                  onMouseLeave={() => setHovering(null)}
-                >
+                  onMouseLeave={() => setHovering(null)}>
                   <input
                     type="checkbox"
                     checked={item.done}
-                    onChange={() => handleToggleCheck(group._id.toString(), key)}
+                     onChange={() => handleToggleCheck(gKey, key)}
                     className="checklist-item-wrapper-checkbox"
                   />
 
@@ -160,7 +153,7 @@ const TaskChecklist = () => {
                       className="checklist-item-wrapper-Text-input"
                       type="text"
                       value={item.text || ''}
-                      onChange={(e) => handleEditText(group._id.toString(), key, e.target.value)}
+                      onChange={(e) => handleEditText(gKey, key, e.target.value)}
                       onFocus={(e) => {
                         e.target.style.border = '1px solid #388bff';
                         e.target.style.boxShadow = '0 0 0 2px #388bff33';
@@ -188,12 +181,11 @@ const TaskChecklist = () => {
                               }
                               onMouseUp={(e) =>
                                 (e.currentTarget.style.backgroundColor = 'rgba(9,30,66,0.12)')
-                              }
-                            >
+                              }>
                               <SvgDots />
                             </button>
                           }
-                          onDelete={() => handleDeleteItem(group._id.toString(), key)}
+                          onDelete={() => handleDeleteItem(gKey, key)}
                         />
                       </div>
                     )}
@@ -205,8 +197,7 @@ const TaskChecklist = () => {
             <button
               className="notification-button-check"
               style={{ marginTop: '20px', marginLeft: '16px' }}
-              onClick={() => handleAddItem(group._id.toString())}
-            >
+              onClick={() => handleAddItem(gKey)}>
               Add an item
             </button>
           </section>
