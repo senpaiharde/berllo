@@ -249,10 +249,10 @@ gap: 4px;
   opacity: 0;
   transition: opacity 0.2s ease;
   text-shadow: 0 0 2px rgba(0,0,0,0.8);
-  pointer-events: none;           /* don’t block underlying clicks */
+  pointer-events: none;     
 }
 
-/* Make the link itself clickable */
+
 .hover-text__src {
   display: block;
   color: #fff;
@@ -261,7 +261,7 @@ gap: 4px;
  
 }
 
-/* Reveal on hover */
+
 .EditDropdowncoverBoxbuttonImg:hover .hover-text {
   opacity: 1;
   

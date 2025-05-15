@@ -2,9 +2,34 @@ import React, { useEffect, useState } from 'react';
 
 import SvgClose from '../../../../../assets/svgDesgin/SvgClose';
 import { defaultCoverColors, defaultCoverIcons } from '../../../../../services/ColorStorage';
+import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Cover = ({ onClose }) => {
   const [selectedColor, setSelectedColor] = useState('');
+  const dispatch = useDispatch();
+  const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  const handleCoverSelect = (type, value) => {
+  if (!task) return;
+
+  // Build the cover object exactly to match your schema:
+  const coverPayload = {
+    cover: {
+      coverType: type,                // 'color' or 'image'
+      coverColor: type === 'color'    ? value : undefined,
+      coverImg:   type === 'image'    ? value : undefined,
+    }
+  };
+   console.log(coverPayload, 'dispatching the cover')
+  // Dispatch the same way you did for members:
+  dispatch(
+    liveUpdateTask({
+      method: 'update',
+      workId: 'tasks',
+      ...coverPayload,
+    })
+  );
+};
 
   return (
     <div className="DropdownUi">
@@ -47,7 +72,8 @@ const Cover = ({ onClose }) => {
                   background: color,
                   border: selectedColor === color ? '2px solid #000' : 'none',
                 }}
-                onClick={() => setSelectedColor(color)}
+                 key={color}
+                 onClick={() => handleCoverSelect('color', color)}
                 className="EditDropdowncoverBoxbutton"></button>
             </div>
           ))}
@@ -74,8 +100,9 @@ const Cover = ({ onClose }) => {
             <div className="EditDropdownCoverBox" key={item.title}>
               <button
                 type="button"
+                 key={item.title}
                 className="EditDropdowncoverBoxbuttonImg"
-                onClick={() => setSelectedColor(item.title)}
+                onClick={() => handleCoverSelect('image', item.icon)}
                 style={{
                   border: selectedColor === item.title ? '2px solid #000' : 'none',
                 }}
@@ -96,6 +123,16 @@ const Cover = ({ onClose }) => {
             </div>
           ))}
         </div>
+
+        <button style={{ marginTop: '10px' }} className="DropdownCoverButton">
+          Search for photos
+        </button>
+
+
+        <h3 style={{ marginTop: '14px', fontWeight: '400' }} className="DropdownLabelH3">
+          By using images from Unsplash, you agree to their <a href=''>license</a> and 
+          <a href=''>Terms of Service</a>
+        </h3>
       </div>
     </div>
   );
