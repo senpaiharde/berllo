@@ -1,79 +1,139 @@
+import React, { useState } from 'react';
+import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
+import { useDispatch, useSelector } from 'react-redux';
+import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 
-import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
-import SvgClose from "../../../../../../assets/svgDesgin/SvgClose";
+const DropdownMembers = ({ onClose }) => {
+  const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState('');
+  const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  const boardMembers = useSelector((state) => state.boardReducer.boardMembers) || [];
+  const taskMembers = Array.isArray(task?.members) ? task.members : [];
 
-const DropdownMembers = ({ trigger, onClose, onDelete, onConvert, childern,title }) => {
-  const [open, setOpen] = useState(false);
-  const triggerRef = useRef(null);
-  const dropdownRef = useRef(null);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const availableBoardMembers = boardMembers.filter(
+    (bm) => !taskMembers.some((tm) => tm?._id?.toLowerCase() === bm?._id?.toLowerCase())
+  );
 
-  // Calculate position of the trigger
-  const updatePosition = () => {
-    const rect = triggerRef.current?.getBoundingClientRect();
-    if (rect) {
-      setPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
-    }
+  const filterTaskMembers = taskMembers.filter((member) =>
+    member?.title?.toLowerCase().includes(searchTerm)
+  );
+  const filterBoardMembers = availableBoardMembers.filter((member) =>
+    member?.title?.toLowerCase().includes(searchTerm)
+  );
+
+  const hasMatches = filterTaskMembers.length > 0 || filterBoardMembers.length > 0;
+
+  const handleAddMember = (memberToAdd) => {
+    if (!task) return;
+
+    const updatedMembers = [
+      ...taskMembers
+        .filter((m) => m && typeof m === 'object' && m._id)
+        .map((m) => ({
+          _id: m._id,
+          title: m.title,
+          icon: m.icon,
+        })),
+      {
+        _id: memberToAdd._id,
+        title: memberToAdd.title,
+        icon: memberToAdd.icon,
+      },
+    ];
+
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        members: updatedMembers,
+      })
+    );
   };
+  const handleDeleteMember = (memberToDelete) => {
+    if (!task) return;
 
-  useEffect(() => {
-    if (open) {
-      updatePosition();
-    }
-  }, [open]);
+    const updatedMembers = taskMembers
+      .filter(
+        (m) =>
+          m && typeof m === 'object' && m._id?.toLowerCase() !== memberToDelete._id?.toLowerCase()
+      )
+      .map((m) => ({
+        _id: m._id,
+        title: m.title,
+        icon: m.icon,
+      }));
 
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target) &&
-        !triggerRef.current.contains(e.target)
-      ) {
-        setOpen(false);
-        onClose?.();
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
-  }, []);
-
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        members: updatedMembers,
+      })
+    );
+  };
   return (
     <div className="DropdownUi">
       {/* Header */}
-      <div className="DropdownUiHeader" >
-        <h2 className="DropdownHeaderH2">
-          {title}
-        </h2>
-        <button className="DropdownClose" onClick={onClose} >
-
-          <SvgClose/>
+      <div className="DropdownUiHeader">
+        <h2 className="DropdownHeaderH2">Members</h2>
+        <button className="DropdownClose" onClick={onClose}>
+          <SvgClose />
         </button>
       </div>
 
       {/* Options */}
-      <div className="DropdownOptions" style={{
-       
-      }}>
-       <input placeholder="Search Members" style={{padding:'13px'}}/>
-       <div className="DropdownMembers">
-        <h3 className="DropdownMembersh3" >
-            Card members</h3>
-            </div>
-        <button className="DropdownButton" ></button>
-        
-        <div className="DropdownMembers">
-        <h3 className="DropdownMembersh3" >board members</h3>
-        </div>
-        <button  className="DropdownButton" >
-            <span></span>
-            <div></div>
-            <span></span>
-        </button>
+      <div className="DropdownOptions">
+        <input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+          placeholder="Search Members"
+          style={{ padding: '13px' }}
+        />
+
+        {!hasMatches ? (
+          <p className="noResult">No results</p>
+        ) : (
+          <>
+            {filterTaskMembers.length > 0 && (
+              <>
+                <div className="DropdownMembers">
+                  <h3 className="DropdownMembersh3">Card members</h3>
+                </div>
+                {filterTaskMembers.map((member) => (
+                  <button
+                    onClick={() => handleDeleteMember(member)}
+                    key={member._id}
+                    className="DropdownButton">
+                    <img className="memberIcon" alt={`Member ${member._id}`} src={member.icon} />
+                    <div className="memberTitle">{member.title}</div>
+                    <span>
+                      <SvgClose />
+                    </span>
+                  </button>
+                ))}
+              </>
+            )}
+
+            {filterBoardMembers.length > 0 && (
+              <>
+                <div className="DropdownMembers">
+                  <h3 className="DropdownMembersh3">Board members</h3>
+                </div>
+                {filterBoardMembers.map((member) => (
+                  <button
+                    onClick={() => handleAddMember(member)}
+                    key={member._id}
+                    className="DropdownButton">
+                    <img className="memberIcon" alt={`Member ${member._id}`} src={member.icon} />
+                    <div style={{ width: '220px' }} className="memberTitle">
+                      {member.title}
+                    </div>
+                  </button>
+                ))}
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

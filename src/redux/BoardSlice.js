@@ -4,6 +4,7 @@ import {
   saveTolocal,
   getBoardById,
 } from "../services/storageService"
+import { BuildBoardFromState } from "../utils/boardUtils"
 
 
 export const fetchBoardById = createAsyncThunk(
@@ -29,10 +30,12 @@ const boardSlice = createSlice({
     slug: "", 
     isStarred: null,
     boardLists: [],
+    boardLabels: [],
     boards: [], 
     state: "idle",
     error: null,
     activeBoard: null,
+    boardMembers: [],
     previewEditorPositon: null,
   },
   reducers: {
@@ -44,43 +47,23 @@ const boardSlice = createSlice({
         users: [],
       }
       state.boards.push(newBoard)
-      saveTolocal({ 
-        _id: state._id,
-        boardTitle: state.boardTitle,
-        isStarred: state.isStarred,
-        boardLists: state.boardLists,
-        boards: state.boards,
-    });
+      
+      saveTolocal(BuildBoardFromState(state));
     },
     removeboard: (state, action) => {
         state.boards = state.boards.filter((x) => x._id !== action.payload);
-        saveTolocal({ 
-            _id: state._id,
-            boardTitle: state.boardTitle,
-            isStarred: state.isStarred,
-            boardLists: state.boardLists,
-            boards: state.boards,
-        });
+
+        saveTolocal(BuildBoardFromState(state));
     },
     updateStarStatus: (state, action) => {
         state.isStarred = action.payload;
-        saveTolocal({ 
-            _id: state._id,
-            boardTitle: state.boardTitle,
-            isStarred: state.isStarred,
-            boardLists: state.boardLists,
-            boards: state.boards,
-        });
+
+        saveTolocal(BuildBoardFromState(state));
     },
     updateboardTitle: (state, action) => {
         state.boardTitle = action.payload;
-        saveTolocal({ 
-            _id: state._id,
-            boardTitle: state.boardTitle,
-            isStarred: state.isStarred,
-            boardLists: state.boardLists,
-            boards: state.boards,
-        });
+
+        saveTolocal(BuildBoardFromState(state));
     },
     addBoardList: (state, action) => {
         const newList = {
@@ -92,13 +75,7 @@ const boardSlice = createSlice({
             error: null,
         };
         state.boardLists.push(newList);
-        saveTolocal({ 
-            _id: state._id,
-            boardTitle: state.boardTitle,
-            isStarred: state.isStarred,
-            boardLists: state.boardLists,
-            boards: state.boards,
-        });
+        saveTolocal(BuildBoardFromState(state));
     },
     updateBoardlist: (state, action) => {
         const updatedList = action.payload;
@@ -106,24 +83,18 @@ const boardSlice = createSlice({
         if (index !== -1) {
             state.boardLists[index] = updatedList;
         }
-        saveTolocal({ 
-            _id: state._id,
-            boardTitle: state.boardTitle,
-            isStarred: state.isStarred,
-            boardLists: state.boardLists,
-            boards: state.boards,
-        });
+        saveTolocal(BuildBoardFromState(state));
+    },
+    updateBoardLabels: (state, action) => {
+       state.boardLabels = action.payload
+       saveTolocal(BuildBoardFromState(state));
+
     },
     removeBoardListFromBoard: (state, action) => {
         const newBoardLists = state.boardLists.filter((list) => list._id !== action.payload);
         state.boardLists = newBoardLists;
-        saveTolocal({ 
-            _id: state._id,
-            boardTitle: state.boardTitle,
-            isStarred: state.isStarred,
-            boardLists: state.boardLists,
-            boards: state.boards,
-        });
+        
+        saveTolocal(BuildBoardFromState(state));
     },
     addTaskToBoard: (state, action) => {
       const task = {
@@ -151,13 +122,7 @@ const boardSlice = createSlice({
           (task) => task._id !== action.payload._id
         )
       }
-      saveTolocal({ 
-        _id: state._id,
-        boardTitle: state.boardTitle,
-        isStarred: state.isStarred,
-        boardLists: state.boardLists,
-        boards: state.boards,
-    });
+      saveTolocal(BuildBoardFromState(state));
     },
     updateTaskInBoard: (state, action) => {
         const updatedTask = action.payload;
@@ -172,12 +137,7 @@ const boardSlice = createSlice({
           }
         }
       
-        const updatedBoard = {
-          _id: state._id,
-          boardTitle: state.boardTitle,
-          isStarred: state.isStarred,
-          boardLists: state.boardLists,
-        };
+        const updatedBoard = BuildBoardFromState(state);
       
         
         const clonedBoard = JSON.parse(JSON.stringify(updatedBoard));
@@ -197,13 +157,15 @@ const boardSlice = createSlice({
       })
       .addCase(fetchBoardById.fulfilled, (state, action) => {
         const board = action.payload
-        state.state = "success"
-        state._id = board._id
-        state.boardTitle = board.boardTitle
-        state.slug = board.slug || "" 
-        state.boardLists = board.boardLists || []
+        state.state = "success";
+        state._id = board._id;
+        state.boardTitle = board.boardTitle;
+        state.slug = board.slug || "" ;
+        state.boardLabels = board.boardLabels || [];
+        state.boardLists = board.boardLists || [];
         const existing = state.boards?.filter((b) => b._id !== board._id) || [];
         state.boards = [...existing, board];
+        state.boardMembers = board.boardMembers || [];
       })
       .addCase(fetchBoardById.rejected, (state, action) => {
         state.state = "failed"
@@ -224,6 +186,7 @@ export const {
   addBoardList,
   removeBoardListFromBoard,
   updateBoardlist,
+  updateBoardLabels,
   updatePreviewEditorPositon,
 } = boardSlice.actions
 export default boardSlice.reducer

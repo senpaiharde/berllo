@@ -1,0 +1,121 @@
+.MainChecklist{
+    margin-top: -3px;
+    padding-top: 25px;
+}
+
+.MainChecklistHeader{
+    position:relative;
+    margin-Left:-15px
+}
+
+.MainChecklistHeaderText{
+    display:flex;
+    align-items: flex-start;
+    justify-Content: space-between;
+    margin-Bottom: 8px;
+}
+
+.MainChecklistHeaderLeft{
+    display: flex;
+    align-items:center;
+}
+
+
+.MainChecklistHeaderLeftH2{
+    font-weight: 500;
+    font-size: 15px;
+    color:#172b4d;
+    margin-Bottom:2px;
+}
+
+
+.MainChecklistHeaderButtons{
+   display:flex;
+   align-items:center;
+   margin-bottom: 4px;
+   
+}
+
+.checklist-item-wrapper{
+    display: flex;
+    align-items:center;
+    margin-top: 3px;
+    margin-left: -14px;
+}
+
+
+.checklist-item-wrapper-checkbox{
+    margin-right: 13px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checklist-item-wrapper-dots{
+    border: none;
+    background-color:rgba(9,30,66,0.06);
+    border-Radius:50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.checklist-item-wrapper-Text{
+    position: relative;
+    flex: 1;
+    border-radius: 13px;
+    padding-right: 36px;
+    transition: background-color 0.2s ease;
+    height: 36px;
+    display: flex;
+    align-items:center;
+}
+
+
+.checklist-item-wrapper-Text-input{
+    flex: 1;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 6px 8px;
+}
+
+.notification-button-check {
+    background-color: #091e420f; // Add the base color here
+    
+    color: #44546F;
+    display: inline-flex
+;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    white-space: normal;
+    cursor: pointer;
+    border: none;
+   
+    box-shadow: none;
+    color: var(--ds-text, #172b4d);
+    font-weight: 500;
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 85ms;
+    transition-timing-function: ease;
+  
+    &:hover {
+        background-color: #091e4224;
+        cursor: pointer;
+      
+    }
+  
+    &:active {
+      background-color: #091e424f;
+    }
+  }
