@@ -21,6 +21,8 @@ import PowerUpSvg from '../.././../../../assets/svgDesgin/PowerUpSvg';
 import DropdownMembers from './dropdownHardcoded/DropdownMembers';
 import DropdownDate from './dropdownHardcoded/DropdownDate';
 import DropdownChecklistSide from './dropdownChecklistSide';
+import CustomFields from './CustomFields';
+import Cover from './cover';
 
 const TaskDetailsSidebar = () => {
   const sidebarButtons = [
@@ -79,13 +81,13 @@ const TaskDetailsSidebar = () => {
       id: 'Cover',
       label: 'Cover',
       icon: <CoverSvg />,
-      content: (props) => <DropdownLabel {...props} />,
+      content: (props) => <Cover {...props} />,
     },
     {
       id: 'Custom Fields',
       label: 'Custom Fields',
       icon: <CustomSvg />,
-      content: (props) => <DropdownLabel {...props} />,
+      content: (props) => <CustomFields {...props} />,
     },
   ];
   const sidebarButtonsBottom = [

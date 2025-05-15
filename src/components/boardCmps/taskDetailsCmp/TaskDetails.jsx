@@ -80,14 +80,9 @@ const TaskDetails = () => {
 
   if (!selectedTask) return <div />;
 
-  const {
-    
-    isDueComplete = false,
-  } = selectedTask;
+  const { isDueComplete = false } = selectedTask;
 
   const slug = board.slug || board.boardTitle?.toLowerCase().replace(/\s+/g, '-') || 'board';
-
-
 
   function handleClose() {
     dispatch(closeTaskDetails());
@@ -99,12 +94,27 @@ const TaskDetails = () => {
     const method = TaskOps.UPDATE;
     dispatch(liveUpdateTask({ taskTitle: e.target.value, workId, method }));
   };
-
+  const cover = selectedTask.cover;
   return (
     <div className="td-modal">
       <div className="td-backdrop" onClick={handleClose} />
 
       <div className="td-container">
+        {cover && (
+          <div
+            className="td-cover"
+            style={{
+              background:
+                cover.coverType === 'image'
+                  ? `url(${cover.coverImg}) center/cover`
+                  : cover.coverColor,
+            }}>
+            
+            <button className="td-cover-close" onClick={handleClose}>
+              <SvgcloseTop />
+            </button>
+          </div>
+        )}
         <div className="td-header">
           <div className="td-header-left">
             <div className="td-checkbox-div">
@@ -145,7 +155,7 @@ const TaskDetails = () => {
             <TaskDescription />
             <div style={{ marginTop: '-42px' }} />
 
-           {task?.checklist?.length > 0 && <TaskChecklist />}
+            {task?.checklist?.length > 0 && <TaskChecklist />}
             <TaskDetailsActivity />
           </div>
 

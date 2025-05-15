@@ -130,7 +130,7 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
         workId: fields.workId,
       })
     );
-  }, 400);
+  }, 100);
 };
 
 export default taskDetailsSlice.reducer;
