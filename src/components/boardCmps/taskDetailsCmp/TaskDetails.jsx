@@ -51,13 +51,7 @@ const TaskDetails = () => {
       dispatch(openTaskDetails(localTask));
 
       // c) then fetch the real details from the API
-      dispatch(
-        syncTaskAsync({
-          method: TaskOps.FETCH,
-          args: { taskId: pureTaskId },
-          workId: 'tasks',
-        })
-      );
+      dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId: 'tasks' }));
     }
   }, [boardLists, localTask, selectedTask, boardId, dispatch, pureTaskId]);
   // ───────────────────────────────────────────────────────────
@@ -97,8 +91,6 @@ const TaskDetails = () => {
   const cover = selectedTask.cover;
   return (
     <div className="td-modal">
-      <div className="td-backdrop" onClick={handleClose} />
-
       <div className="td-container">
         {cover && (
           <div
@@ -109,8 +101,15 @@ const TaskDetails = () => {
                   ? `url(${cover.coverImg}) center/cover`
                   : cover.coverColor,
             }}>
-            
-            <button className="td-cover-close" onClick={handleClose}>
+            <button
+              style={{
+                background:
+                  cover.coverType === 'image'
+                    ? `url(${cover.coverImg}) center/cover`
+                    : cover.coverColor,
+              }}
+              className="td-cover-close"
+              onClick={handleClose}>
               <SvgcloseTop />
             </button>
           </div>
@@ -136,9 +135,11 @@ const TaskDetails = () => {
               placeholder="Enter task title"
             />
           </div>
-          <button className="td-close-btn" onClick={handleClose}>
-            <SvgcloseTop />
-          </button>
+          {!cover && (
+            <button className="td-cover-close-modal" onClick={handleClose}>
+              <SvgcloseTop />
+            </button>
+          )}
         </div>
 
         <TaskdetailsBackLog />

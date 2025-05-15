@@ -4,11 +4,13 @@ import SvgClose from '../../../../../assets/svgDesgin/SvgClose';
 import { defaultCoverColors, defaultCoverIcons } from '../../../../../services/ColorStorage';
 import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { TaskOps } from '../../../../../services/backendHandler';
 
 const Cover = ({ onClose }) => {
   const [selectedColor, setSelectedColor] = useState('');
   const dispatch = useDispatch();
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  
   const handleCoverSelect = (type, value) => {
   if (!task) return;
 
@@ -30,7 +32,21 @@ const Cover = ({ onClose }) => {
     })
   );
 };
+const cover = task.cover;
+const handleDeleteCover = () => {
+    if (!task) return;
 
+    
+
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+       cover: null,
+      })
+    );
+  };
+  
   return (
     <div className="DropdownUi">
       {/* Header */}
@@ -60,7 +76,13 @@ const Cover = ({ onClose }) => {
             <div class="line short"></div>
           </div>
         </div>
-
+        {cover && (
+           <button onClick={handleDeleteCover}
+           style={{ marginTop: '10px' }} 
+           className="DropdownCoverButton">
+         Remove Cover 
+        </button>
+        )}
         <h3 style={{ marginTop: '34px' }} className="DropdownLabelH3">
           Colors
         </h3>
