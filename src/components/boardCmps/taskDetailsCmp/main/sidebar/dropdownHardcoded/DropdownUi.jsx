@@ -8,14 +8,16 @@ const DropdownUi = ({ trigger, children, onClose }) => {
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const updatePosition = () => {
-    const rect = triggerRef.current?.getBoundingClientRect();
-    if (rect) {
-      setPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
-    }
-  };
+  const rect = triggerRef.current?.getBoundingClientRect();
+  if (rect) {
+    const pos = {
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX,
+    };
+    
+    setPosition(pos);
+  }
+};
 
   useEffect(() => {
     if (open) updatePosition();
@@ -41,6 +43,8 @@ const DropdownUi = ({ trigger, children, onClose }) => {
       className="dropDownContent"
       ref={dropdownRef}
       style={{
+        position: 'absolute',
+        zIndex: 99999,
         top: position.top,
         left: position.left,
       }}>
@@ -54,6 +58,7 @@ const DropdownUi = ({ trigger, children, onClose }) => {
         ref={triggerRef}
         onClick={(e) => {
           e.stopPropagation();
+          
           setOpen((prev) => !prev);
         }}
         style={{ display: 'inline-block' }}>

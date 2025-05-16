@@ -83,7 +83,14 @@ const taskDetailsSlice = createSlice({
 
         switch (method) {
           case TaskOps.FETCH:
-            state.selectedTask = data;
+            state.selectedTask = {
+              ...data,
+              taskDueDate: data.taskDueDate ?? data.dueDate ?? null,
+              reminder: data.reminder ?? null,
+              isDueComplete: data.isDueComplete ?? false,
+              
+              
+            };
             state.isOpen = true;
             break;
           case TaskOps.UPDATE:

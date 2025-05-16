@@ -35,7 +35,7 @@ const TaskDetails = () => {
   const board = useSelector((s) => s.boardReducer);
   const boardLists = board.boardLists || [];
   const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
-  const [isCoverOpen,setIsCoverOpen] =useState(null);
+  const [isCoverOpen, setIsCoverOpen] = useState(null);
   // ① find the local JSON task
   const localTask = boardLists
     .flatMap((list) => list.taskList || [])
@@ -94,7 +94,10 @@ const TaskDetails = () => {
   const cover = selectedTask.cover;
   return (
     <div className="td-modal">
-      <div className="td-container">
+        
+      <div className={`td-container${cover ? ' has-cover' : ''}`}>
+        
+
         {cover && (
           <div
             className="td-cover"
@@ -115,34 +118,28 @@ const TaskDetails = () => {
               onClick={handleClose}>
               <SvgcloseTop />
             </button>
-            
 
-             <DropdownUi
-            trigger={
-              <button
-              onClick={() => setIsCoverOpen(true)}
-              style={{ 
-                background:
-                  cover.coverType === 'image'
-                    ? `url(${cover.coverImg}) center/cover`
-                    : cover.coverColor,
-                     
-              }}
-              className='td-cover-open'
-             >
-                
-                   <span className='CoverHeaderIcon'>
-                     <CoverHeader/>
-
-                   </span>
-                <span className='CoverText'>Cover</span>
-             
-            </button>
-            }>
-           {isCoverOpen && <Cover onClose={() => setIsCoverOpen(false)} />}
-          </DropdownUi>
+            <DropdownUi
+              trigger={
+                <button
+                  className="td-cover-open"
+                  style={{
+                    background:
+                      cover.coverType === 'image'
+                        ? `url(${cover.coverImg}) center/cover`
+                        : cover.coverColor,
+                  }}>
+                  <span className="CoverHeaderIcon">
+                    <CoverHeader />
+                  </span>
+                  <span className="CoverText">Cover</span>
+                </button>
+              }>
+              {({ onClose }) => <Cover onClose={onClose} />}
+            </DropdownUi>
           </div>
         )}
+        
         <div className="td-header">
           <div className="td-header-left">
             <div className="td-checkbox-div">
