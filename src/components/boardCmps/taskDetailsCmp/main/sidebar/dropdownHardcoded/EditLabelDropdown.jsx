@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 
-import Svgback from '../../../../../../assets/svgDesgin/Svgback';
+
 import defaultLabelColors from '../../../../../../services/ColorStorage';
 import { SvgServices } from '../../../../../../services/svgServices';
 
@@ -27,7 +27,8 @@ const EditLabelDropdown = ({ onClose, title, onSave, label,onDelete }) => {
       {/* Header */}
       <div className="DropdownUiHeader">
         <button onClick={onClose} className="DropdownClose">
-          <Svgback />
+            <SvgServices name='Svgback'/>
+          
         </button>
         <h2 className="DropdownHeaderH2">{title}</h2>
         <button onClick={onClose} className="DropdownClose">

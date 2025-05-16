@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import SvgDropDate from '../../../assets/svgDesgin/SvgTaskdetails/SvgDropDate';
+
 import DropdownUi from './main/sidebar/dropdownHardcoded/DropdownUi';
 
 import DropdownDate from './main/sidebar/dropdownHardcoded/DropdownDate';
 import { getTaskDueStatus } from '../../../utils/CalendarDays';
+import { SvgServices } from '../../../services/svgServices';
 const TaskDetailsDate = () => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const dueStatus = getTaskDueStatus(task);
@@ -22,6 +23,7 @@ const TaskDetailsDate = () => {
     <section style={{ marginLeft: '-15px' }} className="td-section-top-section">
       <h3 className="td-section-top-h3">Due date</h3>
       <div>
+        <SvgServices name='SvgDropDate'/>
         <DropdownUi
           trigger={
             <button className="Date-Button">
@@ -37,7 +39,8 @@ const TaskDetailsDate = () => {
                       {dueStatus === 'overdue-late' && 'Overdue'}
                     </span>
                   )}
-                  <SvgDropDate />
+                   
+                 <SvgServices name='SvgDropDate'/>
                 </span>
               </span>
             </button>
