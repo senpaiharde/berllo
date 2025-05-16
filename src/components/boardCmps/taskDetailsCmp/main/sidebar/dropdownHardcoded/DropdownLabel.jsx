@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 import SvgAdd from '../../../../../../assets/svgDesgin/SvgAdd';
 import DropdownUi from './DropdownUi';
 import EditLabelDropdown from './EditLabelDropdown';
 import { updateBoardLabels } from '../../../../../../redux/BoardSlice';
+import { SvgServices } from '../../../../../../services/svgServices';
 
 const DropdownLabel = ({ onClose }) => {
   const [editModeLabel, setEditModeLabel] = useState(null);
@@ -138,7 +139,8 @@ const DropdownLabel = ({ onClose }) => {
           <div className="DropdownUiHeader">
             <h2 className="DropdownHeaderH2">Labels</h2>
             <button onClick={onClose} className="DropdownClose">
-              <SvgClose />
+                <SvgServices name='SvgClose'/>
+              
             </button>
           </div>
 

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import DropdownUi from './dropdownHardcoded/DropdownUi';
 import { useSelector } from 'react-redux';
 import DropdownLabel from './dropdownHardcoded/DropdownLabel';
-import LeaveSvg from '../.././../../../assets/svgDesgin/LeaveSvg';
+
 import LabelsSvg from '../.././../../../assets/svgDesgin/LabelsSvg';
 import MembersSvg from '../.././../../../assets/svgDesgin/MembersSvg';
 import CheckListSvg from '../.././../../../assets/svgDesgin/CheckListSvg';
@@ -23,12 +23,12 @@ import DropdownDate from './dropdownHardcoded/DropdownDate';
 import DropdownChecklistSide from './dropdownChecklistSide';
 import CustomFields from './CustomFields';
 import Cover from './cover';
-
+import { SvgServices } from '../../../../../services/svgServices';
 const TaskDetailsSidebar = () => {
   const sidebarButtons = [
     {
       label: 'Leave',
-      icon: <LeaveSvg />,
+      icon: <SvgServices name="LeaveSvg" />,
     },
     {
       id: 'members',

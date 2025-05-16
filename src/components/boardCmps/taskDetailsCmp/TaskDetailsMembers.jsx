@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import DropdownMembers from './main/sidebar/dropdownHardcoded/DropdownMembers';
-import SvgAddMember from '../../../assets/svgDesgin/SvgAddMember';
+
 import DropdownUi from './main/sidebar/dropdownHardcoded/DropdownUi';
+import { SvgServices } from '../../../services/svgServices';
 const TaskDetailsMembers = () => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const taskMembers = Array.isArray(task?.members) ? task.members : [];
@@ -34,7 +35,8 @@ const TaskDetailsMembers = () => {
           <DropdownUi
             trigger={
               <button className="td-section-members-addd">
-                <SvgAddMember />
+                <SvgServices name='SvgAddMember'/>
+                
               </button>
             }>
             {(props) => <DropdownMembers {...props} taskMembers={taskMembers} />}

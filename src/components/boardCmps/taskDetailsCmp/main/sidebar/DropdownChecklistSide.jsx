@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import SvgClose from '../../../../../assets/svgDesgin/SvgClose';
 
 import BackLogDropdown from '../dropdowns/BackLogDropdown';
 import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
 import { TaskOps } from '../../../../../services/backendHandler';
+import { SvgServices } from '../../../../../services/svgServices';
 
 const DropdownChecklistSide = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -54,7 +54,8 @@ const DropdownChecklistSide = ({ onClose }) => {
       <div className="DropdownUiHeader">
         <h2 className="DropdownHeaderH2">Add checklist</h2>
         <button className="DropdownClose" onClick={onClose}>
-          <SvgClose />
+            <SvgServices name='SvgClose'/>
+         
         </button>
       </div>
 
