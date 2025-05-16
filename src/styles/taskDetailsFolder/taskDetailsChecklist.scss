@@ -229,6 +229,46 @@
   width: 241px;
 }
 
+
+.checklist-save-cancel-div2-Assign{
+    padding: 6px 12px;
+    margin: 0px 0px 0px 4px;
+    color:#44546f;
+    font-size: 14px;
+    font-weight: 400;
+    display: inline-block;
+    border-radius: 3px;
+    height: 32px;
+    width: 88.5px;
+    &:hover{
+    border: none;
+    background-color: #091e4224;
+    box-shadow: none;
+    color:#172b4d;
+    text-decoration: none;
+  }
+
+}
+.checklist-save-cancel-div2-Due{
+padding: 6px 12px;
+    margin: 0px 0px 0px 4px;
+    color:#44546f;
+    font-size: 14px;
+    font-weight: 400;
+    display: inline-block;
+    border-radius: 3px;
+    height: 32px;
+   width: 104px;
+
+    &:hover{
+    border: none;
+    background-color: #091e4224;
+    box-shadow: none;
+    color:  #172b4d;
+    text-decoration: none;
+  }
+}
+
 .checklist-save-cancel-div2-dots {
  
   border-radius: 3px;
@@ -252,7 +292,7 @@ height: 32px;
     border: none;
     background-color: #091e4224;
     box-shadow: none;
-    color: var(--ds-text, #172b4d);
+    color: #172b4d;
     text-decoration: none;
   }
 }

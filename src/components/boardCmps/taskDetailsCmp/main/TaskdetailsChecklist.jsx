@@ -200,7 +200,17 @@ const TaskChecklist = () => {
                           </button>
                           </div>
                           <div className='checklist-save-cancel-div2'>
-                          <></>
+
+
+                          <div className="checklist-save-cancel-div2-Assign">
+                            Assign
+
+                          </div>
+                          
+                          <div className="checklist-save-cancel-div2-Due">
+                            Due date
+
+                          </div>
  
 
 
