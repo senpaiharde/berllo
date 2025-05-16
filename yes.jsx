@@ -208,3 +208,72 @@ const TaskChecklist = () => {
 };
 
 export default TaskChecklist;
+
+
+
+
+
+
+
+
+  {isActive && (
+                      <form
+                        className="checklist-save-cancel"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                         handleEditText(gKey, key, draftText);
+                          setActiveKey(null);
+                        }}
+                      >
+                        <textarea
+                          className="checklist-save-cancel-textarea"
+                          value={draftText}
+                         onChange={(e) => setDraftText(e.target.value)}
+                        />
+                        <div className="checklist-save-cancel-div">
+                          <button
+                            type="submit"
+                            className="checklist-save-cancel-div1-save"
+                            
+                       >
+                           Save
+                          </button>
+                         <button
+                            type="button"
+                            className="checklist-save-cancel-div1-cancel"
+                            onClick={() => setActiveKey(null)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    )}
+
+
+
+{isActive && (
+                      <form className="checklist-save-cancel" onSubmit={(e) => e.preventDefault()}>
+                        <textarea
+                          className="checklist-save-cancel-textarea"
+                          value={draftText}
+                          onChange={(e) => setDraftText(e.target.value)}
+                        />
+                        <div className="checklist-save-cancel-div">
+                          <button
+                            type="button"
+                            className="checklist-save-cancel-div1-save"
+                            onClick={() => {
+                              handleEditText(gKey, key, draftText);
+                              setActiveKey(null);
+                            }}>
+                            Save
+                          </button>
+                          <button
+                            type="button"
+                            className="checklist-save-cancel-div1-cancel"
+                            onClick={() => setActiveKey(null)}>
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    )}

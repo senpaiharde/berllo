@@ -165,7 +165,15 @@ const TaskChecklist = () => {
                       />
                     )}
                     {isActive && (
-                      <form className="checklist-save-cancel" onSubmit={(e) => e.preventDefault()}>
+                      <form
+                        className="checklist-save-cancel"
+                        onSubmit={(e) => {
+                            
+                          setActiveKey(null);
+                          e.preventDefault();
+                         
+                          
+                        }}>
                         <textarea
                           className="checklist-save-cancel-textarea"
                           value={draftText}
@@ -173,16 +181,16 @@ const TaskChecklist = () => {
                         />
                         <div className="checklist-save-cancel-div">
                           <button
-                            type="button"
+                            type="submit"
                             className="checklist-save-cancel-div1-save"
                             onClick={() => {
                               handleEditText(gKey, key, draftText);
-                              setActiveKey(null);
+                              
                             }}>
                             Save
                           </button>
                           <button
-                            type="button"
+                            type="submit"
                             className="checklist-save-cancel-div1-cancel"
                             onClick={() => setActiveKey(null)}>
                             Cancel
@@ -190,7 +198,6 @@ const TaskChecklist = () => {
                         </div>
                       </form>
                     )}
-
                     {hovering === key && (
                       <div
                         style={{
