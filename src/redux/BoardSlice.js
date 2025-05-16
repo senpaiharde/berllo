@@ -36,6 +36,7 @@ const boardSlice = createSlice({
     error: null,
     activeBoard: null,
     boardMembers: [],
+    previewEditorPositon: null,
   },
   reducers: {
     addboard: (state, action) => {
@@ -141,7 +142,11 @@ const boardSlice = createSlice({
         
         const clonedBoard = JSON.parse(JSON.stringify(updatedBoard));
         saveTolocal(clonedBoard);
-      }
+      },
+      updatePreviewEditorPositon: (state, action) => {
+        // console.log("updatePreviewEditorPositon", action.payload)
+        state.previewEditorPositon = action.payload
+      },
       
   },
 
@@ -182,5 +187,6 @@ export const {
   removeBoardListFromBoard,
   updateBoardlist,
   updateBoardLabels,
+  updatePreviewEditorPositon,
 } = boardSlice.actions
 export default boardSlice.reducer

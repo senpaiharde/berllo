@@ -4,9 +4,12 @@ import { useState, useRef, useEffect } from "react"
 import { TextEditInput } from "./TextEditInput"
 import { addBoardList } from "../../redux/BoardSlice"
 import { useDispatch } from "react-redux"
+import { TaskPreviewEditor } from "./taskPreviewCmps/TaskPreviewEditor"
 
 export function BoardView({ board }) {
   const [newListClicked, setNewListClicked] = useState(true)
+  // const [previewEditorPositon, setPreviewEditorPosition] = useState()
+  
   const dispatch = useDispatch()
   function AddNewEmptyTaskList() {
     // console.log("AddNewTaskList")
@@ -59,6 +62,7 @@ export function BoardView({ board }) {
           ></AddItemCard>
         </div>
       </ol>
+      <TaskPreviewEditor/>
     </div>
   )
 }

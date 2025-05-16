@@ -4,6 +4,8 @@ import { ViewTypeChooser } from "./ViewTypeChooser"
 import { IconButton } from "../../IconButton"
 import { updateboardTitle, updateStarStatus } from "../../../redux/BoardSlice"
 import { TextEditInput } from "../TextEditInput"
+import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
+import BoardHeaderFilter from "./boardHeaderFilter"
 export function BoardHeader({ board }) {
   const [currentBoard, setCurrentBoard] = useState(board)
   // const [starClicked, setStarClicked] = useState(board.boardTitle)
@@ -30,6 +32,32 @@ export function BoardHeader({ board }) {
   function onChangeTextInput(value){
     console.log("onChangeTextInput(value)",value)
     dispatch(updateboardTitle(value))
+  }
+
+
+  const filterButton={
+    id: "filters",
+    label: "filters",
+    // icon: <LabelsSvg />,
+    content: (props) => (
+      <BoardHeaderFilter
+        {...props}
+        title="Labels"
+        allLabels={[ "red", "blue", "green", "yellow" ]}
+        activeLabels={["red", "blue"]}
+        options={[
+          {
+            
+            label: "Create Label",
+            onClick: () => console.log("New label"),
+          },
+          {
+            label: "Edit Labels",
+            onClick: () => console.log("Manage labels"),
+          },
+        ]}
+      />
+    ),
   }
 
   return (
@@ -85,7 +113,17 @@ export function BoardHeader({ board }) {
             className="filter-btn-container header-button header-clickable"
             onClick={(e) => togglePressed(e.currentTarget, "filter")}
           >
-            <IconButton label="Filters" iconSize={"16px"}>
+            {/* <IconButton label="Filters" iconSize={"16px"}>
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M 4.61799 6 C 3.87461 6 3.39111 6.78231 3.72356 7.44721 L 3.99996 8 H 20 L 20.2763 7.44721 C 20.6088 6.78231 20.1253 6 19.3819 6 H 4.61799 Z M 10.8618 17.7236 C 10.9465 17.893 11.1196 18 11.309 18 H 12.6909 C 12.8803 18 13.0535 17.893 13.1382 17.7236 L 14 16 H 9.99996 L 10.8618 17.7236 Z M 17 13 H 6.99996 L 5.99996 11 H 18 L 17 13 Z"
+                fill="currentColor"
+              ></path>
+            </IconButton> */}
+            <DropdownUi
+            trigger={
+              <IconButton label="Filters" iconSize={"16px"}>
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -93,7 +131,15 @@ export function BoardHeader({ board }) {
                 fill="currentColor"
               ></path>
             </IconButton>
-            {/* <span>Filters</span> */}
+            }
+          >
+            {(controlProps) =>
+              filterButton.content?.({
+                title: filterButton.label,
+                ...controlProps,
+              })
+            }
+          </DropdownUi>
           </div>
 
           {/* {board.users &&
