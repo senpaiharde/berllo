@@ -43,8 +43,7 @@ const DropdownUi = ({ trigger, children, onClose }) => {
       className="dropDownContent"
       ref={dropdownRef}
       style={{
-        position: 'absolute',
-        zIndex: 99999,
+        
         top: position.top,
         left: position.left,
       }}>
