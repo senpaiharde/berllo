@@ -35,13 +35,13 @@
 
 .checklist-item-wrapper {
   display: flex;
-  align-items: flex-start;   /* keep checkbox top-aligned */
+  align-items: flex-start; /* keep checkbox top-aligned */
   margin-top: 3px;
   margin-left: -14px;
 }
 
 .checklist-item-wrapper-checkbox {
-  margin-top: 12px;          /* align with textarea top */
+  margin-top: 12px; /* align with textarea top */
   margin-right: 13px;
   width: 16px;
   height: 16px;
@@ -69,7 +69,7 @@
   position: relative;
   flex: 1;
   border-radius: 13px;
-  padding-right: 36px;
+
   transition: background-color 0.2s ease;
   height: 36px;
   display: flex;
@@ -80,9 +80,8 @@
   }
 
   &.active {
-    /* remove wrapper padding/background so textarea fills it */
-    background: transparent;
-    padding: 0;
+    background-color: #091e420f;
+
     height: auto;
 
     .checklist-item-wrapper-Text-input {
@@ -97,18 +96,26 @@
       display: block;
       position: static;
       width: 100%;
-      margin: 0;
-      padding: 0;
-      border-radius: 0;
-      background-color: transparent;
-      box-shadow: none;
+      border: none;
+      border-radius: 12px;
+      padding: 8px 8px 6px 8px;
 
+      text-decoration: none;
+      box-shadow: none;
+      height: 91px;
+      cursor: pointer;
       textarea {
         width: 100%;
-        padding: 6px 8px;      /* match input padding */
-        border-radius: 13px;   /* match input corners */
-        border: 1px solid #ccc;
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        border-radius: 3px;
+        border: 1px solid #a89494;
         box-sizing: border-box;
+        height: 36px;
+        &:hover {
+          box-shadow: #091e4224;
+          background-color: #f7f8f9;
+        }
       }
     }
   }
@@ -152,71 +159,100 @@
     background-color: #091e424f;
   }
 }
-
-.checklist-save-cancel {
-  display: none;             /* hidden until .active */
-  /* form styling when shown is handled under .active */
+.checklist-save-cancel-div-warper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-
-.checklist-save-cancel-textarea {
-  width: 100%;
-  min-height: 60px;
-  margin-bottom: 8px;
-}
-
 .checklist-save-cancel-div {
   display: flex;
-  justify-content: flex-start; /* left-align buttons */
-  gap: 8px;
-  margin-top: 8px;
+  align-items: center;
+  column-gap: 4px;
 }
-
-.checklist-save-cancel-div1-save,
-.checklist-save-cancel-div1-cancel {
+.checklist-save-cancel-div1-save {
   border: none;
-  padding: 4px 8px;
+  background-color: #0c66e4;
+  box-shadow: none;
+  color: #ffffff;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: normal;
   cursor: pointer;
-  filter: brightness(1);
-  transition: filter 100ms ease;
-
+  border: none;
+  height: 32px;
+  width: 53.6px;
+  font-size: 14px;
+  font-weight: 500;
   &:hover {
-    filter: brightness(0.9);   /* 10% darker on hover */
+    filter: brightness(0.9); /* 10% darker on hover */
   }
 }
 
-.checklist-save-cancel-div1-save {
-  background-color: #0c66e4;
-  color: #fff;
-  border-radius: 4px;
-}
-
 .checklist-save-cancel-div1-cancel {
+  color: #172b4d;
+
+  border: none;
   background-color: transparent;
-  color: #44546f;
+  box-shadow: none;
+  cursor: pointer;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 3px;
+  height: 32px;
+  text-decoration: none;
+  white-space: normal;
+  width: 66px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  &:hover {
+    border: none;
+    background-color: #091e4224;
+    box-shadow: none;
+    color: #172b4d;
+    text-decoration: none;
+  }
 }
 
 .checklist-save-cancel-div2 {
   display: flex;
   align-items: center;
+  height: 32px;
+  width: 241px;
 }
 
-.checklist-save-cancel-div2-assign {
-  flex-shrink: 0;
-  max-width: 160px;
-  margin-left: 4px;
-  overflow: hidden;
+.checklist-save-cancel-div2-dots {
+ 
   border-radius: 3px;
-  color: #44546f;
-  font-weight: 400;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
-}
+  display: flex;
+width: 36px;
+height: 32px;
 
-.checklist-save-cancel-div2-DueDate {
-  border-radius: 3px;
-  flex-shrink: 0;
+  background-color: transparent;
+  box-sizing: unset;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  
   margin-left: 4px;
+  
+
   color: #44546f;
-  font-weight: 400;
+  cursor: pointer;
+
+  &:hover{
+    border: none;
+    background-color: #091e4224;
+    box-shadow: none;
+    color: var(--ds-text, #172b4d);
+    text-decoration: none;
+  }
 }

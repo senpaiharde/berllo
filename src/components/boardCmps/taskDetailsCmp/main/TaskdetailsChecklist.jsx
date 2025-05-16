@@ -179,7 +179,10 @@ const TaskChecklist = () => {
                           value={draftText}
                           onChange={(e) => setDraftText(e.target.value)}
                         />
-                        <div className="checklist-save-cancel-div">
+                        <div className="checklist-save-cancel-div-warper">
+                            <div
+                            className="checklist-save-cancel-div"
+                            >
                           <button
                             type="submit"
                             className="checklist-save-cancel-div1-save"
@@ -195,6 +198,23 @@ const TaskChecklist = () => {
                             onClick={() => setActiveKey(null)}>
                             Cancel
                           </button>
+                          </div>
+                          <div className='checklist-save-cancel-div2'>
+                          <></>
+ 
+
+
+                        <DropdownChecklist
+                          trigger={
+                            <div  className="checklist-save-cancel-div2-dots">
+                              <SvgDots />
+                            </div>
+                          }
+                          onDelete={() => handleDeleteItem(gKey, key)}
+                        />
+                     
+                    
+                          </div>
                         </div>
                       </form>
                     )}
