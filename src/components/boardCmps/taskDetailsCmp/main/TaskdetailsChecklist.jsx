@@ -107,7 +107,10 @@ const TaskChecklist = () => {
             <div className="MainChecklistHeader">
               <div className="MainChecklistHeaderText">
                 <div className="MainChecklistHeaderLeft">
-                    <SvgServices name='SvgCheckV'/>
+                    <div style={{marginRight:'5px'}}>
+                        <SvgServices name='SvgCheckV'/>
+                    </div>
+                   
                   
                   <h2 className="MainChecklistHeaderLeftH2">{group.title}</h2>
                 </div>
