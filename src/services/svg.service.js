@@ -1,4 +1,63 @@
 const svgs = {
+    SvgDateRight:` <svg
+            width="12px"
+            height="12px"
+            viewBox="0 0 12 12"
+            fill="none"
+            role="presentation"
+            style={{ justifyContent: "center", display: "flex", alignItems: "center" }}
+          >
+            
+            <path stroke="currentcolor" stroke-linejoin="round"
+            d="M1.5 10.5 6 6 1.5 1.5m4.75 9 4.5-4.5-4.5-4.5"/>
+          </svg>`,
+    SvgDateRightsmall:` <svg
+            width="12px"
+            height="12px"
+            viewBox="0 0 12 12"
+            fill="none"
+            role="presentation"
+            style={{ justifyContent: "center", display: "flex", alignItems: "center" }}
+          >
+            
+            <path stroke="currentcolor" stroke-linejoin="round"
+            d="M4.5 10.5 9 6 4.5 1.5"/>
+          </svg>`,
+    SvgDateLeftsmall:`<svg
+            width="12px"
+            height="12px"
+            viewBox="0 0 12 12"
+            fill="none"
+            role="presentation"
+            style={{ justifyContent: "center", display: "flex", alignItems: "center" }}
+          >
+            
+            <path stroke="currentcolor" stroke-linejoin="round"
+            d="M7.5 10.5 3 6l4.5-4.5" />
+          </svg>`,
+    SvgDateLeft:` <svg
+            width="12px"
+            height="12px"
+            viewBox="0 0 12 12"
+            fill="none"
+            style={{ justifyContent: "center", display: "flex", alignItems: "center" }}
+          >
+            
+            <path stroke="currentcolor" stroke-linejoin="round"
+            d="M10.5 10.5 6 6l4.5-4.5m-4.75 9L1.25 6l4.5-4.5" />
+          </svg>`,
+    SvgDropdown:`<svg
+            width="24px"
+            height="24px"
+            viewBox="0 0 24 24"
+            
+            role="presentation"
+            style={{ justifyContent: "center", display: "flex", alignItems: "center" }}
+          >
+            
+            <path stroke="currentcolor" fillRule="evenodd"  
+            d="M8.292 10.293a1.01 1.01 0 0 0 0 1.419l2.939 2.965c.218.215.5.322.779.322s.556-.107.769-.322l2.93-2.955a1.01 1.01 0 0 0 0-1.419.987.987 0 0 0-1.406 0l-2.298 2.317-2.307-2.327a.99.99 0 0 0-1.406 0" />
+          </svg>`,
     SvgEye:` <svg
               
               width="16px"
