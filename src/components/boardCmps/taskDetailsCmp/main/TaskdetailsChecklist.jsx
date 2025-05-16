@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import DropdownChecklist from '../main/sidebar/dropdownHardcoded/DropdownChecklist';
-import SvgDots from '../../../../assets/svgDesgin/SvgDate/SvgDors';
-import SvgCheckV from '../../../../assets/svgDesgin/SvgDate/SvgCheck';
+
+
 import ProgressBar from '../../../../utils/ProgressBar';
 import { TaskOps } from '../../../../services/backendHandler';
 import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
 import DropdownUi from './sidebar/dropdownHardcoded/DropdownUi';
 import DropdowndeleteCheck from './dropdowns/DropdowndeleteCheck';
+import { SvgServices } from '../../../../services/svgServices';
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -106,7 +107,8 @@ const TaskChecklist = () => {
             <div className="MainChecklistHeader">
               <div className="MainChecklistHeaderText">
                 <div className="MainChecklistHeaderLeft">
-                  <SvgCheckV />
+                    <SvgServices name='SvgCheckV'/>
+                  
                   <h2 className="MainChecklistHeaderLeftH2">{group.title}</h2>
                 </div>
                 <div className="MainChecklistHeaderButtons">
@@ -226,7 +228,8 @@ const TaskChecklist = () => {
                         <DropdownChecklist
                           trigger={
                             <div  className="checklist-save-cancel-div2-dots">
-                              <SvgDots />
+                                <SvgServices name='SvgDots'/>
+                            
                             </div>
                           }
                           onDelete={() => handleDeleteItem(gKey, key)}
@@ -247,7 +250,7 @@ const TaskChecklist = () => {
                         <DropdownChecklist
                           trigger={
                             <button className="checklist-item-wrapper-dots">
-                              <SvgDots />
+                              <SvgServices name='SvgDots'/>
                             </button>
                           }
                           onDelete={() => handleDeleteItem(gKey, key)}
