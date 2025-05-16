@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 
-import SvgClose from '../../../../../assets/svgDesgin/SvgClose';
+
+import { SvgServices } from '../../../../../services/svgServices';
 
 
 const CustomFields = ({ onClose }) => {
@@ -12,7 +13,8 @@ const CustomFields = ({ onClose }) => {
       <div className="DropdownUiHeader">
         <h2 className="DropdownHeaderH2">Custom Fields</h2>
         <button className="DropdownClose" onClick={onClose}>
-          <SvgClose />
+            <SvgServices name='SvgClose'/>
+          
         </button>
       </div>
         

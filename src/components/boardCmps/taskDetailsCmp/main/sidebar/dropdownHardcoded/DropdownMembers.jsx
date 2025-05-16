@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
+import { SvgServices } from '../../../../../../services/svgServices';
 
 const DropdownMembers = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -77,7 +78,8 @@ const DropdownMembers = ({ onClose }) => {
       <div className="DropdownUiHeader">
         <h2 className="DropdownHeaderH2">Members</h2>
         <button className="DropdownClose" onClick={onClose}>
-          <SvgClose />
+            <SvgServices name='SvgClose'/>
+          
         </button>
       </div>
 
@@ -107,7 +109,8 @@ const DropdownMembers = ({ onClose }) => {
                     <img className="memberIcon" alt={`Member ${member._id}`} src={member.icon} />
                     <div className="memberTitle">{member.title}</div>
                     <span>
-                      <SvgClose />
+                        <SvgServices name='SvgClose'/>
+                     
                     </span>
                   </button>
                 ))}

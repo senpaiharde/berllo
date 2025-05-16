@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
+
 import SvgDateLeft from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeft';
 import SvgDateLeftsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeftsmall';
 import SvgDateRight from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRight';
@@ -18,6 +18,7 @@ import {
 
 import SvgDropdown from '../../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
+import { SvgServices } from '../../../../../../services/svgServices';
 
 const DropdownDate = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -116,7 +117,8 @@ const DropdownDate = ({ onClose }) => {
           Dates
         </h2>
         <button className="DropdownClose" onClick={onClose}>
-          <SvgClose />
+            <SvgServices name='SvgClose'/>
+          
         </button>
       </div>
       <div>

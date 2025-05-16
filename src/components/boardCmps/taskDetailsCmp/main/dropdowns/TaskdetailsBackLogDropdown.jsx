@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import SvgClose from '../../../../../assets/svgDesgin/SvgClose';
-import SvgDropdown from '../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
-import DropdownUi from '../sidebar/dropdownHardcoded/DropdownUi';
 import BackLogDropdown from './BackLogDropdown';
+import { SvgServices } from '../../../../../services/svgServices';
 
 const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
   const dispatch = useDispatch();
@@ -28,7 +26,8 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
       <div className="DropdownUiHeader">
         <h2 className="DropdownHeaderH2">Move Card</h2>
         <button className="DropdownClose" onClick={onClose}>
-          <SvgClose />
+            <SvgServices name='SvgClose'/>
+          
         </button>
       </div>
 
