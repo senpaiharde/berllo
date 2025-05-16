@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import SvgClose from '../../../../../assets/svgDesgin/SvgClose';
+
 import { defaultCoverColors, defaultCoverIcons } from '../../../../../services/ColorStorage';
 import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { TaskOps } from '../../../../../services/backendHandler';
+import { SvgServices } from '../../../../../services/svgServices';
 
 const Cover = ({ onClose }) => {
   const [selectedColor, setSelectedColor] = useState('');
@@ -53,7 +54,8 @@ const handleDeleteCover = () => {
       <div className="DropdownUiHeader">
         <h2 className="DropdownHeaderH2">Cover</h2>
         <button className="DropdownClose" onClick={onClose}>
-          <SvgClose />
+            <SvgServices name='SvgClose'/>
+          
         </button>
       </div>
 

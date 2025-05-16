@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react"
 import ReactDOM from "react-dom"
-// import SvgClose from "../../../../../../assets/svgDesgin/SvgClose"
+
 import { useDispatch, useSelector } from "react-redux"
-// import { liveUpdateTask } from "../../../../../../redux/taskDetailsSlice"
-// import SvgAdd from "../../../../../../assets/svgDesgin/SvgAdd"
-// import EditLabelDropdown from "./EditLabelDropdown"
-import SvgClose from "../../../assets/svgDesgin/SvgClose"
+
 import { TextEditInput } from "../TextEditInput"
+import { SvgServices } from "../../../services/svgServices"
 
 const BoardHeaderFilter = ({ onClose }) => {
   const [open, setOpen] = useState(false)
@@ -76,7 +74,8 @@ const BoardHeaderFilter = ({ onClose }) => {
         <div className="DropdownUiHeader">
           <h2 className="DropdownHeaderH2">Filter</h2>
           <button onClick={onClose} className="DropdownClose">
-            <SvgClose />
+             <SvgServices name='SvgClose'/>
+        
           </button>
         </div>
 

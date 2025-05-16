@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import SvgClose from '../../../../../assets/svgDesgin/SvgClose';
+
+import { SvgServices } from '../../../../../services/svgServices';
 
 
 const DropdowndeleteCheck = ({ onClose ,onDelete}) => {
@@ -17,7 +18,8 @@ const DropdowndeleteCheck = ({ onClose ,onDelete}) => {
           Delete Checklist?
         </h2>
         <button className="DropdownClose" onClick={onClose}>
-          <SvgClose />
+            <SvgServices name='SvgClose'/>
+          
         </button>
         
         </div>

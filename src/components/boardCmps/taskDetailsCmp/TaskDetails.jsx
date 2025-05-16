@@ -20,10 +20,11 @@ import TaskDescription from './main/TaskDetailsDescription';
 import TaskChecklist from './main/TaskdetailsChecklist';
 import TaskdetailsBackLog from './main/TaskdetailsBackLog';
 
-import SvgcloseTop from '../../../assets/svgDesgin/SvgTaskdetails/SvgcloseTop';
+
 import DropdownUi from './main/sidebar/dropdownHardcoded/DropdownUi';
 import Cover from './main/sidebar/cover';
 import CoverHeader from '../../../assets/svgDesgin/SvgDate/Coverheader';
+import { SvgServices } from '../../../services/svgServices';
 
 const TaskDetails = () => {
   const dispatch = useDispatch();
@@ -116,7 +117,8 @@ const TaskDetails = () => {
               }}
               className="td-cover-close"
               onClick={handleClose}>
-              <SvgcloseTop />
+                
+             <SvgServices name='SvgcloseTop'/>
             </button>
 
             <DropdownUi
@@ -163,7 +165,7 @@ const TaskDetails = () => {
           </div>
           {!cover && (
             <button className="td-cover-close-modal" onClick={handleClose}>
-              <SvgcloseTop />
+               <SvgServices name='SvgcloseTop'/>
             </button>
           )}
         </div>
