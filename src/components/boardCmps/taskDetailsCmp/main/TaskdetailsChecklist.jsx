@@ -7,6 +7,8 @@ import SvgCheckV from '../../../../assets/svgDesgin/SvgDate/SvgCheck';
 import ProgressBar from '../../../../utils/ProgressBar';
 import { TaskOps } from '../../../../services/backendHandler';
 import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
+import DropdownUi from './sidebar/dropdownHardcoded/DropdownUi';
+import DropdowndeleteCheck from './dropdowns/DropdowndeleteCheck';
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -119,12 +121,19 @@ const TaskChecklist = () => {
                     onClick={() => setHideChecked(!hideChecked)}>
                     {hideChecked ? 'Show Checked items' : 'Hide Checked items'}
                   </button>
-                  <button
+                  <DropdownUi 
+                    trigger={
+                     <button
                     className="notification-button-check"
                     style={{ height: '32px', width: '65px' }}
-                    onClick={() => handleDeleteGroup(gKey)}>
+                    >
                     Delete
                   </button>
+                    }>
+                        {(props) => <DropdowndeleteCheck {...props} onDelete={() => handleDeleteGroup(gKey)} />}
+                        
+                    </DropdownUi>
+                  
                 </div>
               </div>
 
