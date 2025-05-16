@@ -13,17 +13,18 @@ const TaskDescription = () => {
     dispatch(liveUpdateTask({ taskDescription: e.target.value }));
   };
   const isEmpty = taskDescription.trim() === '';
-  const textareaClassName = isEmpty ? 'td-description-null' : 'td-description';
+  
   return (
-    <section className="td-section">
+    <section className="td-section-description-main">
       <div className="td-section-description">
-        <div
+       
+        <div className="td-section-description-container">
+             <div
           className="SvgLeft"
-          style={{ marginRight: '12px', marginLeft: '-32px', marginTop: '-14px' }}>
+          style={{ marginRight: '12px', marginLeft: '-32px', }}>
           <SvgServices name="taskDetailsSvgLeft" />
         </div>
-        <div className="td-section-description-container">
-          <div className="td-section-header" style={{ fontSize: '16px' }}>
+          <div className="td-section-header-description">
             Description
           </div>
 
@@ -33,8 +34,8 @@ const TaskDescription = () => {
       {handleDescriptionChange}
       <textarea
         className={isEmpty ? 'td-description-null' : 'td-description'}
-        placeholder={isEmpty ? 'Add a more detailed description...' : ''}
-        value={taskDescription}
+        value={isEmpty ? 'Add a more detailed description...' : `${taskDescription}`}
+       
         onChange={handleDescriptionChange}
       />
     </section>
