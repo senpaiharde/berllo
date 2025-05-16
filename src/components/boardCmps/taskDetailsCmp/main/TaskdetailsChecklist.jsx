@@ -17,7 +17,6 @@ const TaskChecklist = () => {
   const [hideChecked, setHideChecked] = useState(false);
   const [hovering, setHovering] = useState(null);
 
-  // NEW: track which item-text div is clicked
   const [activeKey, setActiveKey] = useState(null);
   const [draftText, setDraftText] = useState('');
 
@@ -25,24 +24,16 @@ const TaskChecklist = () => {
 
   // Helpers for keys
   const getGroupKey = (group) => (group._id ? group._id.toString() : group.id);
-  const getItemKey = (item, index) =>
-    item._id?.toString() || item.id || index.toString();
+  const getItemKey = (item, index) => item._id?.toString() || item.id || index.toString();
 
   // Dispatch helper
   const updateChecklist = (updatedChecklist) => {
     dispatch(
-      liveUpdateTask({
-        method: TaskOps.UPDATE,
-        workId: 'tasks',
-        args: {
-          taskId: selectedTask._id,
-          body: { checklist: updatedChecklist }
-        }
-      })
+      liveUpdateTask({ method: TaskOps.UPDATE, workId: 'tasks', checklist: updatedChecklist })
     );
   };
 
-  // Handlers (unchanged)
+  // Handlers
   const handleToggleCheck = (groupKey, itemKey) => {
     const updated = selectedTask.checklist.map((group) => {
       if (getGroupKey(group) !== groupKey) return group;
@@ -50,10 +41,8 @@ const TaskChecklist = () => {
       return {
         ...group,
         items: items.map((item, i) =>
-          getItemKey(item, i) === itemKey
-            ? { ...item, done: !item.done }
-            : item
-        )
+          getItemKey(item, i) === itemKey ? { ...item, done: !item.done } : item
+        ),
       };
     });
     updateChecklist(updated);
@@ -66,19 +55,15 @@ const TaskChecklist = () => {
       return {
         ...group,
         items: items.map((item, i) =>
-          getItemKey(item, i) === itemKey
-            ? { ...item, text: newText }
-            : item
-        )
+          getItemKey(item, i) === itemKey ? { ...item, text: newText } : item
+        ),
       };
     });
     updateChecklist(updated);
   };
 
   const handleDeleteGroup = (groupKey) => {
-    const updated = selectedTask.checklist.filter(
-      (group) => getGroupKey(group) !== groupKey
-    );
+    const updated = selectedTask.checklist.filter((group) => getGroupKey(group) !== groupKey);
     updateChecklist(updated);
   };
 
@@ -87,7 +72,7 @@ const TaskChecklist = () => {
     const updated = selectedTask.checklist.map((group) =>
       getGroupKey(group) !== groupKey
         ? group
-        : { ...group, items: [...(group.items || []), newItem] }
+        : { ...group, items: [...(Array.isArray(group.items) ? group.items : []), newItem] }
     );
     updateChecklist(updated);
   };
@@ -98,7 +83,7 @@ const TaskChecklist = () => {
       const items = Array.isArray(group.items) ? group.items : [];
       return {
         ...group,
-        items: items.filter((item, i) => getItemKey(item, i) !== itemKey)
+        items: items.filter((item) => getItemKey(item) !== itemKey),
       };
     });
     updateChecklist(updated);
@@ -129,17 +114,15 @@ const TaskChecklist = () => {
                       marginRight: '8px',
                       height: '32px',
                       width: '147px',
-                      fontWeight: '500'
+                      fontWeight: '500',
                     }}
-                    onClick={() => setHideChecked(!hideChecked)}
-                  >
+                    onClick={() => setHideChecked(!hideChecked)}>
                     {hideChecked ? 'Show Checked items' : 'Hide Checked items'}
                   </button>
                   <button
                     className="notification-button-check"
                     style={{ height: '32px', width: '65px' }}
-                    onClick={() => handleDeleteGroup(gKey)}
-                  >
+                    onClick={() => handleDeleteGroup(gKey)}>
                     Delete
                   </button>
                 </div>
@@ -158,8 +141,7 @@ const TaskChecklist = () => {
                   className="checklist-item-wrapper"
                   style={{ position: 'relative' }}
                   onMouseEnter={() => setHovering(key)}
-                  onMouseLeave={() => setHovering(null)}
-                >
+                  onMouseLeave={() => setHovering(null)}>
                   <input
                     type="checkbox"
                     checked={item.done}
@@ -168,15 +150,11 @@ const TaskChecklist = () => {
                   />
 
                   <div
-                    className={
-                      'checklist-item-wrapper-Text' +
-                      (isActive ? ' active' : '')
-                    }
+                    className={'checklist-item-wrapper-Text' + (isActive ? ' active' : '')}
                     onClick={() => {
                       setActiveKey(key);
                       setDraftText(item.text);
-                    }}
-                  >
+                    }}>
                     {/* inline input or your existing form */}
                     {!isActive && (
                       <input
@@ -187,10 +165,7 @@ const TaskChecklist = () => {
                       />
                     )}
                     {isActive && (
-                      <form
-                        className="checklist-save-cancel"
-                        onSubmit={(e) => e.preventDefault()}
-                      >
+                      <form className="checklist-save-cancel" onSubmit={(e) => e.preventDefault()}>
                         <textarea
                           className="checklist-save-cancel-textarea"
                           value={draftText}
@@ -203,15 +178,13 @@ const TaskChecklist = () => {
                             onClick={() => {
                               handleEditText(gKey, key, draftText);
                               setActiveKey(null);
-                            }}
-                          >
+                            }}>
                             Save
                           </button>
                           <button
                             type="button"
                             className="checklist-save-cancel-div1-cancel"
-                            onClick={() => setActiveKey(null)}
-                          >
+                            onClick={() => setActiveKey(null)}>
                             Cancel
                           </button>
                         </div>
@@ -223,9 +196,8 @@ const TaskChecklist = () => {
                         style={{
                           position: 'absolute',
                           top: '6px',
-                          right: '9px'
-                        }}
-                      >
+                          right: '9px',
+                        }}>
                         <DropdownChecklist
                           trigger={
                             <button className="checklist-item-wrapper-dots">
@@ -244,8 +216,7 @@ const TaskChecklist = () => {
             <button
               className="notification-button-check"
               style={{ marginTop: '20px', marginLeft: '16px' }}
-              onClick={() => handleAddItem(gKey)}
-            >
+              onClick={() => handleAddItem(gKey)}>
               Add an item
             </button>
           </section>
