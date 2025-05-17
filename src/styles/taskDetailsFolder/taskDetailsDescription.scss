@@ -95,3 +95,98 @@
   font-size: 16px;
   color: #42526e;
 }
+
+
+/* src/components/boardCmps/taskDetailsCmp/main/description.scss */
+.td-section-description-main {
+  margin-left: 16px;
+}
+.td-section-description-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.SvgLeft {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  margin-left: -32px;
+  /* background or SVG component */
+}
+.td-section-header-description {
+  font-weight: 500;
+  font-size: 16px;
+  color: #42526e;
+}
+.td-description,
+.td-description-null {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  resize: none;
+  margin-top: 8px;
+}
+.td-description {
+  background: #f7f8f9;
+  color: #172b4d;
+}
+.td-description-null {
+  background: #eaecf0;
+  color: #172b4d;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #091e4224;
+  }
+}
+.task-description-editor {
+  margin-top: 8px;
+}
+.td-description-editor-container {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Quill’s snow theme toolbar sits inside a .ql-toolbar */
+.ql-toolbar {
+  border-radius: 4px 4px 0 0;
+  background: #f4f5f7;
+  border-bottom: 1px solid #ccc;
+}
+
+.ql-toolbar button {
+  padding: 4px;
+}
+
+.ql-container {
+  border-radius: 0 0 4px 4px;
+  min-height: 120px;
+}
+
+.td-editor-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.td-editor-btn {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+}
+
+.td-editor-btn.save {
+  background-color: #0052cc;
+  color: #fff;
+}
+
+.td-editor-btn.cancel {
+  background: transparent;
+  color: #42526e;
+}
