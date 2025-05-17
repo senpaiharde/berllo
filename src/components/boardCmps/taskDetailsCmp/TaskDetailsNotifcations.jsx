@@ -1,10 +1,11 @@
 import React  from "react";
 import '../../../styles/taskDetailsFolder/TaskDetailsNotifications.scss';
-import SvgWatching from "../../../assets/svgDesgin/SvgWatching";
-import SvgCheck from "../../../assets/svgDesgin/SvgCheck";
+
+
 import { useDispatch, useSelector } from "react-redux";
 import { liveUpdateTask } from "../../../redux/taskDetailsSlice";
 import { TaskOps } from "../../../services/backendHandler";
+import { SvgServices } from "../../../services/svgServices";
 const TaskDetailsNotifcations = () => {
     const dispatch = useDispatch();
     const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
@@ -29,7 +30,8 @@ const TaskDetailsNotifcations = () => {
                 onClick={toogleWatching} className="notification-button1">
             <span className="notification-button-span">
               <span className="notification-button-span">
-                <SvgWatching/>
+                <SvgServices name='SvgWatching'/>
+              
               </span>
             </span>
             Watch
@@ -39,14 +41,14 @@ const TaskDetailsNotifcations = () => {
               }}
             >
               <span  className="notification-button-span">
-                {isWatching ? '' : <SvgCheck/>}
+                {isWatching ? '' :  <SvgServices name='SvgCheck'/>}
               </span>
             </span>
           </button>) : (<button  
           onClick={toogleWatching} className="notification-button1">
             <span className="notification-button-span">
               <span className="notification-button-span">
-                <SvgWatching/>
+               <SvgServices name='SvgWatching'/>
               </span>
             </span>
             Watching
@@ -56,7 +58,7 @@ const TaskDetailsNotifcations = () => {
               }}
             >
               <span  className="notification-button-span">
-               <SvgCheck/>
+               <SvgServices name='SvgCheck'/>
               </span>
             </span>
           </button>)}

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import SvgDropdown from '../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
+
+import { SvgServices } from '../../../../../services/svgServices';
 
 const BackLogDropdown = ({ label, options, value, onselect }) => {
   const [open, setOpen] = useState(false);
@@ -44,7 +45,8 @@ const BackLogDropdown = ({ label, options, value, onselect }) => {
         </div>
         <div className="BoardReminderDivSVG">
           <span className="BoardReminderDivSVG2">
-            <SvgDropdown />
+            <SvgServices name='SvgDropdown'/>
+          
           </span>
         </div>
       </div>

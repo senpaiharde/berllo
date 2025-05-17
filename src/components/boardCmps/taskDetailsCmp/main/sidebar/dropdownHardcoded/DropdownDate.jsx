@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import SvgClose from '../../../../../../assets/svgDesgin/SvgClose';
-import SvgDateLeft from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeft';
-import SvgDateLeftsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateLeftsmall';
-import SvgDateRight from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRight';
-import SvgDateRightsmall from '../../../../../../assets/svgDesgin/SvgDate/SvgDateRightSmall';
+
+
+
+
 import {
   createHandleNextMonth,
   createHandleNextYear,
@@ -16,8 +15,9 @@ import {
   IsTodayDay,
 } from '../../../../../../utils/CalendarDays';
 
-import SvgDropdown from '../../../../../../assets/svgDesgin/SvgDate/SvgDropdown';
+
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
+import { SvgServices } from '../../../../../../services/svgServices';
 
 const DropdownDate = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -116,7 +116,8 @@ const DropdownDate = ({ onClose }) => {
           Dates
         </h2>
         <button className="DropdownClose" onClick={onClose}>
-          <SvgClose />
+            <SvgServices name='SvgClose'/>
+          
         </button>
       </div>
       <div>
@@ -126,13 +127,15 @@ const DropdownDate = ({ onClose }) => {
               <div className="DateDates">
                 <div className="DateDatesleft">
                   <button onClick={handlePrevYear} className="DateDatesButton">
-                    <SvgDateLeft />
+                    <SvgServices name='SvgDateLeft'/>
+                   
                   </button>
                   <button
                     onClick={handlePrevMonth}
                     style={{ marginLeft: '6px' }}
                     className="DateDatesButton">
-                    <SvgDateLeftsmall />
+                         <SvgServices name='SvgDateLeftsmall'/>
+                    
                   </button>
                 </div>
 
@@ -146,13 +149,15 @@ const DropdownDate = ({ onClose }) => {
                 </div>
                 <div className="DateDatesright">
                   <button onClick={handleNextMonth} className="DateDatesButton">
-                    <SvgDateRightsmall />
+                     <SvgServices name='SvgDateRightsmall'/>
+                    
                   </button>
                   <button
                     onClick={handleNextYear}
                     style={{ marginLeft: '6px' }}
                     className="DateDatesButton">
-                    <SvgDateRight />
+                         <SvgServices name='SvgDateRight'/>
+                  
                   </button>
                 </div>
               </div>
@@ -277,7 +282,8 @@ const DropdownDate = ({ onClose }) => {
                   </div>
                   <div className="BoardReminderDivSVG">
                     <span className="BoardReminderDivSVG2">
-                      <SvgDropdown />
+                         <SvgServices name='SvgDropdown'/>
+                      
                     </span>
                   </div>
                 </div>

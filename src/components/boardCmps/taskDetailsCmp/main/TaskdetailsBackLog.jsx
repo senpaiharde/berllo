@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
-import SvgDrop from "../../../../assets/svgDesgin/SvgTaskdetails/SvgDrop"
-import SvgEye from "../../../../assets/svgDesgin/SvgTaskdetails/SvgEye"
+
+
 import DropdownUi from "./sidebar/dropdownHardcoded/DropdownUi";
 import TaskdetailsBackLogDropdown from "./dropdowns/TaskdetailsBackLogDropdown";
+import { SvgServices } from "../../../../services/svgServices";
 
 
 const TaskdetailsBackLog =() => {
@@ -17,9 +18,10 @@ const TaskdetailsBackLog =() => {
             <span>
             <button className="notification-button">
               BACKLOG-SERVER
-              <SvgDrop />
+               <SvgServices name='SvgDrop'/>
+             
             </button>
-            {!isWatching && <SvgEye />}
+            {!isWatching && <SvgServices name='SvgEye'/>}
           </span>
           }>
           {(props) => <TaskdetailsBackLogDropdown {...props} />}
