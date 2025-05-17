@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../redux/TaskDetailsSlice';
 import DescriptionEditor from './DescriptionEditor';
+import { SvgServices } from '../../../../services/svgServices';
 
 
 export default function TaskDescription() {
@@ -25,7 +26,7 @@ export default function TaskDescription() {
   return (
     <section className="td-section-description-main">
       <div className="td-section-description-container">
-        <div className="SvgLeft" />
+        <div className="SvgLeft" > <SvgServices name="taskDetailsSvgLeft" /></div>
         <div className="td-section-header-description">Description</div>
       </div>
 

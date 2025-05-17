@@ -1,11 +1,12 @@
 .td-section-description-main {
   margin-left: 16px;
-  
+  gap: 12px;
 }
 
 .td-section-description {
   display: flex;
   align-items: center;
+  
 }
 
 .td-section-description-container {
@@ -14,7 +15,10 @@
   justify-content: left;
   width: 100%;
 }
-
+.SvgLeft{
+    margin-left: -32px;
+    margin-right: 12px;
+}
 .notification-button-description {
   background-color: #091e420f; // Add the base color here
   display: inline-flex;
@@ -56,15 +60,15 @@
 }
 
 .td-description {
-    margin-top: 16px;
+  margin-top: 16px;
   background-color: #f7f8f9;
   color: #172b4d;
 }
 
 .td-description-null {
   background-color: #eaecf0;
-    margin-top: 16px;
-    color:#172b4d;
+  margin-top: 16px;
+  color: #172b4d;
   border: none;
   resize: none;
   text-align: left;
@@ -87,46 +91,55 @@
 }
 
 .td-section-description {
-    
 }
 
 .td-section-header-description {
   font-weight: 500;
   font-size: 16px;
   color: #42526e;
+  margin-right: 16px;
 }
-
-
-
-
-
 
 .td-description-editor-container {
   width: 512px;
-  border: 1px solid #dfe1e6;
+
   border-radius: 4px;
   overflow: hidden;
   font-family: sans-serif;
-  height:315px;
+  height: 315px;
 }
 
-.td-description-editor-textarea{
-    width: 512px;
-    height: 275px;
-    padding: 2px;
+.td-description-editor-textarea {
+  width: 512px;
+  height: 275px;
+  padding: 2px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid rgb(121, 113, 113);
+  background-color: #fff;
 }
 /* Toolbar */
 .my-toolbar {
   display: flex;
   align-items: center;
-  background: #f4f5f7;
+
   padding: 8px;
   gap: 8px;
-  
+
   width: 100%;
   height: 48px;
-}
+  border-bottom: 1px solid #dfe1e6;
 
+  display: flex;
+  width: 100%;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.my-toolbar-left {
+  width: 100%;
+  position: relative;
+  min-width: 254px;
+}
 /* Dropdown placeholder */
 .my-dropdown {
   padding: 4px 8px;
@@ -134,7 +147,20 @@
   border: 1px solid transparent;
   border-radius: 3px;
   font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  display: flex;
   cursor: default;
+  &:hover {
+    filter: brightness(95%);
+  }
+}
+.my-dropdown-A {
+}
+.my-dropdown-svg {
+  height: 24px;
+  width: 24px;
+  margin: 0px 0px 0px 8px;
 }
 
 .toolbar-separator {
@@ -145,7 +171,7 @@
 
 /* Buttons */
 .my-btn {
-  background: #fff;
+  background-color: transparent;
   border: 1px solid transparent;
   border-radius: 3px;
   padding: 4px 8px;
@@ -161,13 +187,16 @@
 .my-textarea {
   width: 100%;
   min-height: 223px;
-  border: none;
+
   padding: 8px;
   resize: none;
   font-size: 14px;
   line-height: 1.5;
-  box-sizing: border-box;
+
   color: #172b4d;
+  text-decoration: none;
+  border: none;
+  box-sizing: none;
 }
 
 /* Action buttons */
@@ -175,8 +204,6 @@
   display: flex;
   gap: 8px;
   padding: 8px;
-  background: #fff;
-  border-top: 1px solid #dfe1e6;
 }
 
 .td-editor-btn {
