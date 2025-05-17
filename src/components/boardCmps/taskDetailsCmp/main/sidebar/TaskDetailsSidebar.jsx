@@ -24,6 +24,7 @@ import DropdownChecklistSide from './dropdownChecklistSide';
 import CustomFields from './CustomFields';
 import Cover from './cover';
 import { SvgServices } from '../../../../../services/svgServices';
+import Attachment from './Attachment';
 const TaskDetailsSidebar = () => {
   const sidebarButtons = [
     {
@@ -77,10 +78,10 @@ const TaskDetailsSidebar = () => {
     },
     {
       id: 'Attachment',
-       hover: 'Open Labels',
+       hover: 'Open Attachment',
       label: 'Attachment',
       icon: <AttachmentSvg />,
-      content: (props) => <DropdownLabel {...props} />,
+      content: (props) => <Attachment {...props} />,
     },
 
     {
