@@ -1,14 +1,7 @@
-// src/components/boardCmps/taskDetailsCmp/main/DescriptionEditor.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-
-const TOOLBAR_OPTIONS = [
-  ['bold', 'italic'],                        // toggled buttons
-  [{ list: 'ordered' }, { list: 'bullet' }], // lists
-  ['link', 'image'],                         // link, image
-];
 
 export default function DescriptionEditor({ initial, onSave, onCancel }) {
   const [value, setValue] = useState(initial);
@@ -16,26 +9,40 @@ export default function DescriptionEditor({ initial, onSave, onCancel }) {
 
   useEffect(() => setValue(initial), [initial]);
 
-  return (
-    <div className="td-description-editor-container">
-      {/* React Quill editor */}
-      <ReactQuill
-        ref={quillRef}
-        value={value}
-        onChange={setValue}
-        modules={{ toolbar: TOOLBAR_OPTIONS }}
-        formats={['bold','italic','list','bullet','link','image']}
-        theme="snow"
-      />
+  // Helper to run Quill commands
+  const exec = command => {
+    const editor = quillRef.current.getEditor();
+    editor.focus();
+    if (command === 'bold') editor.format('bold', !editor.getFormat().bold);
+    else editor.format('header', command);  
+  };
 
-      {/* Action Buttons */}
+   return (
+    <div className="td-description-editor-container">
+        <div className="td-description-editor-textarea">
+      {/* STATIC TOOLBAR */}
+      <div className="my-toolbar">
+        <div className="my-dropdown">Aa</div>
+        <div className="toolbar-separator" />
+        <button className="my-btn">B</button>
+        <button className="my-btn">I</button>
+        <button className="my-btn">•</button>
+        <button className="my-btn">1.</button>
+        <button className="my-btn">🔗</button>
+        <button className="my-btn">🖼</button>
+      </div>
+
+      {/* STATIC TEXTAREA */}
+      <textarea
+        className="my-textarea"
+        placeholder="Start typing..."
+        readOnly
+      />
+      </div>
+      {/* STATIC ACTIONS */}
       <div className="td-editor-actions">
-        <button className="td-editor-btn save" onClick={() => onSave(value)}>
-          Save
-        </button>
-        <button className="td-editor-btn cancel" onClick={onCancel}>
-          Cancel
-        </button>
+        <button className="td-editor-btn save">Save</button>
+        <button className="td-editor-btn cancel">Cancel</button>
       </div>
     </div>
   );

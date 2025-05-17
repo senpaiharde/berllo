@@ -23,7 +23,7 @@ const TaskDetailsDate = () => {
     <section style={{ marginLeft: '-15px' }} className="td-section-top-section">
       <h3 className="td-section-top-h3">Due date</h3>
       <div>
-        <SvgServices name='SvgDropDate'/>
+       
         <DropdownUi
           trigger={
             <button className="Date-Button">

@@ -97,79 +97,86 @@
 }
 
 
-/* src/components/boardCmps/taskDetailsCmp/main/description.scss */
-.td-section-description-main {
-  margin-left: 16px;
+
+
+
+
+.td-description-editor-container {
+  width: 512px;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  overflow: hidden;
+  font-family: sans-serif;
+  height:315px;
 }
-.td-section-description-container {
+
+.td-description-editor-textarea{
+    width: 512px;
+    height: 275px;
+    padding: 2px;
+}
+/* Toolbar */
+.my-toolbar {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
-}
-.SvgLeft {
-  width: 24px;
-  height: 24px;
-  margin-right: 12px;
-  margin-left: -32px;
-  /* background or SVG component */
-}
-.td-section-header-description {
-  font-weight: 500;
-  font-size: 16px;
-  color: #42526e;
-}
-.td-description,
-.td-description-null {
-  width: 100%;
-  font-size: 14px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: none;
-  resize: none;
-  margin-top: 8px;
-}
-.td-description {
-  background: #f7f8f9;
-  color: #172b4d;
-}
-.td-description-null {
-  background: #eaecf0;
-  color: #172b4d;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #091e4224;
-  }
-}
-.task-description-editor {
-  margin-top: 8px;
-}
-.td-description-editor-container {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Quill’s snow theme toolbar sits inside a .ql-toolbar */
-.ql-toolbar {
-  border-radius: 4px 4px 0 0;
   background: #f4f5f7;
-  border-bottom: 1px solid #ccc;
+  padding: 8px;
+  gap: 8px;
+  
+  width: 100%;
+  height: 48px;
 }
 
-.ql-toolbar button {
-  padding: 4px;
+/* Dropdown placeholder */
+.my-dropdown {
+  padding: 4px 8px;
+  background: #fff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: default;
 }
 
-.ql-container {
-  border-radius: 0 0 4px 4px;
-  min-height: 120px;
+.toolbar-separator {
+  width: 1px;
+  height: 24px;
+  background: #ccc;
 }
 
+/* Buttons */
+.my-btn {
+  background: #fff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 4px 8px;
+  cursor: default;
+  transition: background 0.2s;
+}
+
+.my-btn:hover {
+  background: #e1e2e6;
+}
+
+/* Textarea */
+.my-textarea {
+  width: 100%;
+  min-height: 223px;
+  border: none;
+  padding: 8px;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  color: #172b4d;
+}
+
+/* Action buttons */
 .td-editor-actions {
-  margin-top: 8px;
   display: flex;
   gap: 8px;
+  padding: 8px;
+  background: #fff;
+  border-top: 1px solid #dfe1e6;
 }
 
 .td-editor-btn {
@@ -178,7 +185,7 @@
   padding: 4px 12px;
   border-radius: 3px;
   border: none;
-  cursor: pointer;
+  cursor: default;
 }
 
 .td-editor-btn.save {
@@ -189,4 +196,9 @@
 .td-editor-btn.cancel {
   background: transparent;
   color: #42526e;
+}
+
+.td-editor-btn.save:hover,
+.td-editor-btn.cancel:hover {
+  opacity: 0.8;
 }
