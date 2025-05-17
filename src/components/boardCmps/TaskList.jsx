@@ -25,7 +25,7 @@ export function TaskList({ boardList, newTaskList,onAddedNewList }) {
   const [newTitle, setNewTitle] = useState()
 
   useEffect(() => {
-    console.log("newTitle", newTitle)
+    // console.log("newTitle", newTitle)
   }, [newTitle])
 
   function onUpdateBoardList(value) {

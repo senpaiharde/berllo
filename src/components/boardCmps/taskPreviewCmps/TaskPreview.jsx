@@ -129,11 +129,14 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask }) {
           onClick={(e) => {
             if (!isNewtask) {
               console.log("🧠 Navigating to task:", task._id)
-              navigate(
-                `/b/${boardId}/board/${task._id}-${encodeURIComponent(
-                  task.taskTitle
-                )}`
-              )
+              // navigate(
+              //   `/b/${boardId}/board/${task._id}
+              //   -${encodeURIComponent(
+              //     task.taskTitle
+              //   )}`
+                
+              // )
+              navigate(`/b/${boardId}/board/${task._id}`);
             }
           }}
         >

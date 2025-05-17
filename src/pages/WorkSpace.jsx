@@ -1,14 +1,15 @@
 import { useParams, useNavigate, Outlet } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-
-import { fetchBoardById } from "../redux/BoardSlice.js"
+import { TaskOps } from "../services/backendHandler.js"
+import { fetchBoardById,syncBoardAsync } from "../redux/BoardSlice.js"
 import { addnewBoard } from "../redux/WorkSpaceSlice.js"
 import { getLocalData } from "../services/storageService.js"
 import GlobalHeader from "../components/GlobalHeader"
 import { BoardHeader } from "../components/boardCmps/boardHeaderCmps/BoardHeader.jsx"
 import { BoardView } from "../components/boardCmps/BoardView.jsx"
 import { BoardSideBar } from "../components/boardCmps/sideBarCmps/BoardSideBar.jsx"
+import { body } from "framer-motion/client"
 
 const Workspace = () => {
   const { boardId } = useParams()
@@ -21,8 +22,17 @@ const Workspace = () => {
   //  Load the board if ID exists
   useEffect(() => {
     if (boardId) {
-      dispatch(fetchBoardById(boardId))
+      // dispatch(fetchBoardById(boardId))
+      //dispatch(liveUpdateTask({method: TaskOps.FETCH, workId: 'tasks'}))
+      //args: { taskId: selectedTask._id, body: fields },
       
+      dispatch(
+        syncBoardAsync({
+                method: TaskOps.FETCH,
+                args: { taskId: boardId , body: {method: TaskOps.FETCH, workId: 'board'}},
+                workId: 'board',
+              })
+            );
     }else{
       // dispatch(addnewBoard("test board"))
     }

@@ -6,6 +6,7 @@ import { updateboardTitle, updateStarStatus } from "../../../redux/BoardSlice"
 import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
 import BoardHeaderFilter from "./boardHeaderFilter"
+import SvgIcon from "../../SvgIcon"
 export function BoardHeader({ board }) {
   const [currentBoard, setCurrentBoard] = useState(board)
   // const [starClicked, setStarClicked] = useState(board.boardTitle)
@@ -63,6 +64,7 @@ export function BoardHeader({ board }) {
   return (
     <div className="board-header-container">
       <span className="board-header">
+        <SvgIcon iconName={"next"}></SvgIcon>
         <span className="board-header-left">
           <div className="board-name-container header-clickable">
             <TextEditInput isEditing={isEditing} value={board.boardTitle} onChangeTextInput={onChangeTextInput}></TextEditInput>

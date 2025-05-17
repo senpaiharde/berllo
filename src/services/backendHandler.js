@@ -8,14 +8,14 @@ const api = axios.create({ baseURL });
 const backendHandler = async ({ args }) => {
   const { taskId, body } = args || {};
 
-  console.log('backendHandler', body.method, body.workId, body);
-  console.log(`/${body.workId}/${body.method}`);
+  // console.log('backendHandler', body.method, body.workId, taskId);
+  // console.log(`/${body.workId}/${body.method}`);
   let data;
   if (body.method === 'update') {
-    console.log('→ UPDATE case hit!', body.workId, taskId, body);
+    // console.log('→ UPDATE case hit!', body.workId, taskId, body);
     // now we GUARANTEE axios.put() runs before returning:
     const res = await api.put(`/${body.workId}/${taskId}`, body);
-    console.log('→ axios.put returned status:', res.status);
+    // console.log('→ axios.put returned status:', res.status);
     return res.data;
   }
   switch (body.method) {
@@ -41,7 +41,7 @@ const backendHandler = async ({ args }) => {
     default:
       throw new Error('Unknown method');
   }
-  console.log(data, 'data');
+  // console.log(data, 'data');
   return data;
 };
 

@@ -9,7 +9,7 @@ export const syncTaskAsync = createAsyncThunk(
     try {
       console.log(method, workId, args, 'update happens here', workId);
       const data = await backendHandler({ method, args, workId });
-
+      console.log('syncTaskAsync data', data);
       if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data));
       return { method, data };
     } catch (err) {
@@ -118,7 +118,7 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
 
   /* 1 optimistic UI */
   dispatch(updateSelectedTaskLive(fields));
-
+  dispatch(updateTaskInBoard(fields));
   clearTimeout(debounceId);
   /* 2 background sync */
   console.log(fields.method, fields.workId, fields, 'liveupdatetask');
