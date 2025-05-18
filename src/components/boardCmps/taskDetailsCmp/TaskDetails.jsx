@@ -91,6 +91,7 @@ const TaskDetails = () => {
 
   const handleTitleChange = (e) => {
     const method = TaskOps.UPDATE;
+    console.log('handleTitleChange', e.target.value);
     dispatch(liveUpdateTask({ taskTitle: e.target.value, workId, method }));
   };
   const cover = selectedTask.cover;

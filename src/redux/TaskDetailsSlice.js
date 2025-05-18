@@ -53,10 +53,14 @@ const taskDetailsSlice = createSlice({
     },
     updateSelectedTaskLive(state, action) {
       const payload = action.payload;
+      console.log('updateSelectedTaskLive', action.payload);
       if (!state.selectedTask) return;
 
       if (payload.isDueComplete) {
         state.selectedTask.isDueComplete = payload.isDueComplete;
+      }
+      if (payload.taskTitle) {
+        state.selectedTask.taskTitle = payload.taskTitle;
       }
       if (payload.reminder) {
         state.selectedTask.reminder = payload.reminder;
@@ -123,9 +127,12 @@ let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {
   const selectedTask = getState().taskDetailsReducer?.selectedTask;
   if (!selectedTask) return;
-
+  console.log('liveUpdateTask fields ', fields);
   /* 1 optimistic UI */
-  dispatch(updateSelectedTaskLive(fields));
+  if (fields.isOpen === true) {
+    console.log('updateSelectedTaskLive fields ', fields);
+    dispatch(updateSelectedTaskLive(fields));
+  }
   if(fields.isOpen ===true)dispatch(updateTaskInBoard(fields));
   
   clearTimeout(debounceId);
