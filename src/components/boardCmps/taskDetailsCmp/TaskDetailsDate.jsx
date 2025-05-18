@@ -20,7 +20,7 @@ const TaskDetailsDate = () => {
       })
     : 'no Date';
   return (
-    <section style={{ marginLeft: '-15px' }} className="td-section-top-section">
+    <section  className="td-section-top-section">
       <h3 className="td-section-top-h3">Due date</h3>
       <div>
        

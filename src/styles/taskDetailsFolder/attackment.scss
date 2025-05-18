@@ -71,3 +71,33 @@
         filter: brightness(92%);
     }
 }
+
+
+
+
+// here is the area of ui above is the dropdown
+
+.attackMentsUi {
+  background-color: transparent;
+  margin-top: 16px;
+  color: #172b4d;
+  border: none;
+  resize: none;
+  text-align: left;
+  font-weight: 500;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 14px;
+
+ 
+  color: #172b4d;
+}
+
+.attackMentsUiH3{
+    text-align: left;
+    margin: 0px 0px 8px;
+    width: 100%;
+    color: #172b4d;
+    font-size: 12px;
+    font-weight: 600;
+}
