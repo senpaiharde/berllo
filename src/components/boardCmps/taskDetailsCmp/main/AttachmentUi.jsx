@@ -9,18 +9,17 @@ import { SvgServices } from '../../../../services/svgServices';
 export default function AttachmentUi() {
   const dispatch = useDispatch();
   const task = useSelector(s => s.taskDetailsReducer.selectedTask);
-  const saved = task?.taskDescription || '';
-  const [isEditing, setIsEditing] = useState(false);
+  
 
   const handleSave = html => {
     dispatch(
       liveUpdateTask({
         method: 'UPDATE',
         workId: 'tasks',
-        args: { taskId: task._id, body: { taskDescription: html } },
+        attachments: html ,
       })
     );
-    setIsEditing(false);
+   
   };
 
   return (
@@ -39,7 +38,23 @@ export default function AttachmentUi() {
          > 
          <h3 className='attackMentsUiH3'>Files</h3>
        </div>
-    
+        <ul className='attackMentsUiContainer'>
+           {task.attachments.map((template, index) => (
+        
+          <li key={index} className="attackMentsUiContainerInside">
+            <div className="attackMentsUiContainerDiv">
+
+                 <div className="attackMentsUiContainerDivInside">
+
+                    <a href={template.url} className="attackMentsUiContainerDivInsideA" />
+                 </div>
+            </div>
+           
+          </li> 
+      
+        
+        ))}
+        </ul>
     </section>
   );
 }
