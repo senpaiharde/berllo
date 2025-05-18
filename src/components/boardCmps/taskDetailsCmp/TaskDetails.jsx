@@ -25,6 +25,7 @@ import DropdownUi from './main/sidebar/dropdownHardcoded/DropdownUi';
 import Cover from './main/sidebar/cover';
 import CoverHeader from '../../../assets/svgDesgin/SvgDate/Coverheader';
 import { SvgServices } from '../../../services/svgServices';
+import AttachmentUi from './main/AttachmentUi';
 
 const TaskDetails = () => {
   const dispatch = useDispatch();
@@ -183,7 +184,7 @@ const TaskDetails = () => {
 
             <TaskDescription />
             <div style={{ marginTop: '-42px' }} />
-
+            {task?.attachments?.length > 0 && <AttachmentUi/>}
             {task?.checklist?.length > 0 && <TaskChecklist />}
             <TaskDetailsActivity />
           </div>
