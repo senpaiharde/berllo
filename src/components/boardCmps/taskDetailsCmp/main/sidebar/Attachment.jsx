@@ -15,38 +15,30 @@ const Attachment = ({ onClose }) => {
     fileInputRef.current.click();
   };
 
-  // 2) When they select a file
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // 3) Upload via your backend (TaskOps.uploadAttachment is hypothetical)
-    //    It should return { url, contentType, size }
-    const { url, contentType, size } = await TaskOps.uploadAttachment(task._id, file);
+    // ← REPLACED backend call with local metadata extraction:
+    const url = URL.createObjectURL(file);
+    const contentType = file.type;
+    const size = file.size;
+    const createdAt = Date.now();
+    console.log(size, contentType, url, 'meta data file');
 
     // 4) Dispatch a single liveUpdateTask to append the new attachment
-    dispatch(
-      liveUpdateTask({
-        method: 'UPDATE',
-        workId: 'tasks',
+      dispatch(liveUpdateTask({
+      workId: 'tasks',
+      method: 'update',
+      attachments: [
+        ...(task.attachments || []),
+        { name: file.name, url, contentType, size, createdAt },
+      ],
+    }));
 
-        attachments: [
-          ...(task.attachments || []),
-          {
-            name: file.name,
-            url,
-            contentType,
-            size,
-          },
-        ],
-      })
-    );
-
-    // 5) Clear the input so the same file can be re-selected if needed
     e.target.value = '';
-    onClose(); // close the dropdown if that’s desired
+    onClose();
   };
-
   return (
     <div className="DropdownUi">
       {/* Header */}
@@ -59,11 +51,11 @@ const Attachment = ({ onClose }) => {
 
       {/* Options */}
       <div className="coverstyle">
-        <h3 className="DropdownLabelH3">Attach a file from your computer</h3>
-        <h3 className="DropdownLabelH3">You can also drag and drop files to upload them.</h3>
+        <h3 className="attackmentTextsmallh3" >Attach a file from your computer</h3>
+        <h3 className="attackmentTextsmall">You can also drag and drop files to upload them.</h3>
 
         <button
-          style={{ marginTop: '10px' }}
+          style={{ marginTop: '8px' ,marginBottom: '8px'}}
           className="DropdownCoverButton"
           onClick={handleChoose}>
           Choose a file
@@ -76,6 +68,23 @@ const Attachment = ({ onClose }) => {
         />
 
         <hr className="DropdownHrCover" />
+
+        <label className="attackmentTextBig">Search or Paste a Link</label>
+        <input className="attackmentInput"
+        placeholder='Find recent links or paste a new link'/>
+
+        <label className="attackmentTextBig">Display text (optional)</label>
+        <input className="attackmentInput"
+        placeholder='Text to display'/>
+
+       <h2 className='attackmentViewedText'>Recently Viewed</h2>
+       <div>                 {/** where the longs will get displayed */}</div>
+
+
+      <footer className='attackmentFooter'>
+        <button className='attackmentFooterCancel' >cancel</button>
+        <button  className='attackmentFooterInsert'>insert</button>
+      </footer>
       </div>
     </div>
   );
