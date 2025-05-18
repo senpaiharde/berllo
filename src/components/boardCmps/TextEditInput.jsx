@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { IconButton } from "../IconButton"
 
 export function TextEditInput({
@@ -31,7 +31,11 @@ export function TextEditInput({
     }
     setIsEditing(false)
   }
-
+  useEffect(() => {
+    if (value !== pervValue) {
+      setInputValue(value)
+      setPrevValue(value)
+    }}, [value])
   function emptyExit() {
     // setInputValue(null)
     exitEditing(null)

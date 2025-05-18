@@ -49,6 +49,50 @@ export function transformTasksFromBackend(tasks) {
   
     return transformedTasks;
   }
+
+  export function transformTaskFromBackend(task) {
+    const transformedTask = {
+          _id: task._id,
+          taskChecked: task.isDueComplete ?? false,
+          archivedAt: task.archivedAt ?? null,
+          taskMembers: task.members || [],
+          taskTitle: task.title,
+          taskDescription: task.description || '',
+          taskLabels: (task.labels || []).map(label => {
+            // Normalize label whether it's a string or object
+            if (typeof label === 'string') {
+              return { id: '', title: '', color: label };
+            }
+            return {
+              id: label.id || '',
+              title: label.title || '',
+              color: label.color || ''
+            };
+          }),
+          taskStartDate: task.startDate ? new Date(task.startDate).getTime() : null,
+          taskCoordinates: task.coordinates || [],
+          taskDueDate: task.dueDate ? new Date(task.dueDate).getTime() : null,
+          taskDateReminder: task.reminder ? new Date(task.reminder).getTime() : null,
+          taskList: task.list,
+          taskboard: task.board,
+          taskCheckList: (task.checklist || []).flatMap(checklist =>
+            checklist.items?.map(item => item.text) || []
+          ),
+          taskCover: {
+            coverType: task.cover?.coverType || '',
+            coverColor: task.cover?.coverColor || '',
+            coverImg: task.cover?.coverImg || ''
+          },
+          taskActivityComments: (task.comments || []).map(comment => ({
+            userId: comment.user,
+            userFullName: '', // You can populate this if you have user lookup
+            comment: comment.text,
+            date: comment.createdAt ? new Date(comment.createdAt).getTime() : null
+          }))
+        };
+        // console.log('transformedTask', transformedTask);
+        return transformedTask;
+  }
   
   export function transformListsFromBackend(lists) {
     return lists.map((list) => ({

@@ -39,24 +39,25 @@ const Workspace = () => {
   }, [dispatch, boardId])
 
   //  Auto-load default board if no ID in URL
-  useEffect(() => {
-    const loadDefaultBoard = async () => {
-      const localData = await getLocalData()
-      const boards = localData?.boards
+  // useEffect(() => {
+  //   const loadDefaultBoard = async () => {
+  //     const localData = await getLocalData()
+  //     const boards = localData?.boards
 
-      if (boards?.length > 0 && !boardId) {
-        const firstBoard = boards[0]
-        const slug =
-          firstBoard.slug ||
-          firstBoard.boardTitle?.toLowerCase().replace(/\s+/g, "-")
-        console.log(" Redirecting to:", `/b/${firstBoard._id}/${slug}`)
-        navigate(`/b/${firstBoard._id}/${slug}`)
-      }
-    }
-    loadDefaultBoard()
-  }, [boardId, navigate])
+  //     if (boards?.length > 0 && !boardId) {
+  //       const firstBoard = boards[0]
+  //       const slug =
+  //         firstBoard.slug ||
+  //         firstBoard.boardTitle?.toLowerCase().replace(/\s+/g, "-")
+  //       console.log(" Redirecting to:", `/b/${firstBoard._id}/${slug}`)
+  //       navigate(`/b/${firstBoard._id}/${slug}`)
+  //     }
+  //   }
+  //   loadDefaultBoard()
+  // }, [boardId, navigate])
 
-  if (!board || !board._id) {
+  // if (!board || !board._id)
+  if (false) {
     return <div>Loading...</div>
   } else {
     return (
@@ -77,8 +78,8 @@ const Workspace = () => {
                 <div style={{ height: "100%" }}>
                   <div className="board-wrapper">
                     <div className="board-main-content">
-                      <BoardHeader board={board} />
-                      <BoardView board={board} />
+                      <BoardHeader/>
+                      <BoardView />
                     </div>
                   </div>
                 </div>

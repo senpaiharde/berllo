@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch,useSelector } from "react-redux"
 import { ViewTypeChooser } from "./ViewTypeChooser"
 import { IconButton } from "../../IconButton"
 import { updateboardTitle, updateStarStatus } from "../../../redux/BoardSlice"
@@ -7,7 +7,8 @@ import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
 import BoardHeaderFilter from "./boardHeaderFilter"
 import SvgIcon from "../../SvgIcon"
-export function BoardHeader({ board }) {
+export function BoardHeader() {
+  const board = useSelector((state) => state.boardReducer)
   const [currentBoard, setCurrentBoard] = useState(board)
   // const [starClicked, setStarClicked] = useState(board.boardTitle)
   // const [visibleClicked, setVisibleClicked] = useState(false)
@@ -60,7 +61,7 @@ export function BoardHeader({ board }) {
       />
     ),
   }
-
+  const title = board? board.boardTitle : "Loading..."
   return (
     <div className="board-header-container">
       <span className="board-header">

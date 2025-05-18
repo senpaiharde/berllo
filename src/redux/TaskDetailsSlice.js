@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateTaskInBoard } from './BoardSlice';
 
 import backendHandler, { TaskOps } from '../services/backendHandler';
+import { tr } from 'framer-motion/client'
 
 export const syncTaskAsync = createAsyncThunk(
   'taskDetails/sync',
@@ -125,7 +126,8 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
 
   /* 1 optimistic UI */
   dispatch(updateSelectedTaskLive(fields));
-  dispatch(updateTaskInBoard(fields));
+  if(fields.isOpen ===true)dispatch(updateTaskInBoard(fields));
+  
   clearTimeout(debounceId);
   /* 2 background sync */
   console.log(fields.method, fields.workId, fields, 'liveupdatetask');
