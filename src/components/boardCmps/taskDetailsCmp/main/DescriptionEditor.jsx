@@ -1,73 +1,49 @@
-// DescriptionEditor.jsx
-import React, { useState, useEffect } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
-import Image from '@tiptap/extension-image';
+import React, { useState, useEffect, useRef } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { SvgServices } from '../../../../services/svgServices';
 
 export default function DescriptionEditor({ initial, onSave, onCancel }) {
   const [value, setValue] = useState(initial);
+  const quillRef = useRef();
 
-  const editor = useEditor({
-    extensions: [StarterKit, Link.configure({ openOnClick: false }), Image],
-    content: initial,
-    onUpdate: ({ editor }) => {
-      setValue(editor.getHTML());
-    },
-  });
+  useEffect(() => setValue(initial), [initial]);
 
-  // Sync if initial changes externally
-  useEffect(() => {
-    if (editor && initial !== value) {
-      editor.commands.setContent(initial);
-      setValue(initial);
-    }
-  }, [initial, editor]);
+  // Helper to run Quill commands
+  const exec = (command) => {
+    const editor = quillRef.current.getEditor();
+    editor.focus();
+    if (command === 'bold') editor.format('bold', !editor.getFormat().bold);
+    else editor.format('header', command);
+  };
 
   return (
-    <div style={{ border: '1px solid #ccc', borderRadius: 4, padding: 8 }}>
-      {/* Toolbar */}
-      <div style={{ marginBottom: 8 }}>
-        <button onClick={() => editor.chain().focus().toggleBold().run()}>B</button>
-        <button onClick={() => editor.chain().focus().toggleItalic().run()}>I</button>
-        <button onClick={() => editor.chain().focus().toggleBulletList().run()}>
-          •
-        </button>
-        <button onClick={() => editor.chain().focus().toggleOrderedList().run()}>
-          1.
-        </button>
-        <button
-          onClick={() => {
-            const url = prompt('Link URL');
-            if (url) editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-          }}
-        >
-          🔗
-        </button>
-        <button
-          onClick={() => {
-            const src = prompt('Image URL');
-            if (src) editor.chain().focus().setImage({ src }).run();
-          }}
-        >
-          🖼
-        </button>
+    <div className="td-description-editor-container">
+      <div className="td-description-editor-textarea">
+        {/* STATIC TOOLBAR */}
+        <div className="my-toolbar">
+          <div className="my-dropdown">
+            Aa
+            <span className='my-dropdown-svg'><SvgServices name="SvgDropdown" /></span>
+            
+          </div>
+          <div className="toolbar-separator" />
+          <button className="my-btn">B</button>
+          <button className="my-btn">I</button>
+          <button className="my-btn">•</button>
+          <button className="my-btn">1.</button>
+          <button className="my-btn">🔗</button>
+          <button className="my-btn">🖼</button>
+          <div></div>
+        </div>
+
+        {/* STATIC TEXTAREA */}
+        <textarea className="my-textarea" placeholder="Start typing..." />
       </div>
-
-      {/* Editor area */}
-      <EditorContent editor={editor} style={{ minHeight: 100 }} />
-
-      {/* Actions */}
-      <div style={{ marginTop: 8, textAlign: 'right' }}>
-        <button onClick={onCancel} style={{ marginRight: 8 }}>
-          Cancel
-        </button>
-        <button
-          onClick={() => onSave(value)}
-          style={{ background: '#0c66e4', color: '#fff' }}
-        >
-          Save
-        </button>
+      {/* STATIC ACTIONS */}
+      <div className="td-editor-actions">
+        <button className="td-editor-btn save" onClick={onSave}>Save</button>
+        <button className="td-editor-btn cancel" onClick={onCancel}>Cancel</button>
       </div>
     </div>
   );

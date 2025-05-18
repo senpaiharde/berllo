@@ -1,0 +1,157 @@
+.attackmentTextsmall {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #626f86;
+  margin: 8px 0px 12px;
+  padding: 2px;
+}
+
+.attackmentTextsmallh3 {
+  margin: 0px 0px 8px;
+  color: #44546f;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.attackmentTextBig {
+  margin: 0px 0px 4px;
+  color: #44546f;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.attackmentInput {
+  padding: 8px 6px;
+  width: 100%;
+  height: 36px;
+  margin-bottom: 12px;
+}
+
+.attackmentViewedText {
+  margin: 0px 0px 4px;
+  font-size: 11px;
+  color: #626f86;
+}
+
+.attackmentFooter {
+  justify-content: flex-end;
+  display: flex;
+  height: 32px;
+  width: 100%;
+}
+
+
+.attackmentFooterCancel{
+  padding: 0px 12px;
+  background-color: transparent;
+  text-align: center;
+  color: #172b4d;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  margin-right: 5px;
+  cursor: pointer;
+  &:hover{
+            background-color: #f0f0f0;
+    }
+}
+
+.attackmentFooterInsert{
+    font-size: 14px;
+    padding: 0px 10px;
+    text-align: center;
+    background-color: #0c66e4;
+    color:white;
+    border:none;
+    border-radius: 2px;
+    font-weight: 400;
+    cursor: pointer;
+    &:hover{
+        filter: brightness(92%);
+    }
+}
+
+
+
+
+// here is the area of ui above is the dropdown
+
+.attackMentsUi {
+  background-color: transparent;
+  margin-top: 16px;
+  color: #172b4d;
+  border: none;
+  resize: none;
+  text-align: left;
+  font-weight: 500;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 14px;
+
+ 
+  color: #172b4d;
+}
+
+.attackMentsUiH3{
+    text-align: left;
+    margin: 0px 0px 8px;
+    width: 100%;
+    color: #172b4d;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.attackMentsUiContainer{
+    width: 100%;
+    height: auto;
+    display: flex
+;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.attackMentsUiContainerInside{
+    text-decoration: none;
+    list-style-type: none;
+    display: flex
+;
+    flex-direction: column;
+    row-gap: 8px;
+    cursor: grab;
+    height: 48px;
+    width: 100%;
+
+
+}
+
+.attackMentsUiContainerDiv{
+    display: flex
+;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 8px;
+    column-gap: 12px;
+}
+
+.attackMentsUiContainerDivInside{
+    display: flex
+;
+    align-items: center;
+    width: 100%;
+    padding-right: 8px;
+    column-gap: 12px;
+}
+
+.attackMentsUiContainerDivInsideA{
+        flex-shrink: 0;
+    width: 64px;
+    height: 48px;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
+    cursor: pointer;
+
+}
