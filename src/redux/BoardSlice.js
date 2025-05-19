@@ -34,6 +34,9 @@ export const syncBoardAsync = createAsyncThunk(
     try {
       // console.log(method, workId, args, "update happens here", workId)
       const data = await backendHandler({ method, args, workId })
+      if(method === TaskOps.POST) {
+        return
+      }
       // console.log('syncTaskAsync data', data);
       // combineBoardFromGet(data)
       // console.log('combineBoardFromGet data', combineBoardFromGet(data));
@@ -121,6 +124,8 @@ const boardSlice = createSlice({
         users: [],
       }
       state.boards.push(newBoard)
+
+      
 
       saveTolocal(BuildBoardFromState(state))
     },
@@ -270,26 +275,26 @@ const boardSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchBoardById.pending, (state) => {
-        state.state = "loading"
-      })
-      .addCase(fetchBoardById.fulfilled, (state, action) => {
-        const board = action.payload
-        state.state = "success"
-        state._id = board._id
-        state.boardTitle = board.boardTitle
-        state.slug = board.slug || ""
-        state.boardLabels = board.boardLabels || []
-        state.boardLists = board.boardLists || []
-        const existing = state.boards?.filter((b) => b._id !== board._id) || []
-        state.boards = [...existing, board]
-        state.boardMembers = board.boardMembers || []
-      })
-      .addCase(fetchBoardById.rejected, (state, action) => {
-        state.state = "failed"
-        console.log("fetchBoardById error:", action.payload)
-        state.error = action.payload
-      })
+      // .addCase(fetchBoardById.pending, (state) => {
+      //   state.state = "loading"
+      // })
+      // .addCase(fetchBoardById.fulfilled, (state, action) => {
+      //   const board = action.payload
+      //   state.state = "success"
+      //   state._id = board._id
+      //   state.boardTitle = board.boardTitle
+      //   state.slug = board.slug || ""
+      //   state.boardLabels = board.boardLabels || []
+      //   state.boardLists = board.boardLists || []
+      //   const existing = state.boards?.filter((b) => b._id !== board._id) || []
+      //   state.boards = [...existing, board]
+      //   state.boardMembers = board.boardMembers || []
+      // })
+      // .addCase(fetchBoardById.rejected, (state, action) => {
+      //   state.state = "failed"
+      //   console.log("fetchBoardById error:", action.payload)
+      //   state.error = action.payload
+      // })
       .addCase(syncBoardAsync.fulfilled, (state, action) => {
         // state.loading = false;
         const board = action.payload.board
@@ -303,27 +308,7 @@ const boardSlice = createSlice({
         state.boards = [...existing, board]
         state.boardMembers = board.boardMembers || []
         const { method, data } = action.payload
-        // console.log("syncBoardAsync", action.payload)
-        // switch (method) {
-        //   case TaskOps.FETCH:
-        //     state.selectedTask = data;
-        //     state.isOpen = true;
-        //     break;
-        //   case TaskOps.UPDATE:
-        //   case TaskOps.ADD:
-        //     state.selectedTask = {
-        //       ...state.selectedTask,
-        //       ...data,
-        //     };
-        //     break;
-        //   case TaskOps.DELETE:
-        //     if (state.selectedTask?._id === data._id) {
-        //       (state.selectedTask = null), (state.isOpen = false);
-        //     }
-        //     break;
-        //   default:
-        //     break;
-        // }
+        
       })
       .addCase(syncBoardAsync.rejected, (state, action) => {
         ;(state.loading = false),

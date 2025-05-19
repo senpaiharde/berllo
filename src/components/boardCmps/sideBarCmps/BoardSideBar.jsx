@@ -1,8 +1,9 @@
 import { IconButton } from "../../IconButton"
-import { addnewBoard, fetchWorkSpaces } from "../../../redux/WorkSpaceSlice"
+import { addnewBoard, syncWorkSpaceAsync } from "../../../redux/WorkSpaceSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams, useNavigate, Outlet } from "react-router-dom"
 import { useState,useEffect } from "react"
+import { TaskOps } from "../../../services/backendHandler"
 export function BoardSideBar({  chosenBoard }) {
   // console.log("board in BoardSideBar", board)
   const dispatch = useDispatch()
@@ -12,7 +13,14 @@ export function BoardSideBar({  chosenBoard }) {
 //   console.log("workSpace", workSpaceredux)
 //   console.log("workSpace.boards[0]", workSpaceredux.boards[0])
     useEffect(() => {
-      dispatch(fetchWorkSpaces())  
+      // dispatch(fetchWorkSpaces()) 
+      dispatch(syncWorkSpaceAsync({
+        method: TaskOps.FETCH,
+        args: {
+          body: { method: TaskOps.FETCH, workId: "board"},
+        },
+        workId: "board",
+      }))
   }, [])
   const [isCollapsed, setIsCollapsed] = useState(true)
   const sidebarWidth = isCollapsed ? "16px" : "260px"
@@ -39,10 +47,17 @@ export function BoardSideBar({  chosenBoard }) {
       }
 
   function createNewboard() {
-    dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
+    // dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
+    dispatch(syncWorkSpaceAsync({
+        method: TaskOps.ADD,
+        args: {
+          body: { method: TaskOps.ADD, workId: "board", boardTitle: `new board ${currentWorkSpace.boards?.length}` },
+        },
+        workId: "board",
+      }))
   }
   function SidebarChooseBoard({ board }) {
-    console.log("SidebarChooseBoard board", board)
+    // console.log("SidebarChooseBoard board", board)
     const chosenBoardClassName = board.id === chosenBoard ? "chosen-board" : ""
     const primaryColor ="#912c5d"
     return (

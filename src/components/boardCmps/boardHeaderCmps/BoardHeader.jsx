@@ -65,7 +65,6 @@ export function BoardHeader() {
   return (
     <div className="board-header-container">
       <span className="board-header">
-        <SvgIcon iconName={"next"}></SvgIcon>
         <span className="board-header-left">
           <div className="board-name-container header-clickable">
             <TextEditInput isEditing={isEditing} value={board.boardTitle} onChangeTextInput={onChangeTextInput}></TextEditInput>

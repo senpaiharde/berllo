@@ -6,7 +6,7 @@ import './styles/main.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {fetchWorkSpaces} from './redux/WorkSpaceSlice.js';
+// import {fetchWorkSpaces} from './redux/WorkSpaceSlice.js';
 import {Login} from './pages/Login';
 import {Home} from './pages/Home';
 import Workspace from './pages/WorkSpace';
@@ -20,19 +20,19 @@ function App() {
   
   
   
-useEffect(() => {
-    const loadInitialBoard = async () => {
-      const data = await getLocalData();
-      const firstBoard = data?.boards?.[0];
+// useEffect(() => {
+//     const loadInitialBoard = async () => {
+//       const data = await getLocalData();
+//       const firstBoard = data?.boards?.[0];
   
-      if (firstBoard) {
+//       if (firstBoard) {
        
-        // dispatch(fetchBoardById(firstBoard._id)); 
-      }
-    };
+//         // dispatch(fetchBoardById(firstBoard._id)); 
+//       }
+//     };
   
-    loadInitialBoard();
-  }, [dispatch]);
+//     loadInitialBoard();
+//   }, [dispatch]);
   // using *  telling that Workspace is responsible for all nested routes under /b/:boardId/:boardName/
   return (
     <BrowserRouter>
