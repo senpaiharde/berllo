@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 
 export function TaskPreviewActions({ task, parentPosition }) {
   const navigate = useNavigate()
-  console.log("TaskPreviewActions task", task)
+  // console.log("TaskPreviewActions task", task)
   const position = parentPosition
     ? {
         transform: `translate3d(${parentPosition.x}px, ${parentPosition.y}px, 0px)`,

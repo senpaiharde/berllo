@@ -12,10 +12,11 @@ import { openTaskDetails } from "../../../redux/taskDetailsSlice"
 import { useDispatch } from "react-redux"
 import { TaskPreviewLabels } from "./TaskPreviewLabels"
 import TaskDetailsMembers from "../taskDetailsCmp/TaskDetailsMembers"
+import { Draggable } from '@hello-pangea/dnd'
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
-export function TaskPreview({ task, boardId, NewTask, onAddedNewTask }) {
+export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
   // TaskPreview.propTypes = {
   //   Task: PropTypes.object.isRequired,
   // }
@@ -24,14 +25,12 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask }) {
 
   const [taskChecked, setTaskChecked] = useState(task.taskChecked)
 
-  // useEffect(() => {
-
-  // }, [taskChecked]);
+  useEffect(() => {
+    setTaskChecked(task.taskChecked)
+  }, [task]);
 
   const [isNewtask, setIsNewTask] = useState(NewTask)
-  if (task) {
-    // console.log("Task",task)
-  }
+  
 
   function onUpdateTask(value) {
     // console.log("onUpdateTask value", value)
@@ -124,18 +123,26 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask }) {
           itemType={"add task"}
         ></ItemNameForm>
       ) : (
-        <div
+        <Draggable draggableId={task._id} index={index}>
+        {(provided) =>(
+          <div
           style={{ display: "flex", flexGrow: 1, zIndex: 0 }}
           onClick={(e) => {
             if (!isNewtask) {
               console.log("🧠 Navigating to task:", task._id)
-              navigate(
-                `/b/${boardId}/board/${task._id}-${encodeURIComponent(
-                  task.taskTitle
-                )}`
-              )
+              // navigate(
+              //   `/b/${boardId}/board/${task._id}
+              //   -${encodeURIComponent(
+              //     task.taskTitle
+              //   )}`
+                
+              // )
+              navigate(`/b/${boardId}/board/${task._id}`);
             }
           }}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
         >
           <div className="task-front-cover"></div>
           <div className="task-preview-details">
@@ -244,6 +251,8 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask }) {
             </div>
           </div>
         </div>
+      )}
+        </Draggable>
       )}
     </div>
   )
