@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateTaskInBoard } from './BoardSlice';
 
 import backendHandler, { TaskOps } from '../services/backendHandler';
+import { tr } from 'framer-motion/client'
 
 export const syncTaskAsync = createAsyncThunk(
   'taskDetails/sync',
@@ -9,7 +10,7 @@ export const syncTaskAsync = createAsyncThunk(
     try {
       console.log(method, workId, args, 'update happens here', workId);
       const data = await backendHandler({ method, args, workId });
-
+      console.log('syncTaskAsync data', data);
       if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data));
       return { method, data };
     } catch (err) {
@@ -52,10 +53,14 @@ const taskDetailsSlice = createSlice({
     },
     updateSelectedTaskLive(state, action) {
       const payload = action.payload;
+      console.log('updateSelectedTaskLive', action.payload);
       if (!state.selectedTask) return;
 
       if (payload.isDueComplete) {
         state.selectedTask.isDueComplete = payload.isDueComplete;
+      }
+      if (payload.taskTitle) {
+        state.selectedTask.taskTitle = payload.taskTitle;
       }
       if (payload.reminder) {
         state.selectedTask.reminder = payload.reminder;
@@ -122,10 +127,14 @@ let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {
   const selectedTask = getState().taskDetailsReducer?.selectedTask;
   if (!selectedTask) return;
-
+  console.log('liveUpdateTask fields ', fields);
   /* 1 optimistic UI */
-  dispatch(updateSelectedTaskLive(fields));
-
+  if (fields.isOpen === true) {
+    console.log('updateSelectedTaskLive fields ', fields);
+    dispatch(updateSelectedTaskLive(fields));
+  }
+  if(fields.isOpen ===true)dispatch(updateTaskInBoard(fields));
+  
   clearTimeout(debounceId);
   /* 2 background sync */
   console.log(fields.method, fields.workId, fields, 'liveupdatetask');

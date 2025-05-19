@@ -34,7 +34,7 @@ export function TaskPreviewEditor({}) {
         width: `${previewEditorPosition.width}px`,
       }
     : { width: "0px" }
-  console.log("displayWidth", displayWidth)
+  // console.log("displayWidth", displayWidth)
   //   const task = previewEditorPositon ? useSelector((state) => state.taskDetailsReducer.selectedTask) : null;
   const task = useSelector((state) => state.taskDetailsReducer.selectedTask)
   const [inputValue, setInputValue] = useState("")
