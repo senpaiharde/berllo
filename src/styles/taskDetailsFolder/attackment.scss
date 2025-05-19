@@ -304,3 +304,28 @@ height: 28px;
     justify-content: space-between;
     width: 100%;
 }
+
+
+.UpdateAttchment{
+  margin: 8px 0 0;
+    padding: 6px 24px;
+    border: none;
+    box-shadow:none;
+    background-color: #0c66e4;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 500;
+    align-items: start;
+    height: 32px;
+    width: 100%;
+    &:hover{
+        border: none;
+    background-color: #0055cc;
+    box-shadow: none;
+    color:#ffffff;
+    text-decoration: none
+    }
+
+}

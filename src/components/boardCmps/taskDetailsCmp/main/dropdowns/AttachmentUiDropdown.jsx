@@ -1,102 +1,147 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-const AttachmentUiDropdown = ({ trigger, onClose, onDelete,onDownload,onEdit, onComment,onMakeCover }) => {
+import { SvgServices } from '../../../../../services/svgServices';
+import { useSelector } from 'react-redux';
+
+export default function AttachmentUiDropdown({
+  trigger,
+  onDelete,
+  onDownload,
+  onEdit,
+  onComment,
+  onMakeCover,
+  onClose,
+  value,
+}) {
+ 
   const [open, setOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const [editName, setEditName] = useState(value);
 
-  // Calculate position of the trigger
-  const updatePosition = () => {
-    const rect = triggerRef.current?.getBoundingClientRect();
-    if (rect) {
-      setPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
-    }
-  };
+  useEffect(() => setEditName(value), [value]);
 
   useEffect(() => {
-    if (open) {
-      updatePosition();
+    if (open && triggerRef.current) {
+      const r = triggerRef.current.getBoundingClientRect();
+      setPos({ top: r.bottom + window.scrollY, left: r.left + window.scrollX });
     }
   }, [open]);
 
   useEffect(() => {
-    const handleOutsideClick = (e) => {
+    const handler = (e) => {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(e.target) &&
+        triggerRef.current &&
         !triggerRef.current.contains(e.target)
       ) {
-        setOpen(false);
-        onClose?.();
+        closeAll();
       }
     };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const dropdownContent = open ? (
-    <div
-      className="dropdownContentAttachment"
-      ref={dropdownRef}
-      style={{
-        top: position.top,
-        left: position.left,
-      }}>
-      {/* Options */}
-      <div className="dropdownContentAttachmentDivButton"
-       >
-            <button style={{paddingBottom:'6px'}}
-          className="dropdownContentAttachmentButtons"
-          onClick={() => {
-           
-            setOpen(false);
-            onEdit();
-          }}>
-          Edit
-        </button>
-        <button
-          className="dropdownContentAttachmentButtons"
-          onClick={() => {
-           
-            setOpen(false);
-            onComment();
-          }}>
-          Comment
-        </button>
-        <button
-          className="dropdownContentAttachmentButtons"
-          onClick={() => {
-            onDownload();
-            setOpen(false);
-          }}>
-          Download
-        </button>
-        <button
-          className="dropdownContentAttachmentButtons"
-          onClick={() => {
-            onMakeCover();
-            setOpen(false);
-          }}>
-          Make Cover
-        </button>
-         <button
-          className="dropdownContentAttachmentButtons"
-          onClick={() => {
-            onDelete?.();
-            setOpen(false);
-          }}>
-          Delete
-        </button>
-        
-      </div>
+  const closeAll = () => {
+    setOpen(false);
+    setIsEditing(false);
+    onClose?.();
+  };
+
+  const dropdownContent = (open || isEditing) && (
+    <div>
+      {isEditing ? (
+        <div
+          className="dropDownContent"
+          ref={dropdownRef}
+          style={{ position: 'absolute', top: pos.top, left: pos.left, zIndex: 1000 }}>
+          <div className="DropdownUi">
+            <div className="DropdownUiHeader">
+              <h2 className="DropdownHeaderH2">Edit attachment</h2>
+              <button className="DropdownClose" onClick={closeAll}>
+                <SvgServices name="SvgClose" />
+              </button>
+            </div>
+
+            <div style={{ gap: '0px' }} className="DropdownOptions">
+              <div className="DropdownMembers">
+                <h3 className="DropdownMembersh3">File name</h3>
+              </div>
+              <input
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                className="AddchecklistDrop"
+                style={{ padding: '5px' }}
+              />
+              <div className="workFlowCard">
+                <div className="BoardReminderWrapper"></div>
+              </div>
+
+              <button
+                onClick={() => {
+                  onEdit(editName);
+                  closeAll();
+                }}
+                className="UpdateAttchment">
+                update
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div
+          className="dropdownContentAttachment"
+          ref={dropdownRef}
+          style={{ position: 'absolute', top: pos.top, left: pos.left, zIndex: 1000 }}>
+          <div className="dropdownContentAttachmentDivButton">
+            <button
+              className="dropdownContentAttachmentButtons"
+              onClick={() => {
+                setIsEditing(true);
+              }}>
+              Edit
+            </button>
+            <button
+              className="dropdownContentAttachmentButtons"
+              onClick={() => {
+                onComment();
+                closeAll();
+              }}>
+              Comment
+            </button>
+            <button
+              className="dropdownContentAttachmentButtons"
+              onClick={() => {
+                onDownload();
+                closeAll();
+              }}>
+              Download
+            </button>
+            <button
+              className="dropdownContentAttachmentButtons"
+              onClick={() => {
+                onMakeCover();
+                closeAll();
+              }}>
+              Make Cover
+            </button>
+            <button
+              className="dropdownContentAttachmentButtons"
+              onClick={() => {
+                onDelete();
+                closeAll();
+              }}>
+              Delete
+            </button>
+          </div>
+        </div>
+      )}
     </div>
-  ) : null;
+  );
 
   return (
     <>
@@ -104,7 +149,9 @@ const AttachmentUiDropdown = ({ trigger, onClose, onDelete,onDownload,onEdit, on
         ref={triggerRef}
         onClick={(e) => {
           e.stopPropagation();
-          setOpen((prev) => !prev);
+
+          setOpen((o) => !o);
+          setIsEditing(false);
         }}
         style={{ display: 'inline-block' }}>
         {trigger}
@@ -112,6 +159,4 @@ const AttachmentUiDropdown = ({ trigger, onClose, onDelete,onDownload,onEdit, on
       {ReactDOM.createPortal(dropdownContent, document.getElementById('dropdown-root'))}
     </>
   );
-};
-
-export default AttachmentUiDropdown;
+}

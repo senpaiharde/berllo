@@ -7,6 +7,9 @@ import { SvgServices } from '../../../../services/svgServices';
 
 import AttachmentUiDropdown from './dropdowns/AttachmentUiDropdown';
 import { TaskOps } from '../../../../services/backendHandler';
+import Cover from './sidebar/cover';
+import DropdownUi from './sidebar/dropdownHardcoded/DropdownUi';
+import Attachment from './sidebar/Attachment';
 
 export default function AttachmentUi() {
   const dispatch = useDispatch();
@@ -22,9 +25,19 @@ export default function AttachmentUi() {
     );
   };
 
-  const updateAttachments = (updatedAttachments) => {
+  const updateText = (newName, changingId) => {
+    const updated = task.attachments.map((att) =>
+      att._id === changingId
+        ? { ...att, name: newName } 
+        : att
+    );
+
     dispatch(
-      liveUpdateTask({ method: TaskOps.UPDATE, workId: 'tasks', attachments: updatedAttachments })
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        attachments: updated,
+      })
     );
   };
   const handleDelete = (templeId) => {
@@ -68,7 +81,9 @@ export default function AttachmentUi() {
         </div>
         <div className="td-section-attachment-containerDiv">
           <div className="td-section-header-attackment">Attachments</div>
-          <button className="attackMentsUiEdit">Add</button>
+          <DropdownUi trigger={<button className="attackMentsUiEdit">Add</button>}>
+            {(props) => <Attachment {...props} />}
+          </DropdownUi>
         </div>
       </div>
 
@@ -122,6 +137,8 @@ export default function AttachmentUi() {
                       link.download = template.name;
                       link.click();
                     }}
+                    onEdit={newName => updateText(newName, template._id)}
+                    value={template.name}
                     onMakeCover={() => handleMakeCover(template.url)}
                     onDelete={() => handleDelete(template._id)}
                   />
