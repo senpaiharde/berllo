@@ -93,8 +93,6 @@ const taskDetailsSlice = createSlice({
               taskDueDate: data.taskDueDate ?? data.dueDate ?? null,
               reminder: data.reminder ?? null,
               isDueComplete: data.isDueComplete ?? false,
-              
-              
             };
             state.isOpen = true;
             break;
@@ -127,6 +125,7 @@ let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {
   const selectedTask = getState().taskDetailsReducer?.selectedTask;
   if (!selectedTask) return;
+<<<<<<< Updated upstream
   console.log('liveUpdateTask fields ', fields);
   /* 1 optimistic UI */
   if (fields.isOpen === true) {
@@ -135,6 +134,12 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
   }
   if(fields.isOpen ===true)dispatch(updateTaskInBoard(fields));
   
+=======
+
+  if (fields.isOpen === true) {
+    dispatch(updateSelectedTaskLive(fields));
+  }
+>>>>>>> Stashed changes
   clearTimeout(debounceId);
   /* 2 background sync */
   console.log(fields.method, fields.workId, fields, 'liveupdatetask');

@@ -158,7 +158,7 @@ const TaskDetails = () => {
               />
             </div>
 
-            <textarea
+            <input
               className="td-title-input"
               value={task?.title || ''}
               onChange={handleTitleChange}
