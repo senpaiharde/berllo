@@ -24,9 +24,10 @@
   height: 100%;
 }
 
-// === Main Container Box ===
+
 .td-container {
-  padding: 0 0 40px; // only bottom padding
+     border-Radius:5px;
+  padding: 0 0 40px; 
   width: 768px;
   background-color: #f7f8f9;
   border-radius: 12px;
@@ -38,9 +39,10 @@
   margin-left: -8px;
 }
 
-// only when there's a cover → push down by 116px
+
 .td-container.has-cover {
-  padding: 116px 0 40px; // top padding = cover height
+  padding: 0px 0 0px; 
+  border-Radius:5px;
 }
 
 .td-header {
