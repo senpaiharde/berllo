@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateTaskInBoard } from './BoardSlice';
 
 import backendHandler, { TaskOps } from '../services/backendHandler';
-import { tr } from 'framer-motion/client'
+import { tr } from 'framer-motion/client';
 
 export const syncTaskAsync = createAsyncThunk(
   'taskDetails/sync',
@@ -125,21 +125,15 @@ let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {
   const selectedTask = getState().taskDetailsReducer?.selectedTask;
   if (!selectedTask) return;
-<<<<<<< Updated upstream
+
   console.log('liveUpdateTask fields ', fields);
   /* 1 optimistic UI */
   if (fields.isOpen === true) {
     console.log('updateSelectedTaskLive fields ', fields);
     dispatch(updateSelectedTaskLive(fields));
   }
-  if(fields.isOpen ===true)dispatch(updateTaskInBoard(fields));
-  
-=======
+  if (fields.isOpen === true) dispatch(updateTaskInBoard(fields));
 
-  if (fields.isOpen === true) {
-    dispatch(updateSelectedTaskLive(fields));
-  }
->>>>>>> Stashed changes
   clearTimeout(debounceId);
   /* 2 background sync */
   console.log(fields.method, fields.workId, fields, 'liveupdatetask');

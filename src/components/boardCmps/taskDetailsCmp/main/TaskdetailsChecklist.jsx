@@ -93,7 +93,9 @@ const TaskChecklist = () => {
   };
 
   return (
-    <div className="MainChecklist">
+    <div 
+   
+    className="MainChecklist">
       {selectedTask.checklist.map((group) => {
         const gKey = getGroupKey(group);
         const items = Array.isArray(group.items) ? group.items : [];
@@ -103,7 +105,7 @@ const TaskChecklist = () => {
         const visible = hideChecked ? items.filter((i) => !i.done) : items;
 
         return (
-          <section key={gKey}>
+          <section key={gKey} style={{paddingTop:'20px'}}>
             <div className="MainChecklistHeader">
               <div className="MainChecklistHeaderText">
                 <div className="MainChecklistHeaderLeft">

@@ -29,33 +29,47 @@ export default function AttachmentUi() {
   };
   const handleDelete = (templeId) => {
     const updated = (task.attachments || []).filter((a) => a._id !== templeId);
-    console.log(updated, 'delete')
+    console.log(updated, 'delete');
     dispatch(
       liveUpdateTask({
-        method: 'UPDATE',
+        method: 'update',
         workId: 'tasks',
         attachments: updated,
       })
     );
   };
 
-  const handleMakeCover = (url) => {
+  const handleMakeCover = (coverImg) => {
+    console.log(coverImg, 'cover send');
     dispatch(
       liveUpdateTask({
-        method: 'UPDATE',
+        method: 'update',
         workId: 'tasks',
-        cover: { coverType: 'image', coverImg: url },
+        cover: { coverType: 'image', coverImg: coverImg, coverColor: '' },
+      })
+    );
+  };
+  const handleDeleteCover = () => {
+    if (!task) return;
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        cover: null,
       })
     );
   };
   return (
     <section className="td-section-description-main">
-      <div className="td-section-description-container">
-        <div className="SvgLeft">
+      <div className="td-section-attachment-container">
+        <div className="SvgLefSvg">
           {' '}
           <SvgServices name="taskDetailsSvgLeft" />
         </div>
-        <div className="td-section-header-description">Attachments</div>
+        <div className="td-section-attachment-containerDiv">
+          <div className="td-section-header-attackment">Attachments</div>
+          <button className="attackMentsUiEdit">Add</button>
+        </div>
       </div>
 
       <div className="attackMentsUi">
@@ -103,14 +117,13 @@ export default function AttachmentUi() {
                       </div>
                     }
                     onDownload={() => {
-                     
                       const link = document.createElement('a');
                       link.href = template.url;
                       link.download = template.name;
                       link.click();
                     }}
-                      onMakeCover={() => handleMakeCover(template.url)}
-                           onDelete={() => handleDelete(template._id)}
+                    onMakeCover={() => handleMakeCover(template.url)}
+                    onDelete={() => handleDelete(template._id)}
                   />
                 </div>
               </div>
