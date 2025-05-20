@@ -57,7 +57,8 @@ const Workspace = () => {
   // }, [boardId, navigate])
 
   // if (!board || !board._id)
-  if (false) {
+  
+  if (!board) {
     return <div>Loading...</div>
   } else {
     return (

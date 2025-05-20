@@ -96,7 +96,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
 
       {!isNewTaskList && (
         <div>
-          <Droppable droppableId={boardList._id} type="task">
+          <Droppable droppableId={boardList._id} type="taskList">
             {(provided) => (
               <ol
                 className="scrollable-task-list"

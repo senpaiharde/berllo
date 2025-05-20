@@ -29,25 +29,14 @@ export const fetchBoardById = createAsyncThunk(
 )
 
 export const syncBoardAsync = createAsyncThunk(
-  "board/sync",
+  "board/syncBoardAsync",
   async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
     try {
       // console.log(method, workId, args, "update happens here", workId)
       const data = await backendHandler({ method, args, workId })
-      if(method === TaskOps.POST) {
+      if (method === TaskOps.POST) {
         return
       }
-      // console.log('syncTaskAsync data', data);
-      // combineBoardFromGet(data)
-      // console.log('combineBoardFromGet data', combineBoardFromGet(data));
-      // const {board, lists, tasks} = data
-      // console.log(
-      //   "syncBoardAsync",
-      //   data.board,
-      //   data.lists,
-      //   transformTasksFromBackend(data.tasks)
-      // )
-      // console.log(
       //   "backendDataConverionToState ",
       //   transformBoardFromBackend(data.board),
       //   transformListsFromBackend(data.lists),
@@ -67,6 +56,23 @@ export const syncBoardAsync = createAsyncThunk(
     }
   }
 )
+
+// export const syncListAsync = createAsyncThunk(
+//   "board/syncListAsync",
+//   async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
+//     try {
+//       // console.log(method, workId, args, "update happens here", workId)
+//       const data = await backendHandler({ method, args, workId })
+
+//       // console.log("combineBoardFromGet", board)
+//       if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data))
+//       return { method, board }
+//     } catch (err) {
+//       console.log("syncTaskAsync error", err)
+//       return rejectWithValue(err.response?.data?.error || `${method} failed`)
+//     }
+//   }
+// )
 
 function combineBoardFromGet({ board, lists, tasks }) {
   const listIdToTasksMap = new Map()
@@ -125,8 +131,6 @@ const boardSlice = createSlice({
       }
       state.boards.push(newBoard)
 
-      
-
       saveTolocal(BuildBoardFromState(state))
     },
     removeboard: (state, action) => {
@@ -140,24 +144,12 @@ const boardSlice = createSlice({
       saveTolocal(BuildBoardFromState(state))
     },
     updateboardTitle: (state, action) => {
+      debugger
       state.boardTitle = action.payload
 
       saveTolocal(BuildBoardFromState(state))
     },
-    updateBoardListOrder: (state, action) => {
-      console.log(
-        "updateBoardListOrder sourceIndex",
-        action.payload.sourceIndex,
-        "destinationIndex",
-        action.payload.destinationIndex
-      )
-      const newBoardLists = Array.from(state.boardLists)
-      console.log("updateBoardListOrder newBoardLists", newBoardLists)
-      const [movedList] = newBoardLists.splice(action.payload.sourceIndex, 1)
-      newBoardLists.splice(action.payload.destinationIndex, 0, movedList)
-      state.boardLists = newBoardLists
-      // saveTolocal(BuildBoardFromState(state))
-    },
+
     addBoardList: (state, action) => {
       const newList = {
         _id: nanoid(),
@@ -169,6 +161,59 @@ const boardSlice = createSlice({
       }
       state.boardLists.push(newList)
       saveTolocal(BuildBoardFromState(state))
+    },
+    updateBoardListOrder: (state, action) => {
+      const { draggableId, destination, source } = action.payload
+      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
+      console.log("updateBoardListOrder source",source ,"destination ",destination)
+      // const sourceIndex = state.boardLists.findIndex(
+      //   (list) => list._id === draggableId)
+      // console.log("updateBoardListOrder draggableId sourceIndex", sourceIndex)
+      // Remove the item from sourceIndex and store it
+      const {index} = source
+      console.log("updateBoardListOrder source.index", source.index)
+      console.log("updateBoardListOrder source.Index", index)
+      const [movedList] = state.boardLists.splice(index, 1)
+      console.log("updateBoardListOrder movedList", JSON.stringify(movedList._id))
+      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
+      // Insert the item at destinationIndex
+      console.log("updateBoardListOrder destination.index", destination.index)
+      state.boardLists.splice(destination.index, 0, movedList)
+      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
+    },
+    updateTasklistOrder: (state, action) => {
+      console.log("updateTasklistOrder")
+      console.log("updateTasklistOrder action.payload", action)
+      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
+      const { draggableId, destination, source } = action.payload
+       console.log(
+          "updateTasklistOrder destination, source",
+          destination,
+          source
+        )
+      //find the list index of the source of the task
+        let boardListIndex = state.boardLists.findIndex(
+          (list) => list._id === source.droppableId
+        )
+        //Remove the task from sourceIndex and store it
+        const [movedTask] = state.boardLists[boardListIndex].taskList.splice(
+          source.Index,
+          1
+        )
+        console.log("updateTasklistOrder movedList", JSON.stringify(movedTask._id))
+      if (destination.droppableId !== source.droppableId) {
+        // find the list index of the destination of the task if its a different list
+        boardListIndex = state.boardLists.findIndex(
+          (list) => list._id === destination.droppableId
+        )
+      } 
+      state.boardLists[boardListIndex].taskList.splice(
+          destination.index,
+          0,
+          movedTask
+        )
+
+      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
     },
     updateBoardlist: (state, action) => {
       const updatedList = action.payload
@@ -182,6 +227,7 @@ const boardSlice = createSlice({
       }
       // saveTolocal(BuildBoardFromState(state))
     },
+
     updateBoardLabels: (state, action) => {
       state.boardLabels = action.payload
       saveTolocal(BuildBoardFromState(state))
@@ -224,7 +270,6 @@ const boardSlice = createSlice({
       saveTolocal(BuildBoardFromState(state))
     },
     updateTaskInBoard: (state, action) => {
-      
       const updatedTask = action.payload
       console.log("updateTaskInBoard", updatedTask)
       const convertedUpdatedTask = transformTaskFromBackend(updatedTask)
@@ -250,7 +295,8 @@ const boardSlice = createSlice({
       // const test = state
       // console.log("state",test)
       // console.log("found old task",state.boardLists[boardListsIndex].taskList[taskIndex])
-      state.boardLists[boardListsIndex].taskList[taskIndex] = convertedUpdatedTask
+      state.boardLists[boardListsIndex].taskList[taskIndex] =
+        convertedUpdatedTask
 
       // for (let list of state.boardLists) {
       //   const taskIndex = list.taskList.findIndex(
@@ -308,7 +354,6 @@ const boardSlice = createSlice({
         state.boards = [...existing, board]
         state.boardMembers = board.boardMembers || []
         const { method, data } = action.payload
-        
       })
       .addCase(syncBoardAsync.rejected, (state, action) => {
         ;(state.loading = false),
@@ -331,5 +376,6 @@ export const {
   updateBoardLabels,
   updatePreviewEditorPositon,
   updateBoardListOrder,
+  updateTasklistOrder,
 } = boardSlice.actions
 export default boardSlice.reducer
