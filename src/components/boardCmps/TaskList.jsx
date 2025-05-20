@@ -12,8 +12,10 @@ import {
   updateBoardlist,
   removeBoardListFromBoard,
   updateTaskInBoard,
+  syncBoardAsync
 } from "../../redux/BoardSlice.js"
 import { ItemNameForm } from "./addItemCard/ItemNameForm.jsx"
+import { TaskOps } from "../../services/backendHandler.js"
 export function TaskList({ boardList, newTaskList, onAddedNewList }) {
   //console.log("boardList received by TaskList:", boardList);
   // TaskList.propTypes = {
@@ -34,6 +36,22 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
       setTaskListTitle(value)
       // boardList.taskListTitle = value
       dispatch(updateBoardlist({ ...boardList, taskListTitle: value }))
+      dispatch(
+        syncBoardAsync({
+          method: TaskOps.ADD,
+          args: {
+            body: {
+              method: TaskOps.ADD,
+              workId: "list",
+              taskListBoard: boardList.taskListBoard,
+              taskListTitle: value,
+              indexInBoard: boardList.indexInBoard + 1,
+            },
+          },
+
+          workId: "list",
+        })
+      )
       onAddedNewList()
       // console.log("TaskList boardid", boardList)
     }

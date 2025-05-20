@@ -7,12 +7,14 @@ import {
   removeTaskFromBoard,
   updateTaskInBoard,
   updatePreviewEditorPositon,
+  
 } from "../../../redux/BoardSlice"
-import { openTaskDetails } from "../../../redux/taskDetailsSlice"
+import { openTaskDetails, syncTaskAsync } from "../../../redux/taskDetailsSlice"
 import { useDispatch } from "react-redux"
 import { TaskPreviewLabels } from "./TaskPreviewLabels"
 import TaskDetailsMembers from "../taskDetailsCmp/TaskDetailsMembers"
 import { Draggable } from '@hello-pangea/dnd'
+import { TaskOps } from "../../../services/backendHandler"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
@@ -38,6 +40,22 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
       dispatch(updateTaskInBoard({ ...task, taskChecked: value }))
     } else {
       dispatch(updateTaskInBoard({ ...task, taskTitle: value }))
+      dispatch(
+              syncTaskAsync({
+                method: TaskOps.ADD,
+                args: {
+                  body: {
+                    method: TaskOps.ADD,
+                    workId: "tasks",
+                    board: task.taskboard,
+                    title: value,
+                    listId : task.taskList,
+                  },
+                },
+      
+                workId: "tasks",
+              })
+            )
       onAddedNewTask()
     }
   }

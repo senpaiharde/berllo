@@ -14,7 +14,7 @@ export function ItemNameForm({
 }) {
   const [inputValue, setInputValue] = useState()
   function exitEditing(value) {
-    console.log("exitEditing(value)", value)
+    // console.log("exitEditing(value)", value)
     if (value && value != "") {
       onAddItem(value)
       setIsEditing(false)

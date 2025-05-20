@@ -7,8 +7,9 @@ const api = axios.create({ baseURL });
 
 const backendHandler = async ({ args }) => {
   const { taskId, body } = args || {};
-
-  console.log('backendHandler', body.method, body.workId, taskId);
+  console.log('backendHandler',args);
+  console.log('backendHandler body',body);
+  // console.log('backendHandler', body.method, body.workId, taskId);
   // console.log(`/${body.workId}/${body.method}`);
   let data;
   if (body.method === 'update') {
@@ -29,7 +30,7 @@ const backendHandler = async ({ args }) => {
       break;
     }
     case 'add': {
-      console.log(`backendHandler post body.boardTitle: ${body.boardTitle}`);
+      console.log(`backendHandler post body : ${body}`);
       ({ data } = await api.post(`/${body.workId}/`, body));
       break;
     }

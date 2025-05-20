@@ -11,6 +11,7 @@ export const syncTaskAsync = createAsyncThunk(
       console.log(method, workId, args, 'update happens here', workId);
       const data = await backendHandler({ method, args, workId });
       console.log('syncTaskAsync data', data);
+      if (method === TaskOps.ADD) return
       if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data));
       return { method, data };
     } catch (err) {

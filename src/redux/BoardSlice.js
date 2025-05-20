@@ -32,9 +32,10 @@ export const syncBoardAsync = createAsyncThunk(
   "board/syncBoardAsync",
   async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
     try {
-      // console.log(method, workId, args, "update happens here", workId)
+      console.log(method, workId, args, "update happens here", workId)
       const data = await backendHandler({ method, args, workId })
-      if (method === TaskOps.POST) {
+      console.log("syncBoardAsync method", method)
+      if (method === TaskOps.ADD || method === TaskOps.UPDATE) {
         return
       }
       //   "backendDataConverionToState ",
@@ -48,10 +49,10 @@ export const syncBoardAsync = createAsyncThunk(
         tasks: transformTasksFromBackend(data.tasks),
       })
       // console.log("combineBoardFromGet", board)
-      if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data))
+      // if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data))
       return { method, board }
     } catch (err) {
-      console.log("syncTaskAsync error", err)
+      console.log("syncBoardAsync error", err)
       return rejectWithValue(err.response?.data?.error || `${method} failed`)
     }
   }
@@ -270,23 +271,26 @@ const boardSlice = createSlice({
       saveTolocal(BuildBoardFromState(state))
     },
     updateTaskInBoard: (state, action) => {
-      const updatedTask = action.payload
+      let updatedTask = action.payload
       console.log("updateTaskInBoard", updatedTask)
-      const convertedUpdatedTask = transformTaskFromBackend(updatedTask)
+      if (updatedTask.title) {
+        updatedTask = transformTaskFromBackend(updatedTask)
+      }
+      
       console.log(
         "updateTaskInBoard transformTaskFromBackend",
-        convertedUpdatedTask
+        updatedTask
       )
 
       const boardListsIndex = state.boardLists.findIndex(
-        (list) => list._id === convertedUpdatedTask.taskList
+        (list) => list._id === updatedTask.taskList
       )
       // console.log("updateTaskInBoard boardListsIndex", boardListsIndex)
       if (boardListsIndex === -1) {
         return
       }
       const taskIndex = state.boardLists[boardListsIndex].taskList.findIndex(
-        (task) => task._id === convertedUpdatedTask._id
+        (task) => task._id === updatedTask._id
       )
       // console.log("updateTaskInBoard taskIndex", taskIndex)
       if (taskIndex === -1) {
@@ -296,7 +300,7 @@ const boardSlice = createSlice({
       // console.log("state",test)
       // console.log("found old task",state.boardLists[boardListsIndex].taskList[taskIndex])
       state.boardLists[boardListsIndex].taskList[taskIndex] =
-        convertedUpdatedTask
+        updatedTask
 
       // for (let list of state.boardLists) {
       //   const taskIndex = list.taskList.findIndex(
