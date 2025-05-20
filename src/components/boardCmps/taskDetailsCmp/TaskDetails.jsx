@@ -20,7 +20,6 @@ import TaskDescription from './main/TaskDetailsDescription';
 import TaskChecklist from './main/TaskdetailsChecklist';
 import TaskdetailsBackLog from './main/TaskdetailsBackLog';
 
-
 import DropdownUi from './main/sidebar/dropdownHardcoded/DropdownUi';
 import Cover from './main/sidebar/cover';
 import CoverHeader from '../../../assets/svgDesgin/SvgDate/Coverheader';
@@ -37,31 +36,24 @@ const TaskDetails = () => {
   const board = useSelector((s) => s.boardReducer);
   const boardLists = board.boardLists || [];
   const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
-  const [isCoverOpen, setIsCoverOpen] = useState(null);
-  // ① find the local JSON task
+
   const localTask = boardLists
     .flatMap((list) => list.taskList || [])
     .find((t) => t._id === pureTaskId);
 
-  // ── ONLY THIS useEffect IS NEW ───────────────────────────
   useEffect(() => {
-    // a) ensure boardLists exist
     if (boardLists.length === 0 && boardId) {
       dispatch(fetchBoardById(boardId));
-      return; // wait for lists
+      return;
     }
 
-    // b) open the drawer with the local‐JSON task
     if (localTask && (!selectedTask || selectedTask._id !== localTask._id)) {
       dispatch(openTaskDetails(localTask));
 
-      // c) then fetch the real details from the API
       dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId: 'tasks' }));
     }
   }, [boardLists, localTask, selectedTask, boardId, dispatch, pureTaskId]);
-  // ───────────────────────────────────────────────────────────
 
-  // rest of your effects & render exactly as before
   useEffect(() => {
     const hanldeEsc = (e) => {
       if (e.key === 'Escape') handleClose();
@@ -88,39 +80,36 @@ const TaskDetails = () => {
     navigate(`/b/${board._id}/${slug}`);
   }
   const workId = 'tasks';
-
-  const handleTitleChange = (e) => {
-    const method = TaskOps.UPDATE;
-    console.log('handleTitleChange', e.target.value);
-    dispatch(liveUpdateTask({ taskTitle: e.target.value, workId, method }));
+  const method = 'update';
+  const handleTitleChange = (update) => {
+    console.log('handleTitleChange', update);
+    dispatch(liveUpdateTask({ title: update, workId, method }));
   };
   const cover = selectedTask.cover;
+
+
+
+  
   return (
     <div className="td-modal">
-        
       <div className={`td-container${cover ? ' has-cover' : ''}`}>
-        
-
         {cover && (
           <div
-            className="td-cover"
+            className={
+              cover.coverType === 'image' ? 'td-cover td-cover--image' : 'td-cover td-cover--color'
+            }
             style={{
-              background:
-                cover.coverType === 'image'
-                  ? `url(${cover.coverImg}) center/cover`
-                  : cover.coverColor,
+              backgroundImage: cover.coverType === 'image' ? `url(${cover.coverImg})` : undefined,
+              backgroundColor: cover.coverType === 'color' ? cover.coverColor : undefined,
             }}>
             <button
-              style={{
-                background:
-                  cover.coverType === 'image'
-                    ? `url(${cover.coverImg}) center/cover`
-                    : cover.coverColor,
-              }}
               className="td-cover-close"
+              style={{
+                opacity: cover.coverType === 'image' ? '1' : '0.6',
+                backgroundColor: cover.coverType === 'color' ? cover.coverColor : '#f7f8f9',
+              }}
               onClick={handleClose}>
-                
-             <SvgServices name='SvgcloseTop'/>
+              <SvgServices name="SvgcloseTop" />
             </button>
 
             <DropdownUi
@@ -128,10 +117,8 @@ const TaskDetails = () => {
                 <button
                   className="td-cover-open"
                   style={{
-                    background:
-                      cover.coverType === 'image'
-                        ? `url(${cover.coverImg}) center/cover`
-                        : cover.coverColor,
+                    opacity: cover.coverType === 'image' ? '1' : '0.6',
+                    backgroundColor: cover.coverType === 'color' ? cover.coverColor : '#f7f8f9',
                   }}>
                   <span className="CoverHeaderIcon">
                     <CoverHeader />
@@ -143,7 +130,7 @@ const TaskDetails = () => {
             </DropdownUi>
           </div>
         )}
-        
+
         <div className="td-header">
           <div className="td-header-left">
             <div className="td-checkbox-div">
@@ -161,13 +148,13 @@ const TaskDetails = () => {
             <textarea
               className="td-title-input"
               value={task?.title || ''}
-              onChange={handleTitleChange}
+              onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="Enter task title"
             />
           </div>
           {!cover && (
             <button className="td-cover-close-modal" onClick={handleClose}>
-               <SvgServices name='SvgcloseTop'/>
+              <SvgServices name="SvgcloseTop" />
             </button>
           )}
         </div>
@@ -185,7 +172,7 @@ const TaskDetails = () => {
 
             <TaskDescription />
             <div style={{ marginTop: '-42px' }} />
-            {task?.attachments?.length > 0 && <AttachmentUi/>}
+            {task?.attachments?.length > 0 && <AttachmentUi />}
             {task?.checklist?.length > 0 && <TaskChecklist />}
             <TaskDetailsActivity />
           </div>

@@ -3,7 +3,7 @@ import taskReducer from "./taskSlice";
 import workSpaceReducer from './WorkSpaceSlice';
 import taskListReducer from './TaskListSlice';
 import boardReducer from './BoardSlice';
-import taskDetailsReducer from './taskDetailsSlice'; 
+import taskDetailsReducer from './TaskDetailsSlice'; 
 
 
 export const Store = configureStore({
