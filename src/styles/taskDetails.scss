@@ -66,14 +66,15 @@
   width: 40px;
   height: 24px;
   padding-left: 13px;
-  margin-bottom: 10px;
+  
 
-  border-radius: 50%;
+  
 
   flex-shrink: 0;
   cursor: pointer;
 
   .td-checkbox {
+    
     width: 16px;
     height: 16px;
     margin-top: 5px;
@@ -367,7 +368,8 @@ td-sidebar-h4 {
 [data-tooltip] {
   position: relative; /* establish positioning context */
   cursor: pointer;
-  background-color: #172b4d;
+  //color: #42526e;
+  background-color: #42526e;
 }
 
 /* Hover highlight */
