@@ -76,7 +76,7 @@ export function TaskInfoBadges({ task }) {
         </span>
       )}
 
-      {task.taskActivityComments && (
+      {task.taskActivityComments?.length > 0 && (
         <span style={{ display: "flex", alignItems: "center" }}>
           <IconButton 
           // label={task.taskActivityComments.length}

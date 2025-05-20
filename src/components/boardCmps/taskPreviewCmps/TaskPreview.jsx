@@ -7,13 +7,16 @@ import {
   removeTaskFromBoard,
   updateTaskInBoard,
   updatePreviewEditorPositon,
-  
 } from "../../../redux/BoardSlice"
-import { openTaskDetails, syncTaskAsync } from "../../../redux/taskDetailsSlice"
+import {
+  openTaskDetails,
+  syncTaskAsync,
+  liveUpdateTask,
+} from "../../../redux/taskDetailsSlice"
 import { useDispatch } from "react-redux"
 import { TaskPreviewLabels } from "./TaskPreviewLabels"
 import TaskDetailsMembers from "../taskDetailsCmp/TaskDetailsMembers"
-import { Draggable } from '@hello-pangea/dnd'
+import { Draggable } from "@hello-pangea/dnd"
 import { TaskOps } from "../../../services/backendHandler"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
@@ -29,33 +32,43 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
 
   useEffect(() => {
     setTaskChecked(task.taskChecked)
-  }, [task]);
+  }, [task])
 
   const [isNewtask, setIsNewTask] = useState(NewTask)
-  
 
   function onUpdateTask(value) {
     // console.log("onUpdateTask value", value)
     if (value === true || value === false) {
       dispatch(updateTaskInBoard({ ...task, taskChecked: value }))
+      dispatch(openTaskDetails(task))
+
+      // c) then fetch the real details from the API
+      dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId: "tasks" }))
+      dispatch(
+        liveUpdateTask({
+          isDueComplete: value,
+          workId: "tasks",
+          method: TaskOps.UPDATE,
+        })
+      )
     } else {
       dispatch(updateTaskInBoard({ ...task, taskTitle: value }))
       dispatch(
-              syncTaskAsync({
-                method: TaskOps.ADD,
-                args: {
-                  body: {
-                    method: TaskOps.ADD,
-                    workId: "tasks",
-                    board: task.taskboard,
-                    title: value,
-                    listId : task.taskList,
-                  },
-                },
-      
-                workId: "tasks",
-              })
-            )
+        syncTaskAsync({
+          method: TaskOps.ADD,
+          args: {
+            body: {
+              method: TaskOps.ADD,
+              workId: "tasks",
+              board: task.taskboard,
+              title: value,
+              listId: task.taskList,
+            },
+          },
+
+          workId: "tasks",
+        })
+      )
       onAddedNewTask()
     }
   }
@@ -91,6 +104,7 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
   // isNewTask =true
 
   const elementRef = useRef(null)
+
   function getElementPosition() {
     const rect = elementRef.current?.getBoundingClientRect()
     console.log("getElementPosition", rect.width)
@@ -115,20 +129,27 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
     <div
       className="task-preview parent-container"
       ref={elementRef}
+      onClick={(e) => {
+        console.log("onClick task preview", task._id)
+        if (!isNewtask) {
+          console.log("🧠 Navigating to task:", task._id)
+          // navigate(
+          //   `/b/${boardId}/board/${task._id}
+          //   -${encodeURIComponent(
+          //     task.taskTitle
+          //   )}`
 
-      // ref={TaskPreviewRef}
-      // onMouseEnter={handleMouseEnter}
-      // onMouseLeave={handleMouseLeave}
-      //onClick={() => navigate(`/b/${task.taskBoard}/${task._id}`)}
-      // onClick={(e) => {
-      //   if(!isNewtask){
-      //   console.log("🧠 Navigating to task:", task._id)
-      //    navigate(
-      //     `/b/${boardId}/board/${task._id}-${encodeURIComponent(
-      //       task.taskTitle
-      //     )}`
-      //   )}
-      // }}
+          // )
+          navigate(`/b/${boardId}/board/${task._id}`)
+        } else {
+          console.log(
+            "cannont Navigating to task:",
+            task._id,
+            "isNewtask=",
+            isNewtask
+          )
+        }
+      }}
     >
       {isNewtask ? (
         <ItemNameForm
@@ -142,134 +163,160 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
         ></ItemNameForm>
       ) : (
         <Draggable draggableId={task._id} index={index}>
-        {(provided) =>(
-          <div
-          style={{ display: "flex", flexGrow: 1, zIndex: 0 }}
-          onClick={(e) => {
-            if (!isNewtask) {
-              console.log("🧠 Navigating to task:", task._id)
-              // navigate(
-              //   `/b/${boardId}/board/${task._id}
-              //   -${encodeURIComponent(
-              //     task.taskTitle
-              //   )}`
-                
-              // )
-              navigate(`/b/${boardId}/board/${task._id}`);
-            }
-          }}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <div className="task-front-cover"></div>
-          <div className="task-preview-details">
-            <div className="task-preview-labels">
-              <TaskPreviewLabels task={task}></TaskPreviewLabels>
-            </div>
-            <div className="task-preview-header">
-              <span
-                className="task-preview-header-completion-status"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  // e.preventDefault()
-                  setTaskChecked(!taskChecked)
-                  onUpdateTask(!taskChecked)
-                }}
-              >
+          {(provided) => (
+            <div
+              style={{ display: "flex", flexGrow: 1, zIndex: 0 }}
+              // onClick={(e) => {
+              //   console.log("onClick task preview", task._id)
+              //   if (!isNewtask) {
+              //     console.log("🧠 Navigating to task:", task._id)
+              //     // navigate(
+              //     //   `/b/${boardId}/board/${task._id}
+              //     //   -${encodeURIComponent(
+              //     //     task.taskTitle
+              //     //   )}`
+
+              //     // )
+              //     navigate(`/b/${boardId}/board/${task._id}`)
+              //   }else{
+              //     console.log("cannont Navigating to task:", task._id,"isNewtask=",isNewtask)
+              //   }
+              // }}
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+            >
+              <div className="task-front-cover"></div>
+              <div className="task-preview-details">
+                <div className="task-preview-labels">
+                  <TaskPreviewLabels task={task}></TaskPreviewLabels>
+                </div>
+                <div className="task-preview-header">
+                  <span
+                    className="task-preview-header-completion-status"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      // e.preventDefault()
+                      setTaskChecked(!taskChecked)
+                      onUpdateTask(!taskChecked)
+                    }}
+                  >
+                    {taskChecked && (
+                      <IconButton
+                        alternativeViewBox={"0 0 16 16"}
+                        iconSize={"16px"}
+                        displayOnHover={false}
+                        textColor={"#ffffff"}
+                      >
+                        <path
+                          fill="#22a06b"
+                          fillRule="evenodd"
+                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m12.326-2.52-1.152-.96L6.75 9.828 4.826 7.52l-1.152.96 2.5 3a.75.75 0 0 0 1.152 0z"
+                          clipRule="evenodd"
+                        ></path>
+                      </IconButton>
+                    )}
+                    {!taskChecked && (
+                      <IconButton
+                        alternativeViewBox={"0 0 16 16"}
+                        iconSize={"16px"}
+                        textColor={"#ffffff"}
+                        backgColor={"#ffffff"}
+                        displayOnHover={true}
+                      >
+                        <circle
+                          cx="8"
+                          cy="8"
+                          r="7.25"
+                          stroke="#626f86"
+                          strokeWidth="1.5"
+                        ></circle>
+                      </IconButton>
+                    )}
+                  </span>
+                  <span className="task-preview-header-title">
+                    <a style={{ fontSize: 14 }}>{task.taskTitle}</a>
+                  </span>
+                </div>
+                <div className="task-preview-info">
+                  <TaskInfoBadges task={task}></TaskInfoBadges>
+
+                  <div className="task-preview-info-users">
+                    {task.taskMembers &&
+                      task.taskMembers
+                        .filter(
+                          (member) =>
+                            member && typeof member === "object" && member.icon
+                        )
+                        .map((member) => (
+                          <button
+                            key={member._id || member.id}
+                            className="td-section-members-button"
+                          >
+                            <img
+                              src={member.icon}
+                              alt={`Member ${member._id || member.id}`}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                borderRadius: "100%",
+                              }}
+                            />
+                          </button>
+                        ))}
+                    {/* <TaskDetailsMembers style={{}} /> */}
+                  </div>
+                </div>
+              </div>
+              <div className="task-preview-header-action-buttons-container">
                 {taskChecked && (
+                  <div className="task-preview-header-action-button archive">
+                    <IconButton
+                      iconSize={"16px"}
+                      centerd={true}
+                      alternativeViewBox={"0 0 16 16"}
+                      // onClick={(e) => {
+                      //   e.stopPropagation()
+                      //   onRemoveCurrentTask()
+                      // }}
+                    >
+                      <path
+                        fill="currentcolor"
+                        fillRule="evenodd"
+                        d="M1 1h14v5h-1v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6H1zm2.5 5v7a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V6zm10-1.5h-11v-2h11zm-3 4.5h-5V7.5h5z"
+                        clipRule="evenodd"
+                      ></path>
+                    </IconButton>
+                  </div>
+                )}
+                <div
+                  className="task-preview-header-action-button edit"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    openPreviewEditor()
+                  }}
+                >
                   <IconButton
-                    alternativeViewBox={"0 0 16 16"}
                     iconSize={"16px"}
-                    displayOnHover={false}
-                    textColor={"#ffffff"}
+                    centerd={true}
+                    alternativeViewBox={"0 0 16 16"}
+                    // onClick={(e) => {
+                    //   e.stopPropagation()
+                    //   onRemoveCurrentTask()
+                    // }}
                   >
                     <path
-                      fill="#22a06b"
+                      fill="currentcolor"
                       fillRule="evenodd"
-                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m12.326-2.52-1.152-.96L6.75 9.828 4.826 7.52l-1.152.96 2.5 3a.75.75 0 0 0 1.152 0z"
+                      d="M11.586.854a2 2 0 0 1 2.828 0l.732.732a2 2 0 0 1 0 2.828L10.01 9.551a2 2 0 0 1-.864.51l-3.189.91a.75.75 0 0 1-.927-.927l.91-3.189a2 2 0 0 1 .51-.864zm1.768 1.06a.5.5 0 0 0-.708 0l-.585.586L13.5 3.94l.586-.586a.5.5 0 0 0 0-.707zM12.439 5 11 3.56 7.51 7.052a.5.5 0 0 0-.128.217l-.54 1.89 1.89-.54a.5.5 0 0 0 .217-.127zM3 2.501a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-3H15v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2h3v1.5z"
                       clipRule="evenodd"
                     ></path>
                   </IconButton>
-                )}
-                {!taskChecked && (
-                  <IconButton
-                    alternativeViewBox={"0 0 16 16"}
-                    iconSize={"16px"}
-                    textColor={"#ffffff"}
-                    backgColor={"#ffffff"}
-                    displayOnHover={true}
-                  >
-                    <circle
-                      cx="8"
-                      cy="8"
-                      r="7.25"
-                      stroke="#626f86"
-                      strokeWidth="1.5"
-                    ></circle>
-                  </IconButton>
-                )}
-              </span>
-              <span className="task-preview-header-title">
-                <a style={{ fontSize: 14 }}>{task.taskTitle}</a>
-              </span>
-            </div>
-            <div className="task-preview-info">
-              <TaskInfoBadges task={task}></TaskInfoBadges>
-              <div className="task-preview-info-users">
-                <TaskDetailsMembers style={{}} />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="task-preview-header-action-buttons-container">
-            {taskChecked && (
-              <div className="task-preview-header-action-button archive">
-                <IconButton
-                  iconSize={"16px"}
-                  centerd={true}
-                  alternativeViewBox={"0 0 16 16"}
-                  // onClick={(e) => {
-                  //   e.stopPropagation()
-                  //   onRemoveCurrentTask()
-                  // }}
-                >
-                  <path
-                    fill="currentcolor"
-                    fillRule="evenodd"
-                    d="M1 1h14v5h-1v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6H1zm2.5 5v7a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V6zm10-1.5h-11v-2h11zm-3 4.5h-5V7.5h5z"
-                    clipRule="evenodd"
-                  ></path>
-                </IconButton>
-              </div>
-            )}
-            <div
-              className="task-preview-header-action-button edit"
-              onClick={(e) => {
-                e.stopPropagation()
-                openPreviewEditor()
-                
-              }}
-            >
-              <IconButton
-                iconSize={"16px"}
-                centerd={true}
-                alternativeViewBox={"0 0 16 16"}
-                // onClick={(e) => {
-                //   e.stopPropagation()
-                //   onRemoveCurrentTask()
-                // }}
-              >
-                <path
-                  fill="currentcolor"
-                  fillRule="evenodd"
-                  d="M11.586.854a2 2 0 0 1 2.828 0l.732.732a2 2 0 0 1 0 2.828L10.01 9.551a2 2 0 0 1-.864.51l-3.189.91a.75.75 0 0 1-.927-.927l.91-3.189a2 2 0 0 1 .51-.864zm1.768 1.06a.5.5 0 0 0-.708 0l-.585.586L13.5 3.94l.586-.586a.5.5 0 0 0 0-.707zM12.439 5 11 3.56 7.51 7.052a.5.5 0 0 0-.128.217l-.54 1.89 1.89-.54a.5.5 0 0 0 .217-.127zM3 2.501a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-3H15v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2h3v1.5z"
-                  clipRule="evenodd"
-                ></path>
-              </IconButton>
-            </div>
-          </div>
-        </div>
-      )}
+          )}
         </Draggable>
       )}
     </div>

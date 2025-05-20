@@ -95,14 +95,14 @@
 }
 
 .task-preview-info-users {
-  display: "flex";
-  //   flex-direction: "row";
+  display: flex;
+    // flex-direction: "column";
   //   margin: "1em";
   //   align-items: flex-end;
   flex-wrap: wrap;
   justify-content: right;
   align-self: flex-end;
-  padding-right: 15px;
+  // padding-right: 15px;
   margin-right: -4px;
   margin-bottom: 4px;
   float: right;
