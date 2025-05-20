@@ -24,9 +24,9 @@
   height: 100%;
 }
 
-// === Main Container Box ===
 .td-container {
-  padding: 0 0 40px; // only bottom padding
+  border-radius: 5px;
+  padding: 0 0 40px;
   width: 768px;
   background-color: #f7f8f9;
   border-radius: 12px;
@@ -38,9 +38,9 @@
   margin-left: -8px;
 }
 
-// only when there's a cover → push down by 116px
 .td-container.has-cover {
-  padding: 116px 0 40px; // top padding = cover height
+  padding: 0px 0 0px;
+  border-radius: 5px;
 }
 
 .td-header {
@@ -66,14 +66,15 @@
   width: 40px;
   height: 24px;
   padding-left: 13px;
-  margin-bottom: 10px;
+  
 
-  border-radius: 50%;
+  
 
   flex-shrink: 0;
   cursor: pointer;
 
   .td-checkbox {
+    
     width: 16px;
     height: 16px;
     margin-top: 5px;
@@ -89,8 +90,7 @@
   padding-top: 12px;
 
   transform: translate3d(0, 0, 0);
-  transition-property: background-color, border-color, box-shadow;
-  transition-duration: 85ms;
+
   transition-timing-function: ease;
   border: none;
   border-radius: 4px;
@@ -101,14 +101,12 @@
   font-weight: 400;
   line-height: 12px;
   resize: none;
-  padding-left: 8px; //inside text
+  padding-left: 8px;
 
   margin-bottom: 2px;
   margin-left: -7px;
-  width: 660px;
-  height: 34px;
 
-  color: #172b4d;
+  color: #626f86;
 
   &:focus {
     outline: 2px solid #388bff;
@@ -272,7 +270,7 @@
     border-top: 1px solid #ccc;
     padding-top: 2px;
     padding-bottom: 2px;
-    width: 150px;
+    width: 168px;
   }
 }
 
@@ -288,7 +286,7 @@ td-sidebar-h4 {
 .trello-btn-text {
   text-align: center;
   justify-content: center;
-  flex: auto;
+  padding-left: 6px;
 }
 .td-sidebar-power {
   font-weight: 400;
@@ -370,26 +368,26 @@ td-sidebar-h4 {
 [data-tooltip] {
   position: relative; /* establish positioning context */
   cursor: pointer;
-  background-color: #172b4d;
+  //color: #42526e;
+  background-color: #42526e;
 }
 
 /* Hover highlight */
 [data-tooltip]:hover {
   background-color: #e1e2e6; /* Trello-style hover color */
   border-radius: 3px;
-  
 }
 
 /* Tooltip text */
 [data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
- background-color: #172b4d;
+  background-color: #172b4d;
   white-space: nowrap;
   height: 24px;
   margin-left: 8px;
-  left:100%;
-  
+  left: 100%;
+
   display: flex;
   align-items: center;
   padding: 2px 0;

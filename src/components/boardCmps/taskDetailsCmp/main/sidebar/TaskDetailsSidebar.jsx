@@ -179,7 +179,7 @@ const TaskDetailsSidebar = () => {
         <hgroup>
           <h4 className="td-sidebar-power">
             Automation
-            <button className="td-sidebar-h4-button"></button>
+          
           </h4>
         </hgroup>
 

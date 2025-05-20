@@ -10,6 +10,7 @@ import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
 import DropdownUi from './sidebar/dropdownHardcoded/DropdownUi';
 import DropdowndeleteCheck from './dropdowns/DropdowndeleteCheck';
 import { SvgServices } from '../../../../services/svgServices';
+import DatesSvg from '../../../../assets/svgDesgin/DatesSvg';
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -93,7 +94,9 @@ const TaskChecklist = () => {
   };
 
   return (
-    <div className="MainChecklist">
+    <div 
+   
+    className="MainChecklist">
       {selectedTask.checklist.map((group) => {
         const gKey = getGroupKey(group);
         const items = Array.isArray(group.items) ? group.items : [];
@@ -103,7 +106,7 @@ const TaskChecklist = () => {
         const visible = hideChecked ? items.filter((i) => !i.done) : items;
 
         return (
-          <section key={gKey}>
+          <section key={gKey} style={{paddingTop:'20px'}}>
             <div className="MainChecklistHeader">
               <div className="MainChecklistHeaderText">
                 <div className="MainChecklistHeaderLeft">
@@ -215,8 +218,9 @@ const TaskChecklist = () => {
                           </div>
                           <div className='checklist-save-cancel-div2'>
 
-
+                          
                           <div className="checklist-save-cancel-div2-Assign">
+                           
                             Assign
 
                           </div>

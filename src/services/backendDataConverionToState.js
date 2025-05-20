@@ -9,6 +9,7 @@ export function transformTasksFromBackend(tasks) {
           archivedAt: task.archivedAt ?? null,
           taskMembers: task.members || [],
           taskTitle: task.title,
+          title:task.title,
           taskDescription: task.description || '',
           taskLabels: (task.labels || []).map(label => {
             // Normalize label whether it's a string or object

@@ -41,8 +41,7 @@
   width: 100%;
 }
 
-
-.attackmentFooterCancel{
+.attackmentFooterCancel {
   padding: 0px 12px;
   background-color: transparent;
   text-align: center;
@@ -52,28 +51,25 @@
   border: none;
   margin-right: 5px;
   cursor: pointer;
-  &:hover{
-            background-color: #f0f0f0;
-    }
+  &:hover {
+    background-color: #f0f0f0;
+  }
 }
 
-.attackmentFooterInsert{
-    font-size: 14px;
-    padding: 0px 10px;
-    text-align: center;
-    background-color: #0c66e4;
-    color:white;
-    border:none;
-    border-radius: 2px;
-    font-weight: 400;
-    cursor: pointer;
-    &:hover{
-        filter: brightness(92%);
-    }
+.attackmentFooterInsert {
+  font-size: 14px;
+  padding: 0px 10px;
+  text-align: center;
+  background-color: #0c66e4;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  font-weight: 400;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(92%);
+  }
 }
-
-
-
 
 // here is the area of ui above is the dropdown
 
@@ -89,69 +85,288 @@
   width: 100%;
   font-size: 14px;
 
- 
   color: #172b4d;
 }
 
-.attackMentsUiH3{
-    text-align: left;
-    margin: 0px 0px 8px;
-    width: 100%;
-    color: #172b4d;
-    font-size: 12px;
+.attackMentsUiH3 {
+  text-align: left;
+  margin: 0px 0px 8px;
+  width: 100%;
+  color: #172b4d;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.attackMentsUiContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.attackMentsUiContainerInside {
+  text-decoration: none;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  cursor: grab;
+  height: 48px;
+  width: 100%;
+}
+
+.attackMentsUiContainerDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 8px;
+  column-gap: 12px;
+}
+
+.attackMentsUiContainerDivInside {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-right: 8px;
+  column-gap: 12px;
+}
+
+.attackMentsUiContainerDivInsideA {
+  flex-shrink: 0;
+  width: 64px;
+  height: 48px;
+
+  border-radius: 4px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  box-shadow:
+    0px 1px 1px #091e4240,
+    0px 0px 1px #091e424f;
+  cursor: pointer;
+   display: block;    
+   
+}
+
+.attachment-thumbnail {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain; /* <-- ensures whole image is visible */
+}
+
+
+.attackMentsUiContainerDivInsideDiv{
+        flex-grow: 1;
+}
+
+.attackMentsUiContainerDivInsideDiv1{
+    display: flex
+;
+    align-items: center;
+    column-gap: 4px;
     font-weight: 500;
+    line-height: 20px;
+    font-size: 14px;
+    color:#172b4d;
+    margin-bottom: 4px;
+
 }
 
-.attackMentsUiContainer{
-    width: 100%;
-    height: auto;
-    display: flex
-;
-    flex-direction: column;
-    row-gap: 8px;
+.attackMentsUiContainerDivInsideDivP{
+    margin: 0;
+    color: #44546f;
+    font-size: 12px;
+
 }
 
-.attackMentsUiContainerInside{
+
+.attackMentsUiContainer-dots {
+ 
+  border-radius: 3px;
+  display: flex;
+width: 32px;
+height: 28px;
+
+  background-color: transparent;
+  box-sizing: unset;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: #091e420f;
+ 
+  
+ 
+  color: #44546f;
+  cursor: pointer;
+
+  &:hover{
+    border: none;
+    background-color: #091e4224;
+    box-shadow: none;
+    color: #172b4d;
     text-decoration: none;
-    list-style-type: none;
-    display: flex
-;
-    flex-direction: column;
-    row-gap: 8px;
-    cursor: grab;
-    height: 48px;
-    width: 100%;
+  }
+}
 
+
+.dropdownContentAttachment{
+    position:absolute;
+    background-color:#fff;
+     box-Shadow: 0px 4px 12px rgba(0,0,0,0.15);
+      z-Index: 9999;
+       border-Radius: 8px;
+        overflow: hidden;
+        display: grid;
+        grid-Template-Rows: 48px auto;
+        width: 232px;
+        height: 184px;
+         padding-top: 12px;
+        
+
+}
+.dropdownContentAttachmentDivButton{
+   
+}
+.dropdownContentAttachmentButtons{
+    height: 32px;
+     border: none;
+     background-Color: white;
+            border-Radius: 4px;
+            cursor: pointer;
+            text-Align: left;
+            font-size: 14px;
+            color:#44546f;
+           padding: 6px 12px;
+            width: 100%;
+           
+            
+  &:hover{
+    border: none;
+     background-color: #091e420f;
+    box-shadow: none;
+    color: #172b4d;
+    text-decoration: none;
+
+  }
 
 }
 
-.attackMentsUiContainerDiv{
+.attackMentsUiEdit{
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    white-space: normal;
+    cursor: pointer;
+    border: none;
+    background-color: #091e420f;
+    box-shadow: none;
+    color:#172b4d;
+    font-weight: 500;
+    width: 50px;
+    height: 32px;
+    &:hover {
+      background-color: #091e4224;
+    }
+
+    &:active {
+      background-color: #091e424f;
+    }
+
+    &:focus {
+      outline: 2px solid #388bff;
+    }
+}
+
+
+.td-section-attachment-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.SvgLefSvg{
+    display: flex;
+    margin-left: -32px;
+    margin-right: 12px;
+    color:#42526E;
+    
+}
+
+.td-section-header-attackment {
+  font-weight: 500;
+  font-size: 16px;
+  color: #42526e;
+ 
+ 
+ 
+}
+
+.td-section-attachment-containerDiv{
     display: flex
 ;
     align-items: center;
     justify-content: space-between;
-    padding-right: 8px;
-    column-gap: 12px;
-}
-
-.attackMentsUiContainerDivInside{
-    display: flex
-;
-    align-items: center;
     width: 100%;
-    padding-right: 8px;
-    column-gap: 12px;
 }
 
-.attackMentsUiContainerDivInsideA{
-        flex-shrink: 0;
-    width: 64px;
-    height: 48px;
-    border-radius: 4px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
-    cursor: pointer;
 
+.UpdateAttchment{
+  margin: 8px 0 0;
+    padding: 6px 24px;
+    border: none;
+    box-shadow:none;
+    background-color: #0c66e4;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 500;
+    align-items: start;
+    height: 32px;
+    width: 100%;
+    &:hover{
+        border: none;
+    background-color: #0055cc;
+    box-shadow: none;
+    color:#ffffff;
+    text-decoration: none
+    }
+
+}
+
+.ActivityButton{
+  display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    white-space: normal;
+    cursor: pointer;
+    border: none;
+    background-color: #091e420f;
+    box-shadow: none;
+    color:#172b4d;
+    font-weight: 500;
+   
+    &:hover {
+      background-color: #091e4224;
+    }
+
+    &:active {
+      background-color: #091e424f;
+    }
+
+    &:focus {
+      outline: 2px solid #388bff;
+    }
 }
