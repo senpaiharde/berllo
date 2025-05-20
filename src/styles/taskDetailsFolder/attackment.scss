@@ -272,6 +272,17 @@ height: 28px;
     font-weight: 500;
     width: 50px;
     height: 32px;
+    &:hover {
+      background-color: #091e4224;
+    }
+
+    &:active {
+      background-color: #091e424f;
+    }
+
+    &:focus {
+      outline: 2px solid #388bff;
+    }
 }
 
 
@@ -329,4 +340,33 @@ height: 28px;
     text-decoration: none
     }
 
+}
+
+.ActivityButton{
+  display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    white-space: normal;
+    cursor: pointer;
+    border: none;
+    background-color: #091e420f;
+    box-shadow: none;
+    color:#172b4d;
+    font-weight: 500;
+   
+    &:hover {
+      background-color: #091e4224;
+    }
+
+    &:active {
+      background-color: #091e424f;
+    }
+
+    &:focus {
+      outline: 2px solid #388bff;
+    }
 }

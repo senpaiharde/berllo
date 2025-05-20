@@ -1,0 +1,52 @@
+.containerActivity {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  width: 100%;
+  min-height: 150px;
+  grid-column-end: none;
+  grid-column-start: body;
+  word-break: break-word;
+  margin-top: 12px;
+}
+
+.containerActivityCommand {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  margin-bottom: 8px;
+}
+
+
+.containerMembers{
+    position: relative;
+    overflow: visible;
+     line-height: 10px; 
+    vertical-align: top;
+    white-space: nowrap;
+}
+.containerActivityADD{
+        min-height: 1.5rem;
+    padding: 6px 12px;
+}
+.containerActivityADDCommand{
+justify-content: left;
+    width: 100%;
+    height: 36px;
+    border-radius: 8px;
+    background-color:#ffffff;
+    color: #626f86;
+    box-shadow:  0px 0px 1px #091e424f;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    padding: 6px 12px;
+    font-weight: 400;
+    &:hover{
+       box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
+    background-color: var(--ds-background-input-hovered, #f7f8f9);
+        color: var(--ds-text, #172b4d);
+        text-decoration: none;
+    }
+}
