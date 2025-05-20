@@ -9,13 +9,7 @@ export default function DescriptionEditor({ initial, onSave, onCancel }) {
 
   useEffect(() => setValue(initial), [initial]);
 
-  // Helper to run Quill commands
-  const exec = (command) => {
-    const editor = quillRef.current.getEditor();
-    editor.focus();
-    if (command === 'bold') editor.format('bold', !editor.getFormat().bold);
-    else editor.format('header', command);
-  };
+  
 
   return (
     <div className="td-description-editor-container">
