@@ -8,15 +8,15 @@ import { SvgServices } from '../../../../services/svgServices';
 export default function TaskDescription() {
   const dispatch = useDispatch();
   const task = useSelector((s) => s.taskDetailsReducer.selectedTask);
-  const saved = task?.taskDescription || '';
+  const saved = task?.description || '';
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSave = (html) => {
     dispatch(
       liveUpdateTask({
-        method: 'UPDATE',
+        method: 'update',
         workId: 'tasks',
-        taskDescription: html,
+        description: html,
       })
     );
     setIsEditing(false);

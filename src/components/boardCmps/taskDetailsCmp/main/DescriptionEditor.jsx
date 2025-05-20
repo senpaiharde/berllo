@@ -38,11 +38,14 @@ export default function DescriptionEditor({ initial, onSave, onCancel }) {
         </div>
 
         {/* STATIC TEXTAREA */}
-        <textarea className="my-textarea" placeholder="Start typing..." />
+        <textarea 
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        className="my-textarea" placeholder="Start typing..." />
       </div>
       {/* STATIC ACTIONS */}
       <div className="td-editor-actions">
-        <button className="td-editor-btn save" onClick={onSave}>Save</button>
+        <button className="td-editor-btn save" onClick={() => onSave(value)}>Save</button>
         <button className="td-editor-btn cancel" onClick={onCancel}>Cancel</button>
       </div>
     </div>

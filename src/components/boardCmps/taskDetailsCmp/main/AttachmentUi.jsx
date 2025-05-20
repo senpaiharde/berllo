@@ -77,7 +77,7 @@ export default function AttachmentUi() {
       <div className="td-section-attachment-container">
         <div className="SvgLefSvg">
           {' '}
-          <SvgServices name="taskDetailsSvgLeft" />
+          <SvgServices name="AttackmentSvg" />
         </div>
         <div className="td-section-attachment-containerDiv">
           <div className="td-section-header-attackment">Attachments</div>

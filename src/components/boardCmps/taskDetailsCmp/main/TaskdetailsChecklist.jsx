@@ -10,6 +10,7 @@ import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
 import DropdownUi from './sidebar/dropdownHardcoded/DropdownUi';
 import DropdowndeleteCheck from './dropdowns/DropdowndeleteCheck';
 import { SvgServices } from '../../../../services/svgServices';
+import DatesSvg from '../../../../assets/svgDesgin/DatesSvg';
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -217,8 +218,9 @@ const TaskChecklist = () => {
                           </div>
                           <div className='checklist-save-cancel-div2'>
 
-
+                          
                           <div className="checklist-save-cancel-div2-Assign">
+                           
                             Assign
 
                           </div>
