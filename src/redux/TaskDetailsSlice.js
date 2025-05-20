@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { updateTaskInBoard } from './BoardSlice';
 
 import backendHandler, { TaskOps } from '../services/backendHandler';
-import { tr } from 'framer-motion/client';
 
 export const syncTaskAsync = createAsyncThunk(
   'taskDetails/sync',
@@ -27,6 +26,8 @@ const initialState = {
   loading: false,
   error: null,
   taskDueDate: null,
+
+  title: '',
 };
 
 const taskDetailsSlice = createSlice({
@@ -40,7 +41,8 @@ const taskDetailsSlice = createSlice({
         taskDueDate: action.payload.taskDueDate ?? action.payload.dueDate ?? null,
         reminder: action.payload.reminder ?? null,
         isDueComplete: action.payload.isDueComplete ?? false,
-        taskTitle: action.payload.taskTitle ?? '',
+        title: action.payload.title ?? '',
+
         isWatching: action.payload.isWatching ?? false,
         members: Array.isArray(action.payload.members) ? action.payload.members : [],
         checklist: Array.isArray(action.payload.checklist) ? action.payload.checklist : [],
@@ -53,15 +55,18 @@ const taskDetailsSlice = createSlice({
     },
     updateSelectedTaskLive(state, action) {
       const payload = action.payload;
+      console.log("state.tasktitle", JSON.parse(JSON.stringify(state)))
       console.log('updateSelectedTaskLive', action.payload);
       if (!state.selectedTask) return;
 
       if (payload.isDueComplete) {
         state.selectedTask.isDueComplete = payload.isDueComplete;
       }
-      if (payload.taskTitle) {
-        state.selectedTask.taskTitle = payload.taskTitle;
+    
+      if (payload.title !== undefined) {
+        state.selectedTask.title = payload.title;
       }
+  
       if (payload.reminder) {
         state.selectedTask.reminder = payload.reminder;
       }
@@ -123,20 +128,21 @@ export const { openTaskDetails, closeTaskDetails, updateSelectedTaskLive } =
 
 let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {
+
   const selectedTask = getState().taskDetailsReducer?.selectedTask;
+  
   if (!selectedTask) return;
 
   console.log('liveUpdateTask fields ', fields);
-  /* 1 optimistic UI */
-  if (fields.isOpen === true) {
-    console.log('updateSelectedTaskLive fields ', fields);
-    dispatch(updateSelectedTaskLive(fields));
-  }
+
   if (fields.isOpen === true) dispatch(updateTaskInBoard(fields));
 
+  dispatch(updateSelectedTaskLive(fields));
   clearTimeout(debounceId);
   /* 2 background sync */
   console.log(fields.method, fields.workId, fields, 'liveupdatetask');
+
+  
   debounceId = setTimeout(() => {
     dispatch(
       syncTaskAsync({
@@ -145,7 +151,7 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
         workId: fields.workId,
       })
     );
-  }, 100);
+  },200);
 };
 
 export default taskDetailsSlice.reducer;

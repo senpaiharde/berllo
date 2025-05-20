@@ -36,31 +36,24 @@ const TaskDetails = () => {
   const board = useSelector((s) => s.boardReducer);
   const boardLists = board.boardLists || [];
   const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
-  const [isCoverOpen, setIsCoverOpen] = useState(null);
-  // ① find the local JSON task
+
   const localTask = boardLists
     .flatMap((list) => list.taskList || [])
     .find((t) => t._id === pureTaskId);
 
-  // ── ONLY THIS useEffect IS NEW ───────────────────────────
   useEffect(() => {
-    // a) ensure boardLists exist
     if (boardLists.length === 0 && boardId) {
       dispatch(fetchBoardById(boardId));
-      return; // wait for lists
+      return;
     }
 
-    // b) open the drawer with the local‐JSON task
     if (localTask && (!selectedTask || selectedTask._id !== localTask._id)) {
       dispatch(openTaskDetails(localTask));
 
-      // c) then fetch the real details from the API
       dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId: 'tasks' }));
     }
   }, [boardLists, localTask, selectedTask, boardId, dispatch, pureTaskId]);
-  // ───────────────────────────────────────────────────────────
 
-  // rest of your effects & render exactly as before
   useEffect(() => {
     const hanldeEsc = (e) => {
       if (e.key === 'Escape') handleClose();
@@ -88,11 +81,15 @@ const TaskDetails = () => {
   }
   const workId = 'tasks';
   const method = 'update';
-  const handleTitleChange = (e) => {
-    console.log('handleTitleChange', e.target.value);
-    dispatch(liveUpdateTask({ taskTitle: e.target.value, workId, method }));
+  const handleTitleChange = (update) => {
+    console.log('handleTitleChange', update);
+    dispatch(liveUpdateTask({ title: update, workId, method }));
   };
   const cover = selectedTask.cover;
+
+
+
+  
   return (
     <div className="td-modal">
       <div className={`td-container${cover ? ' has-cover' : ''}`}>
@@ -105,14 +102,13 @@ const TaskDetails = () => {
               backgroundImage: cover.coverType === 'image' ? `url(${cover.coverImg})` : undefined,
               backgroundColor: cover.coverType === 'color' ? cover.coverColor : undefined,
             }}>
-            <button 
-           
-            className="td-cover-close"
-             style={{
-              opacity: cover.coverType === 'image' ?  '1' : '0.6',
-              backgroundColor: cover.coverType === 'color' ? cover.coverColor : '#f7f8f9',
-            }}
-            onClick={handleClose}>
+            <button
+              className="td-cover-close"
+              style={{
+                opacity: cover.coverType === 'image' ? '1' : '0.6',
+                backgroundColor: cover.coverType === 'color' ? cover.coverColor : '#f7f8f9',
+              }}
+              onClick={handleClose}>
               <SvgServices name="SvgcloseTop" />
             </button>
 
@@ -120,10 +116,10 @@ const TaskDetails = () => {
               trigger={
                 <button
                   className="td-cover-open"
-                 style={{
-              opacity: cover.coverType === 'image' ?  '1' : '0.6',
-              backgroundColor: cover.coverType === 'color' ? cover.coverColor : '#f7f8f9',
-            }}>
+                  style={{
+                    opacity: cover.coverType === 'image' ? '1' : '0.6',
+                    backgroundColor: cover.coverType === 'color' ? cover.coverColor : '#f7f8f9',
+                  }}>
                   <span className="CoverHeaderIcon">
                     <CoverHeader />
                   </span>
@@ -149,10 +145,10 @@ const TaskDetails = () => {
               />
             </div>
 
-            <input
+            <textarea
               className="td-title-input"
               value={task?.title || ''}
-              onChange={handleTitleChange}
+              onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="Enter task title"
             />
           </div>
