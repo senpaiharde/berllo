@@ -168,7 +168,7 @@ const handleMakeCover = async(e) => {
           style={{ marginTop: '8px', marginBottom: '8px' }}
           className="DropdownCoverButton"
           onClick={handleChoose}>
-          Choose a file
+          Upload a cover image
         </button>
         <input
           ref={fileInputRef}
