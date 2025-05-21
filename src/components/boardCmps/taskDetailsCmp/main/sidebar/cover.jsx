@@ -6,12 +6,13 @@ import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { TaskOps } from '../../../../../services/backendHandler';
 import { SvgServices } from '../../../../../services/svgServices';
+import { useRef } from 'react';
 
 const Cover = ({ onClose }) => {
   const [selectedColor, setSelectedColor] = useState('');
   const dispatch = useDispatch();
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-  
+    const fileInputRef = useRef();
   const handleCoverSelect = (type, value) => {
   if (!task) return;
 
@@ -47,7 +48,63 @@ const handleDeleteCover = () => {
       })
     );
   };
+
+   
+    // 1) When the user clicks "Choose a file"
+    const handleChoose = () => {
+      fileInputRef.current.click();
+    };
   
+const handleMakeCover = async(e) => {
+    const file = e.target.files[0];
+      if (!file) return;
+    
+    const url = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        cover: { coverType: 'image', coverImg: url, coverColor: '' },
+      })
+    );
+  };
+
+    const handleFileChange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+  
+      // ↓ Base64 data URL approach (persistent string)
+      const contentType = file.type;
+      const size = file.size;
+      const url = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const createdAt = Date.now();
+      console.log(size, contentType, url, 'meta data file');
+  
+      // 4) Dispatch a single liveUpdateTask to append the new attachment
+      dispatch(
+        liveUpdateTask({
+          workId: 'tasks',
+          method: 'update',
+          cover: [
+            ...(task.attachments || []),
+            { name: file.name, url, contentType, size, createdAt },
+          ],
+        })
+      );
+  
+      e.target.value = '';
+      onClose();
+    };
   return (
     <div className="DropdownUi">
       {/* Header */}
@@ -107,9 +164,18 @@ const handleDeleteCover = () => {
         <h3 style={{ marginTop: '34px' }} className="DropdownLabelH3">
           Attachments
         </h3>
-        <button style={{ marginTop: '5px' }} className="DropdownCoverButton">
-          Upload a cover image
+        <button
+          style={{ marginTop: '8px', marginBottom: '8px' }}
+          className="DropdownCoverButton"
+          onClick={handleChoose}>
+          Choose a file
         </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          style={{ display: 'none' }}
+          onChange={handleMakeCover}
+        />
 
         <h3 style={{ marginTop: '14px', fontWeight: '400' }} className="DropdownLabelH3">
           Tip: Drag an image on to the card to upload it.
