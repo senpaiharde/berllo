@@ -1,4 +1,22 @@
 const svgs = {
+    taskDetailsUnDone:`<svg
+                 width="24px"
+                height="24px"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+               role="presentation"
+              >
+                <path fillRule="evenodd" fill="currentcolor" d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8" />
+              </svg>`,
+    taskDetailsDone:`<svg
+                 width="24px"
+                height="24px"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+               role="presentation"
+              >
+                <path fillRule="evenodd" fill="currentcolor" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m12.326-2.52-1.152-.96L6.75 9.828 4.826 7.52l-1.152.96 2.5 3a.75.75 0 0 0 1.152 0z" />
+              </svg>`,
   ActivitySvg: `<svg
                 width="24px"
                 height="24px"

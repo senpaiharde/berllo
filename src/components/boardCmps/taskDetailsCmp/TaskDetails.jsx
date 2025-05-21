@@ -87,9 +87,6 @@ const TaskDetails = () => {
   };
   const cover = selectedTask.cover;
 
-
-
-  
   return (
     <div className="td-modal">
       <div className={`td-container${cover ? ' has-cover' : ''}`}>
@@ -134,22 +131,30 @@ const TaskDetails = () => {
         <div className="td-header">
           <div className="td-header-left">
             <div className="td-checkbox-div">
-              <input
-                type="checkbox"
-                checked={isDueComplete}
-                onChange={() => {
-                  const method = TaskOps.UPDATE;
-                  dispatch(liveUpdateTask({ isDueComplete: !isDueComplete, workId, method }));
-                }}
+              <div
                 className="td-checkbox"
-              />
+                onClick={() => {
+                  const method = TaskOps.UPDATE;
+
+                  dispatch(liveUpdateTask({ isDueComplete: !isDueComplete, workId, method }));
+                }}>
+                {isDueComplete ? (
+                  <span className="DoneSvg">
+                    <SvgServices name="taskDetailsDone" />
+                  </span>
+                ) : (
+                  <span className='UndoneSvg'>
+                    {' '}
+                    <SvgServices name="taskDetailsUnDone" />
+                  </span>
+                )}
+              </div>
             </div>
 
             <textarea
-            style={{
-             
-             color: isDueComplete === false ? '#172b4d' : '#626f86',
-            }}
+              style={{
+                color: isDueComplete === false ? '#172b4d' : '#626f86',
+              }}
               className="td-title-input"
               value={task?.title || ''}
               onChange={(e) => handleTitleChange(e.target.value)}
