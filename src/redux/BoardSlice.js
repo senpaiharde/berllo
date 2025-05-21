@@ -23,14 +23,14 @@ export const fetchBoardById = createAsyncThunk(
 );
 
 export const syncBoardAsync = createAsyncThunk(
-  "board/syncBoardAsync",
+  'board/syncBoardAsync',
   async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
     try {
-      console.log(method, workId, args, "update happens here", workId)
-      const data = await backendHandler({ method, args, workId })
-      console.log("syncBoardAsync method", method)
+      console.log(method, workId, args, 'update happens here', workId);
+      const data = await backendHandler({ method, args, workId });
+      console.log('syncBoardAsync method', method);
       if (method === TaskOps.ADD || method === TaskOps.UPDATE) {
-        return
+        return;
       }
       //   "backendDataConverionToState ",
       //   transformBoardFromBackend(data.board),
@@ -44,13 +44,13 @@ export const syncBoardAsync = createAsyncThunk(
       });
       // console.log("combineBoardFromGet", board)
       // if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data))
-      return { method, board }
+      return { method, board };
     } catch (err) {
-      console.log("syncBoardAsync error", err)
-      return rejectWithValue(err.response?.data?.error || `${method} failed`)
+      console.log('syncBoardAsync error', err);
+      return rejectWithValue(err.response?.data?.error || `${method} failed`);
     }
   }
-)
+);
 
 // export const syncListAsync = createAsyncThunk(
 //   "board/syncListAsync",
@@ -139,8 +139,7 @@ const boardSlice = createSlice({
       saveTolocal(BuildBoardFromState(state));
     },
     updateboardTitle: (state, action) => {
-      
-      state.boardTitle = action.payload
+      state.boardTitle = action.payload;
 
       saveTolocal(BuildBoardFromState(state));
     },
@@ -153,62 +152,47 @@ const boardSlice = createSlice({
         taskList: [],
         state: 'idle',
         error: null,
-      }
-      state.boardLists.push(newList)
-      saveTolocal(BuildBoardFromState(state))
+      };
+      state.boardLists.push(newList);
+      saveTolocal(BuildBoardFromState(state));
     },
     updateBoardListOrder: (state, action) => {
-      const { draggableId, destination, source } = action.payload
-      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
-      console.log("updateBoardListOrder source",source ,"destination ",destination)
+      const { draggableId, destination, source } = action.payload;
+      console.log('state.boardLists', JSON.parse(JSON.stringify(state.boardLists)));
+      console.log('updateBoardListOrder source', source, 'destination ', destination);
       // const sourceIndex = state.boardLists.findIndex(
       //   (list) => list._id === draggableId)
       // console.log("updateBoardListOrder draggableId sourceIndex", sourceIndex)
       // Remove the item from sourceIndex and store it
-      const {index} = source
-      console.log("updateBoardListOrder source.index", source.index)
-      console.log("updateBoardListOrder source.Index", index)
-      const [movedList] = state.boardLists.splice(index, 1)
-      console.log("updateBoardListOrder movedList", JSON.stringify(movedList._id))
-      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
+      const { index } = source;
+      console.log('updateBoardListOrder source.index', source.index);
+      console.log('updateBoardListOrder source.Index', index);
+      const [movedList] = state.boardLists.splice(index, 1);
+      console.log('updateBoardListOrder movedList', JSON.stringify(movedList._id));
+      console.log('state.boardLists', JSON.parse(JSON.stringify(state.boardLists)));
       // Insert the item at destinationIndex
-      console.log("updateBoardListOrder destination.index", destination.index)
-      state.boardLists.splice(destination.index, 0, movedList)
-      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
+      console.log('updateBoardListOrder destination.index', destination.index);
+      state.boardLists.splice(destination.index, 0, movedList);
+      console.log('state.boardLists', JSON.parse(JSON.stringify(state.boardLists)));
     },
     updateTasklistOrder: (state, action) => {
-      console.log("updateTasklistOrder")
-      console.log("updateTasklistOrder action.payload", action)
-      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
-      const { draggableId, destination, source } = action.payload
-       console.log(
-          "updateTasklistOrder destination, source",
-          destination,
-          source
-        )
+      console.log('updateTasklistOrder');
+      console.log('updateTasklistOrder action.payload', action);
+      console.log('state.boardLists', JSON.parse(JSON.stringify(state.boardLists)));
+      const { draggableId, destination, source } = action.payload;
+      console.log('updateTasklistOrder destination, source', destination, source);
       //find the list index of the source of the task
-        let boardListIndex = state.boardLists.findIndex(
-          (list) => list._id === source.droppableId
-        )
-        //Remove the task from sourceIndex and store it
-        const [movedTask] = state.boardLists[boardListIndex].taskList.splice(
-          source.Index,
-          1
-        )
-        console.log("updateTasklistOrder movedList", JSON.stringify(movedTask._id))
+      let boardListIndex = state.boardLists.findIndex((list) => list._id === source.droppableId);
+      //Remove the task from sourceIndex and store it
+      const [movedTask] = state.boardLists[boardListIndex].taskList.splice(source.Index, 1);
+      console.log('updateTasklistOrder movedList', JSON.stringify(movedTask._id));
       if (destination.droppableId !== source.droppableId) {
         // find the list index of the destination of the task if its a different list
-        boardListIndex = state.boardLists.findIndex(
-          (list) => list._id === destination.droppableId
-        )
-      } 
-      state.boardLists[boardListIndex].taskList.splice(
-          destination.index,
-          0,
-          movedTask
-        )
+        boardListIndex = state.boardLists.findIndex((list) => list._id === destination.droppableId);
+      }
+      state.boardLists[boardListIndex].taskList.splice(destination.index, 0, movedTask);
 
-      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
+      console.log('state.boardLists', JSON.parse(JSON.stringify(state.boardLists)));
     },
     updateBoardlist: (state, action) => {
       const updatedList = action.payload;
@@ -257,27 +241,24 @@ const boardSlice = createSlice({
       saveTolocal(BuildBoardFromState(state));
     },
     updateTaskInBoard: (state, action) => {
-      let updatedTask = action.payload
-      console.log("updateTaskInBoard", updatedTask)
+      let updatedTask = action.payload;
+      console.log('updateTaskInBoard', updatedTask);
       if (updatedTask.title) {
-        updatedTask = transformTaskFromBackend(updatedTask)
+        updatedTask = transformTaskFromBackend(updatedTask);
       }
-      
-      console.log(
-        "updateTaskInBoard transformTaskFromBackend",
-        updatedTask
-      )
+
+      console.log('updateTaskInBoard transformTaskFromBackend', updatedTask);
 
       const boardListsIndex = state.boardLists.findIndex(
         (list) => list._id === updatedTask.taskList
-      )
+      );
       // console.log("updateTaskInBoard boardListsIndex", boardListsIndex)
       if (boardListsIndex === -1) {
         return;
       }
       const taskIndex = state.boardLists[boardListsIndex].taskList.findIndex(
         (task) => task._id === updatedTask._id
-      )
+      );
       // console.log("updateTaskInBoard taskIndex", taskIndex)
       if (taskIndex === -1) {
         return;
@@ -285,8 +266,7 @@ const boardSlice = createSlice({
       // const test = state
       // console.log("state",test)
       // console.log("found old task",state.boardLists[boardListsIndex].taskList[taskIndex])
-      state.boardLists[boardListsIndex].taskList[taskIndex] =
-        updatedTask
+      state.boardLists[boardListsIndex].taskList[taskIndex] = updatedTask;
 
       // for (let list of state.boardLists) {
       //   const taskIndex = list.taskList.findIndex(
@@ -333,17 +313,19 @@ const boardSlice = createSlice({
       // })
       .addCase(syncBoardAsync.fulfilled, (state, action) => {
         // state.loading = false;
-        const board = action.payload.board
-        state.state = "success"
-        state._id = board._id
-        state.boardTitle = board.boardTitle
-        state.slug = board.slug || ""
-        state.boardLabels = board.boardLabels || []
-        state.boardLists = board.boardLists || []
-        const existing = state.boards?.filter((b) => b._id !== board._id) || []
-        state.boards = [...existing, board]
-        state.boardMembers = board.boardMembers || []
-        const { method, data } = action.payload
+
+        const board = action.payload.board;
+        state.state = 'success';
+        state._id = board._id;
+        state.boardTitle = board.boardTitle;
+        state.slug = board.slug || '';
+        state.boardLabels = board.boardLabels || [];
+        state.boardLists = board.boardLists || [];
+        const existing = state.boards?.filter((b) => b._id !== board._id) || [];
+        state.boards = [...existing, board];
+        state.boardMembers = board.boardMembers || [];
+        const { method, data } = action.payload;
+        
       })
       .addCase(syncBoardAsync.rejected, (state, action) => {
         (state.loading = false), (state.error = action.payload || action.error.message);
@@ -366,5 +348,5 @@ export const {
   updatePreviewEditorPositon,
   updateBoardListOrder,
   updateTasklistOrder,
-} = boardSlice.actions
-export default boardSlice.reducer
+} = boardSlice.actions;
+export default boardSlice.reducer;

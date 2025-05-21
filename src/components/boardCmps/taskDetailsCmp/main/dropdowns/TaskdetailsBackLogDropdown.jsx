@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 import BackLogDropdown from './BackLogDropdown';
@@ -10,67 +9,74 @@ import { addTaskToBoard, removeTaskFromBoard } from '../../../../../redux/BoardS
 import { TaskOps } from '../../../../../services/backendHandler';
 
 const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
-  const dispatch = useDispatch();
-  const boardSlice = useSelector((s) => s.boardReducer);
-  const task = useSelector((s) => s.taskDetailsReducer.selectedTask);
+  const dispatch     = useDispatch();
+  const boardSlice   = useSelector(s => s.boardReducer);
+  const task         = useSelector(s => s.taskDetailsReducer.selectedTask);
 
   // 1) Local state
   const [boardId,   setBoardId]   = useState('');
   const [listId,    setListId]    = useState('');
   const [position,  setPosition]  = useState('');
 
-  // 2) Seed state from current task & board on mount
+  // 2) Seed boardId & listId once the board’s lists exist
   useEffect(() => {
-    if (!task || !boardSlice._id) return;
-
-    // - board
-    setBoardId(task.taskboard || boardSlice._id);
-
-    // - list
+    if (!task || !boardSlice.boardLists?.length) return;
+    setBoardId(task.taskboard);
     setListId(task.taskList);
+  }, [task, boardSlice.boardLists]);
 
-    // - position (1-based)
-    const listObj = boardSlice.boardLists.find((l) => l._id === task.taskList);
-    if (listObj) {
-      const idx = listObj.taskList.findIndex((t) => t._id === task._id);
-      if (idx >= 0) setPosition(String(idx + 1));
-    }
-  }, [task, boardSlice]);
-
-  // 3) Build dropdown options
-  const boardOptions = [
-    { id: boardSlice._id, title: boardSlice.boardTitle },
-  ];
-
-  const listOptions = (boardSlice.boardLists || []).map((l) => ({
-    id:    l._id,
-    title: l.taskListTitle,
-  }));
-
-  const positionOptions = (boardSlice.boardLists
-    .find((l) => l._id === listId)
-    ?.taskList || []
-  ).map((_, i) => ({
-    id:    String(i + 1),
-    title: String(i + 1),
-  }));
-
-  // 4) Reset downstream when parent changes
+  // 3) Seed position once listId is set
   useEffect(() => {
-    setListId('');
-    setPosition('');
-  }, [boardId]);
+    if (!listId) return;
+    console.log('▶️ Effect #2 run, listId:', listId);
+     console.log('  • No listId → clearing');
+     
+    const listObj = boardSlice.boardLists.find(l => l._id === listId);
+     console.log('  • Found listObj:', listObj);
+    if (!listObj?.taskList) return;
 
-  useEffect(() => {
-    setPosition('');
-  }, [listId]);
+  
+    const sorted = listObj.taskList
+      .slice()
+      .sort((a, b) => a.position - b.position);
+ console.log('  • tasksInList:', sorted);
+    const idx = sorted.findIndex(t => t._id === task._id);
+    
+    setPosition(idx >= 0 ? String(idx + 1) : String(sorted.length + 1));
+  }, [listId, boardSlice.boardLists, task._id]);
 
+ 
+  const boardOptions = useMemo(
+    () => [{ id: boardSlice._id, title: boardSlice.boardTitle }],
+    [boardSlice._id, boardSlice.boardTitle]
+  );
+ console.log('  • Found idx for this boardOptions:', boardOptions)
+  const listOptions = useMemo(
+    () =>
+      (boardSlice.boardLists || []).map(l => ({
+        id:    l._id,
+        title: l.taskListTitle,
+      })),
+    [boardSlice.boardLists]
+  );
+console.log('  • Found idx for this listOptions:', listOptions)
+  const positionOptions = useMemo(() => {
+    const listObj = boardSlice.boardLists.find(l => l._id === listId);
+    const count   = (listObj?.taskList?.length ?? 0) + 1;
+    return Array.from({ length: count }, (_, i) => ({
+      id:    String(i + 1),
+      title: String(i + 1),
+    }));
+  }, [listId, boardSlice.boardLists]);
+console.log('  • Found idx for this positionOptions:', positionOptions)
   // 5) Move handler
   const handleMove = () => {
-    dispatch(removeTaskFromBoard({
-      _id:      task._id,
-      taskList: task.taskList,
-    }));
+    dispatch(
+      removeTaskFromBoard({
+        _id:      task._id,
+        taskList: task.taskList,
+      })
+    );
 
     const updated = {
       ...task,
@@ -79,25 +85,26 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
     };
     dispatch(addTaskToBoard({ taskList: listId, ...updated }));
 
-    dispatch(liveUpdateTask({
-      method: TaskOps.UPDATE,
-      workId: 'tasks',
-      args: {
-        taskId: task._id,
-        body: {
-          taskList:  listId,
-          taskboard: boardId,
-          position:  Number(position) - 1,
+    dispatch(
+      liveUpdateTask({
+        method: TaskOps.UPDATE,
+        workId: 'tasks',
+        args: {
+          taskId: task._id,
+          body: {
+            taskList:  listId,
+            taskboard: boardId,
+            position:  Number(position) - 1,
+          },
         },
-      },
-    }));
+      })
+    );
 
     onClose();
   };
 
   return (
     <div className="DropdownUi">
-      {/* Header */}
       <div className="DropdownUiHeader">
         <h2 className="DropdownHeaderH2">Move Card</h2>
         <button className="DropdownClose" onClick={onClose}>
@@ -105,25 +112,23 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
         </button>
       </div>
 
-      {/* Options */}
       <div className="DropdownOptions" style={{ gap: '0px' }}>
         <h4 className="WorkflowAreah4">Select destination</h4>
         <div className="workFlowCard">
           <div className="BoardReminderWrapper">
             <div className="WorkflowArea">
-              {/* Board */}
               <BackLogDropdown
                 label="Board"
                 options={boardOptions}
                 value={boardId}
                 onselect={setBoardId}
+                disabled={false}
               />
             </div>
           </div>
 
           <div className="WorkflowRow">
             <div className="WorkflowList">
-              {/* List */}
               <BackLogDropdown
                 label="List"
                 options={listOptions}
@@ -134,7 +139,6 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
             </div>
 
             <div className="WorkflowPosition">
-              {/* Position */}
               <BackLogDropdown
                 label="Position"
                 options={positionOptions}
