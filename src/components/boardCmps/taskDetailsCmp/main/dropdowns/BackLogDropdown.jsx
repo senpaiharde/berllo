@@ -65,11 +65,7 @@ const BackLogDropdown = ({ label, options, value, onselect, disabled }) => {
             <ul>
               {options.map((li, idx) => (
                 <React.Fragment key={li.title + idx}>
-                  {li.id && (
-                    <h2 className="WorkflowAreah4" style={{ paddingLeft: '8px' }}>
-                      {li.id}
-                    </h2>
-                  )}
+                  
                   <li   key={li.id}
                     style={{ padding: '8px 12px', cursor: 'pointer' }}
                     onClick={(e) => {
