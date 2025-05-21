@@ -140,13 +140,14 @@
 
 //  In List Text
 .td-inlist-text {
-  margin-left: 45px;
+  margin-left: 57px;
   font-size: 14px;
   color: #44546f;
-  padding-bottom: 15px;
-  padding-left: 12px;
   padding-bottom: 20px;
-  padding-top: -15px;
+  
+  
+ 
+ 
 }
 
 //  Main Layout
@@ -175,7 +176,7 @@
     column-gap: 8px;
     row-gap: 9px;
     margin-bottom: 16px;
-    padding-top: 8px;
+   
     margin-top: -5px;
   }
 
@@ -408,4 +409,12 @@ td-sidebar-h4 {
 [data-tooltip]:hover::after,
 [data-tooltip]:hover::before {
   opacity: 1;
+}
+
+.TaskdetailsBackLog{
+    justify-content: center;
+    align-self: start;
+}
+.SvgDrop-BACKLOG{
+    margin-top: 5px;
 }

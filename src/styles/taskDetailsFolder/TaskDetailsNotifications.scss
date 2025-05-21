@@ -34,3 +34,42 @@
       background-color: #091e424f;
     }
   }
+
+  .TaskdetailsBackLog-button {
+    background-color: #dcdfe4; // Add the base color here
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    border-radius: 3px;
+    padding: 0px 4px;
+    font-size: 11px;
+    border: none;
+    box-shadow: none;
+    color: #44546F;
+    font-weight: 600;
+    padding-top: 2px;
+    padding-inline: var(--ds-space-050, 4px);
+    gap: 2px;
+    
+  
+    
+    
+  
+    &:hover {
+        background-color: #091e4224;
+        cursor: pointer;
+      
+    }
+  
+    &:active {
+      background-color: #091e424f;
+    }
+  }
+
+  .SvgDropBacklog{
+
+
+margin-top: 2px;
+  }
