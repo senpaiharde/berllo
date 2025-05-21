@@ -146,6 +146,10 @@ const TaskDetails = () => {
             </div>
 
             <textarea
+            style={{
+             
+             color: isDueComplete === false ? '#172b4d' : '#626f86',
+            }}
               className="td-title-input"
               value={task?.title || ''}
               onChange={(e) => handleTitleChange(e.target.value)}
