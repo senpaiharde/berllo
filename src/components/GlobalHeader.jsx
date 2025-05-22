@@ -1,19 +1,40 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Layout, Grid, Clock, Star, ChevronDown, Search,
-  Bell, HelpCircle, Plus, Settings, User, Activity,
-  CreditCard, HelpCircle as Help, Building2, ExternalLink, LayoutGrid
+  Layout,
+  Grid,
+  Clock,
+  Star,
+  ChevronDown,
+  Search,
+  Bell,
+  HelpCircle,
+  Plus,
+  Settings,
+  User,
+  Activity,
+  CreditCard,
+  HelpCircle as Help,
+  Building2,
+  ExternalLink,
+  LayoutGrid,
 } from 'lucide-react';
-// import '../styles/GlobalHeader.scss';
-import { useNavigate} from 'react-router-dom';
 
-// Local image imports for templates
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Template1 from '../assets/images/1-on-1 Meeting Agenda.jpg';
 import Template2 from '../assets/images/Company Overview.jpg';
 import Template3 from '../assets/images/Design Huddle.jpg';
 import Template4 from '../assets/images/Go To Market Strategy.jpg';
 import Template5 from '../assets/images/Project Management.jpg';
 import { useSelector } from 'react-redux';
+
+const demoUsers = [
+  { name: 'ALi Demo', email: 'alice@demo.local' },
+  { name: 'Slava Demo', email: 'bob@demo.local' },
+  { name: 'Mark Demo', email: 'carol@demo.local' },
+  { name: 'Sam Demo', email: 'dave@demo.local' },
+  { name: 'Dima Demo', email: 'eve@demo.local' },
+];
 
 const GlobalHeader = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -23,19 +44,45 @@ const GlobalHeader = () => {
   const board = useSelector((state) => state.boardReducer);
   const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0;
 
-  
-  // console.log(" boardReducer:", board);
-
   const dropdownRefs = {
     workspaces: useRef(null),
     recent: useRef(null),
     starred: useRef(null),
     templates: useRef(null),
     create: useRef(null),
-    profile: useRef(null)
+    profile: useRef(null),
   };
 
-  // Close dropdowns on outside click
+  const [currentEmail, setCurrentEmail] = useState('');
+
+  // load current email from localStorage
+  useEffect(() => {
+    setCurrentEmail(localStorage.getItem('demoEmail') || '');
+  }, []);
+
+  const handleSwitch = async (e) => {
+    const email = e.target.value;
+    if (!email) return;
+    try {
+      const res = await axios.post(
+        'http://localhost:4000/auth/login', 
+        { email, password: 'demo123' }
+      );
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('demoEmail', email);
+      window.location.reload();
+    } catch (err) {
+      console.error('Demo login failed', err);
+      alert('Demo login failed');
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('demoEmail');
+    window.location.reload();
+  };
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       const currentRef = dropdownRefs[activeDropdown];
@@ -50,16 +97,14 @@ const GlobalHeader = () => {
   const toggleDropdown = (key) => {
     setActiveDropdown(activeDropdown === key ? null : key);
   };
-   
+
   return (
     <header className="global-header">
-      {/* LEFT SIDE: Grid icon, Logo, Dropdowns */}
       <div className="header-left">
         <button
           className="header-icon"
           onMouseEnter={() => setIsGridHovered(true)}
-          onMouseLeave={() => setIsGridHovered(false)}
-        >
+          onMouseLeave={() => setIsGridHovered(false)}>
           <Grid size={16} className={`grid-icon ${isGridHovered ? 'rotate' : ''}`} />
         </button>
 
@@ -69,12 +114,10 @@ const GlobalHeader = () => {
         </div>
 
         <div className="header-dropdowns">
-          {/* WORKSPACES */}
           <div ref={dropdownRefs.workspaces} className="dropdown-wrapper">
             <button
               className={`header-button ${activeDropdown === 'workspaces' ? 'active' : ''}`}
-              onClick={() => toggleDropdown('workspaces')}
-            >
+              onClick={() => toggleDropdown('workspaces')}>
               Workspaces <ChevronDown size={14} />
             </button>
             {activeDropdown === 'workspaces' && (
@@ -83,18 +126,23 @@ const GlobalHeader = () => {
                 <div className="dropdown-item">
                   <div className="workspace-icon">T</div>
                   <div>
-                  <div
-                onClick={() => {
-                 if (isBoardReady) {
-                    const slug = board.slug || (board.boardTitle ? board.boardTitle.toLowerCase().replace(/\s+/g, "-") : "board");
-                    console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
-                    navigate(`/b/${board._id}/${slug}`);
-                  } else {
-                    console.warn("⚠️ Board not ready for navigation:", board);
-                  }
-                }}
-                 style={{ cursor: "pointer", color: "#0079bf" }}
-                >Trello Workspace</div>
+                    <div
+                      onClick={() => {
+                        if (isBoardReady) {
+                          const slug =
+                            board.slug ||
+                            (board.boardTitle
+                              ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
+                              : 'board');
+                          console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                          navigate(`/b/${board._id}/${slug}`);
+                        } else {
+                          console.warn('⚠️ Board not ready for navigation:', board);
+                        }
+                      }}
+                      style={{ cursor: 'pointer', color: '#0079bf' }}>
+                      Trello Workspace
+                    </div>
                     <div className="workspace-type">Free</div>
                   </div>
                 </div>
@@ -106,12 +154,10 @@ const GlobalHeader = () => {
             )}
           </div>
 
-          {/* RECENT */}
           <div ref={dropdownRefs.recent} className="dropdown-wrapper">
             <button
               className={`header-button ${activeDropdown === 'recent' ? 'active' : ''}`}
-              onClick={() => toggleDropdown('recent')}
-            >
+              onClick={() => toggleDropdown('recent')}>
               Recent <ChevronDown size={14} />
             </button>
             {activeDropdown === 'recent' && (
@@ -120,20 +166,22 @@ const GlobalHeader = () => {
                 <div className="dropdown-item">
                   <Clock size={14} />
                   <span
-                   onClick={() => {
-                   if (isBoardReady) {
-                    const slug = board.slug || (board.boardTitle ? board.boardTitle.toLowerCase().replace(/\s+/g, "-") : "board");
-                    console.log("🧠 Navigating to:", `/b/${board._id}/${slug}`);
-                    navigate(`/b/${board._id}/${slug}`);
-                  } else {
-                    console.warn("⚠️ Board not ready for navigation:", board);
-                  }
+                    onClick={() => {
+                      if (isBoardReady) {
+                        const slug =
+                          board.slug ||
+                          (board.boardTitle
+                            ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
+                            : 'board');
+                        console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                        navigate(`/b/${board._id}/${slug}`);
+                      } else {
+                        console.warn('⚠️ Board not ready for navigation:', board);
+                      }
                     }}
-                     style={{ cursor: "pointer", color: "#0079bf" }}
->
-                     Work Flow
-                    </span>
-
+                    style={{ cursor: 'pointer', color: '#0079bf' }}>
+                    Work Flow
+                  </span>
                 </div>
               </div>
             )}
@@ -143,8 +191,7 @@ const GlobalHeader = () => {
           <div ref={dropdownRefs.starred} className="dropdown-wrapper">
             <button
               className={`header-button ${activeDropdown === 'starred' ? 'active' : ''}`}
-              onClick={() => toggleDropdown('starred')}
-            >
+              onClick={() => toggleDropdown('starred')}>
               Starred <ChevronDown size={14} />
             </button>
             {activeDropdown === 'starred' && (
@@ -162,19 +209,18 @@ const GlobalHeader = () => {
           <div ref={dropdownRefs.templates} className="dropdown-wrapper">
             <button
               className={`header-button ${activeDropdown === 'templates' ? 'active' : ''}`}
-              onClick={() => toggleDropdown('templates')}
-            >
+              onClick={() => toggleDropdown('templates')}>
               Templates <ChevronDown size={14} />
             </button>
             {activeDropdown === 'templates' && (
               <div className="dropdown-menu templates-menu">
                 <div className="dropdown-header">Top Templates</div>
                 {[
-                  { title: "1-on-1 Meeting Agenda", img: Template1 },
-                  { title: "Project Management", img: Template2 },
-                  { title: "Company Overview", img: Template3 },
-                  { title: "Design Huddle", img: Template4 },
-                  { title: "Go To Market Strategy", img: Template5 },
+                  { title: '1-on-1 Meeting Agenda', img: Template1 },
+                  { title: 'Project Management', img: Template2 },
+                  { title: 'Company Overview', img: Template3 },
+                  { title: 'Design Huddle', img: Template4 },
+                  { title: 'Go To Market Strategy', img: Template5 },
                 ].map((template, index) => (
                   <div key={index} className="template-item">
                     <img src={template.img} alt={template.title} />
@@ -201,13 +247,18 @@ const GlobalHeader = () => {
             </button>
             {activeDropdown === 'create' && (
               <div className="dropdown-menu create-menu">
-                {[{
-                  icon: <LayoutGrid size={16} />, title: "Create board",
-                  desc: "A board is made up of cards ordered on lists. Use it to manage projects, track information, or organize anything."
-                }, {
-                  icon: <Building2 size={16} />, title: "Create workspace",
-                  desc: "A Workspace is a group of boards and people. Use it to organize your company, side hustle, family, or friends."
-                }].map(({ icon, title, desc }, i) => (
+                {[
+                  {
+                    icon: <LayoutGrid size={16} />,
+                    title: 'Create board',
+                    desc: 'A board is made up of cards ordered on lists. Use it to manage projects, track information, or organize anything.',
+                  },
+                  {
+                    icon: <Building2 size={16} />,
+                    title: 'Create workspace',
+                    desc: 'A Workspace is a group of boards and people. Use it to organize your company, side hustle, family, or friends.',
+                  },
+                ].map(({ icon, title, desc }, i) => (
                   <div key={i} className="create-item">
                     <div className="create-icon">{icon}</div>
                     <div className="create-info">
@@ -252,19 +303,48 @@ const GlobalHeader = () => {
               <div className="profile-header">
                 <div className="avatar large">SV</div>
                 <div className="profile-info">
-                  <div className="name">Slava Vasilin</div>
-                  <div className="email">slavavaslin@gmail.com</div>
+                  <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
+                    <option value="" disabled>
+                      Switch user…
+                    </option>
+                    {demoUsers.map((u) => (
+                      <option key={u.email} value={u.email}>
+                        {u.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button className="logout-button" onClick={handleLogout}>
+                    Log out
+                  </button>
+
+                  {/* 2) Current email display */}
+                  <div className="email">{currentEmail || 'Not logged in'}</div>
                 </div>
               </div>
               <div className="menu-section">
                 <div className="section-header">ACCOUNT</div>
-                {[['Profile and visibility', <User size={14} />], ['Activity', <Activity size={14} />], ['Cards', <CreditCard size={14} />], ['Settings', <Settings size={14} />]].map(([label, icon], i) => (
-                  <div key={i} className="menu-item">{icon}<span>{label}</span></div>
+                {[
+                  ['Profile and visibility', <User size={14} />],
+                  ['Activity', <Activity size={14} />],
+                  ['Cards', <CreditCard size={14} />],
+                  ['Settings', <Settings size={14} />],
+                ].map(([label, icon], i) => (
+                  <div key={i} className="menu-item">
+                    {icon}
+                    <span>{label}</span>
+                  </div>
                 ))}
               </div>
               <div className="menu-section">
-                {[['Help', <Help size={14} />], ['Shortcuts', <ExternalLink size={14} />]].map(([label, icon], i) => (
-                  <div key={i} className="menu-item">{icon}<span>{label}</span></div>
+                {[
+                  ['Help', <Help size={14} />],
+                  ['Shortcuts', <ExternalLink size={14} />],
+                ].map(([label, icon], i) => (
+                  <div key={i} className="menu-item">
+                    {icon}
+                    <span>{label}</span>
+                  </div>
                 ))}
               </div>
               <div className="menu-footer">

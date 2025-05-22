@@ -1,22 +1,19 @@
-import axios from 'axios';
+
+import api from '../api/api';
 
 
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-const api = axios.create({ baseURL });
 
 const backendHandler = async ({ args }) => {
   const { taskId, body } = args || {};
   console.log('backendHandler',args);
   console.log('backendHandler body',body);
-  // console.log('backendHandler', body.method, body.workId, taskId);
-  // console.log(`/${body.workId}/${body.method}`);
+ 
   let data;
   if (body.method === 'update') {
-    // console.log('→ UPDATE case hit!', body.workId, taskId, body);
-    // now we GUARANTEE axios.put() runs before returning:
+  
     const res = await api.put(`/${body.workId}/${taskId}`, body);
-    // console.log('→ axios.put returned status:', res.status);
+    
     return res.data;
   }
   switch (body.method) {

@@ -183,7 +183,7 @@ const TaskDetails = () => {
             <div style={{ marginTop: '-42px' }} />
             {task?.attachments?.length > 0 && <AttachmentUi />}
             {task?.checklist?.length > 0 && <TaskChecklist />}
-            <TaskDetailsActivity />
+           <TaskDetailsActivity />
           </div>
 
           <TaskDetailsSidebar />

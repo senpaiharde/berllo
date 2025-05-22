@@ -13,33 +13,33 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
   const boardSlice   = useSelector(s => s.boardReducer);
   const task         = useSelector(s => s.taskDetailsReducer.selectedTask);
 
-  // 1) Local state
+ 
   const [boardId,   setBoardId]   = useState('');
   const [listId,    setListId]    = useState('');
   const [position,  setPosition]  = useState('');
 
-  // 2) Seed boardId & listId once the board’s lists exist
+ 
   useEffect(() => {
     if (!task || !boardSlice.boardLists?.length) return;
     setBoardId(task.taskboard);
     setListId(task.taskList);
   }, [task, boardSlice.boardLists]);
 
-  // 3) Seed position once listId is set
+  
   useEffect(() => {
     if (!listId) return;
-    console.log('▶️ Effect #2 run, listId:', listId);
-     console.log('  • No listId → clearing');
+    console.log('listId:', listId);
+     console.log('No listId');
      
     const listObj = boardSlice.boardLists.find(l => l._id === listId);
-     console.log('  • Found listObj:', listObj);
+     console.log('listObj:', listObj);
     if (!listObj?.taskList) return;
 
   
     const sorted = listObj.taskList
       .slice()
       .sort((a, b) => a.position - b.position);
- console.log('  • tasksInList:', sorted);
+ console.log('tasksInList:', sorted);
     const idx = sorted.findIndex(t => t._id === task._id);
     
     setPosition(idx >= 0 ? String(idx + 1) : String(sorted.length + 1));
@@ -50,7 +50,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
     () => [{ id: boardSlice._id, title: boardSlice.boardTitle }],
     [boardSlice._id, boardSlice.boardTitle]
   );
- console.log('  • Found idx for this boardOptions:', boardOptions)
+ console.log('boardOptions:', boardOptions)
   const listOptions = useMemo(
     () =>
       (boardSlice.boardLists || []).map(l => ({
@@ -59,7 +59,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
       })),
     [boardSlice.boardLists]
   );
-console.log('  • Found idx for this listOptions:', listOptions)
+console.log('listOptions:', listOptions)
   const positionOptions = useMemo(() => {
     const listObj = boardSlice.boardLists.find(l => l._id === listId);
     const count   = (listObj?.taskList?.length ?? 0) + 1;
@@ -68,8 +68,8 @@ console.log('  • Found idx for this listOptions:', listOptions)
       title: String(i + 1),
     }));
   }, [listId, boardSlice.boardLists]);
-console.log('  • Found idx for this positionOptions:', positionOptions)
-  // 5) Move handler
+console.log('positionOptions:', positionOptions)
+ 
   const handleMove = () => {
     dispatch(
       removeTaskFromBoard({

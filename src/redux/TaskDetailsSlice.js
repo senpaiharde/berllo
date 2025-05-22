@@ -12,7 +12,7 @@ export const syncTaskAsync = createAsyncThunk(
       console.log('syncTaskAsync data', data);
       if (method === TaskOps.ADD) return
       if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data));
-      return { method, data };
+      return { method, data, workId };
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || `${method} failed`);
     }
@@ -27,7 +27,7 @@ const initialState = {
   loading: false,
   error: null,
   taskDueDate: null,
-
+activities: [],
   title: '',
 };
 
@@ -47,6 +47,7 @@ const taskDetailsSlice = createSlice({
         isWatching: action.payload.isWatching ?? false,
         members: Array.isArray(action.payload.members) ? action.payload.members : [],
         checklist: Array.isArray(action.payload.checklist) ? action.payload.checklist : [],
+       
       };
       state.isOpen = true;
     },
@@ -93,16 +94,18 @@ const taskDetailsSlice = createSlice({
       .addCase(syncTaskAsync.fulfilled, (state, action) => {
         state.loading = false;
 
-        const { method, data } = action.payload;
-
+        const { method, data ,workId } = action.payload;
+          
         switch (method) {
           case TaskOps.FETCH:
+              
             state.selectedTask = {
               ...data,
               taskDueDate: data.taskDueDate ?? data.dueDate ?? null,
               reminder: data.reminder ?? null,
               isDueComplete: data.isDueComplete ?? false,
             };
+            
             state.isOpen = true;
             break;
           case TaskOps.UPDATE:
@@ -120,6 +123,10 @@ const taskDetailsSlice = createSlice({
           default:
             break;
         }
+        if (method === 'fetch' && workId === 'activities') {
+        state.activities = data;
+        return;             
+      }
       })
       .addCase(syncTaskAsync.rejected, (state, action) => {
         (state.loading = false), (state.error = action.payload || action.error.message);
@@ -143,7 +150,7 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
 
   dispatch(updateSelectedTaskLive(fields));
   clearTimeout(debounceId);
-  /* 2 background sync */
+ 
   console.log(fields.method, fields.workId, fields, 'liveupdatetask');
 
   
@@ -156,6 +163,15 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
       })
     );
   },100);
+};
+
+export const fetchTaskActivities = (fields) => async (dispatch,getState) => {
+    const selectedTask = getState().taskDetailsReducer?.selectedTask;
+  await dispatch(syncTaskAsync({
+    method: fields.method,
+    args:   { taskId: selectedTask._id, body: fields },
+    workId: fields.workId,
+  }));
 };
 
 export default taskDetailsSlice.reducer;
