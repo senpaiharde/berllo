@@ -155,7 +155,7 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
         workId: fields.workId,
       })
     );
-  },200);
+  },100);
 };
 
 export default taskDetailsSlice.reducer;

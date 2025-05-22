@@ -15,13 +15,14 @@ const TaskdetailsBackLog =() => {
           in list{' '}
           <DropdownUi
           trigger={
-            <span>
-            <button className="notification-button">
+            <span className="TaskdetailsBackLog">
+            <button className="TaskdetailsBackLog-button">
               BACKLOG-SERVER
-               <SvgServices name='SvgDrop'/>
+               <div className="SvgDropBacklog"><SvgServices name='SvgDrop'/></div>
+              
              
             </button>
-            {!isWatching && <SvgServices name='SvgEye'/>}
+            {!isWatching && <SvgServices name='SvgEye' className='SvgDrop-BACKLOG'/>}
           </span>
           }>
           {(props) => <TaskdetailsBackLogDropdown {...props} />}

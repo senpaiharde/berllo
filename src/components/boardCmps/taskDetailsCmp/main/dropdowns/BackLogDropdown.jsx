@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { SvgServices } from '../../../../../services/svgServices';
 
-const BackLogDropdown = ({ label, options, value, onselect }) => {
+const BackLogDropdown = ({ label, options, value, onselect, disabled }) => {
   const [open, setOpen] = useState(false);
   const [dropdownStyles, setDropdownStyles] = useState({});
   const triggerRef = useRef(null);
@@ -36,17 +36,19 @@ const BackLogDropdown = ({ label, options, value, onselect }) => {
     <>
       {label.length > 0 && <label className="WorkflowAreaLabel">{label}</label>}
       <div
-        className="BoardReminderDiv"
+        className={`BoardReminderDiv${disabled ? ' disabled' : ''}`}
         ref={triggerRef}
         onClick={handleClick}
-        style={{ cursor: 'pointer' }}>
+        style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
         <div className="BoardReminderDivText">
-          <div className="BoardReminderDivText2">{value || 'Select'}</div>
+          <div className="BoardReminderDivText2">
+            {' '}
+            {options.find((o) => o.id === value)?.title || 'Select'}
+          </div>
         </div>
         <div className="BoardReminderDivSVG">
           <span className="BoardReminderDivSVG2">
-            <SvgServices name='SvgDropdown'/>
-          
+            <SvgServices name="SvgDropdown" />
           </span>
         </div>
       </div>
@@ -63,18 +65,14 @@ const BackLogDropdown = ({ label, options, value, onselect }) => {
             <ul>
               {options.map((li, idx) => (
                 <React.Fragment key={li.title + idx}>
-                  {li.id && (
-                    <h2 className="WorkflowAreah4" style={{ paddingLeft: '8px' }}>
-                      {li.id}
-                    </h2>
-                  )}
-                  <li
+                  
+                  <li   key={li.id}
                     style={{ padding: '8px 12px', cursor: 'pointer' }}
                     onClick={(e) => {
                       e.stopPropagation();
                       setOpen(false);
                       setTimeout(() => {
-                        onselect(li.title);
+                        onselect(li.id);
                       }, 0);
                     }}>
                     {li.title}

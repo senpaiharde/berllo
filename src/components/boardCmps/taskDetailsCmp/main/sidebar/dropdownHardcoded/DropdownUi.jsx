@@ -60,7 +60,7 @@ const DropdownUi = ({ trigger, children, onClose }) => {
           
           setOpen((prev) => !prev);
         }}
-        style={{ display: 'inline-block' }}>
+        style={{ display: 'inline-block', }}>
         {trigger}
       </div>
 
