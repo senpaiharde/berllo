@@ -1,9 +1,8 @@
-import axios from 'axios';
+
+import api from '../api/api';
 
 
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-const api = axios.create({ baseURL });
 
 const backendHandler = async ({ args }) => {
   const { taskId, body } = args || {};
