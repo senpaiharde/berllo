@@ -75,6 +75,8 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
       )
     } else {
       dispatch(updateTaskInBoard({ ...task, taskTitle: value }))
+      console.log("updating task title", value)
+      console.log("task", task)
       dispatch(
         syncTaskAsync({
           method: TaskOps.ADD,
@@ -84,6 +86,7 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
               workId: "tasks",
               board: task.taskboard,
               title: value,
+              position : task.position,
               listId: task.taskList,
             },
           },

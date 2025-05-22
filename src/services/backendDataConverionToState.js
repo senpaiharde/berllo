@@ -27,6 +27,7 @@ export function transformTasksFromBackend(tasks) {
           taskDueDate: task.dueDate ? new Date(task.dueDate).getTime() : null,
           taskDateReminder: task.reminder ? new Date(task.reminder).getTime() : null,
           taskList: task.list,
+          indexInList: task.position,
           taskboard: task.board,
           taskCheckList: task.checklist,
           // (task.checklist || []).flatMap(checklist =>

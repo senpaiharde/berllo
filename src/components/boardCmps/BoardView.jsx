@@ -160,7 +160,7 @@ export function BoardView() {
                           ref={provided.innerRef}
                         >
                           <li className="TaskList-list-item" key={list._id}>
-                            {list.taskListTitle === "" ? (
+                            {list.isNewTaskList === true ? (
                               <TaskList
                                 boardList={list}
                                 newTaskList={true}

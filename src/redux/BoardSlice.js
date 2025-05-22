@@ -6,6 +6,7 @@ import {
 } from '../services/backendDataConverionToState';
 import { BuildBoardFromState } from '../utils/boardUtils';
 import backendHandler, { TaskOps } from '../services/backendHandler';
+import { is } from 'date-fns/locale'
 
 export const fetchBoardById = createAsyncThunk(
   'board/fetchBoardById',
@@ -149,6 +150,8 @@ const boardSlice = createSlice({
         _id: nanoid(),
         taskListTitle: '',
         taskListBoard: state._id,
+        indexInBoard: state.boardLists.length,
+        isNewTaskList: true,
         taskList: [],
         state: 'idle',
         error: null,
@@ -234,6 +237,8 @@ const boardSlice = createSlice({
         taskTitle: '',
         taskboard: state._id,
         taskChecked: false,
+        taskCover: '',
+        position: action.payload.position,
         taskList: action.payload.taskList,
         state: 'idle',
         error: null,
