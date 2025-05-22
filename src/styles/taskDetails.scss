@@ -44,14 +44,15 @@
 }
 
 .td-header {
+    border-Radius:8px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 4px 52px 0 0px;
+  padding: 16px 52px 0 0px;
   background-color: #f7f8f9;
   position: relative;
   padding-left: 3px;
-  margin-top: 8px;
+  
 }
 
 // === Left Side of Header: Checkbox + Title
@@ -74,7 +75,7 @@
   cursor: pointer;
 
   .td-checkbox {
-    
+    padding-left: 6px;
     width: 16px;
     height: 16px;
     margin-top: 5px;
@@ -88,6 +89,7 @@
   box-sizing: border-box;
   width: 100%;
   padding-top: 12px;
+  height: 32px;
 
   transform: translate3d(0, 0, 0);
 
@@ -140,13 +142,14 @@
 
 //  In List Text
 .td-inlist-text {
-  margin-left: 45px;
+  margin-left: 57px;
   font-size: 14px;
   color: #44546f;
-  padding-bottom: 15px;
-  padding-left: 12px;
   padding-bottom: 20px;
-  padding-top: -15px;
+  
+  
+ 
+ 
 }
 
 //  Main Layout
@@ -174,8 +177,8 @@
     padding-left: 4px;
     column-gap: 8px;
     row-gap: 9px;
-    margin-bottom: 16px;
-    padding-top: 8px;
+  
+   
     margin-top: -5px;
   }
 
@@ -408,4 +411,24 @@ td-sidebar-h4 {
 [data-tooltip]:hover::after,
 [data-tooltip]:hover::before {
   opacity: 1;
+}
+
+.TaskdetailsBackLog{
+    justify-content: center;
+    align-self: start;
+}
+.SvgDrop-BACKLOG{
+    margin-top: 5px;
+}
+
+
+.DoneSvg{
+color: var(--ds-icon-success, #22A06B);
+width: 16px;
+height: 16px;
+}
+.UndoneSvg{
+    color: var(--ds-icon-subtle, #626F86);
+width: 16px;
+height: 16px;
 }

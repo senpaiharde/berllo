@@ -130,7 +130,8 @@
 
 
 .dropDownContent{
-    position: absolute;
+    margin-top: 5px;
+    position: fixed;
     top: 0;
     left: 0;
     width: 304px;
@@ -148,7 +149,7 @@ display: grid;
 grid-template-rows: repeat(2,32px);
 gap: 4px;
 .DropdownLabelH3{
-  
+                padding-top: 12px;
                 font-size: 12px;
                 line-height: 16px;
                 font-weight: 500;

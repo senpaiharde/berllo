@@ -162,12 +162,21 @@ const DropdownLabel = ({ onClose }) => {
 
                 return (
                   <li key={label.color + label.title} className="DropdownLabelItem">
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      className="DropdownLabelCheckbox"
-                      onChange={() => toggleLabel(label)}
-                    />
+                    {isChecked  === true ? 
+                                             (<span 
+                                             onClick={() => toggleLabel(label)}
+                                             className="DropdownLabelCheckboxDone">
+                                                <div className='checklistDone'>
+                                                    <SvgServices name='checklistDone'/></div>
+                                               
+                                             </span>):
+                                             (<span
+                                             onClick={() => toggleLabel(label)}
+                                             className="DropdownLabelCheckbox-undone" >
+                    
+                                                
+                                             </span>)}
+                   
                     <div
                       className="DropdownLabelColorBox"
                       style={{ backgroundColor: label.color || '#ccc' }}>

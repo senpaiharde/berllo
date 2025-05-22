@@ -106,11 +106,11 @@ const TaskChecklist = () => {
         const visible = hideChecked ? items.filter((i) => !i.done) : items;
 
         return (
-          <section key={gKey} style={{paddingTop:'20px'}}>
+          <section key={gKey} >
             <div className="MainChecklistHeader">
               <div className="MainChecklistHeaderText">
                 <div className="MainChecklistHeaderLeft">
-                    <div style={{marginRight:'5px'}}>
+                    <div style={{paddingRight:'10px',color:'#44546f',marginLeft:'-4px'}}>
                         <SvgServices name='SvgCheckV'/>
                     </div>
                    
@@ -159,12 +159,21 @@ const TaskChecklist = () => {
                   style={{ position: 'relative' }}
                   onMouseEnter={() => setHovering(key)}
                   onMouseLeave={() => setHovering(null)}>
-                  <input
-                    type="checkbox"
-                    checked={item.done}
-                    onChange={() => handleToggleCheck(gKey, key)}
-                    className="checklist-item-wrapper-checkbox"
-                  />
+                         {item.done  === true ? 
+                         (<span 
+                         onClick={() => handleToggleCheck(gKey, key)}
+                         className="checklist-item-wrapper-done">
+                            <div className='checklistDone'>
+                                <SvgServices name='checklistDone'/></div>
+                           
+                         </span>):
+                         (<span
+                         onClick={() => handleToggleCheck(gKey, key)}
+                         className="checklist-item-wrapper-Undone" >
+
+                            
+                         </span>)}
+                  
 
                   <div
                     className={'checklist-item-wrapper-Text' + (isActive ? ' active' : '')}
@@ -271,7 +280,7 @@ const TaskChecklist = () => {
 
             <button
               className="notification-button-check"
-              style={{ marginTop: '20px', marginLeft: '16px' }}
+              style={{ marginTop: '8px', marginLeft: '12px' }}
               onClick={() => handleAddItem(gKey)}>
               Add an item
             </button>

@@ -25,6 +25,7 @@ import CustomFields from './CustomFields';
 import Cover from './cover';
 import { SvgServices } from '../../../../../services/svgServices';
 import Attachment from './Attachment';
+import TaskdetailsBackLogDropdown from '../dropdowns/TaskdetailsBackLogDropdown';
 const TaskDetailsSidebar = () => {
   const sidebarButtons = [
     {
@@ -105,7 +106,7 @@ const TaskDetailsSidebar = () => {
        hover: 'Move Card',
       label: 'Move',
       icon: <MoveSvg />,
-      content: (props) => <DropdownLabel {...props} />,
+      content: (props) => <TaskdetailsBackLogDropdown {...props} />,
     },
     {
       id: 'Copy',
@@ -193,11 +194,22 @@ const TaskDetailsSidebar = () => {
       <div className="section-header">Actions</div>
 
       {sidebarButtonsBottom.map((button, index) => (
-        <button key={index} className="trello-btn"
+         <DropdownUi
+          trigger={
+            <button key={index} className="trello-btn"
         data-tooltip={button.hover}
         >
           {button.icon} {button.label}
         </button>
+          }>
+          {(controlProps) =>
+            button.content?.({
+              title: button.label,
+              ...controlProps,
+            })
+          }
+        </DropdownUi>
+       
       ))}
       <div className="divider"></div>
       {BottomButtons.map((button, index) => (
