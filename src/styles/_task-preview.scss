@@ -1,5 +1,5 @@
 .task-preview {
-  display: flex;
+  // display: flex;
   position: relative;
   justify-content: space-between;
   background-color: white;
@@ -8,9 +8,8 @@
   border: 1px solid;
   border-color: transparent;
   border-radius: 8px;
-  gap: 10px;
-  // margin: 5px;
-  padding: 8px 12px 4px;
+  // gap: 10px;
+  // padding: 8px 12px 4px;
   box-shadow: var(
     --ds-shadow-raised,
     0px 1px 1px #091e4240,
@@ -22,18 +21,55 @@
   border: 1px solid;
   border-color: blue;
 }
+// .task-front-cover{
+//   height: 36px;
+//     overflow: hidden;
+//     border-top-left-radius: 8px;
+//     border-top-right-radius: 8px;
+// }
+
+.task-front-cover {
+  height: 36px;
+  overflow: hidden;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  // border-Radius:5px 5px 0px 0px;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &--image {
+    // height: 160px;
+    height: 225px;
+    max-height: 225px;
+    background-size: contain;
+  }
+
+  &--color {
+    // height: 116px;
+    background-size: cover;
+  }
+
+  position: relative;
+  overflow: hidden;
+}
+
 .task-preview-details {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 8px 12px 4px;
 }
 .task-preview-header {
+  // display: flex;
+  // padding-top: 5px;
+  // align-items: center;
+  // margin-bottom: 4px;
   display: flex;
-  // background-color: rgb(52, 199, 199);
-  // gap: 10px;
-  padding-top: 5px;
-  align-items: center;
-  margin-bottom: 4px;
+  flex-flow: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-bottom: 4px;
 }
 .task-preview-header-completion-status {
   display: flex;
@@ -131,7 +167,9 @@
   align-content: center;
   justify-content: center;
   padding: 2px;
+  height: 24px;
   border-radius: 3px;
+  margin-bottom: 4px;
 }
 .task-complete-svg {
   display: inline-flex;

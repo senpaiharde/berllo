@@ -27,6 +27,28 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
   // }
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const taskCover = () => {
+    if (task.taskCover) {
+      if(task.taskCover.coverType === "image" ) {
+        return ({backgroundImage: `url(${task.taskCover.coverImg})`})
+      }
+      if(task.taskCover.coverType === "color") {
+        return ({backgroundColor: task.taskCover.coverColor})
+      }
+    }
+    return ""
+  }
+  const [imageHeight, setImageHeight] = useState(null);
+
+  useEffect(() => {
+    if (task.taskCover.coverType === 'image') {
+      const img = new Image();
+      img.src = task.taskCover.coverImg;
+      img.onload = () => {
+        setImageHeight(img.height * 0.7); // 70% of image height
+      };
+    }
+  }, [task]);
 
   const [taskChecked, setTaskChecked] = useState(task.taskChecked)
 
@@ -186,7 +208,19 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
               {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
-              <div className="task-front-cover"></div>
+              {task.taskCover.coverType !== ""  && 
+              <div 
+              className={
+              task.taskCover.coverType === 'image' ? 'task-front-cover task-front-cover--image' : 'task-front-cover task-front-cover--color'
+            }
+              // className="task-front-cover" 
+              style={{
+              backgroundImage: task.taskCover.coverType === 'image' ? `url(${task.taskCover.coverImg})` : undefined,
+              backgroundColor: task.taskCover.coverType === 'color' ? task.taskCover.coverColor : undefined,
+              height: task.taskCover.coverType === 'image' && imageHeight ? `${imageHeight}px` : undefined,
+            }}
+              >
+              </div>}
               <div className="task-preview-details">
                 <div className="task-preview-labels">
                   <TaskPreviewLabels task={task}></TaskPreviewLabels>
@@ -276,6 +310,7 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
                       iconSize={"16px"}
                       centerd={true}
                       alternativeViewBox={"0 0 16 16"}
+                      displayOnHover={true}
                       // onClick={(e) => {
                       //   e.stopPropagation()
                       //   onRemoveCurrentTask()
@@ -301,6 +336,7 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
                     iconSize={"16px"}
                     centerd={true}
                     alternativeViewBox={"0 0 16 16"}
+                    displayOnHover={true}
                     // onClick={(e) => {
                     //   e.stopPropagation()
                     //   onRemoveCurrentTask()

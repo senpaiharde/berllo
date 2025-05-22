@@ -15,8 +15,15 @@ const Workspace = () => {
   const { boardId } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  const board = useSelector((state) => state.boardReducer)
+  const filter = "f"
+  const board = useSelector((state) => {
+    // state.boardReducer
+    let filteredBoard = {...state.boardReducer}
+    if(filter){
+      state.boardReducer.boardLists
+    }
+    return state.boardReducer
+  })
   // const workSpace = useSelector((state) => state.workSpaceReducer)
   // console.log("workSpace.boards[0]",workSpace.boards[0])
   //  Load the board if ID exists
