@@ -29,26 +29,26 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
   const dispatch = useDispatch()
   const taskCover = () => {
     if (task.taskCover) {
-      if(task.taskCover.coverType === "image" ) {
-        return ({backgroundImage: `url(${task.taskCover.coverImg})`})
+      if (task.taskCover.coverType === "image") {
+        return { backgroundImage: `url(${task.taskCover.coverImg})` }
       }
-      if(task.taskCover.coverType === "color") {
-        return ({backgroundColor: task.taskCover.coverColor})
+      if (task.taskCover.coverType === "color") {
+        return { backgroundColor: task.taskCover.coverColor }
       }
     }
     return ""
   }
-  const [imageHeight, setImageHeight] = useState(null);
+  const [imageHeight, setImageHeight] = useState(null)
 
   useEffect(() => {
-    if (task.taskCover.coverType === 'image') {
-      const img = new Image();
-      img.src = task.taskCover.coverImg;
+    if (task.taskCover.coverType === "image") {
+      const img = new Image()
+      img.src = task.taskCover.coverImg
       img.onload = () => {
-        setImageHeight(img.height * 0.7); // 70% of image height
-      };
+        setImageHeight(img.height * 0.7) // 70% of image height
+      }
     }
-  }, [task]);
+  }, [task])
 
   const [taskChecked, setTaskChecked] = useState(task.taskChecked)
 
@@ -184,43 +184,46 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
           itemType={"add task"}
         ></ItemNameForm>
       ) : (
-        <Draggable draggableId={task._id} index={index}>
+        <Draggable
+          draggableId={task._id}
+          index={index}
+          style={{ backgroundColor: "#ffffff" }}
+        >
           {(provided) => (
             <div
-              style={{ display: "flex", flexGrow: 1, zIndex: 0 }}
-              // onClick={(e) => {
-              //   console.log("onClick task preview", task._id)
-              //   if (!isNewtask) {
-              //     console.log("🧠 Navigating to task:", task._id)
-              //     // navigate(
-              //     //   `/b/${boardId}/board/${task._id}
-              //     //   -${encodeURIComponent(
-              //     //     task.taskTitle
-              //     //   )}`
-
-              //     // )
-              //     navigate(`/b/${boardId}/board/${task._id}`)
-              //   }else{
-              //     console.log("cannont Navigating to task:", task._id,"isNewtask=",isNewtask)
-              //   }
-              // }}
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
-              {task.taskCover.coverType !== ""  && 
-              <div 
-              className={
-              task.taskCover.coverType === 'image' ? 'task-front-cover task-front-cover--image' : 'task-front-cover task-front-cover--color'
-            }
-              // className="task-front-cover" 
+              <div
+              className="task-preview"
               style={{
-              backgroundImage: task.taskCover.coverType === 'image' ? `url(${task.taskCover.coverImg})` : undefined,
-              backgroundColor: task.taskCover.coverType === 'color' ? task.taskCover.coverColor : undefined,
-              height: task.taskCover.coverType === 'image' && imageHeight ? `${imageHeight}px` : undefined,
-            }}
-              >
-              </div>}
+                backgroundColor: "#ffffff",
+              }}>
+              {task.taskCover.coverType !== "" && (
+                <div
+                  className={
+                    task.taskCover.coverType === "image"
+                      ? "task-front-cover task-front-cover--image"
+                      : "task-front-cover task-front-cover--color"
+                  }
+                  // className="task-front-cover"
+                  style={{
+                    backgroundImage:
+                      task.taskCover.coverType === "image"
+                        ? `url(${task.taskCover.coverImg})`
+                        : undefined,
+                    backgroundColor:
+                      task.taskCover.coverType === "color"
+                        ? task.taskCover.coverColor
+                        : undefined,
+                    height:
+                      task.taskCover.coverType === "image" && imageHeight
+                        ? `${imageHeight}px`
+                        : undefined,
+                  }}
+                ></div>
+              )}
               <div className="task-preview-details">
                 <div className="task-preview-labels">
                   <TaskPreviewLabels task={task}></TaskPreviewLabels>
@@ -350,6 +353,7 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
                     ></path>
                   </IconButton>
                 </div>
+              </div>
               </div>
             </div>
           )}

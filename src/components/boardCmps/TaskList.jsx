@@ -113,7 +113,6 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
       )}
 
       {!isNewTaskList && (
-        <div>
           <Droppable droppableId={boardList._id} type="taskList">
             {(provided) => (
               <ol
@@ -148,7 +147,6 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
               </ol>
             )}
           </Droppable>
-        </div>
       )}
       {!isNewTaskList && (
         <AddItemCard

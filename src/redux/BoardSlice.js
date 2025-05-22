@@ -26,9 +26,9 @@ export const syncBoardAsync = createAsyncThunk(
   "board/syncBoardAsync",
   async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
     try {
-      console.log(method, workId, args, "update happens here", workId)
+      // console.log(method, workId, args, "update happens here", workId)
       const data = await backendHandler({ method, args, workId })
-      console.log("syncBoardAsync method", method)
+      // console.log("syncBoardAsync method", method)
       if (method === TaskOps.ADD || method === TaskOps.UPDATE) {
         return
       }
@@ -179,7 +179,7 @@ const boardSlice = createSlice({
     updateTasklistOrder: (state, action) => {
       console.log("updateTasklistOrder")
       console.log("updateTasklistOrder action.payload", action)
-      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
+      
       const { draggableId, destination, source } = action.payload
        console.log(
           "updateTasklistOrder destination, source",
@@ -190,9 +190,12 @@ const boardSlice = createSlice({
         let boardListIndex = state.boardLists.findIndex(
           (list) => list._id === source.droppableId
         )
+        const index = source.index
+        console.log("boardListIndex ", boardListIndex,"source.Index", source.Index,"index", index)
+        console.log("state.boardLists.taskList", JSON.parse(JSON.stringify(state.boardLists[boardListIndex])))
         //Remove the task from sourceIndex and store it
         const [movedTask] = state.boardLists[boardListIndex].taskList.splice(
-          source.Index,
+          index,
           1
         )
         console.log("updateTasklistOrder movedList", JSON.stringify(movedTask._id))
@@ -208,7 +211,7 @@ const boardSlice = createSlice({
           movedTask
         )
 
-      console.log("state.boardLists", JSON.parse(JSON.stringify(state.boardLists)))
+      console.log("state.boardLists.taskList", JSON.parse(JSON.stringify(state.boardLists[boardListIndex])))
     },
     updateBoardlist: (state, action) => {
       const updatedList = action.payload;

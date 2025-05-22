@@ -32,16 +32,16 @@ export const syncWorkSpaceAsync = createAsyncThunk(
   "workSpace/syncWorkSpaceAsync",
   async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
     try {
-      console.log(
-        "syncWorkSpaceAsync ",
-        method,
-        workId,
-        args,
-        "update happens here",
-        workId
-      )
+      // console.log(
+      //   "syncWorkSpaceAsync ",
+      //   method,
+      //   workId,
+      //   args,
+      //   "update happens here",
+      //   workId
+      // )
       const data = await backendHandler({ method, args, workId })
-      console.log("syncWorkSpaceAsync method",method, "data", data)
+      // console.log("syncWorkSpaceAsync method",method, "data", data)
       // if (method === TaskOps.POST) {
       //   return
       // }
