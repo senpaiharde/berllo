@@ -106,7 +106,9 @@ const TaskChecklist = () => {
         const visible = hideChecked ? items.filter((i) => !i.done) : items;
 
         return (
-          <section key={gKey} >
+          <section 
+          style={{marginBottom:'15px'}}
+          key={gKey} >
             <div className="MainChecklistHeader">
               <div className="MainChecklistHeaderText">
                 <div className="MainChecklistHeaderLeft">

@@ -9,7 +9,6 @@ const TaskDetailsActivity = () => {
   const dispatch = useDispatch();
   const { selectedTask, activities, loading, error } = useSelector((s) => s.taskDetailsReducer);
 
-  // remember last fetched task so we don’t loop
   const lastTaskId = useRef(null);
 
   // fetch only once when a new task is opened
@@ -37,29 +36,27 @@ const TaskDetailsActivity = () => {
           return `${user} set this card to be due ${format(d, 'd MMM')} at ${format(d, 'HH:mm')}`;
         }
         if (evt.payload.labels) {
-          const names = evt.payload.labels.map((l) => l.name || l.title);
-          return `${user} updated labels: ${names.join(', ')}`;
+          return `${user} updated labels`;
         }
         if (evt.payload.checklist) {
           return `${user} added a checklist to this card`;
         }
-        if (evt.payload.imageUrl) {
+        if (evt.payload.attachments) {
           return `${user} added an attachment`;
         }
         if (evt.payload.description) {
-          return `${user} added an description Text`;
+          return `${user} updated description`;
         }
-
         return `${user} updated this card`;
 
       case 'added_comment':
-        return `${user} commented: "${evt.payload.comment}"`;
+        return `${user} commented`;
 
       case 'added_attachment':
-        return `${user} added the ${evt.payload.url} attachment to this card`;
+        return `${user} added an attachment`;
 
       case 'deleted_attachment':
-        return `${user} deleted the ${evt.payload.url} attachment from this card`;
+        return `${user} removed an attachment`;
 
       case 'joined_task':
         return `${user} joined this card`;
@@ -93,25 +90,30 @@ const TaskDetailsActivity = () => {
         {error && <div className="error">Error: {error}</div>}
 
         {activities.map((evt) => (
-          <div key={evt._id} className="containerActivityEntry">
+          <div key={evt.id} className="containerActivityEntry">
             <div className="containerActivityDetails">
               <div className="containerActivityAction">{renderActivityMessage(evt)}</div>
 
-              {Object.entries(evt.payload || {}).map(([k, v]) => {
-                if (Array.isArray(v)) {
-                  const names = v.map((x) => x.name || x.title || JSON.stringify(x));
-                  return (
-                    <div key={k} className="containerActivityProp">
-                      <strong>{k}:</strong> {names.join(', ')}
-                    </div>
-                  );
-                }
-                return (
-                  <div key={k} className="containerActivityProp">
-                    <strong>{k}:</strong> {String(v)}
-                  </div>
-                );
-              })}
+              {/* Show full image if attachment */}
+              {evt.payload.attachments && (<> <a
+                  className="containerActivityImage"
+                  href={evt.payload.attachments[0].url}
+                  alt="Attachment"
+                  download={evt.payload.attachments[0].name}
+                    title={evt.payload.attachments[0].name}
+                
+                />
+                <button onClick={() => (console.log(evt.payload.attachments[0].url))}>2</button></>
+               
+              )}
+ 
+              {/* Show new description text */}
+              {evt.payload.description && (
+                <div className="containerActivityProp"></div>
+              )}
+
+              {/* Show only notice for labels update */}
+              {evt.payload.labels && <div className="containerActivityProp">Labels updated</div>}
 
               <div className="containerActivityTime">
                 {isToday(new Date(evt.createdAt))
