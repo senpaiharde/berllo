@@ -17,7 +17,7 @@ const TaskDetailsMembers = () => {
         }}>
         <div className="members-icon" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           {taskMembers
-            .filter((member) => member && typeof member === 'object' && member.icon)
+            .filter((member) => member && typeof member === 'object' && member.avatar)
             .map((member) => (
               <button key={member._id || member.id} className="td-section-members-button">
                 <img

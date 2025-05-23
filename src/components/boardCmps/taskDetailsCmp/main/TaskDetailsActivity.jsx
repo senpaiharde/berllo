@@ -38,29 +38,29 @@ const TaskDetailsActivity = () => {
     const user = evt.userName || (String(evt.user) === '000000000000000000000000' && 'Dima blat');
     switch (evt.action) {
       case 'updated_task':
-        if ('isDueComplete' in evt.payload) {
-          return evt.payload.isDueComplete
+        if (evt.payload?.isDueComplete) {
+          return evt.payload?.isDueComplete
             ? ` marked this card as complete`
             : ` marked this card as incomplete`;
         }
-        if (evt.payload.taskDueDate) {
-          const d = new Date(evt.payload.taskDueDate);
-          return ` set this card to be due ${format(d, 'd MMM')} at ${format(d, 'HH:mm')}`;
+        if (evt.payload?.dueDate) {
+          const d = new Date(evt.payload?.dueDate);
+          return ` changed the due date of this card to ${format(d, 'd MMM')} ${format(d, 'HH:mm')}`;
         }
-        if (evt.payload.labels) {
+        if (evt.payload?.labels) {
           return ` updated labels`;
         }
-        if (evt.payload.Activity) {
+        if (evt.payload?.Activity) {
           return ``;
         }
         
-        if (evt.payload.checklist) {
+        if (evt.payload?.checklist) {
           return ` added a checklist to this card`;
         }
-        if (evt.payload.attachments) {
-          return ` added an attachment`;
+        if (evt.payload?.attachments) {
+          return ``;
         }
-        if (evt.payload.description) {
+        if (evt.payload?.description) {
           return ` updated description`;
         }
         return ` updated this card`;
@@ -119,8 +119,9 @@ const TaskDetailsActivity = () => {
         {error && <div className="error">Error: {error}</div>}
 
         {activities.map((evt) => {
-          const atts = evt.payload.attachments;
+          const atts = evt.payload?.attachments || [] ;
           const last = Array.isArray(atts) && atts.length ? atts[atts.length - 1] : null;
+          
           return (
             <div key={evt.id} className="containerActivityEntry">
               <a className="attackMentsInsideActivity" href={evt.url} title={evt.name}>
@@ -133,7 +134,12 @@ const TaskDetailsActivity = () => {
                 <div className="containerActivityAction">
                   <span  className="containerActivityActionName">
                     {evt.userName}{'  '} 
-                    {evt.payload.Activity && (
+                     {last && (
+                      <a 
+                      style={{fontWeight:'100'}}
+                      > attached {last.name} to this card</a>
+                    )}
+                    {evt.payload?.Activity && (
                       <a 
                       style={{marginLeft:'5px'}}
                       className="containerActivityTime">
@@ -147,7 +153,7 @@ const TaskDetailsActivity = () => {
                 </div>
 
 
-                  {!evt.payload.Activity && (<a className="containerActivityTime">
+                  {!evt.payload?.Activity && (<a className="containerActivityTime">
                   {isToday(new Date(evt.createdAt))
                     ? `${formatDistanceToNow(new Date(evt.createdAt))} ago`
                     : format(new Date(evt.createdAt), 'dd MMM yyyy, HH:mm')}
@@ -165,20 +171,20 @@ const TaskDetailsActivity = () => {
                     />
                   </>
                 )}
-                {evt.payload.Activity && (
+                {evt.payload?.Activity && (
                   <div className="containerActivityCommand">
                     <div className="containerMembers">
                       <button className="containerActivityDescription">
-                        {evt.payload.Activity}
+                        {evt.payload?.Activity}
                       </button>
                     </div>
                   </div>
                 )}
                 
-
-                {evt.payload.description && <div className="containerActivityProp"></div>}
-                 {evt.payload.checklist && <div className="containerActivityProp"></div>}
-                {evt.payload.labels && <div className="containerActivityProp"></div>}
+                
+                {evt.payload?.description && <div className="containerActivityProp"></div>}
+                 {evt.payload?.checklist && <div className="containerActivityProp"></div>}
+                {evt.payload?.labels && <div className="containerActivityProp"></div>}
               </div>
             </div>
           );
