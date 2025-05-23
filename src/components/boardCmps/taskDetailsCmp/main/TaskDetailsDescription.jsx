@@ -52,6 +52,9 @@ export default function TaskDescription() {
       {isEditing ? (
         <div className="task-description-editor">
           <DescriptionEditor
+          height={'315px'}
+            textarea={'275px'}
+            textarea1yes={'223px'}
             initial={saved}
             onSave={handleSave}
             onCancel={() => setIsEditing(false)}

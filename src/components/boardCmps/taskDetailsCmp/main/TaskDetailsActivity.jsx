@@ -96,9 +96,13 @@ const handleSave = (html) => {
 
       <div className="containerActivity">
         {isEditing ? (
-                <div className="task-description-editor">
+                <div
+                
+                className="task-description-editor">
                   <DescriptionEditor
-                   
+                  textarea={'116px'}
+                    height={'155px'}
+                    textarea1yes={'64px'}
                     onSave={handleSave}
                     onCancel={() => setIsEditing(false)}
                   />

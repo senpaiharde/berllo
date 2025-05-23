@@ -198,7 +198,7 @@
 /* Textarea */
 .my-textarea {
   width: 100%;
-  min-height: 223px;
+  
 
   padding: 8px;
   resize: none;
@@ -209,6 +209,7 @@
   text-decoration: none;
   border: none;
   box-sizing: none;
+  
 }
 
 /* Action buttons */
@@ -240,6 +241,7 @@
 .td-editor-btn.save:hover,
 .td-editor-btn.cancel:hover {
   opacity: 0.8;
+  cursor: pointer;
 }
 
 
