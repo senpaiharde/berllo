@@ -8,6 +8,8 @@ import {
   updateBoardlist,
   updateTasklistOrder,
   syncBoardAsync,
+  updateBoardListOrderAndSync,
+  updateTasklistOrderAndSync
 } from "../../redux/BoardSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { TaskPreviewEditor } from "./taskPreviewCmps/TaskPreviewEditor"
@@ -50,13 +52,42 @@ export function BoardView() {
     // debugger
     const { destination, source, draggableId } = result
     console.log("onDragEnd", result, type)
-
+    console.log("board.boardLists before change", board.boardLists
+      // .map((list) => list._id.toString())
+    )
     if (result.type === "BoardList") {
-      dispatch(updateBoardListOrder({ draggableId, destination, source }))
-      // dispatch(updateBoardListOrder())
+      dispatch(updateBoardListOrderAndSync({ draggableId, destination, source }))
+      // dispatch(updateBoardListOrder({ draggableId, destination, source }))
+      // const boardLists = board.boardLists.filter((list) => { return list._id})
+      // setTimeout(() => {
+      //   console.log("Waited 1 seconds!");
+      //   const boardLists = board.boardLists.map((list) => list._id.toString());
+      // console.log("boardLists after change", boardLists)
+      // console.log("board.boardLists after change", board.boardLists)
+      // // }, 1000);
+      // const boardLists = board.boardLists.map((list) => list._id.toString());
+      // console.log("boardLists after change", boardLists)
+      // console.log("board.boardLists after change", board)
+      // dispatch(
+      //   syncBoardAsync({
+      //     method: TaskOps.UPDATE,
+      //     args: {
+      //       body: {
+      //         method: TaskOps.UPDATE,
+      //         workId: "list",
+      //         indexInBoard: destination.index,
+      //       },
+      //       taskId: draggableId,
+      //     },
+
+      //     workId: "list",
+      //   })
+      // )
     }
     if (result.type === "taskList") {
-      dispatch(updateTasklistOrder({ draggableId, destination, source }))
+      console.log("onDragEnd taskList", draggableId, destination, source)
+      dispatch(updateTasklistOrderAndSync({ draggableId, destination, source }))
+      // dispatch(updateTasklistOrder({ draggableId, destination, source }))
     }
   }
 
