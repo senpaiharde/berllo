@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
@@ -16,13 +16,24 @@ const DropdownMembers = ({ onClose }) => {
   );
 
   const filterTaskMembers = taskMembers.filter((member) =>
-    member?.title?.toLowerCase().includes(searchTerm)
+    member?.fullname?.toLowerCase().includes(searchTerm)
   );
   const filterBoardMembers = availableBoardMembers.filter((member) =>
-    member?.title?.toLowerCase().includes(searchTerm)
+    member?.fullname?.toLowerCase().includes(searchTerm)
   );
 
   const hasMatches = filterTaskMembers.length > 0 || filterBoardMembers.length > 0;
+
+
+  useEffect(() => {
+   
+
+   
+      
+
+       
+     console.log(boardMembers)
+  }, [dispatch]);
 
   const handleAddMember = (memberToAdd) => {
     if (!task) return;
@@ -32,13 +43,13 @@ const DropdownMembers = ({ onClose }) => {
         .filter((m) => m && typeof m === 'object' && m._id)
         .map((m) => ({
           _id: m._id,
-          title: m.title,
-          icon: m.icon,
+          fullname: m.fullname,
+          avatar: m.avatar,
         })),
       {
         _id: memberToAdd._id,
-        title: memberToAdd.title,
-        icon: memberToAdd.icon,
+        fullname: memberToAdd.fullname,
+        avatar: memberToAdd.avatar,
       },
     ];
 
@@ -60,8 +71,8 @@ const DropdownMembers = ({ onClose }) => {
       )
       .map((m) => ({
         _id: m._id,
-        title: m.title,
-        icon: m.icon,
+        fullname: m.fullname,
+        avatar: m.avatar,
       }));
 
     dispatch(
@@ -106,8 +117,8 @@ const DropdownMembers = ({ onClose }) => {
                     onClick={() => handleDeleteMember(member)}
                     key={member._id}
                     className="DropdownButton">
-                    <img className="memberIcon" alt={`Member ${member._id}`} src={member.icon} />
-                    <div className="memberTitle">{member.title}</div>
+                    <img className="memberIcon" alt={`Member ${member._id}`} src={member.avatar} />
+                    <div className="memberTitle">{member.fullname}</div>
                     <span>
                         <SvgServices name='SvgClose'/>
                      
@@ -127,9 +138,9 @@ const DropdownMembers = ({ onClose }) => {
                     onClick={() => handleAddMember(member)}
                     key={member._id}
                     className="DropdownButton">
-                    <img className="memberIcon" alt={`Member ${member._id}`} src={member.icon} />
+                    <img className="memberIcon" alt={`Member ${member._id}`} src={member.avatar} />
                     <div style={{ width: '220px' }} className="memberTitle">
-                      {member.title}
+                      {member.fullname}
                     </div>
                   </button>
                 ))}

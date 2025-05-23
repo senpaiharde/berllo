@@ -28,7 +28,7 @@ export default function TaskDescription() {
 
   useEffect(() => {
     if (!taRef.current) return;
-    // reset to auto so shrink works, then expand to scrollHeight
+    
     taRef.current.style.height = 'auto';
     taRef.current.style.height = taRef.current.scrollHeight + 'px';
   }, [saved, isEditing]);
@@ -52,6 +52,9 @@ export default function TaskDescription() {
       {isEditing ? (
         <div className="task-description-editor">
           <DescriptionEditor
+          height={'315px'}
+            textarea={'275px'}
+            textarea1yes={'223px'}
             initial={saved}
             onSave={handleSave}
             onCancel={() => setIsEditing(false)}

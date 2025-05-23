@@ -1,16 +1,28 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
 import { TaskOps } from '../../../../services/backendHandler';
 import { formatDistanceToNow, isToday, format } from 'date-fns';
 import { SvgServices } from '../../../../services/svgServices';
+import DescriptionEditor from './DescriptionEditor';
 
 const TaskDetailsActivity = () => {
   const dispatch = useDispatch();
   const { selectedTask, activities, loading, error } = useSelector((s) => s.taskDetailsReducer);
 
   const lastTaskId = useRef(null);
+  const [isEditing, setIsEditing] = useState(false);
 
+  const handleSave = (html) => {
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        Activity: html,
+      })
+    );
+    setIsEditing(false);
+  };
   // fetch only once when a new task is opened
   useEffect(() => {
     const id = selectedTask?._id;
@@ -26,43 +38,47 @@ const TaskDetailsActivity = () => {
     const user = evt.userName || (String(evt.user) === '000000000000000000000000' && 'Dima blat');
     switch (evt.action) {
       case 'updated_task':
-        if ('isDueComplete' in evt.payload) {
-          return evt.payload.isDueComplete
-            ? `${user} marked this card as complete`
-            : `${user} marked this card as incomplete`;
+        if (evt.payload?.isDueComplete) {
+          return evt.payload?.isDueComplete
+            ? ` marked this card as complete`
+            : ` marked this card as incomplete`;
         }
-        if (evt.payload.taskDueDate) {
-          const d = new Date(evt.payload.taskDueDate);
-          return `${user} set this card to be due ${format(d, 'd MMM')} at ${format(d, 'HH:mm')}`;
+        if (evt.payload?.dueDate) {
+          const d = new Date(evt.payload?.dueDate);
+          return ` changed the due date of this card to ${format(d, 'd MMM')} ${format(d, 'HH:mm')}`;
         }
-        if (evt.payload.labels) {
-          return `${user} updated labels`;
+        if (evt.payload?.labels) {
+          return ` updated labels`;
         }
-        if (evt.payload.checklist) {
-          return `${user} added a checklist to this card`;
+        if (evt.payload?.Activity) {
+          return ``;
         }
-        if (evt.payload.attachments) {
-          return `${user} added an attachment`;
+        
+        if (evt.payload?.checklist) {
+          return ` added a checklist to this card`;
         }
-        if (evt.payload.description) {
-          return `${user} updated description`;
+        if (evt.payload?.attachments) {
+          return ``;
         }
-        return `${user} updated this card`;
+        if (evt.payload?.description) {
+          return ` updated description`;
+        }
+        return ` updated this card`;
 
       case 'added_comment':
-        return `${user} commented`;
+        return ` commented`;
 
       case 'added_attachment':
-        return `${user} added an attachment`;
+        return ` added an attachment`;
 
       case 'deleted_attachment':
-        return `${user} removed an attachment`;
+        return ` removed an attachment`;
 
       case 'joined_task':
-        return `${user} joined this card`;
+        return ` joined this card`;
 
       default:
-        return `${user} ${evt.action.replace(/_/g, ' ')}`;
+        return ` ${evt.action.replace(/_/g, ' ')}`;
     }
   };
 
@@ -79,50 +95,100 @@ const TaskDetailsActivity = () => {
       </div>
 
       <div className="containerActivity">
-        <div className="containerActivityCommand">
-          <div className="containerMembers">
-            <button className="containerActivityADDCommand">Write a comment...</button>
+        {isEditing ? (
+          <div className="task-description-editor">
+            <DescriptionEditor
+              textarea={'116px'}
+              height={'155px'}
+              textarea1yes={'64px'}
+              onSave={handleSave}
+              onCancel={() => setIsEditing(false)}
+            />
           </div>
-          <div className="containerActivityADD" />
-        </div>
+        ) : (
+          <div className="containerActivityCommand">
+            <div className="containerMembers">
+              <button onClick={() => setIsEditing(true)} className="containerActivityADDCommand">
+                Write a comment...
+              </button>
+            </div>
+          </div>
+        )}
 
         {loading && <div>Loading activity…</div>}
         {error && <div className="error">Error: {error}</div>}
 
-        {activities.map((evt) => (
-          <div key={evt.id} className="containerActivityEntry">
-            <div className="containerActivityDetails">
-              <div className="containerActivityAction">{renderActivityMessage(evt)}</div>
-
-              {/* Show full image if attachment */}
-              {evt.payload.attachments && (<> <a
-                  className="containerActivityImage"
-                  href={evt.payload.attachments[0].url}
-                  alt="Attachment"
-                  download={evt.payload.attachments[0].name}
-                    title={evt.payload.attachments[0].name}
-                
+        {activities.map((evt) => {
+          const atts = evt.payload?.attachments || [] ;
+          const last = Array.isArray(atts) && atts.length ? atts[atts.length - 1] : null;
+          
+          return (
+            <div key={evt.id} className="containerActivityEntry">
+              <a className="attackMentsInsideActivity" href={evt.url} title={evt.name}>
+                <div
+                  className="attachment-thumbnail"
+                  style={{ backgroundImage: `url(${evt.userAvatar})` }}
                 />
-                <button onClick={() => (console.log(evt.payload.attachments[0].url))}>2</button></>
-               
-              )}
- 
-              {/* Show new description text */}
-              {evt.payload.description && (
-                <div className="containerActivityProp"></div>
-              )}
+              </a>
+              <div className="containerActivityDetails">
+                <div className="containerActivityAction">
+                  <span  className="containerActivityActionName">
+                    {evt.userName}{'  '} 
+                     {last && (
+                      <a 
+                      style={{fontWeight:'100'}}
+                      > attached {last.name} to this card</a>
+                    )}
+                    {evt.payload?.Activity && (
+                      <a 
+                      style={{marginLeft:'5px'}}
+                      className="containerActivityTime">
+                        {isToday(new Date(evt.createdAt))
+                          ? `${formatDistanceToNow(new Date(evt.createdAt))} ago`
+                          : format(new Date(evt.createdAt), 'dd MMM yyyy, HH:mm')}
+                      </a>
+                    )}
+                  </span>
+                  {renderActivityMessage(evt)}
+                </div>
 
-              {/* Show only notice for labels update */}
-              {evt.payload.labels && <div className="containerActivityProp">Labels updated</div>}
 
-              <div className="containerActivityTime">
-                {isToday(new Date(evt.createdAt))
-                  ? `${formatDistanceToNow(new Date(evt.createdAt))} ago`
-                  : format(new Date(evt.createdAt), 'dd MMM yyyy, HH:mm')}
+                  {!evt.payload?.Activity && (<a className="containerActivityTime">
+                  {isToday(new Date(evt.createdAt))
+                    ? `${formatDistanceToNow(new Date(evt.createdAt))} ago`
+                    : format(new Date(evt.createdAt), 'dd MMM yyyy, HH:mm')}
+                </a>)}
+                
+
+                {last && (
+                  <>
+                    {' '}
+                    <img
+                      className="containerActivityImage"
+                      src={last.url}
+                      alt={last.name || 'Attachment'}
+                      title={last.name}
+                    />
+                  </>
+                )}
+                {evt.payload?.Activity && (
+                  <div className="containerActivityCommand">
+                    <div className="containerMembers">
+                      <button className="containerActivityDescription">
+                        {evt.payload?.Activity}
+                      </button>
+                    </div>
+                  </div>
+                )}
+                
+                
+                {evt.payload?.description && <div className="containerActivityProp"></div>}
+                 {evt.payload?.checklist && <div className="containerActivityProp"></div>}
+                {evt.payload?.labels && <div className="containerActivityProp"></div>}
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         {!loading && activities.length === 0 && <div className="noActivity">No activity yet.</div>}
       </div>
