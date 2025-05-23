@@ -20,7 +20,7 @@ const TaskDetailsActivity = () => {
   }, [selectedTask?._id, dispatch]);
 
   if (!selectedTask) return null;
-
+  
   // turn raw evt into a human sentence
   const renderActivityMessage = (evt) => {
     const user = evt.userName || (String(evt.user) === '000000000000000000000000' && 'Dima blat');
@@ -28,41 +28,41 @@ const TaskDetailsActivity = () => {
       case 'updated_task':
         if ('isDueComplete' in evt.payload) {
           return evt.payload.isDueComplete
-            ? `${user} marked this card as complete`
-            : `${user} marked this card as incomplete`;
+            ? ` marked this card as complete`
+            : ` marked this card as incomplete`;
         }
         if (evt.payload.taskDueDate) {
           const d = new Date(evt.payload.taskDueDate);
-          return `${user} set this card to be due ${format(d, 'd MMM')} at ${format(d, 'HH:mm')}`;
+          return ` set this card to be due ${format(d, 'd MMM')} at ${format(d, 'HH:mm')}`;
         }
         if (evt.payload.labels) {
-          return `${user} updated labels`;
+          return ` updated labels`;
         }
         if (evt.payload.checklist) {
-          return `${user} added a checklist to this card`;
+          return ` added a checklist to this card`;
         }
         if (evt.payload.attachments) {
-          return `${user} added an attachment`;
+          return ` added an attachment`;
         }
         if (evt.payload.description) {
-          return `${user} updated description`;
+          return ` updated description`;
         }
-        return `${user} updated this card`;
+        return ` updated this card`;
 
       case 'added_comment':
-        return `${user} commented`;
+        return ` commented`;
 
       case 'added_attachment':
-        return `${user} added an attachment`;
+        return ` added an attachment`;
 
       case 'deleted_attachment':
-        return `${user} removed an attachment`;
+        return ` removed an attachment`;
 
       case 'joined_task':
-        return `${user} joined this card`;
+        return ` joined this card`;
 
       default:
-        return `${user} ${evt.action.replace(/_/g, ' ')}`;
+        return ` ${evt.action.replace(/_/g, ' ')}`;
     }
   };
 
@@ -83,30 +83,42 @@ const TaskDetailsActivity = () => {
           <div className="containerMembers">
             <button className="containerActivityADDCommand">Write a comment...</button>
           </div>
-          <div className="containerActivityADD" />
+          
         </div>
 
         {loading && <div>Loading activity…</div>}
         {error && <div className="error">Error: {error}</div>}
 
-        {activities.map((evt) => (
+        {activities.map((evt) => {
+            const atts = evt.payload.attachments;
+            const last = Array.isArray(atts) && atts.length
+             ? atts[atts.length - 1]
+              : null;
+            return(
+            
           <div key={evt.id} className="containerActivityEntry">
             <div className="containerActivityDetails">
-              <div className="containerActivityAction">{renderActivityMessage(evt)}</div>
-
+              <div className="containerActivityAction">
+                <span className='containerActivityActionName'> {evt.userName}
+                </span>{renderActivityMessage(evt)}</div>
+             
               {/* Show full image if attachment */}
-              {evt.payload.attachments && (<> <a
+              {last && (<> <a
                   className="containerActivityImage"
-                  href={evt.payload.attachments[0].url}
+                  href={last.url}
                   alt="Attachment"
-                  download={evt.payload.attachments[0].name}
-                    title={evt.payload.attachments[0].name}
+                  download={last.name}
+                    title={last.name}
                 
-                />
-                <button onClick={() => (console.log(evt.payload.attachments[0].url))}>2</button></>
+                > <div
+                      className="attachment-thumbnail"
+                      style={{ backgroundImage: `url(${last.url})` }}
+                    /></a>
+               
+                </>
                
               )}
- 
+              <button onClick={() => {console.log(evt.payload.attachments[0].name)}}>23</button>
               {/* Show new description text */}
               {evt.payload.description && (
                 <div className="containerActivityProp"></div>
@@ -115,14 +127,14 @@ const TaskDetailsActivity = () => {
               {/* Show only notice for labels update */}
               {evt.payload.labels && <div className="containerActivityProp">Labels updated</div>}
 
-              <div className="containerActivityTime">
+              <a className="containerActivityTime">
                 {isToday(new Date(evt.createdAt))
                   ? `${formatDistanceToNow(new Date(evt.createdAt))} ago`
                   : format(new Date(evt.createdAt), 'dd MMM yyyy, HH:mm')}
-              </div>
+              </a>
             </div>
           </div>
-        ))}
+        )})}
 
         {!loading && activities.length === 0 && <div className="noActivity">No activity yet.</div>}
       </div>
