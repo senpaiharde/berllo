@@ -29,6 +29,7 @@ const initialState = {
   taskDueDate: null,
 activities: [],
   title: '',
+  ActivityText: '',
 };
 
 const taskDetailsSlice = createSlice({
@@ -44,6 +45,7 @@ const taskDetailsSlice = createSlice({
         isDueComplete: action.payload.isDueComplete ?? false,
         title: action.payload.title ?? '',
         description: action.payload.description ?? '',
+        ActivityText: action.payload.description ?? '',
         isWatching: action.payload.isWatching ?? false,
         members: Array.isArray(action.payload.members) ? action.payload.members : [],
         checklist: Array.isArray(action.payload.checklist) ? action.payload.checklist : [],
@@ -66,6 +68,9 @@ const taskDetailsSlice = createSlice({
       }
        if (payload.description) {
         state.selectedTask.description = payload.description;
+      }
+      if (payload.ActivityText) {
+        state.selectedTask.ActivityText = payload.ActivityText;
       }
     
       if (payload.title !== undefined) {

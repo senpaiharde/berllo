@@ -81,6 +81,7 @@ const TaskDetailsActivity = () => {
       <div className="containerActivity">
         <div className="containerActivityCommand">
           <div className="containerMembers">
+            
             <button className="containerActivityADDCommand">Write a comment...</button>
           </div>
           
@@ -97,28 +98,38 @@ const TaskDetailsActivity = () => {
             return(
             
           <div key={evt.id} className="containerActivityEntry">
+            <a
+                    className="attackMentsInsideActivity"
+                    href={evt.url}
+                   
+                    title={evt.name}>
+                    <div
+                      className="attachment-thumbnail"
+                      style={{ backgroundImage: `url(${evt.userAvatar})` }}
+                    />
+                  </a>
             <div className="containerActivityDetails">
               <div className="containerActivityAction">
-                <span className='containerActivityActionName'> {evt.userName}
+                <span className='containerActivityActionName'>
+                    
+                     {evt.userName}
                 </span>{renderActivityMessage(evt)}</div>
              
               {/* Show full image if attachment */}
-              {last && (<> <a
-                  className="containerActivityImage"
-                  href={last.url}
-                  alt="Attachment"
-                  download={last.name}
+              {last && (<>  <img
+                    className="containerActivityImage"
+                  
+                    src={last.url}
+                    alt={last.name || 'Attachment'}
                     title={last.name}
-                
-                > <div
-                      className="attachment-thumbnail"
-                      style={{ backgroundImage: `url(${last.url})` }}
-                    /></a>
+                    
+                  />
                
                 </>
                
               )}
-              <button onClick={() => {console.log(evt.payload.attachments[0].name)}}>23</button>
+              
+             <button onClick={() => console.log(evt.userAvatar)}>444</button>
               {/* Show new description text */}
               {evt.payload.description && (
                 <div className="containerActivityProp"></div>
