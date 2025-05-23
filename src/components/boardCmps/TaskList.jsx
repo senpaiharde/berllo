@@ -34,8 +34,10 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
   function onUpdateBoardList(value) {
     if (isNewTaskList && value) {
       setTaskListTitle(value)
-      // boardList.taskListTitle = value
-      dispatch(updateBoardlist({ ...boardList, taskListTitle: value }))
+      console.log("creating taskList title", value,"boardList.taskListBoard", boardList.taskListBoard,"boardList", boardList)
+      console.log("boardList.indexInBoard", boardList.indexInBoard)
+      dispatch(updateBoardlist({ ...boardList, taskListTitle: value ,isNewTaskList: false }))
+      setIsNewTaskList(false)
       dispatch(
         syncBoardAsync({
           method: TaskOps.ADD,
@@ -45,7 +47,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
               workId: "list",
               taskListBoard: boardList.taskListBoard,
               taskListTitle: value,
-              indexInBoard: boardList.indexInBoard + 1,
+              indexInBoard: boardList.indexInBoard,
             },
           },
 
@@ -54,10 +56,13 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
       )
       onAddedNewList()
       // console.log("TaskList boardid", boardList)
+    }{
+      console.log("updating task list title", value,"isNewTaskList", isNewTaskList)
+      dispatch(updateBoardlist({ ...boardList, taskListTitle: value }))
     }
   }
   function addNewEmptyTask() {
-    dispatch(addTaskToBoard({ taskList: boardList._id }))
+    dispatch(addTaskToBoard({ taskList: boardList._id, position: boardList.taskList.length }))
   }
 
   function onRemoveCurrentList(value) {
@@ -66,9 +71,9 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
     dispatch(removeBoardListFromBoard(boardList._id))
   }
 
-  if (isNewTaskList) {
-    console.log("new task list", boardList._id)
-  }
+  // if (isNewTaskList) {
+  //   console.log("new task list", boardList._id)
+  // }
   if (!boardList) return <div> Loading list</div>
 
   return (
@@ -77,7 +82,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
         <div>
           <ItemNameForm
             IsEditing={isNewTaskList}
-            setIsEditing={setIsNewTaskList}
+            // setIsEditing={setIsNewTaskList}
             setText={setNewTitle}
             noValueOnExit={onRemoveCurrentList}
             onAddItem={onUpdateBoardList}
@@ -113,7 +118,6 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
       )}
 
       {!isNewTaskList && (
-        <div>
           <Droppable droppableId={boardList._id} type="taskList">
             {(provided) => (
               <ol
@@ -148,7 +152,6 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
               </ol>
             )}
           </Droppable>
-        </div>
       )}
       {!isNewTaskList && (
         <AddItemCard

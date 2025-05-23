@@ -27,10 +27,19 @@ export function transformTasksFromBackend(tasks) {
           taskDueDate: task.dueDate ? new Date(task.dueDate).getTime() : null,
           taskDateReminder: task.reminder ? new Date(task.reminder).getTime() : null,
           taskList: task.list,
+          indexInList: task.position,
           taskboard: task.board,
-          taskCheckList: (task.checklist || []).flatMap(checklist =>
-            checklist.items?.map(item => item.text) || []
-          ),
+          taskCheckList: task.checklist,
+          // (task.checklist || []).flatMap(checklist =>
+          //   checklist?.map(item => item.text) || []
+          // ),
+          attachments: task.attachments,
+          // (task.attachments || []).map(attachment => ({
+          //   id: attachment._id || '',
+          //   name: attachment.name || '',
+          //   url: attachment.url || '',
+          //   contentType: attachment.contentType || ''
+          // })),
           taskCover: {
             coverType: task.cover?.coverType || '',
             coverColor: task.cover?.coverColor || '',
