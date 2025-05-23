@@ -1,16 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
 import { TaskOps } from '../../../../services/backendHandler';
 import { formatDistanceToNow, isToday, format } from 'date-fns';
 import { SvgServices } from '../../../../services/svgServices';
+import DescriptionEditor from './DescriptionEditor';
+
 
 const TaskDetailsActivity = () => {
   const dispatch = useDispatch();
   const { selectedTask, activities, loading, error } = useSelector((s) => s.taskDetailsReducer);
 
   const lastTaskId = useRef(null);
+const [isEditing, setIsEditing] = useState(false);
 
+const handleSave = (html) => {
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        Activity: html,
+      })
+    );
+    setIsEditing(false);
+  };
   // fetch only once when a new task is opened
   useEffect(() => {
     const id = selectedTask?._id;
@@ -37,6 +50,9 @@ const TaskDetailsActivity = () => {
         }
         if (evt.payload.labels) {
           return ` updated labels`;
+        }
+        if (evt.payload.Activity) {
+          return ``;
         }
         if (evt.payload.checklist) {
           return ` added a checklist to this card`;
@@ -79,13 +95,23 @@ const TaskDetailsActivity = () => {
       </div>
 
       <div className="containerActivity">
-        <div className="containerActivityCommand">
+        {isEditing ? (
+                <div className="task-description-editor">
+                  <DescriptionEditor
+                   
+                    onSave={handleSave}
+                    onCancel={() => setIsEditing(false)}
+                  />
+                </div> ): (<div className="containerActivityCommand">
+            
           <div className="containerMembers">
             
-            <button className="containerActivityADDCommand">Write a comment...</button>
+            <button onClick={() => setIsEditing(true)} 
+            className="containerActivityADDCommand">Write a comment...</button>
           </div>
           
-        </div>
+        </div>)}
+        
 
         {loading && <div>Loading activity…</div>}
         {error && <div className="error">Error: {error}</div>}
