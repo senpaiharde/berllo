@@ -9,29 +9,25 @@ const DropdownUi = ({ trigger, children, onClose }) => {
 
   const updatePosition = () => {
     requestAnimationFrame(() => {
-      const rect = triggerRef.current?.getBoundingClientRect();
-      const dropdownHeight = dropdownRef.current?.offsetHeight || 400;
-      const dropdownWidth = dropdownRef.current?.offsetWidth || 304;
-      if (rect) {
-        const viewportHeight = window.innerHeight;
-        const viewportWidth = window.innerWidth;
+      requestAnimationFrame(() => {
+        const triggerRect = triggerRef.current?.getBoundingClientRect();
+        const dropdownRect = dropdownRef.current?.getBoundingClientRect();
 
-        let top = rect.bottom + window.scrollY;
-        let left = rect.left + window.scrollX;
+        if (triggerRect && dropdownRef.current) {
+          const viewportWidth = window.innerWidth;
 
-        const wouldOverflowBottom = rect.bottom + dropdownHeight > viewportHeight;
-        if (wouldOverflowBottom) {
-          top = rect.top + window.scrollY - dropdownHeight;
+          const dropdownWidth = dropdownRect?.width || 304;
+
+          const top = triggerRect.bottom + window.scrollY;
+
+          let left = triggerRect.left + window.scrollX;
+          if (triggerRect.left + dropdownWidth > viewportWidth) {
+            left = viewportWidth - dropdownWidth - 8;
+          }
+
+          setPosition({ top, left });
         }
-
-        const wouldOverflowRight = rect.left + dropdownWidth > viewportWidth;
-        if (wouldOverflowRight) {
-          left = viewportWidth - dropdownWidth - 12; // add small margin from edge
-        }
-
-        setPosition({ top, left });
-        console.log('Adaptive position:', top, left);
-      }
+      });
     });
   };
 
@@ -87,6 +83,7 @@ const DropdownUi = ({ trigger, children, onClose }) => {
       ref={dropdownRef}
       style={{
         position: 'fixed',
+        maxHeight: 'calc(100vh - 64px)',
         top: `${position.top}px`,
         left: `${position.left}px`,
       }}>
