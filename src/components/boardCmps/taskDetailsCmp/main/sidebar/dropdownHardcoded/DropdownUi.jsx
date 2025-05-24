@@ -8,20 +8,32 @@ const DropdownUi = ({ trigger, children, onClose }) => {
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const updatePosition = () => {
-  const rect = triggerRef.current?.getBoundingClientRect();
-  if (rect) {
-    const pos = {
-      top: rect.bottom + window.scrollY,
-      left: rect.left + window.scrollX,
-    };
-    
-    setPosition(pos);
-  }
-};
+    const rect = triggerRef.current?.getBoundingClientRect();
+    if (rect) {
+      setPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
+     
+    }
+  };
 
   useEffect(() => {
-    if (open) updatePosition();
-  }, [open]);
+  if (!open || !triggerRef.current) return;
+
+  const scrollParent = getScrollParent(triggerRef.current);
+
+  const handleScrollOrResize = () => updatePosition();
+  updatePosition();
+
+  scrollParent.addEventListener('scroll', handleScrollOrResize);
+  window.addEventListener('resize', handleScrollOrResize);
+
+  return () => {
+    scrollParent.removeEventListener('scroll', handleScrollOrResize);
+    window.removeEventListener('resize', handleScrollOrResize);
+  };
+}, [open]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -38,14 +50,28 @@ const DropdownUi = ({ trigger, children, onClose }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  function getScrollParent(node) {
+  if (!node) return null;
+
+  while (node && node !== document.body) {
+    const style = getComputedStyle(node);
+    const overflowY = style.overflowY;
+    if (overflowY === 'auto' || overflowY === 'scroll') {
+      return node;
+    }
+    node = node.parentElement;
+  }
+  return window; // fallback
+}
+
   const dropdownContent = open ? (
     <div
       className="dropDownContent"
       ref={dropdownRef}
       style={{
-        
-        top: position.top,
-        left: position.left,
+        position: 'fixed',
+        top: `${position.top}px`,
+        left: `${position.left}px`,
       }}>
       {typeof children === 'function' ? children({ onClose: () => setOpen(false) }) : children}
     </div>
@@ -57,10 +83,9 @@ const DropdownUi = ({ trigger, children, onClose }) => {
         ref={triggerRef}
         onClick={(e) => {
           e.stopPropagation();
-          
           setOpen((prev) => !prev);
         }}
-        style={{ display: 'inline-block', }}>
+        style={{ display: 'inline-block' }}>
         {trigger}
       </div>
 
