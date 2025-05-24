@@ -70,7 +70,7 @@ const BackLogDropdown = ({ label, options, value, onselect, disabled }) => {
                     style={{ padding: '8px 12px', cursor: 'pointer' }}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setOpen(false);
+                      
                       setTimeout(() => {
                         onselect(li.id);
                       }, 0);
