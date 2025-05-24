@@ -56,6 +56,8 @@ const BackLogDropdown = ({ label, options, value, onselect, disabled }) => {
       {open &&
         ReactDOM.createPortal(
           <div
+           onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
             ref={dropdownRef}
             className="ReminderDropdown"
             style={{
@@ -65,15 +67,13 @@ const BackLogDropdown = ({ label, options, value, onselect, disabled }) => {
             <ul>
               {options.map((li, idx) => (
                 <React.Fragment key={li.title + idx}>
-                  
-                  <li   key={li.id}
+                  <li
+                    key={li.id}
                     style={{ padding: '8px 12px', cursor: 'pointer' }}
                     onClick={(e) => {
                       e.stopPropagation();
-                      
-                      setTimeout(() => {
-                        onselect(li.id);
-                      }, 0);
+                      onselect(li.id);
+                      setOpen(false);
                     }}>
                     {li.title}
                   </li>

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import DropdownChecklist from '../main/sidebar/dropdownHardcoded/DropdownChecklist';
 
-
 import ProgressBar from '../../../../utils/ProgressBar';
 import { TaskOps } from '../../../../services/backendHandler';
 import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
@@ -94,9 +93,7 @@ const TaskChecklist = () => {
   };
 
   return (
-    <div 
-   
-    className="MainChecklist">
+    <div className="MainChecklist">
       {selectedTask.checklist.map((group) => {
         const gKey = getGroupKey(group);
         const items = Array.isArray(group.items) ? group.items : [];
@@ -106,17 +103,14 @@ const TaskChecklist = () => {
         const visible = hideChecked ? items.filter((i) => !i.done) : items;
 
         return (
-          <section 
-          style={{marginBottom:'15px'}}
-          key={gKey} >
+          <section style={{ marginBottom: '15px' }} key={gKey}>
             <div className="MainChecklistHeader">
               <div className="MainChecklistHeaderText">
                 <div className="MainChecklistHeaderLeft">
-                    <div style={{paddingRight:'10px',color:'#44546f',marginLeft:'-4px'}}>
-                        <SvgServices name='SvgCheckV'/>
-                    </div>
-                   
-                  
+                  <div style={{ paddingRight: '10px', color: '#44546f', marginLeft: '-4px' }}>
+                    <SvgServices name="SvgCheckV" />
+                  </div>
+
                   <h2 className="MainChecklistHeaderLeftH2">{group.title}</h2>
                 </div>
                 <div className="MainChecklistHeaderButtons">
@@ -131,19 +125,18 @@ const TaskChecklist = () => {
                     onClick={() => setHideChecked(!hideChecked)}>
                     {hideChecked ? 'Show Checked items' : 'Hide Checked items'}
                   </button>
-                  <DropdownUi 
+                  <DropdownUi
                     trigger={
-                     <button
-                    className="notification-button-check"
-                    style={{ height: '32px', width: '65px' }}
-                    >
-                    Delete
-                  </button>
+                      <button
+                        className="notification-button-check"
+                        style={{ height: '32px', width: '65px' }}>
+                        Delete
+                      </button>
                     }>
-                        {(props) => <DropdowndeleteCheck {...props} onDelete={() => handleDeleteGroup(gKey)} />}
-                        
-                    </DropdownUi>
-                  
+                    {(props) => (
+                      <DropdowndeleteCheck {...props} onDelete={() => handleDeleteGroup(gKey)} />
+                    )}
+                  </DropdownUi>
                 </div>
               </div>
 
@@ -161,21 +154,19 @@ const TaskChecklist = () => {
                   style={{ position: 'relative' }}
                   onMouseEnter={() => setHovering(key)}
                   onMouseLeave={() => setHovering(null)}>
-                         {item.done  === true ? 
-                         (<span 
-                         onClick={() => handleToggleCheck(gKey, key)}
-                         className="checklist-item-wrapper-done">
-                            <div className='checklistDone'>
-                                <SvgServices name='checklistDone'/></div>
-                           
-                         </span>):
-                         (<span
-                         onClick={() => handleToggleCheck(gKey, key)}
-                         className="checklist-item-wrapper-Undone" >
-
-                            
-                         </span>)}
-                  
+                  {item.done === true ? (
+                    <span
+                      onClick={() => handleToggleCheck(gKey, key)}
+                      className="checklist-item-wrapper-done">
+                      <div className="checklistDone">
+                        <SvgServices name="checklistDone" />
+                      </div>
+                    </span>
+                  ) : (
+                    <span
+                      onClick={() => handleToggleCheck(gKey, key)}
+                      className="checklist-item-wrapper-Undone"></span>
+                  )}
 
                   <div
                     className={'checklist-item-wrapper-Text' + (isActive ? ' active' : '')}
@@ -190,17 +181,17 @@ const TaskChecklist = () => {
                         type="text"
                         value={item.text || ''}
                         readOnly
+                        style={{
+                          textDecoration: item.done ? 'line-through' : 'none',
+                        }}
                       />
                     )}
                     {isActive && (
                       <form
                         className="checklist-save-cancel"
                         onSubmit={(e) => {
-                            
                           setActiveKey(null);
                           e.preventDefault();
-                         
-                          
                         }}>
                         <textarea
                           className="checklist-save-cancel-textarea"
@@ -208,52 +199,35 @@ const TaskChecklist = () => {
                           onChange={(e) => setDraftText(e.target.value)}
                         />
                         <div className="checklist-save-cancel-div-warper">
-                            <div
-                            className="checklist-save-cancel-div"
-                            >
-                          <button
-                            type="submit"
-                            className="checklist-save-cancel-div1-save"
-                            onClick={() => {
-                              handleEditText(gKey, key, draftText);
-                              
-                            }}>
-                            Save
-                          </button>
-                          <button
-                            type="submit"
-                            className="checklist-save-cancel-div1-cancel"
-                            onClick={() => setActiveKey(null)}>
-                            Cancel
-                          </button>
+                          <div className="checklist-save-cancel-div">
+                            <button
+                              type="submit"
+                              className="checklist-save-cancel-div1-save"
+                              onClick={() => {
+                                handleEditText(gKey, key, draftText);
+                              }}>
+                              Save
+                            </button>
+                            <button
+                              type="submit"
+                              className="checklist-save-cancel-div1-cancel"
+                              onClick={() => setActiveKey(null)}>
+                              Cancel
+                            </button>
                           </div>
-                          <div className='checklist-save-cancel-div2'>
+                          <div className="checklist-save-cancel-div2">
+                            <div className="checklist-save-cancel-div2-Assign">Assign</div>
 
-                          
-                          <div className="checklist-save-cancel-div2-Assign">
-                           
-                            Assign
+                            <div className="checklist-save-cancel-div2-Due">Due date</div>
 
-                          </div>
-                          
-                          <div className="checklist-save-cancel-div2-Due">
-                            Due date
-
-                          </div>
- 
-
-
-                        <DropdownChecklist
-                          trigger={
-                            <div  className="checklist-save-cancel-div2-dots">
-                                <SvgServices name='SvgDots'/>
-                            
-                            </div>
-                          }
-                          onDelete={() => handleDeleteItem(gKey, key)}
-                        />
-                     
-                    
+                            <DropdownChecklist
+                              trigger={
+                                <div className="checklist-save-cancel-div2-dots">
+                                  <SvgServices name="SvgDots" />
+                                </div>
+                              }
+                              onDelete={() => handleDeleteItem(gKey, key)}
+                            />
                           </div>
                         </div>
                       </form>
@@ -268,7 +242,7 @@ const TaskChecklist = () => {
                         <DropdownChecklist
                           trigger={
                             <button className="checklist-item-wrapper-dots">
-                              <SvgServices name='SvgDots'/>
+                              <SvgServices name="SvgDots" />
                             </button>
                           }
                           onDelete={() => handleDeleteItem(gKey, key)}
