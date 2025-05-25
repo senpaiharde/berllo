@@ -7,6 +7,7 @@ import { TextEditInput } from "../TextEditInput"
 import { SvgServices } from "../../../services/svgServices"
 import { updateboardFilter } from "../../../redux/BoardSlice"
 import SvgAdd from "../../../assets/svgDesgin/SvgAdd"
+import { BoardHeaderChooseMembers } from "./BoardHeaderChooseMembers"
 
 const BoardHeaderFilter = ({ onClose }) => {
   const [open, setOpen] = useState(false)
@@ -36,7 +37,7 @@ const BoardHeaderFilter = ({ onClose }) => {
       })
     }
   }
-  
+
   function toggleLabel(label, action) {
     if (action === "add") {
       // Only add if it doesn't already exist
@@ -64,7 +65,9 @@ const BoardHeaderFilter = ({ onClose }) => {
       if (!exists) {
         const updatedMembers = [...members, member]
         setMembers(updatedMembers)
-        dispatch(updateboardFilter({ ...board.filter, members: updatedMembers }))
+        dispatch(
+          updateboardFilter({ ...board.filter, members: updatedMembers })
+        )
       }
     }
 
@@ -74,6 +77,10 @@ const BoardHeaderFilter = ({ onClose }) => {
       dispatch(updateboardFilter({ ...board.filter, members: updatedMembers }))
     }
     // console.log("members", members)
+  }
+
+  function updateMembers(members) {
+    dispatch(updateboardFilter({ ...board.filter, members: members }))
   }
 
   // function toggleLabel(label, action){
@@ -157,7 +164,7 @@ const BoardHeaderFilter = ({ onClose }) => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          
+
           <h3 className="DropdownfilterH3">Labels</h3>
           <ul className="DropdownUL">
             {board.boardLabels.map((label) => {
@@ -204,57 +211,56 @@ const BoardHeaderFilter = ({ onClose }) => {
               )
             })}
           </ul>
-          </div>
-          <div className="DropdownOptions">
-            <h3 className="DropdownfilterH3">Members</h3>
+        </div>
+        <BoardHeaderChooseMembers
+          board={board}
+          updateMembers={updateMembers}
+        ></BoardHeaderChooseMembers>
+        {/* <div className="DropdownOptions">
+          <h3 className="DropdownfilterH3">Members</h3>
           {board.boardMembers.length > 0 && (
             <>
-              
               {board.boardMembers.map((member) => {
                 const isChecked = members?.some(
-                (m) => m?._id && member?._id && m._id === member._id
-                  
-              )
+                  (m) => m?._id && member?._id && m._id === member._id
+                )
 
-              return (
-                <li
-                  key={member.id}
-                  className="DropdownLabelItem"
-                >
-                  {isChecked === true ? (
-                    <span
-                      onClick={() => toggleMember(member, "remove")}
-                      className="DropdownLabelCheckboxDone"
+                return (
+                  <li key={member.id} className="DropdownLabelItem">
+                    {isChecked === true ? (
+                      <span
+                        onClick={() => toggleMember(member, "remove")}
+                        className="DropdownLabelCheckboxDone"
+                      >
+                        <div className="checklistDone">
+                          <SvgServices name="checklistDone" />
+                        </div>
+                      </span>
+                    ) : (
+                      <span
+                        onClick={() => toggleMember(member, "add")}
+                        className="DropdownLabelCheckbox-undone"
+                      ></span>
+                    )}
+
+                    <button
+                      // onClick={() => handleDeleteMember(member)}
+                      key={member._id}
+                      className="DropdownButton"
                     >
-                      <div className="checklistDone">
-                        <SvgServices name="checklistDone" />
-                      </div>
-                    </span>
-                  ) : (
-                    <span
-                      onClick={() => toggleMember(member, "add")}
-                      className="DropdownLabelCheckbox-undone"
-                    ></span>
-                  )}
-
-                  <button
-                  // onClick={() => handleDeleteMember(member)}
-                  key={member._id}
-                  className="DropdownButton"
-                >
-                  <img
-                    className="memberIcon"
-                    alt={`Member ${member._id}`}
-                    src={member.avatar}
-                  />
-                  <div className="memberTitle">{member.fullname}</div>
-                </button>
-                </li>
-              )
+                      <img
+                        className="memberIcon"
+                        alt={`Member ${member._id}`}
+                        src={member.avatar}
+                      />
+                      <div className="memberTitle">{member.fullname}</div>
+                    </button>
+                  </li>
+                )
               })}
             </>
           )}
-        </div>
+        </div> */}
       </div>
     </>
   )
@@ -262,14 +268,14 @@ const BoardHeaderFilter = ({ onClose }) => {
 
 export default BoardHeaderFilter
 // <button
-                //   onClick={() => handleDeleteMember(member)}
-                //   key={member._id}
-                //   className="DropdownButton"
-                // >
-                //   <img
-                //     className="memberIcon"
-                //     alt={`Member ${member._id}`}
-                //     src={member.avatar}
-                //   />
-                //   <div className="memberTitle">{member.fullname}</div>
-                // </button>
+//   onClick={() => handleDeleteMember(member)}
+//   key={member._id}
+//   className="DropdownButton"
+// >
+//   <img
+//     className="memberIcon"
+//     alt={`Member ${member._id}`}
+//     src={member.avatar}
+//   />
+//   <div className="memberTitle">{member.fullname}</div>
+// </button>

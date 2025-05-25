@@ -9,79 +9,82 @@ import {
   updateTasklistOrder,
   syncBoardAsync,
   updateBoardListOrderAndSync,
-  updateTasklistOrderAndSync
+  updateTasklistOrderAndSync,
+  updateboardFilter,
 } from "../../redux/BoardSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { TaskPreviewEditor } from "./taskPreviewCmps/TaskPreviewEditor"
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 import { TaskOps } from "../../services/backendHandler"
 export function BoardView() {
-  const [newListClicked, setNewListClicked] = useState(true)
-  // const [previewEditorPositon, setPreviewEditorPosition] = useState()
   const board = useSelector((state) => state.boardReducer)
   const dispatch = useDispatch()
 
-  // console.log("board.filter", board.filter)
-//   board.boardLists.forEach((list) => {
-//     list.taskList = list.taskList.filter((task) =>
-//       task.taskTitle.toLowerCase().includes(titleFilter)
-//     );
-//   });
-// }
+  let taskSum = 0
+  const [taskCount, setTaskCount] = useState(0)
+  let filteredBoard = board
 
-// const filteredBoard = {
-//   ...board,
-//   boardLists: board.boardLists.map((list) => ({
-//     ...list,
-//     taskList: board.filter.title
-//       ? list.taskList.filter((task) =>
-//           task.taskTitle.toLowerCase().includes(board.filter.title.toLowerCase()
-//            &&
-//           task.taskLabels?.some((taskLabel) => board.filter.labels.some((filterLabel) => filterLabel.color === taskLabel.color)
-//         ))
-//         )
-//       : list.taskList,
-//   })),
-// };
+  const filterActive =
+    board.filter.title !== "" ||
+    board.filter.members.length > 0 ||
+    board.filter.labels.length > 0
+  if (filterActive) {
+    filteredBoard = {
+      ...board,
+      boardLists: board.boardLists.map((list) => {
+        let filteredTasks = list.taskList
 
-const filteredBoard = {
-  ...board,
-  boardLists: board.boardLists.map((list) => {
-    let filteredTasks = list.taskList;
+        // Filter by title if needed
+        if (board.filter.title && board.filter.title !== "") {
+          const titleFilter = board.filter.title.toLowerCase()
+          filteredTasks = filteredTasks.filter((task) =>
+            task.taskTitle.toLowerCase().includes(titleFilter)
+          )
+        }
 
-    // Filter by title if needed
-    if (board.filter.title && board.filter.title !== "") {
-      const titleFilter = board.filter.title.toLowerCase();
-      filteredTasks = filteredTasks.filter((task) =>
-        task.taskTitle.toLowerCase().includes(titleFilter)
-      );
+        // Filter by labels if needed
+        if (board.filter.labels && board.filter.labels.length > 0) {
+          filteredTasks = filteredTasks.filter((task) =>
+            task.taskLabels?.some((taskLabel) =>
+              board.filter.labels.some(
+                (filterLabel) => filterLabel.color === taskLabel.color
+              )
+            )
+          )
+        }
+        console.log("board.filter.members", board.filter.members)
+        if (board.filter.members && board.filter.members.length > 0) {
+          console.log("board.filter.members", board.filter.members)
+          // console.log("taskMembers", task.taskMembers)
+          filteredTasks = filteredTasks.filter((task) =>
+            task.taskMembers?.some((taskMember) =>
+              board.filter.members.some(
+                (filterMember) => filterMember._id === taskMember._id
+              )
+            )
+          )
+        }
+        taskSum += filteredTasks.length
+        // setTaskCount(taskCount=> taskCount + filteredTasks.length)
+        return {
+          ...list,
+          taskList: filteredTasks,
+        }
+      }),
     }
-
-    // Filter by labels if needed
-    if (board.filter.labels && board.filter.labels.length > 0) {
-      filteredTasks = filteredTasks.filter((task) =>
-        task.taskLabels?.some((taskLabel) =>
-          board.filter.labels.some((filterLabel) => filterLabel.color === taskLabel.color)
-        )
-      );
+  }
+  useEffect(() => {
+    if (filterActive) {
+      console.log("taskSum", taskSum)
+      setTaskCount(taskSum)
     }
+  }, [board])
 
-    if (board.filter.members && board.filter.members.length > 0) {
-      console.log("board.filter.members", board.filter.members)
-      // console.log("taskMembers", task.taskMembers)
-      filteredTasks = filteredTasks.filter((task) =>
-        task.taskMembers?.some((taskMember) =>
-          board.filter.members.some((filterMember) => filterMember._id === taskMember._id)
-        )
-      );
-    }
+  useEffect(() => {
+    console.log("taskCount", taskCount)
+    dispatch(updateboardFilter({ ...board.filter, taskCount: taskCount }))
+  }, [taskCount])
 
-    return {
-      ...list,
-      taskList: filteredTasks,
-    };
-  }),
-};
   function AddNewEmptyTaskList(value) {
     // console.log("AddNewTaskList")
     dispatch(addBoardList())
@@ -99,7 +102,6 @@ const filteredBoard = {
       //         indexInBoard: board?.boardLists.length,
       //       },
       //     },
-
       //     workId: "list",
       //   })
       // )
@@ -113,11 +115,15 @@ const filteredBoard = {
     // debugger
     const { destination, source, draggableId } = result
     console.log("onDragEnd", result, type)
-    console.log("board.boardLists before change", board.boardLists
+    console.log(
+      "board.boardLists before change",
+      board.boardLists
       // .map((list) => list._id.toString())
     )
     if (result.type === "BoardList") {
-      dispatch(updateBoardListOrderAndSync({ draggableId, destination, source }))
+      dispatch(
+        updateBoardListOrderAndSync({ draggableId, destination, source })
+      )
       // dispatch(updateBoardListOrder({ draggableId, destination, source }))
       // const boardLists = board.boardLists.filter((list) => { return list._id})
       // setTimeout(() => {

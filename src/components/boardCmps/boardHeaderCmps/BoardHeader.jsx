@@ -7,6 +7,7 @@ import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
 import BoardHeaderFilter from "./boardHeaderFilter"
 import SvgIcon from "../../SvgIcon"
+import { b } from "framer-motion/client"
 export function BoardHeader() {
   const board = useSelector((state) => state.boardReducer)
   const [currentBoard, setCurrentBoard] = useState(board)
@@ -61,6 +62,9 @@ export function BoardHeader() {
       />
     ),
   }
+  const filterActive = (board.filter.title !== "" ||
+    board.filter.members.length > 0 || board.filter.labels.length > 0) 
+  const filterButtonCount = filterActive ? board.filter?.taskCount  : ""
   const title = board? board.boardTitle : "Loading..."
   return (
     <div className="board-header-container">
@@ -112,7 +116,7 @@ export function BoardHeader() {
         </span>
         <span className="board-header-right">
           <div
-            className="filter-btn-container header-button header-clickable"
+            className={`filter-btn-container header-button header-clickable ${filterActive ? " pressed" : ""}`}
             onClick={(e) => togglePressed(e.currentTarget, "filter")}
           >
             {/* <IconButton label="Filters" iconSize={"16px"}>
@@ -125,7 +129,7 @@ export function BoardHeader() {
             </IconButton> */}
             <DropdownUi
             trigger={
-              <IconButton label="Filters" iconSize={"16px"}>
+              <IconButton label={`Filters ${filterButtonCount}`} iconSize={"16px"}>
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -143,7 +147,33 @@ export function BoardHeader() {
             }
           </DropdownUi>
           </div>
-
+          <div className="task-preview-info-users"
+          style={{ marginBottom: "0px" }}>
+                    {board.boardMembers &&
+                      board.boardMembers
+                        .filter(
+                          (member) =>
+                            member && typeof member === "object" && member.avatar
+                        )
+                        .map((member) => (
+                          <button
+                            key={member._id || member.id}
+                            className="td-section-members-button"
+                          >
+                            <img
+                              src={member.avatar}
+                              alt={`Member ${member._id || member.id}`}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                borderRadius: "100%",
+                              }}
+                            />
+                          </button>
+                        ))}
+                    {/* <TaskDetailsMembers style={{}} /> */}
+                  </div>
           {/* {board.users &&
             board.users.map((user) => (
               <span onClick={(user) => toggleUserCmp(user)}>{user.name}</span>

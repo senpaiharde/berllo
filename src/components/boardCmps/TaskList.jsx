@@ -34,7 +34,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
   //     labels: [],
   //   },
   const filterActive = (board.filter.title !== "" ||
-    board.filter.member !== "" || board.filter.labels.length > 0) 
+    board.filter.members.length > 0 || board.filter.labels.length > 0) 
     const filteredAmount = boardList.taskList?.length
     const filteredText = filteredAmount && (filteredAmount > 1 || filteredAmount === 0)  ? `${filteredAmount} cards match filters` : `${filteredAmount} card match filters`
  

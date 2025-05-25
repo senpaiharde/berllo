@@ -266,6 +266,7 @@ const boardSlice = createSlice({
       title: "",
       members: [],
       labels: [],
+      taskCount: 0,
     },
     // boards: [],
     state: "idle",
