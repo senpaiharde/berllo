@@ -26,7 +26,7 @@ import Cover from './cover';
 import { SvgServices } from '../../../../../services/svgServices';
 import Attachment from './Attachment';
 import TaskdetailsBackLogDropdown from '../dropdowns/TaskdetailsBackLogDropdown';
-import CopyDropdown from '../dropdowns/copy';
+// import CopyDropdown from '../dropdowns/copy';
 const TaskDetailsSidebar = () => {
   const sidebarButtons = [
     {
