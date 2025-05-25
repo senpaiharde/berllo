@@ -26,6 +26,7 @@ import Cover from './cover';
 import { SvgServices } from '../../../../../services/svgServices';
 import Attachment from './Attachment';
 import TaskdetailsBackLogDropdown from '../dropdowns/TaskdetailsBackLogDropdown';
+import CopyDropdown from '../dropdowns/copy';
 const TaskDetailsSidebar = () => {
   const sidebarButtons = [
     {
@@ -113,7 +114,7 @@ const TaskDetailsSidebar = () => {
        hover: 'Copy Card',
       label: 'Copy',
       icon: <CopySvg />,
-      content: (props) => <DropdownLabel {...props} />,
+      content: (props) => <TaskdetailsBackLogDropdown {...props} Header={'0'} />,
     },
     {
       id: 'Mirror',

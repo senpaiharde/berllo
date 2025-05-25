@@ -30,13 +30,20 @@ const initialState = {
   taskDueDate: null,
   activities: [],
   title: '',
-  Activity: '',
+  Activity: [],
+  
 };
 
 const taskDetailsSlice = createSlice({
   name: 'taskDetails',
   initialState,
   reducers: {
+    taskUpdated(state,action) {
+        if(state.selectedTask?._id === action.payload._id){
+            state.selectedTask = action.payload
+        }
+    }
+    ,
     openTaskDetails: (state, action) => {
       if (state.selectedTask?._id === action.payload._id) return;
       state.selectedTask = {
@@ -46,7 +53,7 @@ const taskDetailsSlice = createSlice({
         isDueComplete: action.payload.isDueComplete ?? false,
         title: action.payload.title ?? '',
         description: action.payload.description ?? '',
-        Activity: action.payload.Activity ?? '',
+        Activity: action.payload.Activity ?? [],
         isWatching: action.payload.isWatching ?? false,
         members: Array.isArray(action.payload.members) ? action.payload.members : [],
         checklist: Array.isArray(action.payload.checklist) ? action.payload.checklist : [],
@@ -66,12 +73,19 @@ const taskDetailsSlice = createSlice({
       if (payload.isDueComplete !== undefined) {
         state.selectedTask.isDueComplete = payload.isDueComplete;
       }
-
+      
+      if (payload.cover !== undefined) {
+        state.selectedTask.cover = payload.cover;
+      }
+      
+      if (payload.taskDueDate || payload.dueDate) {
+         state.selectedTask.taskDueDate = action.payload.taskDueDate ?? action.payload.dueDate ?? null
+      }
       if (payload.description) {
         state.selectedTask.description = payload.description;
       }
-      if (payload.Activity) {
-        state.selectedTask.ActivityText = payload.ActivityText;
+      if (payload.activities !== undefined) {
+        state.selectedTask.activities = payload.activities;
       }
 
       if (payload.isWatching !== undefined) {
@@ -96,6 +110,10 @@ const taskDetailsSlice = createSlice({
       if (payload.labels) {
         state.selectedTask.labels = payload.labels;
       }
+       if (payload.Activity  || payload.activities) {
+         state.selectedTask.Activity  = action.payload.Activity ?? action.payload.activities ??  [];
+           
+       }
     },
   },
   extraReducers: (builder) => {
@@ -147,7 +165,7 @@ const taskDetailsSlice = createSlice({
   },
 });
 
-export const { openTaskDetails, closeTaskDetails, updateSelectedTaskLive } =
+export const {taskUpdated, openTaskDetails, closeTaskDetails, updateSelectedTaskLive } =
   taskDetailsSlice.actions;
 
 let debounceId;

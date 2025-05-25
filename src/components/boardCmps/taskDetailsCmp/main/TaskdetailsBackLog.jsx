@@ -25,7 +25,7 @@ const TaskdetailsBackLog =() => {
             {!isWatching && <SvgServices name='SvgEye' className='SvgDrop-BACKLOG'/>}
           </span>
           }>
-          {(props) => <TaskdetailsBackLogDropdown {...props} />}
+          {(props) => <TaskdetailsBackLogDropdown {...props} Header={'100'} />}
         </DropdownUi>
         </div>
     )
