@@ -21,7 +21,7 @@ const TaskDetailsMembers = () => {
             .map((member) => (
               <button key={member._id || member.id} className="td-section-members-button">
                 <img
-                  src={member.icon}
+                  src={member.avatar}
                   alt={`Member ${member._id || member.id}`}
                   style={{
                     width: '100%',

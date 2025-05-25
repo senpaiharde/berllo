@@ -30,7 +30,7 @@ export default function DescriptionEditor({ initial, onSave, onCancel,height,tex
           <button className="my-btn">1.</button>
           <button className="my-btn">🔗</button>
           <button className="my-btn">🖼</button>
-          <div>{height}{textarea}</div>
+          <div></div>
         </div>
 
         {/* STATIC TEXTAREA */}
