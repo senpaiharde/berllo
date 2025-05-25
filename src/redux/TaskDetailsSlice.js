@@ -72,7 +72,9 @@ const taskDetailsSlice = createSlice({
       if (payload.isDueComplete !== undefined) {
         state.selectedTask.isDueComplete = payload.isDueComplete;
       }
-
+      if (payload.cover !== undefined) {
+        state.selectedTask.cover = payload.cover;
+      }
       if (payload.description) {
         state.selectedTask.description = payload.description;
       }

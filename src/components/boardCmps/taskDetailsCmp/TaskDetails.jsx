@@ -6,6 +6,7 @@ import {
   openTaskDetails,
   syncTaskAsync,
   taskUpdated,
+  updateSelectedTaskLive,
 } from '../../../redux/taskDetailsSlice';
 import { TaskOps } from '../../../services/backendHandler';
 import { fetchBoardById } from '../../../redux/BoardSlice';
@@ -48,7 +49,7 @@ const TaskDetails = () => {
 
  useEffect(() => {
     const handleServerUpdate = (updatedTask) => {
-      dispatch(taskUpdated(updatedTask));
+      dispatch(updateSelectedTaskLive(updatedTask));
     };
     socket.on('taskUpdated', handleServerUpdate);
     return () => { socket.off('taskUpdated', handleServerUpdate); };
