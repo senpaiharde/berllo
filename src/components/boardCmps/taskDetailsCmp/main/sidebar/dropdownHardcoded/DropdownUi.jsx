@@ -8,19 +8,44 @@ const DropdownUi = ({ trigger, children, onClose }) => {
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const updatePosition = () => {
-  const rect = triggerRef.current?.getBoundingClientRect();
-  if (rect) {
-    const pos = {
-      top: rect.bottom + window.scrollY,
-      left: rect.left + window.scrollX,
-    };
-    
-    setPosition(pos);
-  }
-};
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const triggerRect = triggerRef.current?.getBoundingClientRect();
+        const dropdownRect = dropdownRef.current?.getBoundingClientRect();
+
+        if (triggerRect && dropdownRef.current) {
+          const viewportWidth = window.innerWidth;
+
+          const dropdownWidth = dropdownRect?.width || 304;
+
+          const top = triggerRect.bottom + window.scrollY;
+
+          let left = triggerRect.left + window.scrollX;
+          if (triggerRect.left + dropdownWidth > viewportWidth) {
+            left = viewportWidth - dropdownWidth - 8;
+          }
+
+          setPosition({ top, left });
+        }
+      });
+    });
+  };
 
   useEffect(() => {
-    if (open) updatePosition();
+    if (!open || !triggerRef.current) return;
+
+    const scrollParent = getScrollParent(triggerRef.current);
+
+    const handleScrollOrResize = () => updatePosition();
+    updatePosition();
+
+    scrollParent.addEventListener('scroll', handleScrollOrResize);
+    window.addEventListener('resize', handleScrollOrResize);
+
+    return () => {
+      scrollParent.removeEventListener('scroll', handleScrollOrResize);
+      window.removeEventListener('resize', handleScrollOrResize);
+    };
   }, [open]);
 
   useEffect(() => {
@@ -38,14 +63,29 @@ const DropdownUi = ({ trigger, children, onClose }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  function getScrollParent(node) {
+    if (!node) return null;
+
+    while (node && node !== document.body) {
+      const style = getComputedStyle(node);
+      const overflowY = style.overflowY;
+      if (overflowY === 'auto' || overflowY === 'scroll') {
+        return node;
+      }
+      node = node.parentElement;
+    }
+    return window;
+  }
+
   const dropdownContent = open ? (
     <div
       className="dropDownContent"
       ref={dropdownRef}
       style={{
-        
-        top: position.top,
-        left: position.left,
+        position: 'fixed',
+        maxHeight: 'calc(100vh - 64px)',
+        top: `${position.top}px`,
+        left: `${position.left}px`,
       }}>
       {typeof children === 'function' ? children({ onClose: () => setOpen(false) }) : children}
     </div>
@@ -57,10 +97,12 @@ const DropdownUi = ({ trigger, children, onClose }) => {
         ref={triggerRef}
         onClick={(e) => {
           e.stopPropagation();
-          
-          setOpen((prev) => !prev);
+          setOpen((prev) => {
+            if (!prev) updatePosition(); // triggers the delayed calc
+            return !prev;
+          });
         }}
-        style={{ display: 'inline-block', }}>
+        style={{ display: 'inline-block' }}>
         {trigger}
       </div>
 

@@ -243,7 +243,7 @@ const GlobalHeader = () => {
           {/* CREATE */}
           <div ref={dropdownRefs.create} className="dropdown-wrapper">
             <button className="create-button" onClick={() => toggleDropdown('create')}>
-              <Plus size={14} /> Create
+              Create
             </button>
             {activeDropdown === 'create' && (
               <div className="dropdown-menu create-menu">
@@ -300,55 +300,57 @@ const GlobalHeader = () => {
           </button>
           {activeDropdown === 'profile' && (
             <div className="dropdown-menu profile-menu">
+                <div className="section-header-dropdown">ACCOUNT</div>
               <div className="profile-header">
-                <div className="avatar large">SV</div>
-                <div className="profile-info">
-                  <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
+                <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
                     <option value="" disabled>
-                      Switch user…
+                      Switch accounts
                     </option>
                     {demoUsers.map((u) => (
-                      <option key={u.email} value={u.email}>
-                        {u.name}
+                      <option className='InfoDemoUsers' key={u.email} value={u.email}>
+                        {u.email}
                       </option>
                     ))}
+                    
                   </select>
 
-                  <button className="logout-button" onClick={handleLogout}>
-                    Log out
-                  </button>
+                
 
-                  {/* 2) Current email display */}
-                  <div className="email">{currentEmail || 'Not logged in'}</div>
-                </div>
+                 
+                  
+               
+                
               </div>
+              <div className="profile-info">
+                  <div className="InfoDemoUsers">You are in as:<br></br>{currentEmail || 'Not logged in'}</div>
+                </div>
               <div className="menu-section">
-                <div className="section-header">ACCOUNT</div>
+                <div className="section-header-dropdown">BERLLO</div>
                 {[
-                  ['Profile and visibility', <User size={14} />],
-                  ['Activity', <Activity size={14} />],
-                  ['Cards', <CreditCard size={14} />],
-                  ['Settings', <Settings size={14} />],
+                  ['Profile and visibility', ],
+                  ['Activity'],
+                  ['Cards', ],
+                  ['Settings', ],
                 ].map(([label, icon], i) => (
                   <div key={i} className="menu-item">
                     {icon}
-                    <span>{label}</span>
+                    <span className='styleForOptions'>{label}</span>
                   </div>
                 ))}
               </div>
               <div className="menu-section">
                 {[
-                  ['Help', <Help size={14} />],
-                  ['Shortcuts', <ExternalLink size={14} />],
+                  ['Help',],
+                  ['Shortcuts', ],
                 ].map(([label, icon], i) => (
                   <div key={i} className="menu-item">
                     {icon}
-                    <span>{label}</span>
+                    <span className='styleForOptions'>{label}</span>
                   </div>
                 ))}
               </div>
               <div className="menu-footer">
-                <button className="logout-button">Log out</button>
+                <button onClick={handleLogout} className="logout-button">Log out</button>
               </div>
             </div>
           )}

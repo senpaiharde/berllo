@@ -21,7 +21,7 @@ export function BoardView() {
   const board = useSelector((state) => state.boardReducer)
   const dispatch = useDispatch()
 
-  console.log("board.filter", board.filter)
+  // console.log("board.filter", board.filter)
 //   board.boardLists.forEach((list) => {
 //     list.taskList = list.taskList.filter((task) =>
 //       task.taskTitle.toLowerCase().includes(titleFilter)

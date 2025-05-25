@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { SvgServices } from '../../../../services/svgServices';
 
-export default function DescriptionEditor({ initial, onSave, onCancel }) {
+export default function DescriptionEditor({ initial, onSave, onCancel,height,textarea ,textarea1yes}) {
   const [value, setValue] = useState(initial);
   const quillRef = useRef();
 
@@ -12,8 +12,10 @@ export default function DescriptionEditor({ initial, onSave, onCancel }) {
   
 
   return (
-    <div className="td-description-editor-container">
-      <div className="td-description-editor-textarea">
+    <div 
+    style={{height:height}}
+    className="td-description-editor-container">
+      <div  style={{height:textarea}}  className="td-description-editor-textarea">
         {/* STATIC TOOLBAR */}
         <div className="my-toolbar">
           <div className="my-dropdown">
@@ -32,7 +34,7 @@ export default function DescriptionEditor({ initial, onSave, onCancel }) {
         </div>
 
         {/* STATIC TEXTAREA */}
-        <textarea 
+        <textarea style={{height:textarea1yes}}
         value={value}
         onChange={e => setValue(e.target.value)}
         className="my-textarea" placeholder="Start typing..." />
@@ -40,7 +42,7 @@ export default function DescriptionEditor({ initial, onSave, onCancel }) {
       {/* STATIC ACTIONS */}
       <div className="td-editor-actions">
         <button className="td-editor-btn save" onClick={() => onSave(value)}>Save</button>
-        <button className="td-editor-btn cancel" onClick={onCancel}>Cancel</button>
+        {height === '315px' && (<button className="td-editor-btn cancel" onClick={onCancel}>Cancel</button>)}
       </div>
     </div>
   );

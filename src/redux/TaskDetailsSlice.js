@@ -10,7 +10,8 @@ export const syncTaskAsync = createAsyncThunk(
       console.log(method, workId, args, 'update happens here', workId);
       const data = await backendHandler({ method, args, workId });
       console.log('syncTaskAsync data', data);
-      if (method === TaskOps.ADD) return
+      if (method === TaskOps.ADD) return;
+
       if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data));
       return { method, data, workId };
     } catch (err) {
@@ -27,8 +28,9 @@ const initialState = {
   loading: false,
   error: null,
   taskDueDate: null,
-activities: [],
+  activities: [],
   title: '',
+  Activity: '',
 };
 
 const taskDetailsSlice = createSlice({
@@ -44,10 +46,10 @@ const taskDetailsSlice = createSlice({
         isDueComplete: action.payload.isDueComplete ?? false,
         title: action.payload.title ?? '',
         description: action.payload.description ?? '',
+        Activity: action.payload.Activity ?? '',
         isWatching: action.payload.isWatching ?? false,
         members: Array.isArray(action.payload.members) ? action.payload.members : [],
         checklist: Array.isArray(action.payload.checklist) ? action.payload.checklist : [],
-       
       };
       state.isOpen = true;
     },
@@ -57,21 +59,28 @@ const taskDetailsSlice = createSlice({
     },
     updateSelectedTaskLive(state, action) {
       const payload = action.payload;
-      console.log("state.tasktitle", JSON.parse(JSON.stringify(state)))
+      console.log('state.tasktitle', JSON.parse(JSON.stringify(state)));
       console.log('updateSelectedTaskLive', action.payload);
       if (!state.selectedTask) return;
 
-      if (payload.isDueComplete) {
+      if (payload.isDueComplete !== undefined) {
         state.selectedTask.isDueComplete = payload.isDueComplete;
       }
-       if (payload.description) {
+
+      if (payload.description) {
         state.selectedTask.description = payload.description;
       }
-    
+      if (payload.Activity) {
+        state.selectedTask.ActivityText = payload.ActivityText;
+      }
+
+      if (payload.isWatching !== undefined) {
+        state.selectedTask.isWatching = payload.isWatching;
+      }
       if (payload.title !== undefined) {
         state.selectedTask.title = payload.title;
       }
-  
+
       if (payload.reminder) {
         state.selectedTask.reminder = payload.reminder;
       }
@@ -94,18 +103,22 @@ const taskDetailsSlice = createSlice({
       .addCase(syncTaskAsync.fulfilled, (state, action) => {
         state.loading = false;
 
-        const { method, data ,workId } = action.payload;
-          
+        const { method, data, workId } = action.payload;
+        console.log(
+          '[REPLACE] Old title:',
+          state.selectedTask.isDueComplete,
+          '-> New title:',
+          data.isDueComplete
+        );
         switch (method) {
           case TaskOps.FETCH:
-              
             state.selectedTask = {
               ...data,
               taskDueDate: data.taskDueDate ?? data.dueDate ?? null,
               reminder: data.reminder ?? null,
               isDueComplete: data.isDueComplete ?? false,
             };
-            
+
             state.isOpen = true;
             break;
           case TaskOps.UPDATE:
@@ -124,9 +137,9 @@ const taskDetailsSlice = createSlice({
             break;
         }
         if (method === 'fetch' && workId === 'activities') {
-        state.activities = data;
-        return;             
-      }
+          state.activities = data;
+          return;
+        }
       })
       .addCase(syncTaskAsync.rejected, (state, action) => {
         (state.loading = false), (state.error = action.payload || action.error.message);
@@ -139,9 +152,8 @@ export const { openTaskDetails, closeTaskDetails, updateSelectedTaskLive } =
 
 let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {
-
   const selectedTask = getState().taskDetailsReducer?.selectedTask;
-  
+
   if (!selectedTask) return;
 
   console.log('liveUpdateTask fields ', fields);
@@ -149,11 +161,11 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
   if (fields.isOpen === true) dispatch(updateTaskInBoard(fields));
 
   dispatch(updateSelectedTaskLive(fields));
+  console.log(dispatch(updateSelectedTaskLive(fields)));
   clearTimeout(debounceId);
- 
+
   console.log(fields.method, fields.workId, fields, 'liveupdatetask');
 
-  
   debounceId = setTimeout(() => {
     dispatch(
       syncTaskAsync({
@@ -162,16 +174,18 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
         workId: fields.workId,
       })
     );
-  },100);
+  }, 100);
 };
 
-export const fetchTaskActivities = (fields) => async (dispatch,getState) => {
-    const selectedTask = getState().taskDetailsReducer?.selectedTask;
-  await dispatch(syncTaskAsync({
-    method: fields.method,
-    args:   { taskId: selectedTask._id, body: fields },
-    workId: fields.workId,
-  }));
+export const fetchTaskActivities = (fields) => async (dispatch, getState) => {
+  const selectedTask = getState().taskDetailsReducer?.selectedTask;
+  await dispatch(
+    syncTaskAsync({
+      method: fields.method,
+      args: { taskId: selectedTask._id, body: fields },
+      workId: fields.workId,
+    })
+  );
 };
 
 export default taskDetailsSlice.reducer;
