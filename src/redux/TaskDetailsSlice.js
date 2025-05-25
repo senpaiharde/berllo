@@ -37,6 +37,12 @@ const taskDetailsSlice = createSlice({
   name: 'taskDetails',
   initialState,
   reducers: {
+    taskUpdated(state,action) {
+        if(state.selectedTask?._id === action.payload._id){
+            state.selectedTask = action.payload
+        }
+    }
+    ,
     openTaskDetails: (state, action) => {
       if (state.selectedTask?._id === action.payload._id) return;
       state.selectedTask = {
@@ -147,7 +153,7 @@ const taskDetailsSlice = createSlice({
   },
 });
 
-export const { openTaskDetails, closeTaskDetails, updateSelectedTaskLive } =
+export const {taskUpdated, openTaskDetails, closeTaskDetails, updateSelectedTaskLive } =
   taskDetailsSlice.actions;
 
 let debounceId;

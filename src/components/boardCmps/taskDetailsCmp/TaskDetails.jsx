@@ -5,6 +5,7 @@ import {
   liveUpdateTask,
   openTaskDetails,
   syncTaskAsync,
+  taskUpdated,
 } from '../../../redux/taskDetailsSlice';
 import { TaskOps } from '../../../services/backendHandler';
 import { fetchBoardById } from '../../../redux/BoardSlice';
@@ -25,6 +26,7 @@ import Cover from './main/sidebar/cover';
 import CoverHeader from '../../../assets/svgDesgin/SvgDate/Coverheader';
 import { SvgServices } from '../../../services/svgServices';
 import AttachmentUi from './main/AttachmentUi';
+import socket from '../../../services/socket';
 
 const TaskDetails = () => {
   const dispatch = useDispatch();
@@ -36,6 +38,22 @@ const TaskDetails = () => {
   const board = useSelector((s) => s.boardReducer);
   const boardLists = board.boardLists || [];
   const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
+
+
+ useEffect(() => {
+    socket.connect();
+    socket.emit('joinTask', pureTaskId);
+    return () => { socket.disconnect(); };
+  }, [pureTaskId]);
+
+ useEffect(() => {
+    const handleServerUpdate = (updatedTask) => {
+      dispatch(taskUpdated(updatedTask));
+    };
+    socket.on('taskUpdated', handleServerUpdate);
+    return () => { socket.off('taskUpdated', handleServerUpdate); };
+  }, [dispatch]);
+
 
   const localTask = boardLists
     .flatMap((list) => list.taskList || [])
