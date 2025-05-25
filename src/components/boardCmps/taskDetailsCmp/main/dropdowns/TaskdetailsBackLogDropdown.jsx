@@ -7,7 +7,7 @@ import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
 import { addTaskToBoard, removeTaskFromBoard } from '../../../../../redux/BoardSlice';
 import { TaskOps } from '../../../../../services/backendHandler';
 
-const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
+const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
   const dispatch = useDispatch();
   const board = useSelector((s) => s.boardReducer);
   const workspace = useSelector((s) => s.workSpaceReducer);
@@ -106,15 +106,34 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
 
   return (
     <div className="DropdownUi">
-      <div className="DropdownUiHeader">
-        <h2 className="DropdownHeaderH2">Move Card</h2>
-        <button className="DropdownClose" onClick={onClose}>
-          <SvgServices name="SvgClose" />
-        </button>
-      </div>
+      {Header  === '100'?
+        (
+          <div className="DropdownUiHeader">
+            <h2 className="DropdownHeaderH2">Move Card</h2>
+            <button className="DropdownClose" onClick={onClose}>
+              <SvgServices name="SvgClose" />
+            </button>
+          </div>
+        ):(<div > <div className="DropdownUiHeader">
+                <h2 className="DropdownHeaderH2">Copy Card</h2>
+                <button className="DropdownClose" onClick={onClose}>
+                    <SvgServices name='SvgClose'/>
+                  
+                </button>
+              </div></div>)}
 
       <div className="DropdownOptions" style={{ gap: '0px' }}>
-        <h4 className="WorkflowAreah4">Select destination</h4>
+       {Header  === '100'?(<h4 className="WorkflowAreah4">Select destination</h4>):
+       
+       (<>
+        <h4 className="WorkflowAreah4">Name</h4>
+                <textarea className='CopyCardTextarea'/>
+                <h4 className="WorkflowAreah4">keep...</h4>
+                <div className='keepSection'></div>
+                <label className='checklistAvi'>checklist</label>
+                 <h4 className="WorkflowAreah4">Copy to...</h4>
+
+       </>)} 
         <div className="workFlowCard">
           <div className="BoardReminderWrapper">
             <div className="WorkflowArea">
