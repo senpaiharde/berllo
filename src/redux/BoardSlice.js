@@ -262,6 +262,11 @@ const boardSlice = createSlice({
     boardLists: [],
     boardLabels: [],
     boardListsById: [],
+    filter:{
+      title: "",
+      member: "",
+      labels: [],
+    },
     // boards: [],
     state: "idle",
     error: null,
@@ -296,7 +301,11 @@ const boardSlice = createSlice({
 
       saveTolocal(BuildBoardFromState(state))
     },
-
+    updateboardFilter: (state, action) => {
+      console.log("boardSlice updateboardFilter", action.payload)
+      state.filter = action.payload
+      // saveTolocal(BuildBoardFromState(state))
+    },
     addBoardList: (state, action) => {
       const newList = {
         _id: nanoid(),
@@ -587,6 +596,7 @@ export const {
   addBoardList,
   removeBoardListFromBoard,
   updateBoardlist,
+  updateboardFilter,
   updateBoardLabels,
   updatePreviewEditorPositon,
   updateBoardListOrder,

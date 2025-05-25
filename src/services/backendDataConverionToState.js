@@ -85,9 +85,10 @@ export function transformTasksFromBackend(tasks) {
           taskDateReminder: task.reminder ? new Date(task.reminder).getTime() : null,
           taskList: task.list,
           taskboard: task.board,
-          taskCheckList: (task.checklist || []).flatMap(checklist =>
-            checklist.items?.map(item => item.text) || []
-          ),
+          taskCheckList: task.checklist || [],
+          // taskCheckList: (task.checklist || []).flatMap(checklist =>
+          //   checklist.items?.map(item => item) || []
+          // ),
           taskCover: {
             coverType: task.cover?.coverType || '',
             coverColor: task.cover?.coverColor || '',

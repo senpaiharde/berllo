@@ -44,17 +44,18 @@ export function TaskInfoBadges({ task }) {
   const checklistDone = () => {
     let doneCount = 0
     if (task.taskCheckList) {
+      // console.log("task.taskCheckList", task.taskCheckList)
       if (task.taskCheckList[0]) {
-        task.taskCheckList[0].items.forEach((item) => {
+        task.taskCheckList[0].items?.forEach((item) => {
           if (item.done) doneCount++
         })
         // console.log("checklistDone", `${doneCount}/${task.taskCheckList[0].items.length}`)
-        if (doneCount === task.taskCheckList[0].items.length) {
+        if (doneCount === task.taskCheckList[0].items?.length && doneCount > 0) {
           // checklistColor = ({backgroundColor: "#1f845a"})
           checklistBackgoundColor = "#1f845a"
           checklistColor = "#ffffff"
         }
-        return `${doneCount}/${task.taskCheckList[0].items.length}`
+        return `${doneCount}/${task.taskCheckList[0].items?.length}`
       }
     }
     return ""

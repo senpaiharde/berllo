@@ -21,6 +21,57 @@ export function BoardView() {
   const board = useSelector((state) => state.boardReducer)
   const dispatch = useDispatch()
 
+  console.log("board.filter", board.filter)
+//   board.boardLists.forEach((list) => {
+//     list.taskList = list.taskList.filter((task) =>
+//       task.taskTitle.toLowerCase().includes(titleFilter)
+//     );
+//   });
+// }
+
+// const filteredBoard = {
+//   ...board,
+//   boardLists: board.boardLists.map((list) => ({
+//     ...list,
+//     taskList: board.filter.title
+//       ? list.taskList.filter((task) =>
+//           task.taskTitle.toLowerCase().includes(board.filter.title.toLowerCase()
+//            &&
+//           task.taskLabels?.some((taskLabel) => board.filter.labels.some((filterLabel) => filterLabel.color === taskLabel.color)
+//         ))
+//         )
+//       : list.taskList,
+//   })),
+// };
+
+const filteredBoard = {
+  ...board,
+  boardLists: board.boardLists.map((list) => {
+    let filteredTasks = list.taskList;
+
+    // Filter by title if needed
+    if (board.filter.title && board.filter.title !== "") {
+      const titleFilter = board.filter.title.toLowerCase();
+      filteredTasks = filteredTasks.filter((task) =>
+        task.taskTitle.toLowerCase().includes(titleFilter)
+      );
+    }
+
+    // Filter by labels if needed
+    if (board.filter.labels && board.filter.labels.length > 0) {
+      filteredTasks = filteredTasks.filter((task) =>
+        task.taskLabels?.some((taskLabel) =>
+          board.filter.labels.some((filterLabel) => filterLabel.color === taskLabel.color)
+        )
+      );
+    }
+
+    return {
+      ...list,
+      taskList: filteredTasks,
+    };
+  }),
+};
   function AddNewEmptyTaskList(value) {
     // console.log("AddNewTaskList")
     dispatch(addBoardList())
@@ -177,7 +228,7 @@ export function BoardView() {
                 ref={provided.innerRef}
               >
                 <ol className="TaskList-list">
-                  {board.boardLists.map((list, index) => (
+                  {filteredBoard.boardLists.map((list, index) => (
                     <Draggable
                       key={list._id}
                       draggableId={list._id}

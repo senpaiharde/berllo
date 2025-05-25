@@ -26,7 +26,17 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
   const [isNewTaskList, setIsNewTaskList] = useState(newTaskList)
   const [taskListTitle, setTaskListTitle] = useState(boardList.taskListTitle)
   const [newTitle, setNewTitle] = useState()
+  const board = useSelector((state) => state.boardReducer)
 
+  // filter:{
+  //     title: "",
+  //     member: "",
+  //     labels: [],
+  //   },
+  const filterActive = (board.filter.title !== "" ||
+    board.filter.member !== "" || board.filter.labels.length > 0) 
+    const filteredAmount = boardList.taskList?.length
+    const filteredText = filteredAmount && (filteredAmount > 1 || filteredAmount === 0)  ? `${filteredAmount} cards match filters` : `${filteredAmount} card match filters`
   useEffect(() => {
     // console.log("newTitle", newTitle)
   }, [newTitle])
@@ -101,6 +111,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
               onChangeTextInput={onUpdateBoardList}
             ></TextEditInput>
           </div>
+          
           <div
             className="task-list-header-actions header-clickable"
             onClick={() => onRemoveCurrentList()}
@@ -114,6 +125,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
               ></path>
             </IconButton>
           </div>
+          {filterActive && <p className="task-list-filter-p">{filteredText}</p>}
         </div>
       )}
 
