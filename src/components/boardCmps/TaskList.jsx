@@ -37,9 +37,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
     board.filter.member !== "" || board.filter.labels.length > 0) 
     const filteredAmount = boardList.taskList?.length
     const filteredText = filteredAmount && (filteredAmount > 1 || filteredAmount === 0)  ? `${filteredAmount} cards match filters` : `${filteredAmount} card match filters`
-  useEffect(() => {
-    // console.log("newTitle", newTitle)
-  }, [newTitle])
+ 
 
   function onUpdateBoardList(value) {
     if (isNewTaskList && value) {

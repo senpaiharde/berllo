@@ -286,7 +286,7 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
                       task.taskMembers
                         .filter(
                           (member) =>
-                            member && typeof member === "object" && member.icon
+                            member && typeof member === "object" && member.avatar
                         )
                         .map((member) => (
                           <button
@@ -294,7 +294,7 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
                             className="td-section-members-button"
                           >
                             <img
-                              src={member.icon}
+                              src={member.avatar}
                               alt={`Member ${member._id || member.id}`}
                               style={{
                                 width: "100%",

@@ -66,6 +66,16 @@ const filteredBoard = {
       );
     }
 
+    if (board.filter.members && board.filter.members.length > 0) {
+      console.log("board.filter.members", board.filter.members)
+      // console.log("taskMembers", task.taskMembers)
+      filteredTasks = filteredTasks.filter((task) =>
+        task.taskMembers?.some((taskMember) =>
+          board.filter.members.some((filterMember) => filterMember._id === taskMember._id)
+        )
+      );
+    }
+
     return {
       ...list,
       taskList: filteredTasks,

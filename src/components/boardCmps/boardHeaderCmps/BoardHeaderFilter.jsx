@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, use } from "react"
 import ReactDOM from "react-dom"
 
 import { useDispatch, useSelector } from "react-redux"
@@ -20,9 +20,12 @@ const BoardHeaderFilter = ({ onClose }) => {
   const board = useSelector((state) => state.boardReducer)
   const [inputValue, setInputValue] = useState(board.filter.title || "")
   const [labels, setLabels] = useState(board.filter.labels || [])
-
+  const [members, setMembers] = useState(board.filter.members || [])
+  // useEffect(() => {
+  //   console.log("labels", labels)
+  //   console.log(" useEffect members", members)
+  // }, [labels, members])
   const taskLabels = task?.taskLabels || []
-  
 
   const updatePosition = () => {
     const rect = triggerRef.current?.getBoundingClientRect()
@@ -33,23 +36,45 @@ const BoardHeaderFilter = ({ onClose }) => {
       })
     }
   }
+  
   function toggleLabel(label, action) {
-  if (action === 'add') {
-    // Only add if it doesn't already exist
-    const exists = labels.some((l) => l.id === label.id);
-    if (!exists) {
-      const updatedLabels = [...labels, label];
-      setLabels(updatedLabels);
-      dispatch(updateboardFilter({ ...board.filter, labels: updatedLabels }));
+    if (action === "add") {
+      // Only add if it doesn't already exist
+      const exists = labels.some((l) => l.id === label.id)
+      if (!exists) {
+        const updatedLabels = [...labels, label]
+        setLabels(updatedLabels)
+        dispatch(updateboardFilter({ ...board.filter, labels: updatedLabels }))
+      }
+    }
+
+    if (action === "remove") {
+      const updatedLabels = labels.filter((l) => l.id !== label.id)
+      setLabels(updatedLabels)
+      dispatch(updateboardFilter({ ...board.filter, labels: updatedLabels }))
     }
   }
 
-  if (action === 'remove') {
-    const updatedLabels = labels.filter((l) => l.id !== label.id);
-    setLabels(updatedLabels);
-    dispatch(updateboardFilter({ ...board.filter, labels: updatedLabels }));
+  function toggleMember(member, action) {
+    console.log("toggleMember(member, action)", member, action)
+    console.log("members", members)
+    if (action === "add") {
+      // Only add if it doesn't already exist
+      const exists = members.some((m) => m._id === member._id)
+      if (!exists) {
+        const updatedMembers = [...members, member]
+        setMembers(updatedMembers)
+        dispatch(updateboardFilter({ ...board.filter, members: updatedMembers }))
+      }
+    }
+
+    if (action === "remove") {
+      const updatedMembers = members.filter((m) => m._id !== member._id)
+      setMembers(updatedMembers)
+      dispatch(updateboardFilter({ ...board.filter, members: updatedMembers }))
+    }
+    // console.log("members", members)
   }
-}
 
   // function toggleLabel(label, action){
   //   console.log("toggleLabel(label, action)", label, action)
@@ -68,8 +93,7 @@ const BoardHeaderFilter = ({ onClose }) => {
   // }
 
   useEffect(() => {
-
-    dispatch(updateboardFilter({...board.filter, title: inputValue}))
+    dispatch(updateboardFilter({ ...board.filter, title: inputValue }))
   }, [inputValue])
 
   useEffect(() => {
@@ -96,11 +120,11 @@ const BoardHeaderFilter = ({ onClose }) => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      onUpdatefilerText(inputValue);
-    }, 1000);
-  
-    return () => clearTimeout(timeoutId); // cleanup old timer if inputValue changes
-  }, [inputValue]);
+      onUpdatefilerText(inputValue)
+    }, 1000)
+
+    return () => clearTimeout(timeoutId) // cleanup old timer if inputValue changes
+  }, [inputValue])
 
   function onUpdatefilerText(value) {
     console.log("onUpdatefilerText(value)", value)
@@ -114,8 +138,7 @@ const BoardHeaderFilter = ({ onClose }) => {
         <div className="DropdownUiHeader">
           <h2 className="DropdownHeaderH2">Filter</h2>
           <button onClick={onClose} className="DropdownClose">
-             <SvgServices name='SvgClose'/>
-        
+            <SvgServices name="SvgClose" />
           </button>
         </div>
 
@@ -134,61 +157,103 @@ const BoardHeaderFilter = ({ onClose }) => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          {/* <div className="EditDropdownLabelColor">
-          {board.boardLabels.map((label) => {
-            return (
-              <div className="EditDropdownLabelBox" key={label}>
-                <button
-                  style={{
-                    background: label,
-                    // border: selectedColor === label ? '2px solid #000' : 'none',
-                  }}
-                  onClick={() => setSelectedColor(label)}
-                  className="EditDropdownLabelBoxbutton"></button>
-              </div>
-            );
-          })}
-        </div> */}
-        <h3 className="DropdownLabelH3">Labels</h3>
-        <ul className="DropdownUL">
-              {board.boardLabels.map((label) => {
-                const isChecked = labels?.some(
-                  (l) =>
-                    l?.color && label?.color && l.color.toLowerCase() === label.color.toLowerCase()
-                );
+          
+          <h3 className="DropdownfilterH3">Labels</h3>
+          <ul className="DropdownUL">
+            {board.boardLabels.map((label) => {
+              const isChecked = labels?.some(
+                (l) =>
+                  l?.color &&
+                  label?.color &&
+                  l.color.toLowerCase() === label.color.toLowerCase()
+              )
 
-                return (
-                  <li key={label.color + label.title} className="DropdownLabelItem">
-                    {isChecked  === true ? 
-                                             (<span 
-                                             onClick={() => toggleLabel(label,'remove')}
-                                             className="DropdownLabelCheckboxDone">
-                                                <div className='checklistDone'>
-                                                    <SvgServices name='checklistDone'/></div>
-                                               
-                                             </span>):
-                                             (<span
-                                             onClick={() => toggleLabel(label,'add')}
-                                             className="DropdownLabelCheckbox-undone" >
-                    
-                                                
-                                             </span>)}
-                   
-                    <div
-                      className="DropdownLabelColorBox"
-                      style={{ backgroundColor: label.color || '#ccc' }}>
-                      {label.title}
-                    </div>
-                    {/* <button
+              return (
+                <li
+                  key={label.color + label.title}
+                  className="DropdownLabelItem"
+                >
+                  {isChecked === true ? (
+                    <span
+                      onClick={() => toggleLabel(label, "remove")}
+                      className="DropdownLabelCheckboxDone"
+                    >
+                      <div className="checklistDone">
+                        <SvgServices name="checklistDone" />
+                      </div>
+                    </span>
+                  ) : (
+                    <span
+                      onClick={() => toggleLabel(label, "add")}
+                      className="DropdownLabelCheckbox-undone"
+                    ></span>
+                  )}
+
+                  <div
+                    className="DropdownLabelColorBox"
+                    style={{ backgroundColor: label.color || "#ccc" }}
+                  >
+                    {label.title}
+                  </div>
+                  {/* <button
                       className="DropdownLabelEditBtn"
                       onClick={() => setEditModeLabel(label)}>
                       <SvgAdd />
                     </button> */}
-                  </li>
-                );
+                </li>
+              )
+            })}
+          </ul>
+          </div>
+          <div className="DropdownOptions">
+            <h3 className="DropdownfilterH3">Members</h3>
+          {board.boardMembers.length > 0 && (
+            <>
+              
+              {board.boardMembers.map((member) => {
+                const isChecked = members?.some(
+                (m) => m?._id && member?._id && m._id === member._id
+                  
+              )
+
+              return (
+                <li
+                  key={member.id}
+                  className="DropdownLabelItem"
+                >
+                  {isChecked === true ? (
+                    <span
+                      onClick={() => toggleMember(member, "remove")}
+                      className="DropdownLabelCheckboxDone"
+                    >
+                      <div className="checklistDone">
+                        <SvgServices name="checklistDone" />
+                      </div>
+                    </span>
+                  ) : (
+                    <span
+                      onClick={() => toggleMember(member, "add")}
+                      className="DropdownLabelCheckbox-undone"
+                    ></span>
+                  )}
+
+                  <button
+                  // onClick={() => handleDeleteMember(member)}
+                  key={member._id}
+                  className="DropdownButton"
+                >
+                  <img
+                    className="memberIcon"
+                    alt={`Member ${member._id}`}
+                    src={member.avatar}
+                  />
+                  <div className="memberTitle">{member.fullname}</div>
+                </button>
+                </li>
+              )
               })}
-            </ul>
-          
+            </>
+          )}
         </div>
       </div>
     </>
@@ -196,3 +261,15 @@ const BoardHeaderFilter = ({ onClose }) => {
 }
 
 export default BoardHeaderFilter
+// <button
+                //   onClick={() => handleDeleteMember(member)}
+                //   key={member._id}
+                //   className="DropdownButton"
+                // >
+                //   <img
+                //     className="memberIcon"
+                //     alt={`Member ${member._id}`}
+                //     src={member.avatar}
+                //   />
+                //   <div className="memberTitle">{member.fullname}</div>
+                // </button>

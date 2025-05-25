@@ -264,7 +264,7 @@ const boardSlice = createSlice({
     boardListsById: [],
     filter:{
       title: "",
-      member: "",
+      members: [],
       labels: [],
     },
     // boards: [],
