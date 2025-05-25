@@ -1,13 +1,12 @@
-// src/components/boardCmps/taskDetailsCmp/main/TaskDescription.jsx
-import React, { useState } from 'react';
+
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../redux/TaskDetailsSlice';
 
 import { SvgServices } from '../../../../services/svgServices';
 
 import AttachmentUiDropdown from './dropdowns/AttachmentUiDropdown';
-import { TaskOps } from '../../../../services/backendHandler';
-import Cover from './sidebar/cover';
+
 import DropdownUi from './sidebar/dropdownHardcoded/DropdownUi';
 import Attachment from './sidebar/Attachment';
 
@@ -15,6 +14,25 @@ export default function AttachmentUi() {
   const dispatch = useDispatch();
   const task = useSelector((s) => s.taskDetailsReducer.selectedTask);
 
+
+
+
+const handleReorder = (result) => {
+    const { source, destination } = result;
+    if (!destination || source.droppableId !== destination.droppableId) return;
+
+    const updated = Array.from(task.attachments || []);
+    const [moved] = updated.splice(source.index, 1);
+    updated.splice(destination.index, 0, moved);
+
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+       workId: 'tasks',
+        attachments: updated,
+      })
+    );
+  };
   const handleSave = (html) => {
     dispatch(
       liveUpdateTask({
@@ -72,7 +90,19 @@ export default function AttachmentUi() {
       })
     );
   };
+
+  const onDrop = useCallback((e) => {
+    e.preventDefault();
+    const files = Array.from(e.dataTransfer.files);
+    // TODO: actually upload these files, then dispatch liveUpdateTask to add them.
+    console.log('Dropped files:', files);
+  }, []);
+
+  const onDragOver = (e) => {
+    e.preventDefault();
+  };
   return (
+     <DragDropContext onDragEnd={handleReorder}>
     <section className="td-section-description-main">
       <div className="td-section-attachment-container">
         <div className="SvgLefSvg">
@@ -90,10 +120,12 @@ export default function AttachmentUi() {
       <div className="attackMentsUi">
         <h3 className="attackMentsUiH3">Files</h3>
       </div>
+      <Droppable droppableId="attachments">
       <ul className="attackMentsUiContainer">
+         
         {task.attachments.map((template, index) => {
           const date = new Date(template.createdAt);
-
+          
           const formattedDate =
             date.toLocaleDateString('en-GB', {
               day: 'numeric',
@@ -147,7 +179,8 @@ export default function AttachmentUi() {
             </li>
           );
         })}
-      </ul>
+      </ul> </Droppable>
     </section>
+    </DragDropContext>
   );
 }

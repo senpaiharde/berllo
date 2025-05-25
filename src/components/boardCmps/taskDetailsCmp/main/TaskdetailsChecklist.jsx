@@ -9,7 +9,7 @@ import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
 import DropdownUi from './sidebar/dropdownHardcoded/DropdownUi';
 import DropdowndeleteCheck from './dropdowns/DropdowndeleteCheck';
 import { SvgServices } from '../../../../services/svgServices';
-import DatesSvg from '../../../../assets/svgDesgin/DatesSvg';
+
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
