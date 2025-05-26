@@ -4,7 +4,10 @@
   margin-bottom: 16px;
   
 }
-
+.td-section-description-main.drag-over {
+  background: rgba(0, 0, 0, 0.03);
+  transition: background 0.2s;
+}
 .td-section-description {
   display: flex;
   align-items: center;

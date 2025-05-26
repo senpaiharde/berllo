@@ -13,7 +13,7 @@ import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 export default function AttachmentUi() {
   const dispatch = useDispatch();
   const task = useSelector((s) => s.taskDetailsReducer.selectedTask);
-
+  const [isOver, setIsOver] = useState(false);
   const handleReorder = (result) => {
     const { source, destination } = result;
     if (!destination || source.droppableId !== destination.droppableId) return;
@@ -86,19 +86,57 @@ export default function AttachmentUi() {
     );
   };
 
-  const onDrop = useCallback((e) => {
+  const handleFileDrop = useCallback(async (e) => {
     e.preventDefault();
+    setIsOver(false);
     const files = Array.from(e.dataTransfer.files);
-    // TODO: actually upload these files, then dispatch liveUpdateTask to add them.
-    console.log('Dropped files:', files);
-  }, []);
+    console.log('Dropped files:', files); 
+    for (const file of files) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        dispatch(
+          liveUpdateTask({
+            method: 'update', workId: 'tasks',
+            attachments: [...(task.attachments || []), {
+              name: file.name,
+              url: reader.result,
+              contentType: file.type,
+              size: file.size,
+              createdAt: Date.now()
+            }]
+          })
+        );
+      };
+      reader.readAsDataURL(file);
+    }
+  }, [dispatch, task.attachments]);
 
-  const onDragOver = (e) => {
+
+  const handleDragOver = (e) => {
     e.preventDefault();
+  };
+
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    setIsOver(true);
+  };
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsOver(false);
+  };
+const getAttachmentKey = (template, index) => {
+    if (template._id) return template._id.toString();
+    if (template.id)  return template.id.toString();
+    return `attachment-${index}`;
   };
   return (
     <DragDropContext onDragEnd={handleReorder}>
-      <section className="td-section-description-main">
+      <section
+        onDragOver={handleDragOver}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDrop={handleFileDrop} 
+        className={`td-section-description-main${isOver ? ' drag-over' : ''}`}>
         <div className="td-section-attachment-container">
           <div className="SvgLefSvg">
             {' '}
@@ -123,7 +161,7 @@ export default function AttachmentUi() {
               {...provided.droppableProps}>
               {task.attachments.map((template, index) => {
                 const date = new Date(template.createdAt);
-
+                 const key = getAttachmentKey(template, index);
                 const formattedDate =
                   date.toLocaleDateString('en-GB', {
                     day: 'numeric',
@@ -136,7 +174,7 @@ export default function AttachmentUi() {
                     minute: '2-digit',
                   });
                 return (
-                  <Draggable key={template._id} draggableId={template._id} index={index}>
+                   <Draggable key={key} draggableId={key} index={index}>
                     {(prov) => (
                       <li
                         ref={prov.innerRef}
