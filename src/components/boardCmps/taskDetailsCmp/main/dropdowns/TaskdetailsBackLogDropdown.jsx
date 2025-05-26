@@ -7,7 +7,7 @@ import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
 import { addTaskToBoard, removeTaskFromBoard } from '../../../../../redux/BoardSlice';
 import { TaskOps } from '../../../../../services/backendHandler';
 
-const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
+const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
   const dispatch = useDispatch();
   const board = useSelector((s) => s.boardReducer);
   const workspace = useSelector((s) => s.workSpaceReducer);
@@ -19,71 +19,53 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose }) => {
 
   useEffect(() => {
     if (task) {
-      setBoardId(task.taskboard);
+      setBoardId(task?.board || task?.taskboard || task.task?.board);
       setListId(task?.list || task?.taskList);
     }
   }, [task]);
 
-
-
-
-
-
-
-
-
   const boardOptions = useMemo(() => {
-    return workspace.boards?.map((b) => ({
-      id: b._id,
-      title: b.boardTitle || 'Untitled Board',
-    })) || [];
+    return (
+      workspace.boards?.map((b) => ({
+        id: b._id,
+        title: b.boardTitle || 'Untitled Board',
+      })) || []
+    );
   }, [workspace.boards]);
 
-
   const listOptions = useMemo(() => {
-    return board.boardLists?.map((l) => ({
-      id: l._id,
-      title: l.taskListTitle || 'Untitled List',
-    })) || [];
+    return (
+      board.boardLists?.map((l) => ({
+        id: l._id,
+        title: l.taskListTitle || 'Untitled List',
+      })) || []
+    );
   }, [board.boardLists]);
-
 
   const listObj = useMemo(() => {
     return board.boardLists?.find((l) => l._id === listId);
   }, [board.boardLists, listId]);
 
-
   const sortedTasks = useMemo(() => {
     if (!listObj || !Array.isArray(listObj.taskList)) return [];
-    return listObj.taskList
-      .slice()
-      .sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
+    return listObj.taskList.slice().sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
   }, [listObj]);
 
+  useEffect(() => {
+    if (!task?._id || !listObj?.taskList) return;
 
+    const idx = listObj.taskList.findIndex((t) => t._id === task._id);
+    setPosition(idx >= 0 ? String(idx + 1) : String((listObj.taskList.length ?? 0) + 1));
+  }, [task?._id, listObj?.taskList]);
 
+  const positionOptions = useMemo(() => {
+    const count = listObj?.taskList?.length ?? 0;
 
-
-
-
-
-  
- useEffect(() => {
-  if (!task?._id || !listObj?.taskList) return;
-
-  const idx = listObj.taskList.findIndex(t => t._id === task._id);
-  setPosition(idx >= 0 ? String(idx + 1) : String((listObj.taskList.length ?? 0) + 1));
-}, [task?._id, listObj?.taskList]);
-
-const positionOptions = useMemo(() => {
-  const count = listObj?.taskList?.length ?? 0;
-
-  return Array.from({ length: count + 1 }, (_, i) => ({
-    id: String(i + 1),
-    title: i + 1 === count + 1 ? `${i + 1} to Last` : `${i + 1}`,
-  }));
-}, [listObj?.taskList]);
-
+    return Array.from({ length: count + 1 }, (_, i) => ({
+      id: String(i + 1),
+      title: i + 1 === count + 1 ? `${i + 1} to Last` : `${i + 1}`,
+    }));
+  }, [listObj?.taskList]);
 
   useEffect(() => {
     if (!task?._id || !sortedTasks.length) return;
@@ -92,60 +74,66 @@ const positionOptions = useMemo(() => {
     setPosition(idx >= 0 ? String(idx + 1) : String(sortedTasks.length + 1));
   }, [task?._id, sortedTasks]);
 
+  const handleMove = () => {
+    console.log('🔥 handleMove fired');
 
+    const targetPosition = Number(position) - 1;
 
+    dispatch(removeTaskFromBoard({ _id: task._id, taskList: task.taskList }));
 
+    dispatch(
+      addTaskToBoard({
+        ...task,
+        taskList: listId,
+        taskboard: boardId,
+        position: targetPosition,
+      })
+    );
 
-const handleMove = () => {
-  if (!boardId || !listId || !position) return;
+    dispatch(
+      liveUpdateTask({
+        method: TaskOps.UPDATE,
+        workId: 'tasks',
 
+        taskList: listId,
+        taskboard: boardId,
+        position: targetPosition,
+      })
+    );
 
-  dispatch(removeTaskFromBoard({ _id: task._id, taskList: task.taskList }));
-
-  dispatch(addTaskToBoard({
-    ...task,
-    taskList: listId,
-    taskboard: boardId,
-  }));
-
-  
-  dispatch(
-    liveUpdateTask({
-      method: TaskOps.UPDATE,
-      workId: 'tasks',
-      args: {
-        taskId: task._id,
-        body: {
-          taskList: listId,
-          taskboard: boardId,
-          position: Number(position) - 1, 
-        },
-      },
-    })
-  );
-
-  onClose(); 
-};
-
-
-const fullListFromRedux = board.boardLists.find(
-  (list) => list._id?.toString() === listId?.toString()
-);
-console.log("✅ Matching list:", fullListFromRedux);
-console.log("🧠 Comparing listId:", listId);
-console.log("🧠 board.boardLists IDs:", board.boardLists.map(l => l._id?.toString()));
+    onClose();
+  };
 
   return (
     <div className="DropdownUi">
-      <div className="DropdownUiHeader">
-        <h2 className="DropdownHeaderH2">Move Card</h2>
-        <button className="DropdownClose" onClick={onClose}>
-          <SvgServices name="SvgClose" />
-        </button>
-      </div>
+      {Header  === '100'?
+        (
+          <div className="DropdownUiHeader">
+            <h2 className="DropdownHeaderH2">Move Card</h2>
+            <button className="DropdownClose" onClick={onClose}>
+              <SvgServices name="SvgClose" />
+            </button>
+          </div>
+        ):(<div > <div className="DropdownUiHeader">
+                <h2 className="DropdownHeaderH2">Copy Card</h2>
+                <button className="DropdownClose" onClick={onClose}>
+                    <SvgServices name='SvgClose'/>
+                  
+                </button>
+              </div></div>)}
 
       <div className="DropdownOptions" style={{ gap: '0px' }}>
-        <h4 className="WorkflowAreah4">Select destination</h4>
+       {Header  === '100'?(<h4 className="WorkflowAreah4">Select destination</h4>):
+       
+       (<>
+        <h4 className="WorkflowAreah4">Name</h4>
+                <textarea className='CopyCardTextarea'/>
+                <h4 className="WorkflowAreah4">keep...</h4>
+                <div className='keepSection'></div>
+                <label className='checklistAvi'>checklist</label>
+                 <h4 className="WorkflowAreah4">Copy to...</h4>
+
+       </>)} 
         <div className="workFlowCard">
           <div className="BoardReminderWrapper">
             <div className="WorkflowArea">
@@ -171,7 +159,6 @@ console.log("🧠 board.boardLists IDs:", board.boardLists.map(l => l._id?.toStr
 
             <div className="WorkflowPosition">
               <BackLogDropdown
-              
                 label="Position"
                 options={positionOptions}
                 value={position}
@@ -181,12 +168,10 @@ console.log("🧠 board.boardLists IDs:", board.boardLists.map(l => l._id?.toStr
             </div>
           </div>
         </div>
-
         <button
           onClick={handleMove}
           disabled={!boardId || !listId || !position}
-          className="MoveCardButton"
-        >
+          className="MoveCardButton">
           Move
         </button>
       </div>
