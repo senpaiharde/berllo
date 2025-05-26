@@ -51,6 +51,7 @@ const taskDetailsSlice = createSlice({
         taskDueDate: action.payload.taskDueDate ?? action.payload.dueDate ?? null,
         reminder: action.payload.reminder ?? null,
         isDueComplete: action.payload.isDueComplete ?? false,
+        attachments : action.payload.attachments ?? [],
         title: action.payload.title ?? '',
         description: action.payload.description ?? '',
         Activity: action.payload.Activity ?? [],
@@ -72,6 +73,9 @@ const taskDetailsSlice = createSlice({
 
       if (payload.isDueComplete !== undefined) {
         state.selectedTask.isDueComplete = payload.isDueComplete;
+      }
+      if (payload.attachments !== undefined) {
+        state.selectedTask.attachments = payload.attachments;
       }
       
       if (payload.cover !== undefined) {
