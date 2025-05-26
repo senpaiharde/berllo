@@ -86,58 +86,61 @@ export default function AttachmentUi() {
     );
   };
 
-  const handleFileDrop = useCallback(async (e) => {
-    e.preventDefault();
-    setIsOver(false);
-    const files = Array.from(e.dataTransfer.files);
-    console.log('Dropped files:', files); 
-    for (const file of files) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        dispatch(
-          liveUpdateTask({
-            method: 'update', workId: 'tasks',
-            attachments: [...(task.attachments || []), {
-              name: file.name,
-              url: reader.result,
-              contentType: file.type,
-              size: file.size,
-              createdAt: Date.now()
-            }]
-          })
-        );
-      };
-      reader.readAsDataURL(file);
-    }
-  }, [dispatch, task.attachments]);
+  const handleFileDrop = useCallback(
+    async (e) => {
+      e.preventDefault();
+      setIsOver(false);
+      const files = Array.from(e.dataTransfer.files);
+      console.log('Dropped files:', files);
+      for (const file of files) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          dispatch(
+            liveUpdateTask({
+              method: 'update',
+              workId: 'tasks',
+              attachments: [
+                ...(task.attachments || []),
+                {
+                  name: file.name,
+                  url: reader.result,
+                  contentType: file.type,
+                  size: file.size,
+                  createdAt: Date.now(),
+                },
+              ],
+            })
+          );
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    [dispatch, task.attachments]
+  );
 
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-    setIsOver(true);
-  };
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    setIsOver(false);
-  };
-const getAttachmentKey = (template, index) => {
+  const getAttachmentKey = (template, index) => {
     if (template._id) return template._id.toString();
-    if (template.id)  return template.id.toString();
+    if (template.id) return template.id.toString();
     return `attachment-${index}`;
   };
   return (
     <DragDropContext onDragEnd={handleReorder}>
       <section
-        onDragOver={handleDragOver}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDrop={handleFileDrop} 
+        onDragEnter={(e) => {
+          e.preventDefault();
+          setIsOver(true);
+        }}
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+        onDragLeave={(e) => {
+          e.preventDefault();
+          setIsOver(false);
+        }}
+        onDrop={handleFileDrop}
         className={`td-section-description-main${isOver ? ' drag-over' : ''}`}>
-        <div className="td-section-attachment-container">
+        <div className={`td-section-attachment-container${isOver ? ' drag-over' : ''}`}>
           <div className="SvgLefSvg">
             {' '}
             <SvgServices name="AttackmentSvg" />
@@ -161,7 +164,7 @@ const getAttachmentKey = (template, index) => {
               {...provided.droppableProps}>
               {task.attachments.map((template, index) => {
                 const date = new Date(template.createdAt);
-                 const key = getAttachmentKey(template, index);
+                const key = getAttachmentKey(template, index);
                 const formattedDate =
                   date.toLocaleDateString('en-GB', {
                     day: 'numeric',
@@ -174,7 +177,7 @@ const getAttachmentKey = (template, index) => {
                     minute: '2-digit',
                   });
                 return (
-                   <Draggable key={key} draggableId={key} index={index}>
+                  <Draggable key={key} draggableId={key} index={index}>
                     {(prov) => (
                       <li
                         ref={prov.innerRef}
