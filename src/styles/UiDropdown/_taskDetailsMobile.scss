@@ -21,6 +21,13 @@
       }
     }
   }
+    .dropDownContent {
+    /* shift the dropdown up so its bottom edge sits where its top edge would normally be */
+    transform: translateY(-55%) !important;
+    
+    /* if you want a little gap between trigger and menu: */
+    /* transform: translateY(calc(-100% - 8px)) !important; */
+  }
 .td-main{
     display: block;
 }
@@ -248,4 +255,8 @@
     row-gap: 8px; /* TODO */
     width: 100%;
   }
+}
+
+.td-sidebarbuttons{
+    
 }

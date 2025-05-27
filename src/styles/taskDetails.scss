@@ -432,3 +432,13 @@ height: 16px;
 width: 16px;
 height: 16px;
 }
+
+.td-sidebarbuttons{
+    width: 164px;
+    display: flex
+;
+    flex-direction: column;
+    padding-left: 15px;
+    margin-top: 8px;
+    gap: 7px;
+}
