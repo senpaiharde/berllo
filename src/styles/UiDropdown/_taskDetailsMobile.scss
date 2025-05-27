@@ -5,31 +5,34 @@
   /* Modal Overlay */
   .td-modal {
     align-items: flex-start;
-    display: block;
+    display: block !important;
     padding-top: 0px;
     height: 100%;
     width: 100%;
     justify-content: center;
-
+    
     padding: 0;
 
     /* TODO: adjust overlay padding, alignment */
     @supports (height: 100dvh) {
       .td-modal {
-        width: 100dvw; /* OK */
-        height: 100dvh; /* OK */
+        width: 100dvw; 
+        height: 100dvh; 
       }
     }
   }
-
+.td-main{
+    display: block;
+}
   /* Container & Cover */
   .td-container {
     min-height: auto; /* TODO: lower from 600px? */
     border-radius: 8px;
-
-    width: 100%;
+     overflow-x: hidden; 
+      width: calc(100% - 16px);
+    
     margin-left: 8px;
-    margin-right: 12px;
+    margin-right: 8px;
   }
   .td-container.has-cover {
     /* TODO: full‑width, remove extra padding */
@@ -41,7 +44,7 @@
 
   /* Header Elements */
   .td-header {
-    padding: 14px 0px; /* TODO: tighten up */
+     /* TODO: tighten up */
     grid-template-columns: [icon] 32px [body] 1fr;
     row-gap: 8px; /* TODO */
   }
@@ -49,11 +52,14 @@
   .td-checkbox-div,
   .td-title-input {
   }
+  .TaskdetailsBackLog{
+    margin-bottom: 6px !important;
+  }
   .td-inlist-text {
-    display: inline-flex; /* TODO */
+    
     flex-wrap: wrap;
     column-gap: 4px; /* TODO */
-    margin-top: 8px; /* TODO */
+     /* TODO */
     margin-bottom: 0;
     font-size: 12px; /* TODO */
     word-break: break-word;
@@ -76,6 +82,10 @@
     
     
    
+  }
+
+  .td-title-input{
+    width: 282px;
   }
  .SvgLefSvg{
     margin-bottom: 28px;
@@ -119,6 +129,7 @@
   }
 .checklist-item-wrapper{
     margin: 0px;
+    margin-left: -17px;
 }
 .checklist-save-cancel-div1-cancel{
     height: 52px !important;
@@ -127,6 +138,9 @@
 .checklist-save-cancel-div2-dots{
     display: none;
 }
+.progressbar{
+    width: 100% !important;
+}
   /* Members & Labels */
   .td-section-members,
   .td-section-members-add,
@@ -134,13 +148,28 @@
   .td-section-label-color {
     /* TODO: full-width, wrap avatars, color blocks */
   }
-
+.td-section-description-main{
+    
+}
+.containerActivity{
+    width: 100%;
+    display: block;
+}
+.containerActivityDetails{
+    width: 100% !important;
+}
+.containerActivityImage{
+    width: 100%;
+}
   /* Notifications & Dates */
   .notification-button,
   .notification-button-check,
   .td-section-dates {
     /* TODO: resize buttons, date-picker adjustments */
   }
+.td-section-description-main{
+   
+}
 
   /* Description */
   .td-section-description,
