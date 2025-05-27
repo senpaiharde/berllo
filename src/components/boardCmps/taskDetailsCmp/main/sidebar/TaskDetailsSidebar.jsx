@@ -216,7 +216,7 @@ const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
 
   return (
     <div className="td-sidebar" style={{ marginRight: '15px' }}>
-      
+     <section className='topSectionSidebar'>
       {!cover ? (sidebarButtons.map((button, index) => (
         <DropdownUi 
           trigger={
@@ -247,6 +247,7 @@ const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
           }
         </DropdownUi>
       )))}
+      </section>
 
       <section className="td-sidebarbuttons" style={{ marginLeft: '-15px' }}>
         <hgroup>
@@ -273,7 +274,7 @@ const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
       </section>
 
       <div className="section-header">Actions</div>
-
+        <section className='topSectionSidebar'>
       {sidebarButtonsBottom.map((button, index) => (
         <DropdownUi
           trigger={
@@ -288,13 +289,14 @@ const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
             })
           }
         </DropdownUi>
-      ))}
+      ))}</section>
       <div className="divider"></div>
+      <section className='topSectionSidebar'>
       {BottomButtons.map((button, index) => (
         <button key={index} className="trello-btn" data-tooltip={button.hover}>
           {button.icon} {button.label}
         </button>
-      ))}
+      ))}</section>
     </div>
   );
 };

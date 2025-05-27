@@ -244,19 +244,30 @@
   .task-details__sidebar {
   }
   .td-sidebar {
-    padding-left: 16px; /* TODO */
+    grid-column-start: sidebar;
     padding-right: 16px;
     padding-bottom: 24px;
+    width: 100%;
+    
+  }
+}
+
+.td-sidebarbuttons{
     margin-top: 24px;
+    width: 100%;
+}
+.topSectionSidebar{
+ 
+   
+    
+    
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 8px;
     row-gap: 8px; /* TODO */
     width: 100%;
-  }
 }
-
-.td-sidebarbuttons{
-    
+.divider{
+    width: 100% !important;
 }
