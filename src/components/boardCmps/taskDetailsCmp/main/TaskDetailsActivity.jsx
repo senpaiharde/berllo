@@ -8,8 +8,11 @@ import DescriptionEditor from './DescriptionEditor';
 
 const TaskDetailsActivity = () => {
   const dispatch = useDispatch();
+  
+  const task = useSelector((state) => state.taskDetailsReducer?.activities);
   const { selectedTask, activities, loading, error } = useSelector((s) => s.taskDetailsReducer);
-
+  
+  
   const lastTaskId = useRef(null);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -23,11 +26,12 @@ const TaskDetailsActivity = () => {
     );
     setIsEditing(false);
   };
-  // fetch only once when a new task is opened
+  //fetch only once when a new task is opened
   useEffect(() => {
     const id = selectedTask?._id;
     if (!id || lastTaskId.current === id) return;
     lastTaskId.current = id;
+    
     dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId: 'activities' }));
   }, [selectedTask?._id, dispatch]);
 
@@ -87,6 +91,7 @@ const TaskDetailsActivity = () => {
       <div className="td-section-attachment-container">
         <div className="SvgLefSvg">
           <SvgServices name="ActivitySvg" />
+          <button onClick={()=> {console.log(activities,'yes')}}> 22</button>
         </div>
         <div className="td-section-attachment-containerDiv">
           <div className="td-section-header-attackment">Activity</div>

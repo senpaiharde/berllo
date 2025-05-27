@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-
-
-
 import {
   createHandleNextMonth,
   createHandleNextYear,
@@ -15,13 +12,17 @@ import {
   IsTodayDay,
 } from '../../../../../../utils/CalendarDays';
 
-
 import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
 import { SvgServices } from '../../../../../../services/svgServices';
 
 const DropdownDate = ({ onClose }) => {
   const dispatch = useDispatch();
-
+  const [nextPick, setNextPick] = useState('start'); //  NEW: track whether next click sets start or due
+  const [selectedDates, setSelectedDates] = useState({
+    //  NEW: store actual Date objects
+    start: null,
+    due: null,
+  });
   const [isStartDateActive, setIsStartDateActive] = useState(false);
   const [showReminderOptions, setShowReminderOptions] = useState(false);
   const [isDueDateActive, setIsDueDateActive] = useState(false);
@@ -52,44 +53,51 @@ const DropdownDate = ({ onClose }) => {
   const handleNextYear = createHandleNextYear(setCalenderDate);
   const handlePrevYear = createHandlePrevYear(setCalenderDate);
 
-
   const handleSave = () => {
-  if (!isDueDateActive || !dueDateValue || !dueTimeValue) return;
+    if (!isDueDateActive || !dueDateValue || !dueTimeValue) return;
 
-  const [day, month, year] = dueDateValue.split('/');
-  const [hour, minute] = dueTimeValue.split(':');
-  const dueDate = new Date(+year, +month - 1, +day, +hour, +minute);
+    const [day, month, year] = dueDateValue.split('/');
+    const [hour, minute] = dueTimeValue.split(':');
+    const dueDate = new Date(+year, +month - 1, +day, +hour, +minute);
 
-  // Map label → offset
-  const reminderOffset = {
-    'At Time Due Date': 0,
-    '5 minutes before': 5,
-    '10 minutes before': 10,
-    '30 minutes before': 30,
-    '1 hour before': 60,
-    '1 day before': 1440,
-    '2 day before': 2880,
-  }[dropdownTitle] ?? null;
+    // Map label → offset
+    const reminderOffset =
+      {
+        'At Time Due Date': 0,
+        '5 minutes before': 5,
+        '10 minutes before': 10,
+        '30 minutes before': 30,
+        '1 hour before': 60,
+        '1 day before': 1440,
+        '2 day before': 2880,
+      }[dropdownTitle] ?? null;
 
-  const reminder = reminderOffset !== null
-    ? new Date(dueDate.getTime() - reminderOffset * 60000).toISOString()
-    : null;
+    const reminder =
+      reminderOffset !== null
+        ? new Date(dueDate.getTime() - reminderOffset * 60000).toISOString()
+        : null;
 
-  dispatch(
-    liveUpdateTask({
-      method: 'update',
-      workId: 'tasks',
-      taskDueDate: dueDate.toISOString(),
-      reminder: reminder,
-      isDueComplete: false,
-      ...(isStartDateActive && startDateValue
-        ? { startDate: new Date(startDateValue).toISOString() }
-        : {})
-    })
-  );
+    dispatch(
+      liveUpdateTask({
+        method: 'update',
+        workId: 'tasks',
+        taskDueDate: dueDate.toISOString(),
+        reminder: reminder,
+        isDueComplete: false,
+        ...(isStartDateActive && startDateValue
+          ? (() => {
+            const [d, m, y] = startDateValue.split('/');
+          
+          const sdUtc = new Date(Date.UTC(+y, +m - 1, +d));
+          return { taskStartDate: sdUtc.toISOString() };
+        })()
+          : {}),
+      })
+    );
+    
 
-  onClose();
-};
+    onClose();
+  };
 
   const handleRemove = () => {
     console.log('Saving task due date:', dueDateValue, dueTimeValue);
@@ -104,7 +112,7 @@ const DropdownDate = ({ onClose }) => {
         taskStartDate: null,
       })
     );
-    
+
     onClose();
   };
 
@@ -116,8 +124,7 @@ const DropdownDate = ({ onClose }) => {
           Dates
         </h2>
         <button className="DropdownClose" onClick={onClose}>
-            <SvgServices name='SvgClose'/>
-          
+          <SvgServices name="SvgClose" />
         </button>
       </div>
       <div>
@@ -127,15 +134,13 @@ const DropdownDate = ({ onClose }) => {
               <div className="DateDates">
                 <div className="DateDatesleft">
                   <button onClick={handlePrevYear} className="DateDatesButton">
-                    <SvgServices name='SvgDateLeft'/>
-                   
+                    <SvgServices name="SvgDateLeft" />
                   </button>
                   <button
                     onClick={handlePrevMonth}
                     style={{ marginLeft: '6px' }}
                     className="DateDatesButton">
-                         <SvgServices name='SvgDateLeftsmall'/>
-                    
+                    <SvgServices name="SvgDateLeftsmall" />
                   </button>
                 </div>
 
@@ -149,15 +154,13 @@ const DropdownDate = ({ onClose }) => {
                 </div>
                 <div className="DateDatesright">
                   <button onClick={handleNextMonth} className="DateDatesButton">
-                     <SvgServices name='SvgDateRightsmall'/>
-                    
+                    <SvgServices name="SvgDateRightsmall" />
                   </button>
                   <button
                     onClick={handleNextYear}
                     style={{ marginLeft: '6px' }}
                     className="DateDatesButton">
-                         <SvgServices name='SvgDateRight'/>
-                  
+                    <SvgServices name="SvgDateRight" />
                   </button>
                 </div>
               </div>
@@ -170,25 +173,44 @@ const DropdownDate = ({ onClose }) => {
                   );
                 })}
                 {calenderDays.map((day, idx) => {
-                  const isSelected = isSelect(selectedCalendarDay, calendarDate, day);
+                  const fullDate = day.fullDate;
+                  const isSelected =
+                    selectedDates.start?.getTime() === fullDate.getTime() ||
+                    selectedDates.due?.getTime() === fullDate.getTime();
+                  const inRange =
+                    selectedDates.start &&
+                    selectedDates.due &&
+                    ((fullDate > selectedDates.start && fullDate < selectedDates.due) ||
+                      (fullDate > selectedDates.due && fullDate < selectedDates.start));
                   const isToday = IsTodayDay(day);
+                   const formatted = `${String(day.day).padStart(2, '0')}/${String(
+                          calendarDate.month + 1
+                        ).padStart(2, '0')}/${calendarDate.year}`;
                   return (
                     <button
                       key={idx}
                       onClick={() => {
-                        setSelectedCalendarDay({
-                          day: day.fullDate.getDate(),
-                          month: day.fullDate.getMonth(),
-                          year: day.fullDate.getFullYear(),
+                         if (nextPick === 'start') {
+                        setIsStartDateActive(true);  
+                          setStartDateValue(formatted);   
+                          setSelectedDates({  
+                          ...selectedDates,
+                          start: fullDate,
                         });
+                         setNextPick('due'); 
+                    }else{
+                        setIsDueDateActive(true);  
+                        setDueDateValue(formatted);    
+                         setSelectedDates({ 
+                             ...selectedDates,
+                              due: fullDate,
+                               });
+                                 setNextPick('start'); 
+                    }
 
-                        setIsDueDateActive(true);
+                        
 
-                        const formatted = `${String(day.day).padStart(2, '0')}/${String(
-                          calendarDate.month + 1
-                        ).padStart(2, '0')}/${calendarDate.year}`;
-
-                        setDueDateValue(formatted);
+                       
                       }}
                       className={`CalendarDay 
                         ${day.CurrentMonth ? 'current-month' : 'other-month'}
@@ -282,8 +304,7 @@ const DropdownDate = ({ onClose }) => {
                   </div>
                   <div className="BoardReminderDivSVG">
                     <span className="BoardReminderDivSVG2">
-                         <SvgServices name='SvgDropdown'/>
-                      
+                      <SvgServices name="SvgDropdown" />
                     </span>
                   </div>
                 </div>
