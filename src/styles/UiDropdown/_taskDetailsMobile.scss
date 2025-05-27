@@ -1,0 +1,222 @@
+// mobile-overrides.scss
+// Full scaffold of mobile-specific overrides. Fill in each block with your desired mobile styles.
+
+@media only screen and (max-width: 768px) {
+  /* Modal Overlay */
+  .td-modal {
+    align-items: flex-start;
+    display: block;
+    padding-top: 0px;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+
+    padding: 0;
+
+    /* TODO: adjust overlay padding, alignment */
+    @supports (height: 100dvh) {
+      .td-modal {
+        width: 100dvw; /* OK */
+        height: 100dvh; /* OK */
+      }
+    }
+  }
+
+  /* Container & Cover */
+  .td-container {
+    min-height: auto; /* TODO: lower from 600px? */
+    border-radius: 8px;
+
+    width: 100%;
+    margin-left: 8px;
+    margin-right: 12px;
+  }
+  .td-container.has-cover {
+    /* TODO: full‑width, remove extra padding */
+    position: static;
+  }
+  .td-cover {
+    position: relative;
+  }
+
+  /* Header Elements */
+  .td-header {
+    padding: 14px 0px; /* TODO: tighten up */
+    grid-template-columns: [icon] 32px [body] 1fr;
+    row-gap: 8px; /* TODO */
+  }
+  .td-header-left,
+  .td-checkbox-div,
+  .td-title-input {
+  }
+  .td-inlist-text {
+    display: inline-flex; /* TODO */
+    flex-wrap: wrap;
+    column-gap: 4px; /* TODO */
+    margin-top: 8px; /* TODO */
+    margin-bottom: 0;
+    font-size: 12px; /* TODO */
+    word-break: break-word;
+  }
+
+  /* Top Section (List label, members) */
+  .td-section-top {
+    display: flex;
+    flex-wrap: wrap;
+
+    column-gap: 8px !important;
+    row-gap: 8px !important;
+    margin-bottom: 16px !important;
+  }
+  .td-main-left {
+    padding-right: 16px;
+    width: 100%;
+  }
+  .td-section-description-main {
+    
+    
+   
+  }
+ .SvgLefSvg{
+    margin-bottom: 28px;
+    
+ }
+ .td-description-editor-container{
+  width: 100%;
+ }
+ .td-description-editor-textarea{
+    width: 100%;
+ }
+ .td-editor-actions{
+ padding-left: 0px;
+ }
+  .td-section-attachment-containerDiv {
+    display: flex;
+    flex-wrap: wrap; /* ensure children wrap */
+    align-items: flex-start; /* TODO */
+    column-gap: 8px; /* TODO */
+    row-gap: 8px;
+    width: 100%;
+    margin-bottom: 16px; /* TODO */
+  }
+  .attackMentsUiContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px; /* TODO */
+    width: 100%;
+  }
+
+
+  .attackMentsUiH3 {
+    font-size: 14px; /* TODO: shrink from 16px */
+    font-weight: 600;
+    line-height: 20px;
+    width: 100%;
+  }
+  .checklist-save-cancel{
+    height: 111px !important;
+    width: 326px !important;
+  }
+.checklist-item-wrapper{
+    margin: 0px;
+}
+.checklist-save-cancel-div1-cancel{
+    height: 52px !important;
+    width: 46px !important;
+}
+.checklist-save-cancel-div2-dots{
+    display: none;
+}
+  /* Members & Labels */
+  .td-section-members,
+  .td-section-members-add,
+  .td-section-labels,
+  .td-section-label-color {
+    /* TODO: full-width, wrap avatars, color blocks */
+  }
+
+  /* Notifications & Dates */
+  .notification-button,
+  .notification-button-check,
+  .td-section-dates {
+    /* TODO: resize buttons, date-picker adjustments */
+  }
+
+  /* Description */
+  .td-section-description,
+  .td-section-description-container,
+  .td-section-description-main,
+  .td-section-header-description,
+  .td-section-header-description-button,
+  .td-description,
+  .td-description-editor-container,
+  .td-description-editor-textarea,
+  .td-description-null,
+  .td-editor-actions,
+  .td-editor-btn {
+    /* TODO: full-width textarea, button placement */
+  }
+
+  /* Attachments */
+  .td-section-attachment-container,
+  .td-section-attachment-containerDiv,
+  .td-section-header-attackment,
+  .attachment-section,
+  .attachments-section {
+    /* TODO: stack file items, adjust icon size */
+  }
+
+  /* Checklist */
+  .MainChecklist,
+  .MainChecklistHeader,
+  .MainChecklistHeaderButtons,
+  .MainChecklistHeaderLeft,
+  .MainChecklistHeaderLeftH2,
+  .MainChecklistHeaderText,
+  .checklist-item-wrapper-Text-input,
+  .checklistDone,
+  .checklist-save-cancel {
+    /* TODO: full-width checkboxes, input sizing */
+  }
+
+  /* Label Dropdown & Other Dropdowns */
+  .DropdownButton,
+  .DropdownClose,
+  .DropDownULlabel,
+  .DropdownHeaderH2,
+  .DropdownHr,
+  .DropdownLabelButton,
+  .DropdownLabelCheckbox,
+  .DropdownLabelColorBox,
+  .DropdownLabelEditBtn,
+  .DropdownLabelH3,
+  .DropdownLabelItem,
+  .DropdownLabelName,
+  .DropdownLabelOption,
+  .DropdownMembers,
+  .my-dropdown,
+  .my-dropdown-A,
+  .my-dropdown-svg {
+    /* TODO: dropdown width, font size, icon spacing */
+  }
+
+  /* Sidebar Actions */
+  .td-sidebar,
+  .td-sidebar a,
+  .td-sidebar button,
+  .sidebar-section,
+  .task-details__sidebar {
+  }
+  .td-sidebar {
+    padding-left: 16px; /* TODO */
+    padding-right: 16px;
+    padding-bottom: 24px;
+    margin-top: 24px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 8px;
+    row-gap: 8px; /* TODO */
+    width: 100%;
+  }
+}

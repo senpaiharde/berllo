@@ -27,8 +27,7 @@ const TaskDetailsDate = () => {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
-        hour:'numeric',
-        minute:'numeric',
+       
       })
     : 'no Date';
   return (
