@@ -10,7 +10,7 @@ const TaskDetailsDate = () => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const dueStatus = getTaskDueStatus(task);
   const taskDate = task?.taskDueDate;
-  const taskStartDate = task?.taskStartDate;
+  const taskStartDate = task?.startDate;
   const formattedDate = taskDate
     ? new Date(taskDate).toLocaleDateString('en-US', {
         year: 'numeric',

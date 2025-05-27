@@ -52,7 +52,7 @@ const taskDetailsSlice = createSlice({
       state.selectedTask = {
         ...action.payload,
         taskDueDate: action.payload.taskDueDate ?? action.payload.dueDate ?? null,
-        taskStartDate: action.payload.taskStartDate ?? action.payload.startDate ?? null,
+        startDate: action.payload.taskStartDate ?? action.payload.startDate ?? null,
         reminder: action.payload.reminder ?? null,
         isDueComplete: action.payload.isDueComplete ?? false,
         attachments : action.payload.attachments ?? [],
@@ -88,7 +88,7 @@ const taskDetailsSlice = createSlice({
       }
       
       if (payload.taskStartDate || payload.startDate) {
-         state.selectedTask.taskStartDate = action.payload.taskStartDate ?? action.payload.startDate ?? null
+         state.selectedTask.startDate = action.payload.taskStartDate ?? action.payload.startDate ?? null
       }
       if (payload.taskDueDate || payload.dueDate) {
          state.selectedTask.taskDueDate = action.payload.taskDueDate ?? action.payload.dueDate ?? null
