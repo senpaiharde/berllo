@@ -176,7 +176,7 @@ const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
       hover: 'Move Card',
       label: 'Move',
       icon: <MoveSvg />,
-      content: (props) => <TaskdetailsBackLogDropdown {...props} />,
+      content: (props) => <TaskdetailsBackLogDropdown {...props} Header={'100'}/>,
     },
     {
       id: 'Copy',
