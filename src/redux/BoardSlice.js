@@ -537,7 +537,7 @@ const boardSlice = createSlice({
       // saveTolocal(clonedBoard)
     },
     updatePreviewEditorPositon: (state, action) => {
-      // console.log("updatePreviewEditorPositon", action.payload)
+      console.log("updatePreviewEditorPositon", action.payload)
       state.previewEditorPositon = action.payload
     },
   },

@@ -146,7 +146,8 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
 
   function openPreviewEditor() {
     // console.log("openPreviewEditor", getElementPosition())
-    dispatch(openTaskDetails(task))
+    dispatch(openTaskDetails({_id: task._id}))
+    dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId: 'tasks' }));
     dispatch(updatePreviewEditorPositon(getElementPosition()))
   }
 
