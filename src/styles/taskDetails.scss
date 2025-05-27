@@ -216,28 +216,36 @@
 
 .td-sidebar {
   width: 164px;
-  display: flex;
-  flex-direction: column;
-  padding-left: 15px;
-  margin-top: 8px;
-
-  gap: 7px;
-
+  grid-column-start: sidebar;
+   margin-left: 16px;
+    padding-bottom: 24px;
   .section-header {
-    font-weight: 400;
-    font-size: 11px;
+    font-weight: 500;
+    font-size: 12px;
     line-height: 20px;
     color: #44546f;
     padding-top: 15px;
   }
-
+.topSectionSidebar{
+    display: flex
+;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    row-gap: 8px;
+}
+.divider{
+    margin-top: 10px;
+    margin-bottom: 6px;
+}
   .trello-btn {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 6px; //  space between icon and text
     padding: 4px 8px; //  tighter padding
-    font-size: 13px; //  slightly smaller text
+    font-size: 14px; //  slightly smaller text
     font-weight: 500;
     width: 150px;
     height: 30px;
