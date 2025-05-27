@@ -31,6 +31,25 @@
 .td-main{
     display: block;
 }
+.td-sidebarbuttons{
+    margin-top: 24px;
+    width: 100%;
+}
+.topSectionSidebar{
+ 
+   
+    
+    
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 8px;
+    row-gap: 8px; /* TODO */
+    width: 100%;
+}
+.divider{
+    width: 100% !important;
+}
   /* Container & Cover */
   .td-container {
     min-height: auto; /* TODO: lower from 600px? */
@@ -252,22 +271,3 @@
   }
 }
 
-.td-sidebarbuttons{
-    margin-top: 24px;
-    width: 100%;
-}
-.topSectionSidebar{
- 
-   
-    
-    
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 8px;
-    row-gap: 8px; /* TODO */
-    width: 100%;
-}
-.divider{
-    width: 100% !important;
-}
