@@ -243,7 +243,7 @@ const TaskChecklist = () => {
                                       </div>
 
                                       <div className="checklist-save-cancel-div2-Due">Due date</div>
-
+                                      <div className='dots'></div>
                                       <DropdownChecklist
                                         trigger={
                                           <div className="checklist-save-cancel-div2-dots">

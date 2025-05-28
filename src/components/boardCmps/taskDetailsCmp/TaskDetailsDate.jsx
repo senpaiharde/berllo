@@ -10,6 +10,7 @@ const TaskDetailsDate = () => {
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
   const dueStatus = getTaskDueStatus(task);
   const taskDate = task?.taskDueDate;
+  const taskStartDate = task?.startDate;
   const formattedDate = taskDate
     ? new Date(taskDate).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -17,6 +18,16 @@ const TaskDetailsDate = () => {
         day: 'numeric',
         hour:'numeric',
         minute:'numeric',
+      })
+    : 'no Date';
+
+
+     const formattedDateStart = taskStartDate
+    ? new Date(taskStartDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+       
       })
     : 'no Date';
   return (
@@ -27,7 +38,7 @@ const TaskDetailsDate = () => {
         <DropdownUi
           trigger={
             <button className="Date-Button">
-              <span>{formattedDate}</span>
+              <span>{formattedDateStart} - {formattedDate}</span>
               <span className="notification-button-span">
                 <span className="notification-button-span" style={{ marginLeft: '-5px' }}>
                   

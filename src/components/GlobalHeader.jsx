@@ -27,14 +27,9 @@ import Template3 from '../assets/images/Design Huddle.jpg';
 import Template4 from '../assets/images/Go To Market Strategy.jpg';
 import Template5 from '../assets/images/Project Management.jpg';
 import { useSelector } from 'react-redux';
+import fetchCurrentUser, { accountSwitch, demoUsersStorage,  } from '../services/backendCallsUsers';
 
-const demoUsers = [
-  { name: 'ALi Demo', email: 'alice@demo.local' },
-  { name: 'Slava Demo', email: 'bob@demo.local' },
-  { name: 'Mark Demo', email: 'carol@demo.local' },
-  { name: 'Sam Demo', email: 'dave@demo.local' },
-  { name: 'Dima Demo', email: 'eve@demo.local' },
-];
+const demoUsers = demoUsersStorage;
 
 const GlobalHeader = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -43,7 +38,7 @@ const GlobalHeader = () => {
   const navigate = useNavigate();
   const board = useSelector((state) => state.boardReducer);
   const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0;
-
+  const [user, setUser] = useState(null);
   const dropdownRefs = {
     workspaces: useRef(null),
     recent: useRef(null),
@@ -52,7 +47,7 @@ const GlobalHeader = () => {
     create: useRef(null),
     profile: useRef(null),
   };
-
+   const [lastBoard, setLastBoard] = useState(null);
   const [currentEmail, setCurrentEmail] = useState('');
 
   // load current email from localStorage
@@ -63,18 +58,7 @@ const GlobalHeader = () => {
   const handleSwitch = async (e) => {
     const email = e.target.value;
     if (!email) return;
-    try {
-      const res = await axios.post(
-        'http://localhost:4000/auth/login', 
-        { email, password: 'demo123' }
-      );
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('demoEmail', email);
-      window.location.reload();
-    } catch (err) {
-      console.error('Demo login failed', err);
-      alert('Demo login failed');
-    }
+    accountSwitch(email);
   };
 
   const handleLogout = () => {
@@ -82,7 +66,20 @@ const GlobalHeader = () => {
     localStorage.removeItem('demoEmail');
     window.location.reload();
   };
-
+  useEffect(() => {
+    async function load() {
+      try {
+        const me = await fetchCurrentUser();
+        setUser(me);
+         setLastBoard(me.lastBoardVisited);
+      } catch (err) {
+        console.log('there is error on loading users', err);
+        return err;
+      }
+    }
+   
+    load();
+  }, []);
   useEffect(() => {
     const handleClickOutside = (e) => {
       const currentRef = dropdownRefs[activeDropdown];
@@ -122,11 +119,11 @@ const GlobalHeader = () => {
             </button>
             {activeDropdown === 'workspaces' && (
               <div className="dropdown-menu">
-                <div className="dropdown-header">Your Workspaces</div>
+                <div className="dropdown-header">Current  Workspaces</div>
                 <div className="dropdown-item">
-                  <div className="workspace-icon">T</div>
+                  <div className="workspace-icon">B</div>
                   <div>
-                    <div
+                    <div className='textCurrectworkspace'
                       onClick={() => {
                         if (isBoardReady) {
                           const slug =
@@ -141,16 +138,69 @@ const GlobalHeader = () => {
                         }
                       }}
                       style={{ cursor: 'pointer', color: '#0079bf' }}>
-                      Trello Workspace
+                      Brello Workspace
                     </div>
-                    <div className="workspace-type">Free</div>
+                    
                   </div>
+                  
+                </div>
+                
+               <div className='workspace'>
+                <div className="dropdown-header">Your  Workspaces</div>
+
+                <div className="dropdown-item">
+                  <div className="workspace-icon">B</div>
+                  <div>
+                    <div className='textCurrectworkspace'
+                      onClick={() => {
+                        if (isBoardReady) {
+                          const slug =
+                            board.slug ||
+                            (board.boardTitle
+                              ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
+                              : 'board');
+                          console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                          navigate(`/b/${board._id}/${slug}`);
+                        } else {
+                          console.warn('⚠️ Board not ready for navigation:', board);
+                        }
+                      }}
+                      style={{ cursor: 'pointer', color: '#0079bf' }}>
+                      Brello Workspace
+                    </div>
+                    
+                    
+                  </div>
+                  
                 </div>
                 <div className="dropdown-item">
-                  <Settings size={16} />
-                  <span>Workspace settings</span>
+                  <div className="workspace-icon">B</div>
+                  <div>
+                    <div className='textCurrectworkspace'
+                      onClick={() => {
+                        if (isBoardReady) {
+                          const slug =
+                            board.slug ||
+                            (board.boardTitle
+                              ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
+                              : 'board');
+                          console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                          navigate(`/b/${board._id}/${slug}`);
+                        } else {
+                          console.warn('⚠️ Board not ready for navigation:', board);
+                        }
+                      }}
+                      style={{ cursor: 'pointer', color: '#0079bf' }}>
+                      Brello Workspace
+                    </div>
+                    
+                    
+                  </div>
+                  
                 </div>
+               </div>
               </div>
+              
             )}
           </div>
 
@@ -162,8 +212,8 @@ const GlobalHeader = () => {
             </button>
             {activeDropdown === 'recent' && (
               <div className="dropdown-menu">
-                <div className="dropdown-header">Recent Boards</div>
-                <div className="dropdown-item">
+                
+                <div className="recenetBoards">
                   <Clock size={14} />
                   <span
                     onClick={() => {
@@ -180,7 +230,12 @@ const GlobalHeader = () => {
                       }
                     }}
                     style={{ cursor: 'pointer', color: '#0079bf' }}>
-                    Work Flow
+                    <h2>{user?.lastBoardVisited[0].boardTitle ?? 'No recent board'}
+                        <br/><span className='ClassnameGlobalName'>Berllo Workspace</span>
+                    </h2>
+                    <h2>{user?.lastBoardVisited[1]?.boardTitle ?? ''}</h2>
+                     <h2>{user?.lastBoardVisited[2]?.boardTitle ?? ''}</h2>
+                     <h2>{user?.lastBoardVisited[3]?.boardTitle ?? ''}</h2>
                   </span>
                 </div>
               </div>
@@ -196,11 +251,8 @@ const GlobalHeader = () => {
             </button>
             {activeDropdown === 'starred' && (
               <div className="dropdown-menu">
-                <div className="dropdown-header">Starred Boards</div>
-                <div className="dropdown-item">
-                  <Star size={14} />
-                  <span>Important Project</span>
-                </div>
+                
+                223
               </div>
             )}
           </div>
@@ -296,61 +348,85 @@ const GlobalHeader = () => {
         {/* PROFILE DROPDOWN */}
         <div ref={dropdownRefs.profile} className="dropdown-wrapper">
           <button className="profile-button" onClick={() => toggleDropdown('profile')}>
-            <div className="avatar">SV</div>
+            {user?.email ? (<div
+              style={{height:'24px',width:'24px',marginTop:'4px',marginRight:'12px'}}
+              className='td-section-members-button'>
+                 {user?.avatar && (
+                    <img
+                  src={user?.avatar || 'No'}
+                  alt={`Member ${user?._id || user?.id}`}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '100%',
+                  }}
+                />
+                 )}
+              </div>) : (<div className="avatar">?</div>)}
           </button>
           {activeDropdown === 'profile' && (
             <div className="dropdown-menu profile-menu">
-                <div className="section-header-dropdown">ACCOUNT</div>
-              <div className="profile-header">
-                <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
-                    <option value="" disabled>
-                      Switch accounts
-                    </option>
-                    {demoUsers.map((u) => (
-                      <option className='InfoDemoUsers' key={u.email} value={u.email}>
-                        {u.email}
-                      </option>
-                    ))}
-                    
-                  </select>
-
-                
-
-                 
+              <div className="section-header-dropdown">ACCOUNT</div>
+              <div className="profile-header">  <div
+              style={{height:'50px',width:'50px'}}
+              className='td-section-members-button'>
+                 {user?.avatar && (
+                    <img
+                  src={user?.avatar || 'No'}
+                  alt={`Member ${user?._id || user?.id}`}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '100%',
+                  }}
+                />
+                 )}
+              </div>
+              
+                <div className="InfoDemoUsers">
+                  {user?.fullname}<br></br>
+                  <div className='userEmailHeader'>{user?.email || 'Not logged in'}</div>
                   
-               
-                
+                </div>
               </div>
               <div className="profile-info">
-                  <div className="InfoDemoUsers">You are in as:<br></br>{currentEmail || 'Not logged in'}</div>
-                </div>
-              <div className="menu-section">
-                <div className="section-header-dropdown">BERLLO</div>
-                {[
-                  ['Profile and visibility', ],
-                  ['Activity'],
-                  ['Cards', ],
-                  ['Settings', ],
-                ].map(([label, icon], i) => (
-                  <div key={i} className="menu-item">
-                    {icon}
-                    <span className='styleForOptions'>{label}</span>
-                  </div>
-                ))}
+                
+                 <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
+                  <option value="" disabled>
+                    {user?.email ? ('switch account') : ('login') } 
+                  </option>
+                  {demoUsers.map((u) => (
+                    <option className="InfoDemoUsers" key={u.email} value={u.email}>
+                      {u.email}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="menu-section">
-                {[
-                  ['Help',],
-                  ['Shortcuts', ],
-                ].map(([label, icon], i) => (
+                <div className="section-header-dropdown">BERLLO</div>
+                {[['Profile and visibility'], ['Activity'], ['Cards'], ['Settings']].map(
+                  ([label, icon], i) => (
+                    <div key={i} className="menu-item">
+                      {icon}
+                      <span className="styleForOptions">{label}</span>
+                    </div>
+                  )
+                )}
+              </div>
+              <div className="menu-section">
+                {[['Help'], ['Shortcuts']].map(([label, icon], i) => (
                   <div key={i} className="menu-item">
                     {icon}
-                    <span className='styleForOptions'>{label}</span>
+                    <span className="styleForOptions">{label}</span>
                   </div>
                 ))}
               </div>
               <div className="menu-footer">
-                <button onClick={handleLogout} className="logout-button">Log out</button>
+                <button onClick={handleLogout} className="logout-button">
+                  Log out
+                </button>
               </div>
             </div>
           )}

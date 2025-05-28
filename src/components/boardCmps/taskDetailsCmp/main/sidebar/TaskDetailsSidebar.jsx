@@ -28,8 +28,10 @@ import Attachment from './Attachment';
 import TaskdetailsBackLogDropdown from '../dropdowns/TaskdetailsBackLogDropdown';
 
 const TaskDetailsSidebar = () => {
+const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
+    const cover = selectedTask.cover;
   const sidebarButtons = [
-    {
+    { display : true,
       label: 'Leave',
       hover: `Leave Card `,
       icon: <SvgServices name="LeaveSvg" />,
@@ -86,7 +88,7 @@ const TaskDetailsSidebar = () => {
       content: (props) => <Attachment {...props} />,
     },
 
-    {
+    { 
       id: 'Cover',
       hover: 'Add Cover',
       label: 'Cover',
@@ -101,13 +103,80 @@ const TaskDetailsSidebar = () => {
       content: (props) => <CustomFields {...props} />,
     },
   ];
+  const sidebarButtonsWith = [
+    { 
+      label: 'Leave',
+      hover: `Leave Card `,
+      icon: <SvgServices name="LeaveSvg" />,
+    },
+    {
+      id: 'members',
+      hover: 'Open Labels',
+      label: 'Members',
+      icon: <MembersSvg />,
+      content: (props) => (
+        <DropdownMembers
+          {...props}
+          title="Members"
+          options={[
+            {
+              label: 'Invite Member',
+              onClick: () => console.log('Invite logic'),
+            },
+            {
+              label: 'Manage Access',
+              onClick: () => console.log('Manage Access logic'),
+            },
+          ]}
+        />
+      ),
+    },
+    {
+      id: 'labels',
+      label: 'Labels',
+      hover: 'Open Labels',
+      icon: <LabelsSvg />,
+      content: (props) => <DropdownLabel {...props} />,
+    },
+
+    {
+      id: 'Checklist',
+      hover: 'Create Checklist',
+      label: 'Checklist',
+      icon: <CheckListSvg />,
+      content: (props) => <DropdownChecklistSide {...props} />,
+    },
+    {
+      id: 'Dates',
+      hover: 'Open Dates',
+      label: 'Dates',
+      icon: <DatesSvg />,
+      content: (props) => <DropdownDate {...props} />,
+    },
+    {
+      id: 'Attachment',
+      hover: 'Open Attachment',
+      label: 'Attachment',
+      icon: <AttachmentSvg />,
+      content: (props) => <Attachment {...props} />,
+    },
+
+   
+    {
+      id: 'Custom Fields',
+      hover: 'Custom',
+      label: 'Custom Fields',
+      icon: <CustomSvg />,
+      content: (props) => <CustomFields {...props} />,
+    },
+  ];
   const sidebarButtonsBottom = [
     {
       id: 'Move',
       hover: 'Move Card',
       label: 'Move',
       icon: <MoveSvg />,
-      content: (props) => <TaskdetailsBackLogDropdown {...props} />,
+      content: (props) => <TaskdetailsBackLogDropdown {...props} Header={'100'}/>,
     },
     {
       id: 'Copy',
@@ -147,7 +216,23 @@ const TaskDetailsSidebar = () => {
 
   return (
     <div className="td-sidebar" style={{ marginRight: '15px' }}>
-      {sidebarButtons.map((button, index) => (
+     <section className='topSectionSidebar'>
+      {!cover ? (sidebarButtons.map((button, index) => (
+        <DropdownUi 
+          trigger={
+             
+            <button srt key={index} className="trello-btn" data-tooltip={button.hover}>
+              {button.icon} {button.label}
+            </button>
+          }>
+          {(controlProps) =>
+            button.content?.({
+              title: button.label,
+              ...controlProps,
+            })
+          }
+        </DropdownUi>
+      ))): (sidebarButtonsWith.map((button, index) => (
         <DropdownUi
           trigger={
             <button key={index} className="trello-btn" data-tooltip={button.hover}>
@@ -161,9 +246,10 @@ const TaskDetailsSidebar = () => {
             })
           }
         </DropdownUi>
-      ))}
+      )))}
+      </section>
 
-      <section className="td-sidebar" style={{ marginLeft: '-15px' }}>
+      <section className="td-sidebarbuttons" style={{ marginLeft: '-15px' }}>
         <hgroup>
           <h4 className="td-sidebar-power">Power-Ups</h4>
         </hgroup>
@@ -175,7 +261,7 @@ const TaskDetailsSidebar = () => {
         </a>
       </section>
 
-      <section className="td-sidebar" style={{ marginLeft: '-15px' }}>
+      <section className="td-sidebarbuttons" style={{ marginLeft: '-15px' }}>
         <hgroup>
           <h4 className="td-sidebar-power">Automation</h4>
         </hgroup>
@@ -188,7 +274,7 @@ const TaskDetailsSidebar = () => {
       </section>
 
       <div className="section-header">Actions</div>
-
+        <section className='topSectionSidebar'>
       {sidebarButtonsBottom.map((button, index) => (
         <DropdownUi
           trigger={
@@ -203,13 +289,14 @@ const TaskDetailsSidebar = () => {
             })
           }
         </DropdownUi>
-      ))}
+      ))}</section>
       <div className="divider"></div>
+      <section className='topSectionSidebar'>
       {BottomButtons.map((button, index) => (
         <button key={index} className="trello-btn" data-tooltip={button.hover}>
           {button.icon} {button.label}
         </button>
-      ))}
+      ))}</section>
     </div>
   );
 };
