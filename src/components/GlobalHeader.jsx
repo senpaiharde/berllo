@@ -296,10 +296,34 @@ const GlobalHeader = () => {
           {activeDropdown === 'profile' && (
             <div className="dropdown-menu profile-menu">
               <div className="section-header-dropdown">ACCOUNT</div>
-              <div className="profile-header">
-                <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
+              <div className="profile-header">  <div
+              style={{height:'50px',width:'50px'}}
+              className='td-section-members-button'>
+                 {user?.avatar && (
+                    <img
+                  src={user?.avatar || 'No'}
+                  alt={`Member ${user?._id || user?.id}`}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '100%',
+                  }}
+                />
+                 )}
+              </div>
+              
+                <div className="InfoDemoUsers">
+                  {user?.fullname}<br></br>
+                  <div className='userEmailHeader'>{user?.email || 'Not logged in'}</div>
+                  
+                </div>
+              </div>
+              <div className="profile-info">
+                
+                 <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
                   <option value="" disabled>
-                    Switch accounts
+                    {user?.email ? ('switch account') : ('login') } 
                   </option>
                   {demoUsers.map((u) => (
                     <option className="InfoDemoUsers" key={u.email} value={u.email}>
@@ -307,12 +331,6 @@ const GlobalHeader = () => {
                     </option>
                   ))}
                 </select>
-              </div>
-              <div className="profile-info">
-                <div className="InfoDemoUsers">
-                  You are in as:<br></br>
-                  {user?.email || 'Not logged in'}
-                </div>
               </div>
               <div className="menu-section">
                 <div className="section-header-dropdown">BERLLO</div>
