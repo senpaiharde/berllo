@@ -27,26 +27,31 @@ export const accountSwitch = async(email) => {
 const token = localStorage.getItem('token')
 
 
-export async function FetchCurrentUser() {
-    try{
-        if(!token) throw new Error("no auth");
-        
-        const res = await fetch('user/me',{
-            method:'GET',
-            header: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
+ async function fetchCurrentUser() {
+  try {
+    
+    if (!token) throw new Error('No auth token found');
 
-        if(!res.ok){
-            const err = await res.json().catch(() => ({}))
-             throw new Error(err.error || `HTTP ${res.status}`);
-        }
-           const userData = await res.json();
-    return userData;
-    }catch(err){
-        console.error('faild to load user', err)
-        return err;
+    const res = await fetch('http://localhost:4000/user/me', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type':  'application/json'
+      }
+    });
+
+    if (!res.ok) {
+      // e.g. 401, 500, etc.
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `HTTP ${res.status}`);
     }
+
+    const userData = await res.json();
+    return userData;
+  } catch (err) {
+    console.error('fetchCurrentUser failed:', err);
+    throw err;
+  }
 }
+
+export default fetchCurrentUser;

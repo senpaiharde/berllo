@@ -27,7 +27,7 @@ import Template3 from '../assets/images/Design Huddle.jpg';
 import Template4 from '../assets/images/Go To Market Strategy.jpg';
 import Template5 from '../assets/images/Project Management.jpg';
 import { useSelector } from 'react-redux';
-import { accountSwitch, demoUsersStorage } from '../services/backendCallsUsers';
+import fetchCurrentUser, { accountSwitch, demoUsersStorage,  } from '../services/backendCallsUsers';
 
 const demoUsers = demoUsersStorage;
 
@@ -38,7 +38,7 @@ const GlobalHeader = () => {
   const navigate = useNavigate();
   const board = useSelector((state) => state.boardReducer);
   const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0;
-
+  const [user, setUser] = useState(null);
   const dropdownRefs = {
     workspaces: useRef(null),
     recent: useRef(null),
@@ -58,7 +58,7 @@ const GlobalHeader = () => {
   const handleSwitch = async (e) => {
     const email = e.target.value;
     if (!email) return;
-    accountSwitch(email)
+    accountSwitch(email);
   };
 
   const handleLogout = () => {
@@ -66,7 +66,18 @@ const GlobalHeader = () => {
     localStorage.removeItem('demoEmail');
     window.location.reload();
   };
-
+  useEffect(() => {
+    async function load() {
+      try {
+        const me = await fetchCurrentUser();
+        setUser(me);
+      } catch (err) {
+        console.log('there is error on loading users', err);
+        return err;
+      }
+    }
+    load();
+  }, []);
   useEffect(() => {
     const handleClickOutside = (e) => {
       const currentRef = dropdownRefs[activeDropdown];
@@ -284,57 +295,48 @@ const GlobalHeader = () => {
           </button>
           {activeDropdown === 'profile' && (
             <div className="dropdown-menu profile-menu">
-                <div className="section-header-dropdown">ACCOUNT</div>
+              <div className="section-header-dropdown">ACCOUNT</div>
               <div className="profile-header">
                 <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
-                    <option value="" disabled>
-                      Switch accounts
+                  <option value="" disabled>
+                    Switch accounts
+                  </option>
+                  {demoUsers.map((u) => (
+                    <option className="InfoDemoUsers" key={u.email} value={u.email}>
+                      {u.email}
                     </option>
-                    {demoUsers.map((u) => (
-                      <option className='InfoDemoUsers' key={u.email} value={u.email}>
-                        {u.email}
-                      </option>
-                    ))}
-                    
-                  </select>
-
-                
-
-                 
-                  
-               
-                
+                  ))}
+                </select>
               </div>
               <div className="profile-info">
-                  <div className="InfoDemoUsers">You are in as:<br></br>{currentEmail || 'Not logged in'}</div>
+                <div className="InfoDemoUsers">
+                  You are in as:<br></br>
+                  {user?.email || 'Not logged in'}
                 </div>
-              <div className="menu-section">
-                <div className="section-header-dropdown">BERLLO</div>
-                {[
-                  ['Profile and visibility', ],
-                  ['Activity'],
-                  ['Cards', ],
-                  ['Settings', ],
-                ].map(([label, icon], i) => (
-                  <div key={i} className="menu-item">
-                    {icon}
-                    <span className='styleForOptions'>{label}</span>
-                  </div>
-                ))}
               </div>
               <div className="menu-section">
-                {[
-                  ['Help',],
-                  ['Shortcuts', ],
-                ].map(([label, icon], i) => (
+                <div className="section-header-dropdown">BERLLO</div>
+                {[['Profile and visibility'], ['Activity'], ['Cards'], ['Settings']].map(
+                  ([label, icon], i) => (
+                    <div key={i} className="menu-item">
+                      {icon}
+                      <span className="styleForOptions">{label}</span>
+                    </div>
+                  )
+                )}
+              </div>
+              <div className="menu-section">
+                {[['Help'], ['Shortcuts']].map(([label, icon], i) => (
                   <div key={i} className="menu-item">
                     {icon}
-                    <span className='styleForOptions'>{label}</span>
+                    <span className="styleForOptions">{label}</span>
                   </div>
                 ))}
               </div>
               <div className="menu-footer">
-                <button onClick={handleLogout} className="logout-button">Log out</button>
+                <button onClick={handleLogout} className="logout-button">
+                  Log out
+                </button>
               </div>
             </div>
           )}
