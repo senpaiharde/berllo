@@ -117,11 +117,11 @@
   .dropdown-menu {
     max-height: 528px;
     width: 304px;
-    padding: 12px;
+   
     position: absolute;
     top: 100%;
     margin-right: 5px;
-    margin-top: 0.5rem;
+    
     background-color: #f7f8f9;
     border-radius: 0.5rem;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
@@ -130,26 +130,36 @@
     z-index: 1000;
 
     .dropdown-header {
-      
-      font-weight: 600;
+      color:#44546f;
+      font-size: 12px;
+      font-weight: 500;
+      margin: 18px 20px 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+     
     }
-
+    
     .dropdown-item {
       display: flex;
       align-items: center;
-    
-    
+     margin-left: 20px;
+     padding-right: 5px;
+     margin-bottom: 20px;
+     .textCurrectworkspace{
+        margin-left: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color:#172b4d !important;
+     }
       cursor: pointer;
       transition: background-color 0.2s;
-
+      
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
       }
 
       .workspace-icon {
-        width: 2rem;
-        height: 2rem;
+        width: 40px;
+        height: 40px;
         background-color: #579dff;
         color: #1d2125;
         border-radius: 0.25rem;
@@ -321,14 +331,14 @@
       width: 24px;
       height: 24px;
       margin-right: 15px;
-      background-color: #579dff;
-      color: #1d2125;
+      background-color: #f7f9f9;
+      color: black;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 500;
-      font-size: 12px;
+      font-size: 16px;
 
       &.large {
         width: 3rem;
@@ -474,3 +484,16 @@
     color:#44546f;
     text-align: center;
 }
+.br{
+            margin-top: 12px;
+    border-bottom: 1px solid var(--ds-border, #091e4224)
+      }
+
+
+      .workspace{
+          
+          border-top: 1px solid #091e4224
+;        
+width: 100%;
+         height: 100%;
+      }
