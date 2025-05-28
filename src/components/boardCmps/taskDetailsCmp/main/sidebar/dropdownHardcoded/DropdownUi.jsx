@@ -30,13 +30,13 @@ const updatePosition = () => {
       let top = null, bottom = null;
 
       if (spaceBelow >= dropdownRect.height) {
-        // plenty of room below → open down
+        // plenty of room below  open down
         top = triggerRect.bottom + window.scrollY;
       } else if (spaceAbove >= dropdownRect.height) {
-        // enough room above → open up
+        // enough room above  open up
         bottom = viewportH - triggerRect.top;
       } else {
-        // not enough room either side → default to below
+        // not enough room either side  default to below
         top = triggerRect.bottom + window.scrollY;
       }
 

@@ -27,14 +27,9 @@ import Template3 from '../assets/images/Design Huddle.jpg';
 import Template4 from '../assets/images/Go To Market Strategy.jpg';
 import Template5 from '../assets/images/Project Management.jpg';
 import { useSelector } from 'react-redux';
+import { accountSwitch, demoUsersStorage } from '../services/backendCallsUsers';
 
-const demoUsers = [
-  { name: 'ALi Demo', email: 'alice@demo.local' },
-  { name: 'Slava Demo', email: 'bob@demo.local' },
-  { name: 'Mark Demo', email: 'carol@demo.local' },
-  { name: 'Sam Demo', email: 'dave@demo.local' },
-  { name: 'Dima Demo', email: 'eve@demo.local' },
-];
+const demoUsers = demoUsersStorage;
 
 const GlobalHeader = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -63,18 +58,7 @@ const GlobalHeader = () => {
   const handleSwitch = async (e) => {
     const email = e.target.value;
     if (!email) return;
-    try {
-      const res = await axios.post(
-        'http://localhost:4000/auth/login', 
-        { email, password: 'demo123' }
-      );
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('demoEmail', email);
-      window.location.reload();
-    } catch (err) {
-      console.error('Demo login failed', err);
-      alert('Demo login failed');
-    }
+    accountSwitch(email)
   };
 
   const handleLogout = () => {
