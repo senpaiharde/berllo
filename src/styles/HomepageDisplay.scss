@@ -1,0 +1,41 @@
+.HomepageDisplay{
+    min-height: calc(100vh - 40px);
+    align-items: flex-start;
+    display: flex
+;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 40px;
+}
+.HomepageDisplayNav{
+    margin: 40px 0 0;
+    max-height: 90vh;
+    padding: 0 16px;
+    position: sticky;
+    top: 40px;
+    width: 256px;
+}
+.HomepageDisplayNavTop{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--ds-border, #091e4224);
+}
+.HomepageDisplayNavTopButtons{
+    margin-bottom: 4px;
+}
+.home-main-content-container {
+  margin-top: 40px;
+    padding-left: 45px;
+    width: 420px;
+}
+.home-right-sidebar-container{
+    height: 90vh;
+    margin-top: 40px;
+    max-width: 342px;
+    overflow-y: auto;
+    padding-left: 50px;
+    position: sticky;
+    top: 40px;
+    width: 100%;
+}

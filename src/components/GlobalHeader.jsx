@@ -212,8 +212,8 @@ const GlobalHeader = () => {
             </button>
             {activeDropdown === 'recent' && (
               <div className="dropdown-menu">
-                <div className="dropdown-header">Recent Boards</div>
-                <div className="dropdown-item">
+                
+                <div className="recenetBoards">
                   <Clock size={14} />
                   <span
                     onClick={() => {
@@ -230,8 +230,12 @@ const GlobalHeader = () => {
                       }
                     }}
                     style={{ cursor: 'pointer', color: '#0079bf' }}>
-                    <h2>{user?.lastBoardVisited[0].boardTitle ?? 'No recent board'}</h2>
+                    <h2>{user?.lastBoardVisited[0].boardTitle ?? 'No recent board'}
+                        <br/><span className='ClassnameGlobalName'>Berllo Workspace</span>
+                    </h2>
                     <h2>{user?.lastBoardVisited[1]?.boardTitle ?? ''}</h2>
+                     <h2>{user?.lastBoardVisited[2]?.boardTitle ?? ''}</h2>
+                     <h2>{user?.lastBoardVisited[3]?.boardTitle ?? ''}</h2>
                   </span>
                 </div>
               </div>
