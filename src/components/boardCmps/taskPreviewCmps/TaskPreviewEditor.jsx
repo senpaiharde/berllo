@@ -67,7 +67,7 @@ export function TaskPreviewEditor({}) {
     console.log("removing task", task._id, " from ", task.taskList)
     dispatch(removeTaskFromBoard({ _id: task._id, taskList: task.taskList }))
   }
-  console.log("TaskPreviewEditor task", task)
+  // console.log("TaskPreviewEditor task", task)
   const TaskPreviewRef = useRef(null)
   const textValue = task ? task.taskTitle : ""
 

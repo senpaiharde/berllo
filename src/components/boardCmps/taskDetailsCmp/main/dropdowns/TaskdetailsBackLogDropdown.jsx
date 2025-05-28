@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import BackLogDropdown from './BackLogDropdown';
 import { SvgServices } from '../../../../../services/svgServices';
 import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
-import { addTaskToBoard, removeTaskFromBoard } from '../../../../../redux/BoardSlice';
+import { addTaskToBoard, removeTaskFromBoard, updateTasklistOrderAndSync, updatePreviewEditorPositon } from '../../../../../redux/BoardSlice';
 import { TaskOps } from '../../../../../services/backendHandler';
+import { transformTaskFromBackend } from '../../../../../services/backendDataConverionToState'
 
 const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
   const dispatch = useDispatch();
@@ -78,28 +79,47 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
     console.log('🔥 handleMove fired');
 
     const targetPosition = Number(position) - 1;
+    // const { destination, source, draggableId } = result
+    // console.log("onDragEnd taskList", draggableId, destination, source)
+    const destination ={
+      droppableId : listId,
+      index: targetPosition,
+    }
+    console.log("onDragEnd taskList board.boardLists", board.boardLists)
+    const sourceIndex = board.boardLists.findIndex((l) => l._id === task.list);
+    console.log("onDragEnd taskList source task.list",task.list," sourceIndex ", sourceIndex)
+    const source = {
+      droppableId: task?.list,
+      index: board.boardLists[sourceIndex].taskList?.findIndex((l) => l._id === task._id),
+    }
+    console.log("onDragEnd taskList task._id =draggableId", task._id)
+    console.log("onDragEnd taskList source", source)
+    console.log("onDragEnd taskList destination", destination)
+    const copiedTask = null// add value by <h4 className="WorkflowAreah4">keep...</h4>
+    // const transformedCopiedTask =transformTaskFromBackend(copiedTask)
+    dispatch(updateTasklistOrderAndSync({ draggableId: task._id, destination, source ,copiedTask }))
+    dispatch(updatePreviewEditorPositon(null))
+    // dispatch(removeTaskFromBoard({ _id: task._id, taskList: task.taskList }));
 
-    dispatch(removeTaskFromBoard({ _id: task._id, taskList: task.taskList }));
+    // dispatch(
+    //   addTaskToBoard({
+    //     ...task,
+    //     taskList: listId,
+    //     taskboard: boardId,
+    //     position: targetPosition,
+    //   })
+    // );
 
-    dispatch(
-      addTaskToBoard({
-        ...task,
-        taskList: listId,
-        taskboard: boardId,
-        position: targetPosition,
-      })
-    );
+    // dispatch(
+    //   liveUpdateTask({
+    //     method: TaskOps.UPDATE,
+    //     workId: 'tasks',
 
-    dispatch(
-      liveUpdateTask({
-        method: TaskOps.UPDATE,
-        workId: 'tasks',
-
-        taskList: listId,
-        taskboard: boardId,
-        position: targetPosition,
-      })
-    );
+    //     taskList: listId,
+    //     taskboard: boardId,
+    //     position: targetPosition,
+    //   })
+    // );
 
     onClose();
   };

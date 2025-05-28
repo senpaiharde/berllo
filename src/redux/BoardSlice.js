@@ -79,7 +79,9 @@ let updatedBoardListDestination = null
 let updatedTask = null
 export const updateTasklistOrderAndSync = (newOrder) => (dispatch) => {
   console.log("updateTasklistOrderAndSync", newOrder)
+
   dispatch(updateTasklistOrder(newOrder))
+
   console.log(
     "updateTasklistOrderAndSync updatedBoardListSource",
     updatedBoardListSource
@@ -88,7 +90,7 @@ export const updateTasklistOrderAndSync = (newOrder) => (dispatch) => {
     "updateTasklistOrderAndSync updatedBoardListDestanation",
     updatedBoardListDestination
   )
-  //update the list field "taskList" if task moved in it 
+  //update the list field "taskList" if task moved in it
   dispatch(
     syncBoardAsync({
       method: TaskOps.UPDATE,
@@ -109,7 +111,7 @@ export const updateTasklistOrderAndSync = (newOrder) => (dispatch) => {
       "updateTasklistOrderAndSync updatedBoardListSource",
       updatedBoardListSource
     )
-    //update the source list field "taskList" if task moved to a different list 
+    //update the source list field "taskList" if task moved to a different list
     dispatch(
       syncBoardAsync({
         method: TaskOps.UPDATE,
@@ -127,7 +129,7 @@ export const updateTasklistOrderAndSync = (newOrder) => (dispatch) => {
     )
     if (updatedTask) {
       console.log("updateTasklistOrderAndSync updatedTask", updatedTask)
-      //update the task field "list" if task moved to a different list 
+      //update the task field "list" if task moved to a different list
       dispatch(
         syncBoardAsync({
           method: TaskOps.UPDATE,
@@ -225,7 +227,7 @@ function combineBoardFromGetSorted({ board, lists, tasks }) {
       if (!list) return null
 
       const rawTasks = listIdToTasksMap.get(list._id) || []
-      
+
       // Create a map for fast task ID lookup
       const taskMap = new Map(
         rawTasks.map((task) => [task._id.toString(), task])
@@ -262,7 +264,7 @@ const boardSlice = createSlice({
     boardLists: [],
     boardLabels: [],
     boardListsById: [],
-    filter:{
+    filter: {
       title: "",
       members: [],
       labels: [],
@@ -365,11 +367,12 @@ const boardSlice = createSlice({
       console.log("updateTasklistOrder")
       console.log("updateTasklistOrder action.payload", action)
 
-      const { draggableId, destination, source } = action.payload
+      const { draggableId, destination, source, copiedTask } = action.payload
       console.log(
-        "updateTasklistOrder destination, source",
+        "updateTasklistOrder destination, source, copiedTask",
         destination,
-        source
+        source,
+        copiedTask
       )
 
       //find the list index of the source of the task
@@ -392,14 +395,23 @@ const boardSlice = createSlice({
       )
 
       //Remove the task from sourceIndex and store it
-      const [movedTask] = state.boardLists[boardListIndex].taskList.splice(
-        index,
-        1
-      )
-      console.log(
-        "updateTasklistOrder movedList",
-        JSON.stringify(movedTask._id)
-      )
+      let insertedTask
+      if (!copiedTask) {
+        const [movedTask] = state.boardLists[boardListIndex].taskList.splice(
+          index,
+          1
+        )
+        insertedTask = movedTask
+        console.log("no copiedTask")
+        // console.log("movedTask from splice",updatedTaskID)
+      } else {
+        insertedTask = copiedTask
+      }
+
+      // console.log(
+      //   "updateTasklistOrder movedList",
+      //   JSON.stringify(movedTask._id)
+      // )
       if (destination.droppableId !== source.droppableId) {
         // find the list index of the destination of the task if its a different list
         updatedBoardListSource = {
@@ -409,7 +421,7 @@ const boardSlice = createSlice({
           ),
         }
         updatedTask = {
-          _id: movedTask._id,
+          _id: insertedTask._id,
           list: destination.droppableId,
         }
 
@@ -417,11 +429,11 @@ const boardSlice = createSlice({
           (list) => list._id === destination.droppableId
         )
       }
-
+      //insert task to new destination
       state.boardLists[boardListIndex].taskList.splice(
         destination.index,
         0,
-        movedTask
+        insertedTask
       )
 
       const taskListById = state.boardLists[boardListIndex].taskList.map(
