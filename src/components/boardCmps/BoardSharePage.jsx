@@ -46,6 +46,34 @@ export function BoardSharePage() {
   function exitShare() {
     dispatch(toggleShareModal(false))
   }
+
+  function SharePageLink() {
+    const [copied, setCopied] = useState(false)
+    const currentUrl = window.location.href
+
+    const copyToClipboard = async () => {
+      try {
+        await navigator.clipboard.writeText(currentUrl)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000) // Reset after 2 sec
+      } catch (err) {
+        console.error("Failed to copy: ", err)
+      }
+    }
+
+    return (
+      <div
+        className="share-page-link"
+        style={{ display: "flex", gap: "8px", alignItems: "center" }}
+      >
+        <span>{currentUrl}</span>
+        <button onClick={copyToClipboard}>
+          {copied ? "Copied!" : "Copy Link"}
+        </button>
+      </div>
+    )
+  }
+
   function DisplayMember({ member }) {
     const clickableMember = member.email ? "clickable-member" : ""
 
@@ -63,12 +91,12 @@ export function BoardSharePage() {
           <div className="share-page-member-title">{member.fullname}</div>
           {/* <div className="share-page-member-mail">{member.email}</div> */}
         </div>
-        {clickableMember === ""  && (
+        {clickableMember === "" && (
           <button
             className="share-page-close-button"
             onClick={(e) => {
-                e.stopPropagation()
-                toggleBoardMember(member, "remove")
+              e.stopPropagation()
+              toggleBoardMember(member, "remove")
             }}
           >
             <SvgServices name="SvgcloseTop" />
@@ -83,10 +111,10 @@ export function BoardSharePage() {
     console.log(action, "member", member)
     if (action === "add") {
       console.log("adding member", member)
-      const cutMember ={
+      const cutMember = {
         _id: member._id,
         fullname: member.fullname,
-        avatar: member.avatar
+        avatar: member.avatar,
       }
       newBoardMembers.push(cutMember)
     }
@@ -121,7 +149,9 @@ export function BoardSharePage() {
                   <SvgServices name="SvgcloseTop" />
                 </button>
               </div>
-              <div className="share-page-link"></div>
+              <div className="share-page-link">
+                <SharePageLink></SharePageLink>
+              </div>
               <div className="share-page-members">
                 <div className="share-page-members-list-container">
                   <div className="share-page-members-list">
