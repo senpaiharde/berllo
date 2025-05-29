@@ -36,7 +36,7 @@
 .share-page-wrapper {
   position: relative;
   box-sizing: border-box;
-//   width: 500px;
+  //   width: 500px;
   min-width: 300px;
   overflow: hidden;
   border-radius: 12px;
@@ -75,10 +75,37 @@
   cursor: pointer;
 }
 
-.share-page-link {
+.share-page-link-wrapper {
   margin-bottom: 20px;
 }
 
+.share-page-link-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 36px;
+  padding-top: 4px;
+}
+.share-page-link-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 12px;
+  font-size: 12px;
+}
+.share-page-link-copy {
+    margin: 0px;
+    padding: 0px;
+    font-size: 12px;
+    text-align: left;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    color: #579DFF;
+    text-decoration: none;
+    cursor: pointer;
+}
 .share-page-tablist {
   display: flex;
   position: relative;
@@ -123,33 +150,33 @@
   padding-top: 16px;
 }
 
-.share-page-member-avatar{
-    height: 32px;
-    width: 32px;
-    line-height: 30px;
+.share-page-member-avatar {
+  height: 32px;
+  width: 32px;
+  line-height: 30px;
 }
 
-.share-page-member-description{
-    flex-grow: 1;
-    margin-left: 12px;
-    padding-right: 12px;
-    word-break: break-word;
+.share-page-member-description {
+  flex-grow: 1;
+  margin-left: 12px;
+  padding-right: 12px;
+  word-break: break-word;
 }
 
-.share-page-member-title{
-    font-size: 14px;
+.share-page-member-title {
+  font-size: 14px;
 }
 
-.share-page-member-mail{
-    color: #9FADBC;
-    font-size: 12px;
-    line-height: 16px;
+.share-page-member-mail {
+  color: #9fadbc;
+  font-size: 12px;
+  line-height: 16px;
 }
 
-.clickable-member{
-    cursor: pointer;
+.clickable-member {
+  cursor: pointer;
 }
-.clickable-member:hover{
-    border-radius: 8px;
-    background-color: #373e44cc;
+.clickable-member:hover {
+  border-radius: 8px;
+  background-color: #373e44cc;
 }
