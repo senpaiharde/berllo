@@ -71,7 +71,7 @@ export function Home() {
                     </span>
                   </span>
                   <span 
-                  onClick={() => navigate(`/u/${user?.fullname}/boards`)}
+                  onClick={() => navigate(`/u/user/boards`)}
                   className="HomepageDisplayNavTopButtonsBoard">Boards</span>
                 </a>
               </li>
@@ -122,7 +122,7 @@ export function Home() {
                 <a className="HomepageDisplayNavBottomWorkspace">
                   <div className="HomepageDisplayNavBottomWorkspaceIcon">B</div>
                   <span className="HomepageDisplayNavBottomWorkspaceIconspan">
-                    Trello Workspace
+                    Brello Workspace
                   </span>
                   <span className="HomepageDisplayNavBottomWorkspaceIconSvg"> </span>
                 </a>

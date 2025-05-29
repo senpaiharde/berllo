@@ -23,18 +23,7 @@ function App() {
   const [user, setUser] = useState(null);
   
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const me = await fetchCurrentUser();
-        setUser(me);
-      } catch (err) {
-        console.log('there is error on loading users', err);
-        return err;
-      }
-    }
-
-    load();})
+ 
   
 // useEffect(() => {
 //     const loadInitialBoard = async () => {
@@ -59,7 +48,7 @@ function App() {
         <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-         <Route path={`/u/${user?.fullname}/boards`} element={<Boards />} />
+         <Route path={`/u/user/boards`} element={<Boards />} />
         <Route path="/b/:boardId/:boardName/*" element={<Workspace />}>
         <Route path=":taskId" element={<TaskDetails />} />
         </Route>

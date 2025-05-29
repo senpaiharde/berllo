@@ -37,7 +37,7 @@ const workspaceMain = [
     title: 'Boards',
     icon: BoardsIcon,
   },
-  
+
   {
     title: 'Views',
     icon: homeIcon,
@@ -89,7 +89,7 @@ export function Boards() {
                     </span>
                   </span>
                   <span
-                    onClick={() => navigate(`/u/${user?.fullname}/boards`)}
+                    onClick={() => navigate(`/u/user/boards`)}
                     className="HomepageDisplayNavTopButtonsBoard">
                     Boards
                   </span>
@@ -142,7 +142,7 @@ export function Boards() {
                 <a className="HomepageDisplayNavBottomWorkspace">
                   <div className="HomepageDisplayNavBottomWorkspaceIcon">B</div>
                   <span className="HomepageDisplayNavBottomWorkspaceIconspan">
-                    Trello Workspace
+                    Brello Workspace
                   </span>
                   <span className="HomepageDisplayNavBottomWorkspaceIconSvg"> </span>
                 </a>
@@ -185,31 +185,46 @@ export function Boards() {
                 </div>
                 <h3 className="boards-page-board-section-header-name">Brello Workspace</h3>
                 <div className="boards-page-board-section-header-options">
-                    {workspaceMain.map((item) => (
-                    
-                      <a
-                        className="boards-page-board-section-header-options-item"
-                        style={{ color: '#172b4d', fontWeight: '200' }}>
-                        <span className="HomepageDisplayNavTopButtonsIcon">
-                          <span className="HomepageDisplayNavTopButtonsIconInside">
-                            <img
-                              style={{ color: '#172b4d' }}
-                              width={16}
-                              height={16}
-                              src={item.icon}
-                              alt="My icon"
-                            />
-                          </span>
+                  {workspaceMain.map((item) => (
+                    <a
+                      className="boards-page-board-section-header-options-item"
+                      style={{ color: '#172b4d', fontWeight: '200', paddingBottom: '0px' }}>
+                      <span className="HomepageDisplayNavTopButtonsIcon">
+                        <span className="HomepageDisplayNavTopButtonsIconInside">
+                          <img
+                            style={{ color: '#172b4d' }}
+                            width={16}
+                            height={16}
+                            src={item.icon}
+                            alt="My icon"
+                          />
                         </span>
-                        <span className="HomepageDisplayNavTopButtonsBoard">{item.title}</span>
-                      </a>
-                  
+                      </span>
+                      <span className="HomepageDisplayNavTopButtonsBoard">{item.title}</span>
+                    </a>
                   ))}
-                 
                 </div>
               </div>
               <div>
-                <ul className="BoardsHomeContainerMainWorkspaceDisplay"></ul>
+                <ul className="BoardsHomeContainerMainWorkspaceDisplay">
+                  <li className="boards-page-board-section-list-item">
+                    <a className="board-tile">
+                      <span className="board-tile-fade"></span>
+                      <div className='board-tile-details'>
+                        <h2 className='board-tile-details-name'>Work Flow</h2>
+                        <div className='board-tile-details-sub-container'></div>
+                      </div>
+                      
+                    </a>
+                  </li>
+                   <li  className="boards-page-board-section-list-item-yes">
+                    <div className='board-tile-mod-add'>
+                        <p><span>Create new board</span></p>
+                         <p className='remaining'><span>no Limit</span></p>
+                          <div className='question-icon'>5</div>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
