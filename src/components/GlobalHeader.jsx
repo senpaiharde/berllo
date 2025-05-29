@@ -205,8 +205,11 @@ const GlobalHeader = () => {
               Recent <ChevronDown size={14} />
             </button>
             {activeDropdown === 'recent' && (
-              <div className="dropdown-menu">
+              <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
+                  {user?.lastBoardVisited[0]?.boardTitle && (
+                      <a className="recenetBoardsNexted">
+                     <div className="boxboards"></div>
                   <h2
                     onClick={() => {
                       const last = user?.lastBoardVisited?.[0];
@@ -220,14 +223,18 @@ const GlobalHeader = () => {
                       if (boardId && slug) {
                         navigate(`/b/${boardId}/${slug}`);
                       }
-                    }}
-                    style={{ cursor: 'pointer', color: '#0079bf' }}>
-                    {user?.lastBoardVisited[0].boardTitle ?? 'No recent board'}
+                    }}>
+                    {user?.lastBoardVisited[0]?.boardTitle ?? ''}
                     <br />
-                    {user?.lastBoardVisited[0]?.boardTitle && (
+                   
                       <span className="ClassnameGlobalName">Berllo Workspace</span>
-                    )}
+                   
                   </h2>
+                  </a>
+                    )}
+                    {user?.lastBoardVisited[1]?.boardTitle && (
+                      <a className="recenetBoardsNexted">
+                     <div className="boxboards"></div>
                   <h2
                     onClick={() => {
                       const last = user?.lastBoardVisited?.[1];
@@ -241,14 +248,18 @@ const GlobalHeader = () => {
                       if (boardId && slug) {
                         navigate(`/b/${boardId}/${slug}`);
                       }
-                    }}
-                    style={{ cursor: 'pointer', color: '#0079bf' }}>
+                    }}>
                     {user?.lastBoardVisited[1]?.boardTitle ?? ''}
                     <br />
-                    {user?.lastBoardVisited[1]?.boardTitle && (
+                   
                       <span className="ClassnameGlobalName">Berllo Workspace</span>
-                    )}
+                   
                   </h2>
+                  </a>
+                    )}
+                   {user?.lastBoardVisited[2]?.boardTitle && (
+                      <a className="recenetBoardsNexted">
+                     <div className="boxboards"></div>
                   <h2
                     onClick={() => {
                       const last = user?.lastBoardVisited?.[2];
@@ -262,14 +273,19 @@ const GlobalHeader = () => {
                       if (boardId && slug) {
                         navigate(`/b/${boardId}/${slug}`);
                       }
-                    }}
-                    style={{ cursor: 'pointer', color: '#0079bf' }}>
+                    }}>
                     {user?.lastBoardVisited[2]?.boardTitle ?? ''}
                     <br />
-                    {user?.lastBoardVisited[2]?.boardTitle && (
+                   
                       <span className="ClassnameGlobalName">Berllo Workspace</span>
-                    )}
+                   
                   </h2>
+                  </a>
+                    )}
+                  
+                  {user?.lastBoardVisited[3]?.boardTitle && (
+                      <a className="recenetBoardsNexted">
+                     <div className="boxboards"></div>
                   <h2
                     onClick={() => {
                       const last = user?.lastBoardVisited?.[3];
@@ -283,14 +299,16 @@ const GlobalHeader = () => {
                       if (boardId && slug) {
                         navigate(`/b/${boardId}/${slug}`);
                       }
-                    }}
-                    style={{ cursor: 'pointer', color: '#0079bf' }}>
+                    }}>
                     {user?.lastBoardVisited[3]?.boardTitle ?? ''}
                     <br />
-                    {user?.lastBoardVisited[3]?.boardTitle && (
+                   
                       <span className="ClassnameGlobalName">Berllo Workspace</span>
-                    )}
+                   
                   </h2>
+                  </a>
+                    )}
+                  
                 </div>
               </div>
             )}
