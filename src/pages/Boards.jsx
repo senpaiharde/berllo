@@ -32,7 +32,25 @@ const workspaceLeft = [
     icon: GearIcon,
   },
 ];
-
+const workspaceMain = [
+  {
+    title: 'Boards',
+    icon: BoardsIcon,
+  },
+  
+  {
+    title: 'Views',
+    icon: homeIcon,
+  },
+  {
+    title: 'Members',
+    icon: MemberIcon,
+  },
+  {
+    title: 'settings',
+    icon: GearIcon,
+  },
+];
 export function Boards() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -52,8 +70,8 @@ export function Boards() {
   }, []);
   return (
     <div>
-        <GlobalHeader />
-      <div className='BoardsHomeContainer'>
+      <GlobalHeader />
+      <div className="BoardsHomeContainer">
         <nav className="HomepageDisplayNav">
           <div>
             <ul className="HomepageDisplayNavTop">
@@ -154,18 +172,47 @@ export function Boards() {
             </ul>
           </div>
         </nav>
-        <div className='BoardsHomeContainerMain'>
-            <div>
-
-                <div className='BoardsHomeContainerMainRecent'></div>
-                <h3 className='BoardsHomeContainerMainH3'>YOUR WORKSPACES</h3>
-                <div className='BoardsHomeContainerMainWorkspace'>
-                    <div className='BoardsHomeContainerMainWorkspaceHeader'></div>
-                    <div >
-                        <ul className='BoardsHomeContainerMainWorkspaceDisplay'></ul>
-                    </div>
+        <div className="BoardsHomeContainerMain">
+          <div>
+            <div className="BoardsHomeContainerMainRecent"></div>
+            <h3 className="BoardsHomeContainerMainH3">YOUR WORKSPACES</h3>
+            <div className="BoardsHomeContainerMainWorkspace">
+              <div className="BoardsHomeContainerMainWorkspaceHeader">
+                <div className="LoBoardsHomeContainerMainWorkspaceHeaderLogo">
+                  <div className="LoBoardsHomeContainerMainWorkspaceHeaderLogoDisplay">
+                    <div className="LoBoardsHomeContainerMainWorkspaceHeaderLogoDisplayB">B</div>
+                  </div>
                 </div>
+                <h3 className="boards-page-board-section-header-name">Brello Workspace</h3>
+                <div className="boards-page-board-section-header-options">
+                    {workspaceMain.map((item) => (
+                    
+                      <a
+                        className="boards-page-board-section-header-options-item"
+                        style={{ color: '#172b4d', fontWeight: '200' }}>
+                        <span className="HomepageDisplayNavTopButtonsIcon">
+                          <span className="HomepageDisplayNavTopButtonsIconInside">
+                            <img
+                              style={{ color: '#172b4d' }}
+                              width={16}
+                              height={16}
+                              src={item.icon}
+                              alt="My icon"
+                            />
+                          </span>
+                        </span>
+                        <span className="HomepageDisplayNavTopButtonsBoard">{item.title}</span>
+                      </a>
+                  
+                  ))}
+                 
+                </div>
+              </div>
+              <div>
+                <ul className="BoardsHomeContainerMainWorkspaceDisplay"></ul>
+              </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
