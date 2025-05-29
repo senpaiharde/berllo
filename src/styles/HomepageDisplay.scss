@@ -39,6 +39,11 @@
     font-weight: var(--ds-font-weight-medium, 500);
     text-decoration: none;
     gap: 8px;
+    &:hover{
+        background-color: var(--ds-background-neutral-hovered, #091e4224);
+    color: currentColor;
+    cursor: pointer;
+    }
     
 }
 .HomepageDisplayNavTopButtonsIcon{
@@ -377,6 +382,9 @@ display: flex
     color: var(--ds-text-subtle, #44546f);
     text-decoration: none;
     cursor: pointer;
+    &:hover{
+        background-color: var(--ds-background-neutral, #091e420f)
+     }
    
 }
 

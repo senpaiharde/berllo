@@ -34,22 +34,20 @@ const workspaceLeft = [
 ];
 
 export function Home() {
-    const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     async function load() {
       try {
         const me = await fetchCurrentUser();
         setUser(me);
-        
       } catch (err) {
         console.log('there is error on loading users', err);
         return err;
       }
     }
-   
+
     load();
   }, []);
   return (
@@ -72,7 +70,9 @@ export function Home() {
                       />
                     </span>
                   </span>
-                  <span className="HomepageDisplayNavTopButtonsBoard">Boards</span>
+                  <span 
+                  onClick={() => navigate(`/u/${user?.fullname}/boards`)}
+                  className="HomepageDisplayNavTopButtonsBoard">Boards</span>
                 </a>
               </li>
               <li className="HomepageDisplayNavTopButtons">
@@ -156,19 +156,17 @@ export function Home() {
           <div className="home-main-content-item">
             <div className="home-main-content-item-high">
               <div className="home-main-content-item-highSvg">
-                
-                  <span className="HomepageDisplayNavTopButtonsIconInside">
-                    <img
-                      style={{ marginTop: '4px', color: '#172b4d' }}
-                      width={16}
-                      height={16}
-                      src={HeartIcon}
-                      alt="My icon"
-                    />
-                  </span>
-                
+                <span className="HomepageDisplayNavTopButtonsIconInside">
+                  <img
+                    style={{ marginTop: '4px', color: '#172b4d' }}
+                    width={16}
+                    height={16}
+                    src={HeartIcon}
+                    alt="My icon"
+                  />
+                </span>
               </div>
-              <div className="home-main-content-item-Highlights" > Highlights</div>
+              <div className="home-main-content-item-Highlights"> Highlights</div>
             </div>
             <div className="home-main-content-item-high-container">
               <div className="home-main-content-item-high-container-sticker"></div>
@@ -191,18 +189,123 @@ export function Home() {
         <div className="home-right-sidebar-container">
           <div style={{ paddingBottom: '24px' }}>
             <div className="home-right-sidebar-container-viewed">
-                <div className="home-right-sidebar-container-viewed-Svg"><span className="HomepageDisplayNavTopButtonsIconInside">
-                    <img
-                      style={{ marginTop: '4px', color: '#172b4d' }}
-                      width={16}
-                      height={16}
-                      src={ClockIcon}
-                      alt="My icon"
-                    />
-                  </span></div>
-                <div className="home-right-sidebar-container-viewed-Text">Recently viewed</div>
+              <div className="home-right-sidebar-container-viewed-Svg">
+                <span className="HomepageDisplayNavTopButtonsIconInside">
+                  <img
+                    style={{ marginTop: '4px', color: '#172b4d' }}
+                    width={16}
+                    height={16}
+                    src={ClockIcon}
+                    alt="My icon"
+                  />
+                </span>
+              </div>
+              <div className="home-right-sidebar-container-viewed-Text">Recently viewed</div>
             </div>
-            <ul className="home-right-sidebar-container-viewed-ul"></ul>
+            <ul className="home-right-sidebar-container-viewed-ul">
+              <div className="recenetBoards" >
+                {user?.lastBoardVisited[0]?.boardTitle && (
+                  <a 
+                  style={{marginLeft:'-20px'}} className="recenetBoardsNexted">
+                    <div className="boxboards"></div>
+                    <h2
+                      onClick={() => {
+                        const last = user?.lastBoardVisited?.[0];
+
+                        const slug = last?.boardTitle;
+                        const boardId = last?.id;
+
+                        console.log('last visited entry:', last);
+                        console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
+
+                        if (boardId && slug) {
+                          navigate(`/b/${boardId}/${slug}`);
+                        }
+                      }}>
+                      {user?.lastBoardVisited[0]?.boardTitle ?? ''}
+                      <br />
+
+                      <span className="ClassnameGlobalName">Berllo Workspace</span>
+                    </h2>
+                  </a>
+                )}{' '}
+                {user?.lastBoardVisited[1]?.boardTitle && (
+                  <a 
+                  style={{marginLeft:'-20px'}} className="recenetBoardsNexted">
+                    <div className="boxboards"></div>
+                    <h2
+                      onClick={() => {
+                        const last = user?.lastBoardVisited?.[1];
+
+                        const slug = last?.boardTitle;
+                        const boardId = last?.id;
+
+                        console.log('last visited entry:', last);
+                        console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
+
+                        if (boardId && slug) {
+                          navigate(`/b/${boardId}/${slug}`);
+                        }
+                      }}>
+                      {user?.lastBoardVisited[1]?.boardTitle ?? ''}
+                      <br />
+
+                      <span className="ClassnameGlobalName">Berllo Workspace</span>
+                    </h2>
+                  </a>
+                )}{' '}
+                {user?.lastBoardVisited[2]?.boardTitle && (
+                  <a 
+                  style={{marginLeft:'-20px'}} className="recenetBoardsNexted">
+                    <div className="boxboards"></div>
+                    <h2
+                      onClick={() => {
+                        const last = user?.lastBoardVisited?.[2];
+
+                        const slug = last?.boardTitle;
+                        const boardId = last?.id;
+
+                        console.log('last visited entry:', last);
+                        console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
+
+                        if (boardId && slug) {
+                          navigate(`/b/${boardId}/${slug}`);
+                        }
+                      }}>
+                      {user?.lastBoardVisited[2]?.boardTitle ?? ''}
+                      <br />
+
+                      <span className="ClassnameGlobalName">Berllo Workspace</span>
+                    </h2>
+                  </a>
+                )}{' '}
+                {user?.lastBoardVisited[3]?.boardTitle && (
+                  <a 
+                  style={{marginLeft:'-20px'}} className="recenetBoardsNexted">
+                    <div className="boxboards"></div>
+                    <h2
+                      onClick={() => {
+                        const last = user?.lastBoardVisited?.[3];
+
+                        const slug = last?.boardTitle;
+                        const boardId = last?.id;
+
+                        console.log('last visited entry:', last);
+                        console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
+
+                        if (boardId && slug) {
+                          navigate(`/b/${boardId}/${slug}`);
+                        }
+                      }}>
+                      {user?.lastBoardVisited[3]?.boardTitle ?? ''}
+                      <br />
+
+                      <span className="ClassnameGlobalName">Berllo Workspace</span>
+                    </h2>
+                  </a>
+                )}{' '}
+              </div>
+            </ul>
           </div>
           <div style={{ paddingBottom: '24px' }}>
             <div className="home-right-sidebar-container-link">
