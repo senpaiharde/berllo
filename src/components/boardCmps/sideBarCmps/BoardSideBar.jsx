@@ -58,9 +58,9 @@ export function BoardSideBar({   }) {
         workId: "board",
       }))
   }
-  console.log("Sidebar chosenBoard", chosenBoard)
+  // console.log("Sidebar chosenBoard", chosenBoard)
   function SidebarChooseBoard({ board }) {
-    console.log("SidebarChooseBoard board", board)
+    // console.log("SidebarChooseBoard board", board)
     const chosenBoardClassName = board._id === chosenBoard._id ? "chosen-board-link" : ""
     const primaryColor ="#912c5d"
     return (

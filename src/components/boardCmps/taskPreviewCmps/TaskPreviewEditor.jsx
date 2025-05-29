@@ -26,7 +26,7 @@ export function TaskPreviewEditor({}) {
   const previewEditorPosition = useSelector(
     (state) => state.boardReducer.previewEditorPositon
   )
-  console.log("previewEditorPosition", previewEditorPosition)
+  // console.log("previewEditorPosition", previewEditorPosition)
   const display = previewEditorPosition ? "block" : "none"
   const displayPosition = previewEditorPosition
     ? {

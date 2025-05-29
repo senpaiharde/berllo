@@ -81,7 +81,7 @@ export function BoardView() {
   }, [board])
 
   useEffect(() => {
-    console.log("taskCount", taskCount)
+    // console.log("taskCount", taskCount)
     dispatch(updateboardFilter({ ...board.filter, taskCount: taskCount }))
   }, [taskCount])
 
@@ -315,6 +315,7 @@ export function BoardView() {
         </div>
       </ol> */}
         <TaskPreviewEditor />
+        
       </div>
     )
   }

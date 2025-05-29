@@ -276,6 +276,7 @@ const boardSlice = createSlice({
     activeBoard: null,
     boardMembers: [],
     previewEditorPositon: null,
+    shareModalOpen: false,
   },
   reducers: {
     addboard: (state, action) => {
@@ -297,7 +298,16 @@ const boardSlice = createSlice({
     updateStarStatus: (state, action) => {
       state.isStarred = action.payload
 
-      saveTolocal(BuildBoardFromState(state))
+      // saveTolocal(BuildBoardFromState(state))
+    },
+    updateBoardMembers: (state, action) => {
+      console.log("updateBoardMembers action.payload",action.payload)
+      state.boardMembers = action.payload
+
+      // saveTolocal(BuildBoardFromState(state))
+    },
+    toggleShareModal: (state, action) => {
+      state.shareModalOpen = action.payload
     },
     updateboardTitle: (state, action) => {
       state.boardTitle = action.payload
@@ -305,7 +315,7 @@ const boardSlice = createSlice({
       saveTolocal(BuildBoardFromState(state))
     },
     updateboardFilter: (state, action) => {
-      console.log("boardSlice updateboardFilter", action.payload)
+      // console.log("boardSlice updateboardFilter", action.payload)
       state.filter = action.payload
       // saveTolocal(BuildBoardFromState(state))
     },
@@ -614,5 +624,7 @@ export const {
   updatePreviewEditorPositon,
   updateBoardListOrder,
   updateTasklistOrder,
+  toggleShareModal,
+  updateBoardMembers,
 } = boardSlice.actions
 export default boardSlice.reducer
