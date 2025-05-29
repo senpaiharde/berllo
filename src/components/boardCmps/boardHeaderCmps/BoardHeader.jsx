@@ -156,6 +156,7 @@ export function BoardHeader() {
               }
             </DropdownUi>
           </div>
+          <span className="header-divider"></span>
           <div
             className="task-preview-info-users"
             style={{ marginBottom: "0px", paddingRight: "2px", paddingLeft: "2px" }}
@@ -170,6 +171,7 @@ export function BoardHeader() {
                   <button
                     key={member._id || member.id}
                     className="td-section-members-button"
+                    style={{marginRight: "-6px"}}
                   >
                     <img
                       src={member.avatar}
@@ -185,10 +187,12 @@ export function BoardHeader() {
                 ))}
             {/* <TaskDetailsMembers style={{}} /> */}
           </div>
-          <div className="header-button header-clickable"
-          onClick={()=>{
+          <div className="header-button header-clickable pressed"
+          onClick={(e)=>{
             dispatch(toggleShareModal(true))
-            }}>
+            // togglePressed(e.currentTarget, "visible")
+            }}
+            style={{marginLeft:"8px"}}>
             <IconButton
                   label={`Share`}
                   iconSize={"16px"}
