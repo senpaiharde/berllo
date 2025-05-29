@@ -4,6 +4,12 @@ import BoardsIcon from '.././assets/images/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIG
 import myIconSearch from '.././assets/images/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiByb2xlPSJwcmVzZW50YXRpb24iPjxwYXRoIGZpbGw9ImN1cnJlbnRjb2xvciIgZmlsbC1ydWxlPSJldmVub2RkIiB.svg';
 
 import homeIcon from '.././assets/images/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHJvbGU9InByZXNlbnRhdGlvbiIgZm9jdXNhYmxlPSJmYWxzZSIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCI (3).svg';
+import HeartIcon from '.././assets/images/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHJvbGU9InByZXNlbnRhdGlvbiIgZm9jdXNhYmxlPSJmYWxzZSIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCI (4).svg';
+import MemberIcon from '.././assets/images/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHJvbGU9InByZXNlbnRhdGlvbiIgZm9jdXNhYmxlPSJmYWxzZSIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCI (5).svg';
+import GearIcon from '.././assets/images/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHJvbGU9InByZXNlbnRhdGlvbiIgZm9jdXNhYmxlPSJmYWxzZSIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCI (6).svg';
+import ClockIcon from '.././assets/images/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZyBmaWxsPSJjdXJyZW50Q29sb3IiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTEzIDZDMTMgNS40NDc.svg';
+import { useEffect, useState } from 'react';
+import fetchCurrentUser from '../services/backendCallsUsers';
 const workspaceLeft = [
   {
     title: 'Boards',
@@ -11,7 +17,7 @@ const workspaceLeft = [
   },
   {
     title: 'highlights',
-    icon: '',
+    icon: HeartIcon,
   },
   {
     title: 'Views',
@@ -19,16 +25,33 @@ const workspaceLeft = [
   },
   {
     title: 'Members',
-    icon: '',
+    icon: MemberIcon,
   },
   {
     title: 'settings',
-    icon: '',
+    icon: GearIcon,
   },
 ];
 
 export function Home() {
+    const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const me = await fetchCurrentUser();
+        setUser(me);
+        
+      } catch (err) {
+        console.log('there is error on loading users', err);
+        return err;
+      }
+    }
+   
+    load();
+  }, []);
   return (
     <div>
       <GlobalHeader />
@@ -44,7 +67,7 @@ export function Home() {
                         style={{ marginTop: '4px' }}
                         width={16}
                         height={16}
-                        src={svgsHome}
+                        src={BoardsIcon}
                         alt="My icon"
                       />
                     </span>
@@ -97,7 +120,7 @@ export function Home() {
               </div>
               <li className="HomepageDisplayNavTopButtons">
                 <a className="HomepageDisplayNavBottomWorkspace">
-                  <div className="HomepageDisplayNavBottomWorkspaceIcon"></div>
+                  <div className="HomepageDisplayNavBottomWorkspaceIcon">B</div>
                   <span className="HomepageDisplayNavBottomWorkspaceIconspan">
                     Trello Workspace
                   </span>
@@ -132,11 +155,23 @@ export function Home() {
         <div className="home-main-content-container">
           <div className="home-main-content-item">
             <div className="home-main-content-item-high">
-              <div></div>
-              <div className="home-main-content-item-Highlights"> Highlights</div>
+              <div className="home-main-content-item-highSvg">
+                
+                  <span className="HomepageDisplayNavTopButtonsIconInside">
+                    <img
+                      style={{ marginTop: '4px', color: '#172b4d' }}
+                      width={16}
+                      height={16}
+                      src={HeartIcon}
+                      alt="My icon"
+                    />
+                  </span>
+                
+              </div>
+              <div className="home-main-content-item-Highlights" > Highlights</div>
             </div>
             <div className="home-main-content-item-high-container">
-              <div></div>
+              <div className="home-main-content-item-high-container-sticker"></div>
               <div className="home-main-content-item-high-container-text">
                 <span className="home-main-content-item-high-container-text-first">Highlights</span>
                 <span className="home-main-content-item-high-container-text-2">
@@ -155,12 +190,23 @@ export function Home() {
         </div>
         <div className="home-right-sidebar-container">
           <div style={{ paddingBottom: '24px' }}>
-            <div className="home-right-sidebar-container-viewed"></div>
+            <div className="home-right-sidebar-container-viewed">
+                <div className="home-right-sidebar-container-viewed-Svg"><span className="HomepageDisplayNavTopButtonsIconInside">
+                    <img
+                      style={{ marginTop: '4px', color: '#172b4d' }}
+                      width={16}
+                      height={16}
+                      src={ClockIcon}
+                      alt="My icon"
+                    />
+                  </span></div>
+                <div className="home-right-sidebar-container-viewed-Text">Recently viewed</div>
+            </div>
             <ul className="home-right-sidebar-container-viewed-ul"></ul>
           </div>
           <div style={{ paddingBottom: '24px' }}>
             <div className="home-right-sidebar-container-link">
-              <div className="home-right-sidebar-container-link-inside"></div>
+              <div className="home-right-sidebar-container-link-inside">Links</div>
             </div>
             <div className="home-right-sidebar-container-create">
               <button className="home-right-sidebar-container-bottom">

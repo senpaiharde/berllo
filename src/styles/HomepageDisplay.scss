@@ -97,12 +97,19 @@
     margin: 0;
     border-radius: 4px;
     font-size: 14px;
+    background: linear-gradient(var(--ds-background-accent-green-bolder, #4bdaaa), var(--ds-background-accent-green-subtle, #00875a));
+       display: flex
+;
+color: var(--ds-text-inverse, #ffffff);
+    align-items: center;
+    justify-content: center;
 }
 .HomepageDisplayNavBottomWorkspaceIconspan{
     flex: 1 1 auto;
     width: min-content;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
 }
 
 .HomepageDisplayNavBottomWorkspaceIconSvg{
@@ -161,6 +168,15 @@
     padding: 0 0 0 12px;
 
 }
+.home-main-content-item-highSvg{
+        position: relative;
+    top: 1px;
+    flex: 0 0 auto;
+    width: 32px;
+    margin-left: -8px;
+    text-align: center;
+
+}
 .HomepageDisplayNavBottomTextH2{
     color: var(--ds-text-subtle, #44546f);
     font-size: 12px;
@@ -209,6 +225,20 @@
   background-color: var(--ds-surface, #ffffff);
   box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
 }
+
+
+.home-main-content-item-high-container-sticker{
+    background-color: var(--ds-background-accent-magenta-subtlest, #ffecf8);
+    background-image: url(https://trello.com/assets/6841b60bdc0a1588b82b.svg);
+    flex: 0 0 auto;
+    width: 88px;
+    min-height: 130px;
+    border-radius: 4px 0 0 4px;
+    
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
 .home-main-content-item-high-container-text {
   display: flex;
   box-sizing: border-box;
@@ -275,6 +305,23 @@
   margin-bottom: 8px;
   padding: 0 0 0 12px;
 }
+.home-right-sidebar-container-viewed-Svg{
+    position: relative;
+    top: 1px;
+    flex: 0 0 auto;
+    width: 32px;
+    margin-left: -8px;
+    text-align: center;
+}
+.home-right-sidebar-container-viewed-Text{
+    color: var(--ds-text-subtle, #44546f);
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: var(--ds-font-weight-semibold, 600);
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 8px 0;
+}
 .home-right-sidebar-container-viewed-ul {
   display: inline-block;
   width: 100%;
@@ -312,6 +359,7 @@ display: flex
 }
 
 .home-right-sidebar-container-bottom{
+    background-color: transparent;
     font-weight: var(--ds-font-weight-regular, 400);
     margin: 0;
     padding: 0;

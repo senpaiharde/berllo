@@ -27,7 +27,7 @@ import Template3 from '../assets/images/Design Huddle.jpg';
 import Template4 from '../assets/images/Go To Market Strategy.jpg';
 import Template5 from '../assets/images/Project Management.jpg';
 import { useSelector } from 'react-redux';
-import fetchCurrentUser, { accountSwitch, demoUsersStorage,  } from '../services/backendCallsUsers';
+import fetchCurrentUser, { accountSwitch, demoUsersStorage } from '../services/backendCallsUsers';
 
 const demoUsers = demoUsersStorage;
 
@@ -47,7 +47,7 @@ const GlobalHeader = () => {
     create: useRef(null),
     profile: useRef(null),
   };
-   const [lastBoard, setLastBoard] = useState(null);
+  const [lastBoard, setLastBoard] = useState(null);
   const [currentEmail, setCurrentEmail] = useState('');
 
   // load current email from localStorage
@@ -71,13 +71,13 @@ const GlobalHeader = () => {
       try {
         const me = await fetchCurrentUser();
         setUser(me);
-         setLastBoard(me.lastBoardVisited);
+        setLastBoard(me.lastBoardVisited);
       } catch (err) {
         console.log('there is error on loading users', err);
         return err;
       }
     }
-   
+
     load();
   }, []);
   useEffect(() => {
@@ -119,11 +119,12 @@ const GlobalHeader = () => {
             </button>
             {activeDropdown === 'workspaces' && (
               <div className="dropdown-menu">
-                <div className="dropdown-header">Current  Workspaces</div>
+                <div className="dropdown-header">Current Workspaces</div>
                 <div className="dropdown-item">
                   <div className="workspace-icon">B</div>
                   <div>
-                    <div className='textCurrectworkspace'
+                    <div
+                      className="textCurrectworkspace"
                       onClick={() => {
                         if (isBoardReady) {
                           const slug =
@@ -140,67 +141,60 @@ const GlobalHeader = () => {
                       style={{ cursor: 'pointer', color: '#0079bf' }}>
                       Brello Workspace
                     </div>
-                    
                   </div>
-                  
                 </div>
-                
-               <div className='workspace'>
-                <div className="dropdown-header">Your  Workspaces</div>
 
-                <div className="dropdown-item">
-                  <div className="workspace-icon">B</div>
-                  <div>
-                    <div className='textCurrectworkspace'
-                      onClick={() => {
-                        if (isBoardReady) {
-                          const slug =
-                            board.slug ||
-                            (board.boardTitle
-                              ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
-                              : 'board');
-                          console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
-                          navigate(`/b/${board._id}/${slug}`);
-                        } else {
-                          console.warn('⚠️ Board not ready for navigation:', board);
-                        }
-                      }}
-                      style={{ cursor: 'pointer', color: '#0079bf' }}>
-                      Brello Workspace
+                <div className="workspace">
+                  <div className="dropdown-header">Your Workspaces</div>
+
+                  <div className="dropdown-item">
+                    <div className="workspace-icon">B</div>
+                    <div>
+                      <div
+                        className="textCurrectworkspace"
+                        onClick={() => {
+                          if (isBoardReady) {
+                            const slug =
+                              board.slug ||
+                              (board.boardTitle
+                                ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
+                                : 'board');
+                            console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                            navigate(`/b/${board._id}/${slug}`);
+                          } else {
+                            console.warn('⚠️ Board not ready for navigation:', board);
+                          }
+                        }}
+                        style={{ cursor: 'pointer', color: '#0079bf' }}>
+                        Brello Workspace
+                      </div>
                     </div>
-                    
-                    
                   </div>
-                  
-                </div>
-                <div className="dropdown-item">
-                  <div className="workspace-icon">B</div>
-                  <div>
-                    <div className='textCurrectworkspace'
-                      onClick={() => {
-                        if (isBoardReady) {
-                          const slug =
-                            board.slug ||
-                            (board.boardTitle
-                              ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
-                              : 'board');
-                          console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
-                          navigate(`/b/${board._id}/${slug}`);
-                        } else {
-                          console.warn('⚠️ Board not ready for navigation:', board);
-                        }
-                      }}
-                      style={{ cursor: 'pointer', color: '#0079bf' }}>
-                      Brello Workspace
+                  <div className="dropdown-item">
+                    <div className="workspace-icon">B</div>
+                    <div>
+                      <div
+                        className="textCurrectworkspace"
+                        onClick={() => {
+                          if (isBoardReady) {
+                            const slug =
+                              board.slug ||
+                              (board.boardTitle
+                                ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
+                                : 'board');
+                            console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                            navigate(`/b/${board._id}/${slug}`);
+                          } else {
+                            console.warn('⚠️ Board not ready for navigation:', board);
+                          }
+                        }}
+                        style={{ cursor: 'pointer', color: '#0079bf' }}>
+                        Brello Workspace
+                      </div>
                     </div>
-                    
-                    
                   </div>
-                  
                 </div>
-               </div>
               </div>
-              
             )}
           </div>
 
@@ -212,31 +206,66 @@ const GlobalHeader = () => {
             </button>
             {activeDropdown === 'recent' && (
               <div className="dropdown-menu">
-                
                 <div className="recenetBoards">
-                  <Clock size={14} />
-                  <span
-                    onClick={() => {
-                      if (isBoardReady) {
-                        const slug =
-                          board.slug ||
-                          (board.boardTitle
-                            ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
-                            : 'board');
-                        console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
-                        navigate(`/b/${board._id}/${slug}`);
-                      } else {
-                        console.warn('⚠️ Board not ready for navigation:', board);
-                      }
+                  
+                
+                    <h2 onClick={() => {
+                      const slug = user?.lastBoardVisited[0]?.boardTitle;
+                      const boardId = user?.lastBoardVisited[0].board;
+
+                      console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                      navigate(`/b/${boardId}/${slug}`);
                     }}
                     style={{ cursor: 'pointer', color: '#0079bf' }}>
-                    <h2>{user?.lastBoardVisited[0].boardTitle ?? 'No recent board'}
-                        <br/><span className='ClassnameGlobalName'>Berllo Workspace</span>
+                      {user?.lastBoardVisited[0].boardTitle ?? 'No recent board'}
+                      <br />
+                      {user?.lastBoardVisited[0]?.boardTitle && (
+                        <span className="ClassnameGlobalName">Berllo Workspace</span>
+                      )}
                     </h2>
-                    <h2>{user?.lastBoardVisited[1]?.boardTitle ?? ''}</h2>
-                     <h2>{user?.lastBoardVisited[2]?.boardTitle ?? ''}</h2>
-                     <h2>{user?.lastBoardVisited[3]?.boardTitle ?? ''}</h2>
-                  </span>
+                     <h2 onClick={() => {
+                      const slug = user?.lastBoardVisited[1]?.boardTitle;
+                      const boardId = user?.lastBoardVisited[1].board;
+
+                      console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                      navigate(`/b/${boardId}/${slug}`);
+                    }}
+                    style={{ cursor: 'pointer', color: '#0079bf' }}>
+                      {user?.lastBoardVisited[1]?.boardTitle ?? ''}
+                      <br />
+                      {user?.lastBoardVisited[1]?.boardTitle && (
+                        <span className="ClassnameGlobalName">Berllo Workspace</span>
+                      )}
+                    </h2>
+                     <h2 onClick={() => {
+                      const slug = user?.lastBoardVisited[2]?.boardTitle;
+                      const boardId = user?.lastBoardVisited[2].board;
+
+                      console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                      navigate(`/b/${boardId}/${slug}`);
+                    }}
+                    style={{ cursor: 'pointer', color: '#0079bf' }}>
+                      {user?.lastBoardVisited[2]?.boardTitle ?? ''}
+                      <br />
+                      {user?.lastBoardVisited[2]?.boardTitle && (
+                        <span className="ClassnameGlobalName">Berllo Workspace</span>
+                      )}
+                    </h2>
+                     <h2 onClick={() => {
+                      const slug = user?.lastBoardVisited[3]?.boardTitle;
+                      const boardId = user?.lastBoardVisited[3].board;
+
+                      console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                      navigate(`/b/${boardId}/${slug}`);
+                    }}
+                    style={{ cursor: 'pointer', color: '#0079bf' }}>
+                      {user?.lastBoardVisited[3]?.boardTitle ?? ''}
+                      <br />
+                      {user?.lastBoardVisited[3]?.boardTitle && (
+                        <span className="ClassnameGlobalName">Berllo Workspace</span>
+                      )}
+                    </h2>
+                  
                 </div>
               </div>
             )}
@@ -249,12 +278,7 @@ const GlobalHeader = () => {
               onClick={() => toggleDropdown('starred')}>
               Starred <ChevronDown size={14} />
             </button>
-            {activeDropdown === 'starred' && (
-              <div className="dropdown-menu">
-                
-                223
-              </div>
-            )}
+            {activeDropdown === 'starred' && <div className="dropdown-menu">223</div>}
           </div>
 
           {/* TEMPLATES (with imported local images) */}
@@ -348,54 +372,58 @@ const GlobalHeader = () => {
         {/* PROFILE DROPDOWN */}
         <div ref={dropdownRefs.profile} className="dropdown-wrapper">
           <button className="profile-button" onClick={() => toggleDropdown('profile')}>
-            {user?.email ? (<div
-              style={{height:'24px',width:'24px',marginTop:'4px',marginRight:'12px'}}
-              className='td-section-members-button'>
-                 {user?.avatar && (
-                    <img
-                  src={user?.avatar || 'No'}
-                  alt={`Member ${user?._id || user?.id}`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    borderRadius: '100%',
-                  }}
-                />
-                 )}
-              </div>) : (<div className="avatar">?</div>)}
+            {user?.email ? (
+              <div
+                style={{ height: '24px', width: '24px', marginTop: '4px', marginRight: '12px' }}
+                className="td-section-members-button">
+                {user?.avatar && (
+                  <img
+                    src={user?.avatar || 'No'}
+                    alt={`Member ${user?._id || user?.id}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '100%',
+                    }}
+                  />
+                )}
+              </div>
+            ) : (
+              <div className="avatar">?</div>
+            )}
           </button>
           {activeDropdown === 'profile' && (
             <div className="dropdown-menu profile-menu">
               <div className="section-header-dropdown">ACCOUNT</div>
-              <div className="profile-header">  <div
-              style={{height:'50px',width:'50px'}}
-              className='td-section-members-button'>
-                 {user?.avatar && (
+              <div className="profile-header">
+                {' '}
+                <div
+                  style={{ height: '50px', width: '50px' }}
+                  className="td-section-members-button">
+                  {user?.avatar && (
                     <img
-                  src={user?.avatar || 'No'}
-                  alt={`Member ${user?._id || user?.id}`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    borderRadius: '100%',
-                  }}
-                />
-                 )}
-              </div>
-              
+                      src={user?.avatar || 'No'}
+                      alt={`Member ${user?._id || user?.id}`}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '100%',
+                      }}
+                    />
+                  )}
+                </div>
                 <div className="InfoDemoUsers">
-                  {user?.fullname}<br></br>
-                  <div className='userEmailHeader'>{user?.email || 'Not logged in'}</div>
-                  
+                  {user?.fullname}
+                  <br></br>
+                  <div className="userEmailHeader">{user?.email || 'Not logged in'}</div>
                 </div>
               </div>
               <div className="profile-info">
-                
-                 <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
+                <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
                   <option value="" disabled>
-                    {user?.email ? ('switch account') : ('login') } 
+                    {user?.email ? 'switch account' : 'login'}
                   </option>
                   {demoUsers.map((u) => (
                     <option className="InfoDemoUsers" key={u.email} value={u.email}>
