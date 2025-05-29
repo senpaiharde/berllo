@@ -518,3 +518,54 @@ width: 100%;
         }
     }
       }
+
+
+      .dropdown-menu-recent {
+    max-height: 528px;
+    width: 304px;
+   
+    position: absolute;
+    top: 100%;
+    
+    
+    background-color: #f7f8f9;
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    padding-top: 12px;
+    padding-bottom: 12px;
+    animation: dropdownFade 0.2s ease-out;
+    z-index: 1000;
+      }
+
+      .boxboards{
+        background-color: rgb(205, 90, 145);
+        display: inline-block;
+    position: relative;
+    flex: 0 0 auto;
+    width: 40px;
+    height: 32px;
+    border-radius: 4px;
+    opacity: 1;
+    background-size: cover;
+     margin-left: 6px;
+     margin-right: 8px;
+     
+     
+      }
+
+      .recenetBoardsNexted{
+        display: flex
+; padding-bottom: 4px;
+margin-left: -8px;
+    position: relative;
+    margin-right: 8px;
+     padding-top: 4px;
+    border-radius: 8px;
+    font-weight: var(--ds-font-weight-bold, 700);
+    text-decoration: none;
+    
+    user-select: none;
+      &:hover{
+        background-color: var(--ds-background-neutral, #091e420f)
+     }
+      }
