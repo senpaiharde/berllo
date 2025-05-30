@@ -55,3 +55,34 @@ const token = localStorage.getItem('token')
 }
 
 export default fetchCurrentUser;
+
+
+
+
+ export async function fetchCurrentBoard() {
+  try {
+    
+    
+
+    const res = await fetch('http://localhost:4000/board/', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type':  'application/json'
+      }
+    });
+
+    if (!res.ok) {
+      // e.g. 401, 500, etc.
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+
+    const boardDate = await res.json();
+    return boardDate;
+  } catch (err) {
+    console.error('fetchCurrentUser failed:', err);
+    throw err;
+  }
+}
+

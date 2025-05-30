@@ -296,7 +296,7 @@ color: var(--ds-text-inverse, #ffffff);
   margin-top: 40px;
   max-width: 342px;
   overflow-y: auto;
-  padding-left: 50px;
+  margin-left: 50px;
   position: sticky;
   top: 40px;
   width: 100%;
@@ -315,7 +315,7 @@ color: var(--ds-text-inverse, #ffffff);
     top: 1px;
     flex: 0 0 auto;
     width: 32px;
-    margin-left: -8px;
+    
     text-align: center;
 }
 .home-right-sidebar-container-viewed-Text{
