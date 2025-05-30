@@ -11,6 +11,8 @@ import ClockIcon from '.././assets/images/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDo
 import { useEffect, useState } from 'react';
 import fetchCurrentUser from '../services/backendCallsUsers';
 import StarButton from '../services/isStarred';
+import DropdownUi from '../components/boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
+import BoardsCreateDropdown from './BoardsCreateDropdown';
 const workspaceLeft = [
   {
     title: 'Boards',
@@ -320,8 +322,17 @@ export function Home() {
             </div>
             <div className="home-right-sidebar-container-create">
               <button className="home-right-sidebar-container-bottom">
-                <span className="home-right-sidebar-container-bottom-plus">+</span>
-                <span>Create a board</span>
+                  <span className="home-right-sidebar-container-bottom-plus">+</span>
+                <DropdownUi
+                  trigger={
+                    <>
+                      {' '}
+                    
+                      <span>Create a board</span>
+                    </>
+                  }>
+                  {({ onClose }) => <BoardsCreateDropdown onClose={onClose} />}
+                </DropdownUi>
               </button>
             </div>
           </div>
