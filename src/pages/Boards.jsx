@@ -16,6 +16,7 @@ import backendHandler, { TaskOps } from '../services/backendHandler';
 import { syncTaskAsync } from '../redux/TaskDetailsSlice';
 import DropdownUi from '../components/boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
 import Cover from '../components/boardCmps/taskDetailsCmp/main/sidebar/cover';
+import BoardsCreateDropdown from './BoardsCreateDropdown';
 const workspaceLeft = [
   {
     title: 'Boards',
@@ -445,7 +446,7 @@ useEffect(() => {
                     </div>
                  
               }>
-              {({ onClose }) => <Cover onClose={onClose} />}
+              {({ onClose }) => <BoardsCreateDropdown onClose={onClose} />}
             </DropdownUi>
                    </li>
                 </ul>
