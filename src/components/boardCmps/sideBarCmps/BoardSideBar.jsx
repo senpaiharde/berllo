@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams, useNavigate, Outlet } from "react-router-dom"
 import { useState,useEffect } from "react"
 import { TaskOps } from "../../../services/backendHandler"
-export function BoardSideBar({  chosenBoard }) {
+export function BoardSideBar({   }) {
   // console.log("board in BoardSideBar", board)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const workSpace = useSelector((state) => state.workSpaceReducer)
+  const chosenBoard = useSelector((state) => state.boardReducer)
+  
 //   console.log("workSpace", workSpaceredux)
 //   console.log("workSpace.boards[0]", workSpaceredux.boards[0])
     useEffect(() => {
@@ -56,15 +58,16 @@ export function BoardSideBar({  chosenBoard }) {
         workId: "board",
       }))
   }
+  // console.log("Sidebar chosenBoard", chosenBoard)
   function SidebarChooseBoard({ board }) {
     // console.log("SidebarChooseBoard board", board)
-    const chosenBoardClassName = board.id === chosenBoard ? "chosen-board" : ""
+    const chosenBoardClassName = board._id === chosenBoard._id ? "chosen-board-link" : ""
     const primaryColor ="#912c5d"
     return (
       <div className="">
         <a
           href=""
-          className="sidebar-link sidebar-body-link chosen-board-link"
+          className={`sidebar-link sidebar-body-link ${chosenBoardClassName}`}
           style={{ paddingLeft: "12px" }}
           onClick={() => {
             console.log("🧠 Navigating to board:", board._id)

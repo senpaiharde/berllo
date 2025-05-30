@@ -11,6 +11,13 @@ export const syncTaskAsync = createAsyncThunk(
      
       const data = await backendHandler({ method, args, workId });
       console.log('syncTaskAsync data', data);
+      
+      // if (method === TaskOps.ADD) return;
+      if (method === TaskOps.ADD && args.copying){
+         console.log(" syncTaskAsync TaskOps.ADD new task");
+         return { method, data, workId, copying: args.copying }
+        }
+
       if (method === TaskOps.ADD) return;
      
       if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data));
@@ -29,6 +36,7 @@ const initialState = {
   loading: false,
   error: null,
   taskDueDate: null,
+  copiedTask: false,
   activities: [],
   title: '',
   startDate:null,
@@ -67,6 +75,10 @@ const taskDetailsSlice = createSlice({
       state.isOpen = true;
     },
     closeTaskDetails: (state) => {
+      state.selectedTask = null;
+      state.isOpen = false;
+    },
+    setCopiedTask: (state) => {
       state.selectedTask = null;
       state.isOpen = false;
     },
@@ -128,8 +140,13 @@ const taskDetailsSlice = createSlice({
     builder
       .addCase(syncTaskAsync.fulfilled, (state, action) => {
         state.loading = false;
+
+
+        const { method, data, workId, copying } = action.payload;
+
         
         const { method, data, workId } = action.payload;
+
         console.log(
           
           state.selectedTask.isDueComplete,
@@ -155,6 +172,7 @@ const taskDetailsSlice = createSlice({
               ...state.selectedTask,
               ...data,
             };
+            if(copying)state.copiedTask = copying
             break;
           case TaskOps.DELETE:
             if (state.selectedTask?._id === data._id) {
@@ -176,7 +194,8 @@ const taskDetailsSlice = createSlice({
   },
 });
 
-export const {Activity,activities,taskUpdated, openTaskDetails, closeTaskDetails, updateSelectedTaskLive } =
+export const {Activity,activities,taskUpdated, openTaskDetails, closeTaskDetails, updateSelectedTaskLive,setCopiedTask } =
+
   taskDetailsSlice.actions;
 
 let debounceId;

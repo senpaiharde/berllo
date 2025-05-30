@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from "react"
-import { useDispatch,useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 import { ViewTypeChooser } from "./ViewTypeChooser"
 import { IconButton } from "../../IconButton"
-import { updateboardTitle, updateStarStatus } from "../../../redux/BoardSlice"
+import { updateboardTitle, updateStarStatus,toggleShareModal } from "../../../redux/BoardSlice"
 import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
 import BoardHeaderFilter from "./boardHeaderFilter"
 import SvgIcon from "../../SvgIcon"
+import { b } from "framer-motion/client"
 export function BoardHeader() {
   const board = useSelector((state) => state.boardReducer)
   const [currentBoard, setCurrentBoard] = useState(board)
@@ -17,6 +19,7 @@ export function BoardHeader() {
   // const [title, setTitle] = useState(board.boardTitle)
   const starRef = useRef(null)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleBlur = () => {
     setIsEditing(false)
@@ -31,13 +34,12 @@ export function BoardHeader() {
     element.classList.toggle("pressed")
   }
 
-  function onChangeTextInput(value){
-    console.log("onChangeTextInput(value)",value)
+  function onChangeTextInput(value) {
+    console.log("onChangeTextInput(value)", value)
     dispatch(updateboardTitle(value))
   }
 
-
-  const filterButton={
+  const filterButton = {
     id: "filters",
     label: "filters",
     // icon: <LabelsSvg />,
@@ -45,11 +47,10 @@ export function BoardHeader() {
       <BoardHeaderFilter
         {...props}
         title="Labels"
-        allLabels={[ "red", "blue", "green", "yellow" ]}
+        allLabels={["red", "blue", "green", "yellow"]}
         activeLabels={["red", "blue"]}
         options={[
           {
-            
             label: "Create Label",
             onClick: () => console.log("New label"),
           },
@@ -61,13 +62,22 @@ export function BoardHeader() {
       />
     ),
   }
-  const title = board? board.boardTitle : "Loading..."
+  const filterActive =
+    board.filter.title !== "" ||
+    board.filter.members.length > 0 ||
+    board.filter.labels.length > 0
+  const filterButtonCount = filterActive ? board.filter?.taskCount : ""
+  const title = board ? board.boardTitle : "Loading..."
   return (
     <div className="board-header-container">
       <span className="board-header">
         <span className="board-header-left">
           <div className="board-name-container header-clickable">
-            <TextEditInput isEditing={isEditing} value={board.boardTitle} onChangeTextInput={onChangeTextInput}></TextEditInput>
+            <TextEditInput
+              isEditing={isEditing}
+              value={board.boardTitle}
+              onChangeTextInput={onChangeTextInput}
+            ></TextEditInput>
           </div>
           <div
             className="header-button header-clickable"
@@ -75,8 +85,8 @@ export function BoardHeader() {
               dispatch(updateStarStatus(!board.isStarred))
             }}
             ref={starRef}
-          > 
-            {(board.isStarred === false) ||(board.isStarred === null) ? (
+          >
+            {board.isStarred === false || board.isStarred === null ? (
               <IconButton iconSize={"16px"} centerd={true}>
                 <path
                   fillRule="nonzero"
@@ -98,7 +108,7 @@ export function BoardHeader() {
             className="visible-container header-button header-clickable"
             onClick={(e) => togglePressed(e.currentTarget, "visible")}
           >
-            <IconButton label="WorkSpace visible" iconSize={"16px"} >
+            <IconButton label="WorkSpace visible" iconSize={"16px"}>
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -112,7 +122,7 @@ export function BoardHeader() {
         </span>
         <span className="board-header-right">
           <div
-            className="filter-btn-container header-button header-clickable"
+            className={`filter-btn-container header-button header-clickable ${filterActive ? " pressed" : ""}`}
             onClick={(e) => togglePressed(e.currentTarget, "filter")}
           >
             {/* <IconButton label="Filters" iconSize={"16px"}>
@@ -124,26 +134,73 @@ export function BoardHeader() {
               ></path>
             </IconButton> */}
             <DropdownUi
-            trigger={
-              <IconButton label="Filters" iconSize={"16px"}>
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M 4.61799 6 C 3.87461 6 3.39111 6.78231 3.72356 7.44721 L 3.99996 8 H 20 L 20.2763 7.44721 C 20.6088 6.78231 20.1253 6 19.3819 6 H 4.61799 Z M 10.8618 17.7236 C 10.9465 17.893 11.1196 18 11.309 18 H 12.6909 C 12.8803 18 13.0535 17.893 13.1382 17.7236 L 14 16 H 9.99996 L 10.8618 17.7236 Z M 17 13 H 6.99996 L 5.99996 11 H 18 L 17 13 Z"
-                fill="currentColor"
-              ></path>
-            </IconButton>
-            }
-          >
-            {(controlProps) =>
-              filterButton.content?.({
-                title: filterButton.label,
-                ...controlProps,
-              })
-            }
-          </DropdownUi>
+              trigger={
+                <IconButton
+                  label={`Filters ${filterButtonCount}`}
+                  iconSize={"16px"}
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M 4.61799 6 C 3.87461 6 3.39111 6.78231 3.72356 7.44721 L 3.99996 8 H 20 L 20.2763 7.44721 C 20.6088 6.78231 20.1253 6 19.3819 6 H 4.61799 Z M 10.8618 17.7236 C 10.9465 17.893 11.1196 18 11.309 18 H 12.6909 C 12.8803 18 13.0535 17.893 13.1382 17.7236 L 14 16 H 9.99996 L 10.8618 17.7236 Z M 17 13 H 6.99996 L 5.99996 11 H 18 L 17 13 Z"
+                    fill="currentColor"
+                  ></path>
+                </IconButton>
+              }
+            >
+              {(controlProps) =>
+                filterButton.content?.({
+                  title: filterButton.label,
+                  ...controlProps,
+                })
+              }
+            </DropdownUi>
           </div>
-
+          <span className="header-divider"></span>
+          <div
+            className="task-preview-info-users"
+            style={{ marginBottom: "0px", paddingRight: "2px", paddingLeft: "2px" }}
+          >
+            {board.boardMembers &&
+              board.boardMembers
+                .filter(
+                  (member) =>
+                    member && typeof member === "object" && member.avatar
+                )
+                .map((member) => (
+                  <button
+                    key={member._id || member.id}
+                    className="td-section-members-button"
+                    style={{marginRight: "-6px"}}
+                  >
+                    <img
+                      src={member.avatar}
+                      alt={`Member ${member._id || member.id}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "100%",
+                      }}
+                    />
+                  </button>
+                ))}
+            {/* <TaskDetailsMembers style={{}} /> */}
+          </div>
+          <div className="header-button header-clickable pressed"
+          onClick={(e)=>{
+            dispatch(toggleShareModal(true))
+            // togglePressed(e.currentTarget, "visible")
+            }}
+            style={{marginLeft:"8px"}}>
+            <IconButton
+                  label={`Share`}
+                  iconSize={"16px"}
+                >
+                  <path fillRule="evenodd" clipRule="evenodd" d="M12 13C14.7614 13 17 10.7614 17 8C17 5.23858 14.7614 3 12 3C9.23858 3 7 5.23858 7 8C7 9.44777 7.61532 10.7518 8.59871 11.6649C5.31433 13.0065 3 16.233 3 20C3 20.5523 3.44772 21 4 21H12C12.5523 21 13 20.5523 13 20C13 19.4477 12.5523 19 12 19H5.07089C5.55612 15.6077 8.47353 13 12 13ZM15 8C15 9.65685 13.6569 11 12 11C10.3431 11 9 9.65685 9 8C9 6.34315 10.3431 5 12 5C13.6569 5 15 6.34315 15 8Z" fill="currentColor"></path>
+                  <path d="M17 14C17 13.4477 17.4477 13 18 13C18.5523 13 19 13.4477 19 14V16H21C21.5523 16 22 16.4477 22 17C22 17.5523 21.5523 18 21 18H19V20C19 20.5523 18.5523 21 18 21C17.4477 21 17 20.5523 17 20V18H15C14.4477 18 14 17.5523 14 17C14 16.4477 14.4477 16 15 16H17V14Z" fill="currentColor"></path>
+                </IconButton>
+          </div>
           {/* {board.users &&
             board.users.map((user) => (
               <span onClick={(user) => toggleUserCmp(user)}>{user.name}</span>

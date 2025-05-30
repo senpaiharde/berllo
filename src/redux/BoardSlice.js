@@ -79,7 +79,9 @@ let updatedBoardListDestination = null
 let updatedTask = null
 export const updateTasklistOrderAndSync = (newOrder) => (dispatch) => {
   console.log("updateTasklistOrderAndSync", newOrder)
+
   dispatch(updateTasklistOrder(newOrder))
+
   console.log(
     "updateTasklistOrderAndSync updatedBoardListSource",
     updatedBoardListSource
@@ -88,7 +90,7 @@ export const updateTasklistOrderAndSync = (newOrder) => (dispatch) => {
     "updateTasklistOrderAndSync updatedBoardListDestanation",
     updatedBoardListDestination
   )
-  //update the list field "taskList" if task moved in it 
+  //update the list field "taskList" if task moved in it
   dispatch(
     syncBoardAsync({
       method: TaskOps.UPDATE,
@@ -109,7 +111,7 @@ export const updateTasklistOrderAndSync = (newOrder) => (dispatch) => {
       "updateTasklistOrderAndSync updatedBoardListSource",
       updatedBoardListSource
     )
-    //update the source list field "taskList" if task moved to a different list 
+    //update the source list field "taskList" if task moved to a different list
     dispatch(
       syncBoardAsync({
         method: TaskOps.UPDATE,
@@ -127,7 +129,7 @@ export const updateTasklistOrderAndSync = (newOrder) => (dispatch) => {
     )
     if (updatedTask) {
       console.log("updateTasklistOrderAndSync updatedTask", updatedTask)
-      //update the task field "list" if task moved to a different list 
+      //update the task field "list" if task moved to a different list
       dispatch(
         syncBoardAsync({
           method: TaskOps.UPDATE,
@@ -225,7 +227,7 @@ function combineBoardFromGetSorted({ board, lists, tasks }) {
       if (!list) return null
 
       const rawTasks = listIdToTasksMap.get(list._id) || []
-      
+
       // Create a map for fast task ID lookup
       const taskMap = new Map(
         rawTasks.map((task) => [task._id.toString(), task])
@@ -262,12 +264,19 @@ const boardSlice = createSlice({
     boardLists: [],
     boardLabels: [],
     boardListsById: [],
+    filter: {
+      title: "",
+      members: [],
+      labels: [],
+      taskCount: 0,
+    },
     // boards: [],
     state: "idle",
     error: null,
     activeBoard: null,
     boardMembers: [],
     previewEditorPositon: null,
+    shareModalOpen: false,
   },
   reducers: {
     addboard: (state, action) => {
@@ -289,14 +298,27 @@ const boardSlice = createSlice({
     updateStarStatus: (state, action) => {
       state.isStarred = action.payload
 
-      saveTolocal(BuildBoardFromState(state))
+      // saveTolocal(BuildBoardFromState(state))
+    },
+    updateBoardMembers: (state, action) => {
+      console.log("updateBoardMembers action.payload",action.payload)
+      state.boardMembers = action.payload
+
+      // saveTolocal(BuildBoardFromState(state))
+    },
+    toggleShareModal: (state, action) => {
+      state.shareModalOpen = action.payload
     },
     updateboardTitle: (state, action) => {
       state.boardTitle = action.payload
 
       saveTolocal(BuildBoardFromState(state))
     },
-
+    updateboardFilter: (state, action) => {
+      // console.log("boardSlice updateboardFilter", action.payload)
+      state.filter = action.payload
+      // saveTolocal(BuildBoardFromState(state))
+    },
     addBoardList: (state, action) => {
       const newList = {
         _id: nanoid(),
@@ -355,11 +377,12 @@ const boardSlice = createSlice({
       console.log("updateTasklistOrder")
       console.log("updateTasklistOrder action.payload", action)
 
-      const { draggableId, destination, source } = action.payload
+      const { draggableId, destination, source, copiedTask } = action.payload
       console.log(
-        "updateTasklistOrder destination, source",
+        "updateTasklistOrder destination, source, copiedTask",
         destination,
-        source
+        source,
+        copiedTask
       )
 
       //find the list index of the source of the task
@@ -382,24 +405,36 @@ const boardSlice = createSlice({
       )
 
       //Remove the task from sourceIndex and store it
-      const [movedTask] = state.boardLists[boardListIndex].taskList.splice(
-        index,
-        1
-      )
-      console.log(
-        "updateTasklistOrder movedList",
-        JSON.stringify(movedTask._id)
-      )
+      let insertedTask
+      if (!copiedTask) {
+        const [movedTask] = state.boardLists[boardListIndex].taskList.splice(
+          index,
+          1
+        )
+        insertedTask = movedTask
+        console.log("no copiedTask")
+        // console.log("movedTask from splice",updatedTaskID)
+      } else {
+        insertedTask = copiedTask
+      }
+
+      // console.log(
+      //   "updateTasklistOrder movedList",
+      //   JSON.stringify(movedTask._id)
+      // )
       if (destination.droppableId !== source.droppableId) {
         // find the list index of the destination of the task if its a different list
-        updatedBoardListSource = {
+        if(!copiedTask){
+          updatedBoardListSource = {
           _id: state.boardLists[boardListIndex]._id,
           taskListById: state.boardLists[boardListIndex].taskList.map((list) =>
             list._id.toString()
           ),
         }
+        }
+        
         updatedTask = {
-          _id: movedTask._id,
+          _id: insertedTask._id,
           list: destination.droppableId,
         }
 
@@ -407,15 +442,15 @@ const boardSlice = createSlice({
           (list) => list._id === destination.droppableId
         )
       }
-
+      //insert task to new destination
       state.boardLists[boardListIndex].taskList.splice(
         destination.index,
         0,
-        movedTask
+        insertedTask
       )
 
       const taskListById = state.boardLists[boardListIndex].taskList.map(
-        (list) => list._id.toString()
+        (task) => task._id.toString()
       )
       updatedBoardListDestination = {
         _id: state.boardLists[boardListIndex]._id,
@@ -527,7 +562,7 @@ const boardSlice = createSlice({
       // saveTolocal(clonedBoard)
     },
     updatePreviewEditorPositon: (state, action) => {
-      // console.log("updatePreviewEditorPositon", action.payload)
+      console.log("updatePreviewEditorPositon", action.payload)
       state.previewEditorPositon = action.payload
     },
   },
@@ -587,9 +622,12 @@ export const {
   addBoardList,
   removeBoardListFromBoard,
   updateBoardlist,
+  updateboardFilter,
   updateBoardLabels,
   updatePreviewEditorPositon,
   updateBoardListOrder,
   updateTasklistOrder,
+  toggleShareModal,
+  updateBoardMembers,
 } = boardSlice.actions
 export default boardSlice.reducer
