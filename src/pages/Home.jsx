@@ -297,7 +297,7 @@ export function Home() {
 
                           navigate(`/b/${id}/${boardTitle}`);
                         }}>
-                        {boardTitle}
+                        {boardTitle || 'board'}
                         <br />
                         <span className="ClassnameGlobalName">Berllo Workspace</span>
                       </h2>

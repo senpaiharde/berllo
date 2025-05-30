@@ -11,8 +11,11 @@ import { useEffect, useState } from 'react';
 import fetchCurrentUser, { fetchCurrentBoard } from '../services/backendCallsUsers';
 import { useNavigate } from 'react-router-dom';
 import StarButton from '../services/isStarred';
-import { useSelector } from 'react-redux';
-import backendHandler from '../services/backendHandler';
+import { useDispatch, useSelector } from 'react-redux';
+import backendHandler, { TaskOps } from '../services/backendHandler';
+import { syncTaskAsync } from '../redux/TaskDetailsSlice';
+import DropdownUi from '../components/boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
+import Cover from '../components/boardCmps/taskDetailsCmp/main/sidebar/cover';
 const workspaceLeft = [
   {
     title: 'Boards',
@@ -58,7 +61,7 @@ export function Boards() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [workSpace, setWorkSpace] = useState()
-
+ const dispatch = useDispatch();
    
   useEffect(() => {
     async function load() {
@@ -71,7 +74,7 @@ export function Boards() {
         return err;
       }
     }
-console.log(workSpace.boards, 'yes')
+console.log(workSpace?.boards, 'yes')
     load();
   }, []);
 useEffect(() => {
@@ -95,6 +98,17 @@ useEffect(() => {
         console.error('Failed to toggle star:', err);
       }
     };
+
+     function createNewboard() {
+        // dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
+        dispatch(syncTaskAsync({
+            method: TaskOps.ADD,
+            args: {
+              body: { method: TaskOps.ADD, workId: "board", boardTitle: `` },
+            },
+            workId: "board",
+          }))
+      }
   return (
     <div>
       <GlobalHeader />
@@ -412,10 +426,16 @@ useEffect(() => {
                     </a>
                   </li>))
                     ): (<></>)}
-                  
-                  <li className="boards-page-board-section-list-item-yes">
-                    <div className="board-tile-mod-add">
+                    <li  
+                    style={{textAlign:'center'}}
+                    className="boards-page-board-section-list-item-yes">
+                   <DropdownUi
+              trigger={
+                
+                
+                    <div  className="board-tile-mod-add">
                       <p>
+                        
                         <span>Create new board</span>
                       </p>
                       <p className="remaining">
@@ -423,7 +443,11 @@ useEffect(() => {
                       </p>
                       <div className="question-icon">5</div>
                     </div>
-                  </li>
+                 
+              }>
+              {({ onClose }) => <Cover onClose={onClose} />}
+            </DropdownUi>
+                   </li>
                 </ul>
               </div>
             </div>
