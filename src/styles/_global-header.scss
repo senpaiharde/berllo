@@ -631,3 +631,19 @@
   background-size: cover;
   box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
 }
+
+
+.TextBoardDropdown{
+    margin: 0 0 8px;
+    color:#172b4d;
+    font-size: 14px;
+}
+.EditDropdownInputBoard{
+ height:36px;
+ 
+ border: solid 1px black ;
+    padding: 8px 12px;
+    &:hover{
+       border: solid 1px red ;
+    }
+}
