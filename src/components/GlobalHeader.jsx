@@ -29,6 +29,7 @@ import Template5 from '../assets/images/Project Management.jpg';
 import { useSelector } from 'react-redux';
 import fetchCurrentUser, { accountSwitch, demoUsersStorage } from '../services/backendCallsUsers';
 import StarButton from '../services/isStarred';
+import { toggleStar } from '../services/backendHandler';
 
 const demoUsers = demoUsersStorage;
 
@@ -50,7 +51,7 @@ const GlobalHeader = () => {
   };
   const [lastBoard, setLastBoard] = useState(null);
   const [currentEmail, setCurrentEmail] = useState('');
-
+  const [newStar, setNewStar] = useState(null);
   // load current email from localStorage
   useEffect(() => {
     setCurrentEmail(localStorage.getItem('demoEmail') || '');
@@ -96,6 +97,15 @@ const GlobalHeader = () => {
     setActiveDropdown(activeDropdown === key ? null : key);
   };
 
+  const handleStarToggle = async (boardId, newState) => {
+    try {
+     
+      const me = await fetchCurrentUser(); 
+      setUser(me);
+    } catch (err) {
+      console.error('Failed to toggle star:', err);
+    }
+  };
   return (
     <header className="global-header">
       <div className="header-left">
@@ -208,112 +218,37 @@ const GlobalHeader = () => {
             {activeDropdown === 'recent' && (
               <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
-                  {user?.lastBoardVisited[0]?.boardTitle && (
-                    <a className="recenetBoardsNexted">
-                      <div className="boxboards"></div>
-                      <h2
-                        onClick={() => {
-                          const last = user?.lastBoardVisited?.[0];
+                  {user.lastBoardVisited.map((recent) => {
+                    const { id, boardTitle } = recent;
+                    // find whether this is starred in the latest user state
+                    const starEntry = user.starredBoards?.find((sb) => sb.id === id);
+                    const isStarred = !!starEntry?.isStarred;
 
-                          const slug = last?.boardTitle;
-                          const boardId = last?.id;
+                    return (
+                      <a key={id} className="recenetBoardsNexted">
+                        <div className="boxboards" />
+                        <h2
+                          onClick={() => {
+                            console.log('last visited entry:', recent);
+                            console.log('🧠 Navigating to:', `/b/${id}/${boardTitle}`);
 
-                          console.log('last visited entry:', last);
-                          console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
-
-                          if (boardId && slug) {
-                            navigate(`/b/${boardId}/${slug}`);
-                          }
-                        }}>
-                        {user?.lastBoardVisited[0]?.boardTitle ?? ''}
-                        <br />
-
-                        <span className="ClassnameGlobalName">Berllo Workspace</span>
-                      </h2>
-                      {user?.starredBoards[0]?.isStarred ?? ''}
-                       <StarButton
-                       
-                        boardId={user?.lastBoardVisited?.[0].id}
-                        initialIsStarred={user?.starredBoards[0]?.isStarred}
-                        onToggle={(newState) => {
-                          console.log('Board starred state is now', newState);
-                        }}
-                      />
-                    </a>
-                  )}
-                  {user?.lastBoardVisited[1]?.boardTitle && (
-                    <a className="recenetBoardsNexted">
-                      <div className="boxboards"></div>
-                      <h2
-                        onClick={() => {
-                          const last = user?.lastBoardVisited?.[1];
-
-                          const slug = last?.boardTitle;
-                          const boardId = last?.id;
-
-                          console.log('last visited entry:', last);
-                          console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
-
-                          if (boardId && slug) {
-                            navigate(`/b/${boardId}/${slug}`);
-                          }
-                        }}>
-                        {user?.lastBoardVisited[1]?.boardTitle ?? ''}
-                        <br />
-
-                        <span className="ClassnameGlobalName">Berllo Workspace</span>
-                      </h2>
-                    </a>
-                  )}
-                  {user?.lastBoardVisited[2]?.boardTitle && (
-                    <a className="recenetBoardsNexted">
-                      <div className="boxboards"></div>
-                      <h2
-                        onClick={() => {
-                          const last = user?.lastBoardVisited?.[2];
-
-                          const slug = last?.boardTitle;
-                          const boardId = last?.id;
-
-                          console.log('last visited entry:', last);
-                          console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
-
-                          if (boardId && slug) {
-                            navigate(`/b/${boardId}/${slug}`);
-                          }
-                        }}>
-                        {user?.lastBoardVisited[2]?.boardTitle ?? ''}
-                        <br />
-
-                        <span className="ClassnameGlobalName">Berllo Workspace</span>
-                      </h2>
-                    </a>
-                  )}
-
-                  {user?.lastBoardVisited[3]?.boardTitle && (
-                    <a className="recenetBoardsNexted">
-                      <div className="boxboards"></div>
-                      <h2
-                        onClick={() => {
-                          const last = user?.lastBoardVisited?.[3];
-
-                          const slug = last?.boardTitle;
-                          const boardId = last?.id;
-
-                          console.log('last visited entry:', last);
-                          console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
-
-                          if (boardId && slug) {
-                            navigate(`/b/${boardId}/${slug}`);
-                          }
-                        }}>
-                        {user?.lastBoardVisited[3]?.boardTitle ?? ''}
-                        <br />
-
-                        <span className="ClassnameGlobalName">Berllo Workspace</span>
-                      </h2>
-                    </a>
-                  )}
+                            navigate(`/b/${id}/${boardTitle}`);
+                          }}>
+                          {boardTitle}
+                          <br />
+                          <span className="ClassnameGlobalName">Berllo Workspace</span>
+                        </h2>
+                        <div style={{ marginLeft: 100 }}>
+                          <StarButton
+                          boardId={id}
+                            initialIsStarred={starEntry}
+                            onToggle={(newState) => handleStarToggle(id, newState)}
+                          />
+                        </div>
+                      </a>
+                    );
+                  })}
+                  
                 </div>
               </div>
             )}
@@ -329,104 +264,38 @@ const GlobalHeader = () => {
             {activeDropdown === 'starred' && (
               <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
-                  {user?.lastBoardVisited[0]?.boardTitle && (
-                    <a className="recenetBoardsNexted">
-                      <div className="boxboards"></div>
-                      <h2
-                        onClick={() => {
-                          const last = user?.lastBoardVisited?.[0];
-
-                          const slug = last?.boardTitle;
-                          const boardId = last?.id;
-
-                          console.log('last visited entry:', last);
-                          console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
-
-                          if (boardId && slug) {
-                            navigate(`/b/${boardId}/${slug}`);
-                          }
-                        }}>
-                        {user?.lastBoardVisited[0]?.boardTitle ?? ''}
-                        <br />
-
-                        <span className="ClassnameGlobalName">Berllo Workspace</span>
-                      </h2>
+                  {user?.starredBoards
+                    ?.filter((sb) => sb.isStarred) 
+                    .map((sb) => {
                      
-                    </a>
-                  )}
-                  {user?.lastBoardVisited[1]?.boardTitle && (
-                    <a className="recenetBoardsNexted">
-                      <div className="boxboards"></div>
-                      <h2
-                        onClick={() => {
-                          const last = user?.lastBoardVisited?.[1];
+                      const recent = user.lastBoardVisited?.find((r) => r.id === sb.id);
+                   
+                      return (
+                        <a key={sb.id} className="recenetBoardsNexted">
+                          <div className="boxboards" />
 
-                          const slug = last?.boardTitle;
-                          const boardId = last?.id;
+                          <h2
+                            onClick={() => {
+                              const slug = recent.boardTitle;
+                              const boardId = recent.id;
+                              if (boardId && slug) navigate(`/b/${boardId}/${slug}`);
+                            }}>
+                            {recent.boardTitle}
+                            <br />
+                            <span className="ClassnameGlobalName">Berllo Workspace</span>
+                          </h2>
 
-                          console.log('last visited entry:', last);
-                          console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
-
-                          if (boardId && slug) {
-                            navigate(`/b/${boardId}/${slug}`);
-                          }
-                        }}>
-                        {user?.lastBoardVisited[1]?.boardTitle ?? ''}
-                        <br />
-
-                        <span className="ClassnameGlobalName">Berllo Workspace</span>
-                      </h2>
-                    </a>
-                  )}
-                  {user?.lastBoardVisited[2]?.boardTitle && (
-                    <a className="recenetBoardsNexted">
-                      <div className="boxboards"></div>
-                      <h2
-                        onClick={() => {
-                          const last = user?.lastBoardVisited?.[2];
-
-                          const slug = last?.boardTitle;
-                          const boardId = last?.id;
-
-                          console.log('last visited entry:', last);
-                          console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
-
-                          if (boardId && slug) {
-                            navigate(`/b/${boardId}/${slug}`);
-                          }
-                        }}>
-                        {user?.lastBoardVisited[2]?.boardTitle ?? ''}
-                        <br />
-
-                        <span className="ClassnameGlobalName">Berllo Workspace</span>
-                      </h2>
-                    </a>
-                  )}
-
-                  {user?.lastBoardVisited[3]?.boardTitle && (
-                    <a className="recenetBoardsNexted">
-                      <div className="boxboards"></div>
-                      <h2
-                        onClick={() => {
-                          const last = user?.lastBoardVisited?.[3];
-
-                          const slug = last?.boardTitle;
-                          const boardId = last?.id;
-
-                          console.log('last visited entry:', last);
-                          console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
-
-                          if (boardId && slug) {
-                            navigate(`/b/${boardId}/${slug}`);
-                          }
-                        }}>
-                        {user?.lastBoardVisited[3]?.boardTitle ?? ''}
-                        <br />
-
-                        <span className="ClassnameGlobalName">Berllo Workspace</span>
-                      </h2>
-                    </a>
-                  )}
+                          <div style={{ marginLeft: '100px' }}>
+                            <StarButton
+                              boardId={sb.id}
+                              initialIsStarred={sb.isStarred}
+                              onToggle={(newState) => handleStarToggle(sb.id, newState)}
+                            />
+                          </div>
+                        </a>
+                      );
+                    })}
+                  
                 </div>
               </div>
             )}
