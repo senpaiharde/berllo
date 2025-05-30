@@ -28,6 +28,7 @@ import Template4 from '../assets/images/Go To Market Strategy.jpg';
 import Template5 from '../assets/images/Project Management.jpg';
 import { useSelector } from 'react-redux';
 import fetchCurrentUser, { accountSwitch, demoUsersStorage } from '../services/backendCallsUsers';
+import StarButton from '../services/isStarred';
 
 const demoUsers = demoUsersStorage;
 
@@ -229,6 +230,15 @@ const GlobalHeader = () => {
 
                         <span className="ClassnameGlobalName">Berllo Workspace</span>
                       </h2>
+                      {user?.starredBoards[0]?.isStarred ?? ''}
+                       <StarButton
+                       
+                        boardId={user?.lastBoardVisited?.[0].id}
+                        initialIsStarred={user?.starredBoards[0]?.isStarred}
+                        onToggle={(newState) => {
+                          console.log('Board starred state is now', newState);
+                        }}
+                      />
                     </a>
                   )}
                   {user?.lastBoardVisited[1]?.boardTitle && (
@@ -341,6 +351,7 @@ const GlobalHeader = () => {
 
                         <span className="ClassnameGlobalName">Berllo Workspace</span>
                       </h2>
+                     
                     </a>
                   )}
                   {user?.lastBoardVisited[1]?.boardTitle && (

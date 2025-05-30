@@ -62,7 +62,7 @@ export const TaskOps = Object.freeze({
 
 export async function toggleStar(boardId, isStarred) {
   const token = localStorage.getItem('token');
-  const res = await fetch('http://localhost:4000/users/me', {
+  const res = await fetch('http://localhost:4000/user/me', {
   method: 'PUT',
   headers: {
     'Authorization': `Bearer ${token}`,
