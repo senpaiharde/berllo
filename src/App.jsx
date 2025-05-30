@@ -2,6 +2,8 @@
 
 
 
+
+
 import './styles/main.scss';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { useEffect, useState} from 'react';
@@ -38,14 +40,13 @@ function App() {
   
 //     loadInitialBoard();
 //   }, [dispatch]);
+
   // using *  telling that Workspace is responsible for all nested routes under /b/:boardId/:boardName/
   return (
     <BrowserRouter>
-      <div 
-      style={{ height: "100%",}}
-      >
-        
+      <div style={{ height: "100%" }}>
         <Routes>
+
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
          <Route path={`/u/user/boards`} element={<Boards />} />
@@ -53,12 +54,13 @@ function App() {
         <Route path=":taskId" element={<TaskDetails />} />
         </Route>
 
+
+          <Route path="/b/:boardId/:boardName/*" element={<Workspace />}>
+            <Route path=":taskId" element={<TaskDetails />} />
+          </Route>
         </Routes>
       </div>
     </BrowserRouter>
-  
-
-
   )
 }
 

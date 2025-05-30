@@ -1,23 +1,49 @@
 .editor-background{
-    // position: fixed;
-    // z-index: 11;
-    // top: 0;
-    // right: 0;
-    // bottom: 0;
-    // left: 0;
-    // background: hsla(0, 0%, 0%, 0.6);
+    position: fixed;
+    z-index: 11;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: hsla(0, 0%, 0%, 0.6);
+    
 }
 
 .task-preview-editor-container{
     position: fixed;
     inset: 0px auto auto 0px;
     display: flex;
+    // background-color:  #ffffff;
     // transform: translate3d(320px, 162.909px, 0px);
     
+}
+.edit-task-textarea{
+    height: 56px;
+    background-color: unset;
+    box-shadow: revert;
+    border-radius: 3px;
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 85ms;
+    transition-timing-function: ease;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 0;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    resize: none;
 }
 .task-preview-editor-save-button{
     background-color: #0c66e4;
     color: #1D2125;
+    box-shadow: none;
     margin-top: 8px;
     margin-bottom: 0;
+    padding: 6px 12px;
+    border-radius: 3px;
+}
+.task-preview-editor-save-button:hover{
+    background-color: #0055cc;
 }

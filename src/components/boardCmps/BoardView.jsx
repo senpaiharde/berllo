@@ -9,17 +9,81 @@ import {
   updateTasklistOrder,
   syncBoardAsync,
   updateBoardListOrderAndSync,
-  updateTasklistOrderAndSync
+  updateTasklistOrderAndSync,
+  updateboardFilter,
 } from "../../redux/BoardSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { TaskPreviewEditor } from "./taskPreviewCmps/TaskPreviewEditor"
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 import { TaskOps } from "../../services/backendHandler"
 export function BoardView() {
-  const [newListClicked, setNewListClicked] = useState(true)
-  // const [previewEditorPositon, setPreviewEditorPosition] = useState()
   const board = useSelector((state) => state.boardReducer)
   const dispatch = useDispatch()
+
+  let taskSum = 0
+  const [taskCount, setTaskCount] = useState(0)
+  let filteredBoard = board
+
+  const filterActive =
+    board.filter.title !== "" ||
+    board.filter.members.length > 0 ||
+    board.filter.labels.length > 0
+  if (filterActive) {
+    filteredBoard = {
+      ...board,
+      boardLists: board.boardLists.map((list) => {
+        let filteredTasks = list.taskList
+
+        // Filter by title if needed
+        if (board.filter.title && board.filter.title !== "") {
+          const titleFilter = board.filter.title.toLowerCase()
+          filteredTasks = filteredTasks.filter((task) =>
+            task.taskTitle.toLowerCase().includes(titleFilter)
+          )
+        }
+
+        // Filter by labels if needed
+        if (board.filter.labels && board.filter.labels.length > 0) {
+          filteredTasks = filteredTasks.filter((task) =>
+            task.taskLabels?.some((taskLabel) =>
+              board.filter.labels.some(
+                (filterLabel) => filterLabel.color === taskLabel.color
+              )
+            )
+          )
+        }
+        console.log("board.filter.members", board.filter.members)
+        if (board.filter.members && board.filter.members.length > 0) {
+          console.log("board.filter.members", board.filter.members)
+          // console.log("taskMembers", task.taskMembers)
+          filteredTasks = filteredTasks.filter((task) =>
+            task.taskMembers?.some((taskMember) =>
+              board.filter.members.some(
+                (filterMember) => filterMember._id === taskMember._id
+              )
+            )
+          )
+        }
+        taskSum += filteredTasks.length
+        // setTaskCount(taskCount=> taskCount + filteredTasks.length)
+        return {
+          ...list,
+          taskList: filteredTasks,
+        }
+      }),
+    }
+  }
+  useEffect(() => {
+    if (filterActive) {
+      console.log("taskSum", taskSum)
+      setTaskCount(taskSum)
+    }
+  }, [board])
+
+  useEffect(() => {
+    // console.log("taskCount", taskCount)
+    dispatch(updateboardFilter({ ...board.filter, taskCount: taskCount }))
+  }, [taskCount])
 
   function AddNewEmptyTaskList(value) {
     // console.log("AddNewTaskList")
@@ -38,7 +102,6 @@ export function BoardView() {
       //         indexInBoard: board?.boardLists.length,
       //       },
       //     },
-
       //     workId: "list",
       //   })
       // )
@@ -52,11 +115,15 @@ export function BoardView() {
     // debugger
     const { destination, source, draggableId } = result
     console.log("onDragEnd", result, type)
-    console.log("board.boardLists before change", board.boardLists
+    console.log(
+      "board.boardLists before change",
+      board.boardLists
       // .map((list) => list._id.toString())
     )
     if (result.type === "BoardList") {
-      dispatch(updateBoardListOrderAndSync({ draggableId, destination, source }))
+      dispatch(
+        updateBoardListOrderAndSync({ draggableId, destination, source })
+      )
       // dispatch(updateBoardListOrder({ draggableId, destination, source }))
       // const boardLists = board.boardLists.filter((list) => { return list._id})
       // setTimeout(() => {
@@ -177,7 +244,7 @@ export function BoardView() {
                 ref={provided.innerRef}
               >
                 <ol className="TaskList-list">
-                  {board.boardLists.map((list, index) => (
+                  {filteredBoard.boardLists.map((list, index) => (
                     <Draggable
                       key={list._id}
                       draggableId={list._id}
@@ -248,6 +315,7 @@ export function BoardView() {
         </div>
       </ol> */}
         <TaskPreviewEditor />
+        
       </div>
     )
   }

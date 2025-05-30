@@ -10,6 +10,7 @@ import { BoardHeader } from "../components/boardCmps/boardHeaderCmps/BoardHeader
 import { BoardView } from "../components/boardCmps/BoardView.jsx"
 import { BoardSideBar } from "../components/boardCmps/sideBarCmps/BoardSideBar.jsx"
 import { body } from "framer-motion/client"
+import { BoardSharePage } from "../components/boardCmps/BoardSharePage.jsx"
 
 const Workspace = () => {
   const { boardId } = useParams()
@@ -97,6 +98,7 @@ const Workspace = () => {
             </div>
           </div>
         </div>
+        <BoardSharePage/>
       </div>
     )
   }
