@@ -91,7 +91,7 @@ const TaskDetailsActivity = () => {
       <div className="td-section-attachment-container">
         <div className="SvgLefSvg">
           <SvgServices name="ActivitySvg" />
-          <button onClick={()=> {console.log(activities,'yes')}}> 22</button>
+         
         </div>
         <div className="td-section-attachment-containerDiv">
           <div className="td-section-header-attackment">Activity</div>

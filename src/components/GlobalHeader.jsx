@@ -277,7 +277,7 @@ const GlobalHeader = () => {
                               const boardId = recent.id;
                               if (boardId && slug) navigate(`/b/${boardId}/${slug}`);
                             }}>
-                            {recent.boardTitle}
+                            {recent?.boardTitle}
                             <br />
                             <span className="ClassnameGlobalName">Berllo Workspace</span>
                           </h2>

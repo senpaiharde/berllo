@@ -50,7 +50,7 @@ export function TaskPreviewEditor({}) {
       setInputValue(task.title)
     }
   }, [task])
-
+ const imageHeight =24;
   function onUpdateTask(value) {
     // console.log("onUpdateTask value", value)
     if (value !== "true") {
