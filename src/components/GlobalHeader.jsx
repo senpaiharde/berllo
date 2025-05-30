@@ -27,14 +27,11 @@ import Template3 from '../assets/images/Design Huddle.jpg';
 import Template4 from '../assets/images/Go To Market Strategy.jpg';
 import Template5 from '../assets/images/Project Management.jpg';
 import { useSelector } from 'react-redux';
+import fetchCurrentUser, { accountSwitch, demoUsersStorage } from '../services/backendCallsUsers';
+import StarButton from '../services/isStarred';
+import { toggleStar } from '../services/backendHandler';
 
-const demoUsers = [
-  { name: 'ALi Demo', email: 'alice@demo.local' },
-  { name: 'Slava Demo', email: 'bob@demo.local' },
-  { name: 'Mark Demo', email: 'carol@demo.local' },
-  { name: 'Sam Demo', email: 'dave@demo.local' },
-  { name: 'Dima Demo', email: 'eve@demo.local' },
-];
+const demoUsers = demoUsersStorage;
 
 const GlobalHeader = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -43,7 +40,7 @@ const GlobalHeader = () => {
   const navigate = useNavigate();
   const board = useSelector((state) => state.boardReducer);
   const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0;
-
+  const [user, setUser] = useState(null);
   const dropdownRefs = {
     workspaces: useRef(null),
     recent: useRef(null),
@@ -52,9 +49,9 @@ const GlobalHeader = () => {
     create: useRef(null),
     profile: useRef(null),
   };
-
+  const [lastBoard, setLastBoard] = useState(null);
   const [currentEmail, setCurrentEmail] = useState('');
-
+  const [newStar, setNewStar] = useState(null);
   // load current email from localStorage
   useEffect(() => {
     setCurrentEmail(localStorage.getItem('demoEmail') || '');
@@ -63,18 +60,7 @@ const GlobalHeader = () => {
   const handleSwitch = async (e) => {
     const email = e.target.value;
     if (!email) return;
-    try {
-      const res = await axios.post(
-        'http://localhost:4000/auth/login', 
-        { email, password: 'demo123' }
-      );
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('demoEmail', email);
-      window.location.reload();
-    } catch (err) {
-      console.error('Demo login failed', err);
-      alert('Demo login failed');
-    }
+    accountSwitch(email);
   };
 
   const handleLogout = () => {
@@ -82,7 +68,20 @@ const GlobalHeader = () => {
     localStorage.removeItem('demoEmail');
     window.location.reload();
   };
+  useEffect(() => {
+    async function load() {
+      try {
+        const me = await fetchCurrentUser();
+        setUser(me);
+        setLastBoard(me.lastBoardVisited);
+      } catch (err) {
+        console.log('there is error on loading users', err);
+        return err;
+      }
+    }
 
+    load();
+  }, []);
   useEffect(() => {
     const handleClickOutside = (e) => {
       const currentRef = dropdownRefs[activeDropdown];
@@ -98,6 +97,14 @@ const GlobalHeader = () => {
     setActiveDropdown(activeDropdown === key ? null : key);
   };
 
+  const handleStarToggle = async (boardId, newState) => {
+    try {
+      const me = await fetchCurrentUser();
+      setUser(me);
+    } catch (err) {
+      console.error('Failed to toggle star:', err);
+    }
+  };
   return (
     <header className="global-header">
       <div className="header-left">
@@ -122,11 +129,12 @@ const GlobalHeader = () => {
             </button>
             {activeDropdown === 'workspaces' && (
               <div className="dropdown-menu">
-                <div className="dropdown-header">Your Workspaces</div>
+                <div className="dropdown-header">Current Workspaces</div>
                 <div className="dropdown-item">
-                  <div className="workspace-icon">T</div>
+                  <div className="workspace-icon">B</div>
                   <div>
                     <div
+                      className="textCurrectworkspace"
                       onClick={() => {
                         if (isBoardReady) {
                           const slug =
@@ -141,14 +149,60 @@ const GlobalHeader = () => {
                         }
                       }}
                       style={{ cursor: 'pointer', color: '#0079bf' }}>
-                      Trello Workspace
+                      Brello Workspace
                     </div>
-                    <div className="workspace-type">Free</div>
                   </div>
                 </div>
-                <div className="dropdown-item">
-                  <Settings size={16} />
-                  <span>Workspace settings</span>
+
+                <div className="workspace">
+                  <div className="dropdown-header">Your Workspaces</div>
+
+                  <div className="dropdown-item">
+                    <div className="workspace-icon">B</div>
+                    <div>
+                      <div
+                        className="textCurrectworkspace"
+                        onClick={() => {
+                          if (isBoardReady) {
+                            const slug =
+                              board.slug ||
+                              (board.boardTitle
+                                ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
+                                : 'board');
+                            console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                            navigate(`/b/${board._id}/${slug}`);
+                          } else {
+                            console.warn('⚠️ Board not ready for navigation:', board);
+                          }
+                        }}
+                        style={{ cursor: 'pointer', color: '#0079bf' }}>
+                        Brello Workspace
+                      </div>
+                    </div>
+                  </div>
+                  <div className="dropdown-item">
+                    <div className="workspace-icon">B</div>
+                    <div>
+                      <div
+                        className="textCurrectworkspace"
+                        onClick={() => {
+                          if (isBoardReady) {
+                            const slug =
+                              board.slug ||
+                              (board.boardTitle
+                                ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
+                                : 'board');
+                            console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
+                            navigate(`/b/${board._id}/${slug}`);
+                          } else {
+                            console.warn('⚠️ Board not ready for navigation:', board);
+                          }
+                        }}
+                        style={{ cursor: 'pointer', color: '#0079bf' }}>
+                        Brello Workspace
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -161,27 +215,38 @@ const GlobalHeader = () => {
               Recent <ChevronDown size={14} />
             </button>
             {activeDropdown === 'recent' && (
-              <div className="dropdown-menu">
-                <div className="dropdown-header">Recent Boards</div>
-                <div className="dropdown-item">
-                  <Clock size={14} />
-                  <span
-                    onClick={() => {
-                      if (isBoardReady) {
-                        const slug =
-                          board.slug ||
-                          (board.boardTitle
-                            ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
-                            : 'board');
-                        console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
-                        navigate(`/b/${board._id}/${slug}`);
-                      } else {
-                        console.warn('⚠️ Board not ready for navigation:', board);
-                      }
-                    }}
-                    style={{ cursor: 'pointer', color: '#0079bf' }}>
-                    Work Flow
-                  </span>
+              <div className="dropdown-menu-recent">
+                <div className="recenetBoards">
+                  {user.lastBoardVisited.map((recent) => {
+                    const { id, boardTitle } = recent;
+                    // find whether this is starred in the latest user state
+                    const starEntry = user.starredBoards?.find((sb) => sb.id === id);
+                    const isStarred = !!starEntry?.isStarred;
+
+                    return (
+                      <a key={id} className="recenetBoardsNexted">
+                        <div className="boxboards" />
+                        <h2
+                          onClick={() => {
+                            console.log('last visited entry:', recent);
+                            console.log('🧠 Navigating to:', `/b/${id}/${boardTitle}`);
+
+                            navigate(`/b/${id}/${boardTitle}`);
+                          }}>
+                          {boardTitle}
+                          <br />
+                          <span className="ClassnameGlobalName">Berllo Workspace</span>
+                        </h2>
+                        <div style={{ marginLeft: 100 }}>
+                          <StarButton
+                            boardId={id}
+                            initialIsStarred={starEntry}
+                            onToggle={(newState) => handleStarToggle(id, newState)}
+                          />
+                        </div>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -195,11 +260,38 @@ const GlobalHeader = () => {
               Starred <ChevronDown size={14} />
             </button>
             {activeDropdown === 'starred' && (
-              <div className="dropdown-menu">
-                <div className="dropdown-header">Starred Boards</div>
-                <div className="dropdown-item">
-                  <Star size={14} />
-                  <span>Important Project</span>
+              <div className="dropdown-menu-recent">
+                <div className="recenetBoards">
+                  {user?.starredBoards
+                    ?.filter((sb) => sb.isStarred)
+                    .map((sb) => {
+                      const recent = user.lastBoardVisited?.find((r) => r.id === sb.id);
+
+                      return (
+                        <a key={sb.id} className="recenetBoardsNexted">
+                          <div className="boxboards" />
+
+                          <h2
+                            onClick={() => {
+                              const slug = recent.boardTitle;
+                              const boardId = recent.id;
+                              if (boardId && slug) navigate(`/b/${boardId}/${slug}`);
+                            }}>
+                            {recent.boardTitle}
+                            <br />
+                            <span className="ClassnameGlobalName">Berllo Workspace</span>
+                          </h2>
+
+                          <div style={{ marginLeft: '100px' }}>
+                            <StarButton
+                              boardId={sb.id}
+                              initialIsStarred={sb.isStarred}
+                              onToggle={(newState) => handleStarToggle(sb.id, newState)}
+                            />
+                          </div>
+                        </a>
+                      );
+                    })}
                 </div>
               </div>
             )}
@@ -296,61 +388,89 @@ const GlobalHeader = () => {
         {/* PROFILE DROPDOWN */}
         <div ref={dropdownRefs.profile} className="dropdown-wrapper">
           <button className="profile-button" onClick={() => toggleDropdown('profile')}>
-            <div className="avatar">SV</div>
+            {user?.email ? (
+              <div
+                style={{ height: '24px', width: '24px', marginTop: '4px', marginRight: '12px' }}
+                className="td-section-members-button">
+                {user?.avatar && (
+                  <img
+                    src={user?.avatar || 'No'}
+                    alt={`Member ${user?._id || user?.id}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '100%',
+                    }}
+                  />
+                )}
+              </div>
+            ) : (
+              <div className="avatar">?</div>
+            )}
           </button>
           {activeDropdown === 'profile' && (
             <div className="dropdown-menu profile-menu">
-                <div className="section-header-dropdown">ACCOUNT</div>
+              <div className="section-header-dropdown">ACCOUNT</div>
               <div className="profile-header">
-                <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
-                    <option value="" disabled>
-                      Switch accounts
-                    </option>
-                    {demoUsers.map((u) => (
-                      <option className='InfoDemoUsers' key={u.email} value={u.email}>
-                        {u.email}
-                      </option>
-                    ))}
-                    
-                  </select>
-
-                
-
-                 
-                  
-               
-                
+                {' '}
+                <div
+                  style={{ height: '50px', width: '50px' }}
+                  className="td-section-members-button">
+                  {user?.avatar && (
+                    <img
+                      src={user?.avatar || 'No'}
+                      alt={`Member ${user?._id || user?.id}`}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '100%',
+                      }}
+                    />
+                  )}
+                </div>
+                <div className="InfoDemoUsers">
+                  {user?.fullname}
+                  <br></br>
+                  <div className="userEmailHeader">{user?.email || 'Not logged in'}</div>
+                </div>
               </div>
               <div className="profile-info">
-                  <div className="InfoDemoUsers">You are in as:<br></br>{currentEmail || 'Not logged in'}</div>
-                </div>
-              <div className="menu-section">
-                <div className="section-header-dropdown">BERLLO</div>
-                {[
-                  ['Profile and visibility', ],
-                  ['Activity'],
-                  ['Cards', ],
-                  ['Settings', ],
-                ].map(([label, icon], i) => (
-                  <div key={i} className="menu-item">
-                    {icon}
-                    <span className='styleForOptions'>{label}</span>
-                  </div>
-                ))}
+                <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
+                  <option value="" disabled>
+                    {user?.email ? 'switch account' : 'login'}
+                  </option>
+                  {demoUsers.map((u) => (
+                    <option className="InfoDemoUsers" key={u.email} value={u.email}>
+                      {u.email}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="menu-section">
-                {[
-                  ['Help',],
-                  ['Shortcuts', ],
-                ].map(([label, icon], i) => (
+                <div className="section-header-dropdown">BERLLO</div>
+                {[['Profile and visibility'], ['Activity'], ['Cards'], ['Settings']].map(
+                  ([label, icon], i) => (
+                    <div key={i} className="menu-item">
+                      {icon}
+                      <span className="styleForOptions">{label}</span>
+                    </div>
+                  )
+                )}
+              </div>
+              <div className="menu-section">
+                {[['Help'], ['Shortcuts']].map(([label, icon], i) => (
                   <div key={i} className="menu-item">
                     {icon}
-                    <span className='styleForOptions'>{label}</span>
+                    <span className="styleForOptions">{label}</span>
                   </div>
                 ))}
               </div>
               <div className="menu-footer">
-                <button onClick={handleLogout} className="logout-button">Log out</button>
+                <button onClick={handleLogout} className="logout-button">
+                  Log out
+                </button>
               </div>
             </div>
           )}

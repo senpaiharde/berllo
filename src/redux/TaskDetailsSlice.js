@@ -8,14 +8,18 @@ export const syncTaskAsync = createAsyncThunk(
   async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
     try {
       console.log(method, workId, args, 'update happens here', workId);
+     
       const data = await backendHandler({ method, args, workId });
       console.log('syncTaskAsync data', data);
+      
       // if (method === TaskOps.ADD) return;
       if (method === TaskOps.ADD && args.copying){
          console.log(" syncTaskAsync TaskOps.ADD new task");
          return { method, data, workId, copying: args.copying }
         }
 
+      if (method === TaskOps.ADD) return;
+     
       if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data));
       return { method, data, workId };
     } catch (err) {
@@ -35,7 +39,9 @@ const initialState = {
   copiedTask: false,
   activities: [],
   title: '',
-  Activity: [],
+  startDate:null,
+  
+  taskStartDate:null,
   
 };
 
@@ -54,11 +60,14 @@ const taskDetailsSlice = createSlice({
       state.selectedTask = {
         ...action.payload,
         taskDueDate: action.payload.taskDueDate ?? action.payload.dueDate ?? null,
+        startDate: action.payload.taskStartDate ?? action.payload.startDate ?? null,
         reminder: action.payload.reminder ?? null,
         isDueComplete: action.payload.isDueComplete ?? false,
+        attachments : action.payload.attachments ?? [],
         title: action.payload.title ?? '',
         description: action.payload.description ?? '',
-        Activity: action.payload.Activity ?? [],
+        
+        activities: action.payload.activities ?? [],
         isWatching: action.payload.isWatching ?? false,
         members: Array.isArray(action.payload.members) ? action.payload.members : [],
         checklist: Array.isArray(action.payload.checklist) ? action.payload.checklist : [],
@@ -82,11 +91,17 @@ const taskDetailsSlice = createSlice({
       if (payload.isDueComplete !== undefined) {
         state.selectedTask.isDueComplete = payload.isDueComplete;
       }
+      if (payload.attachments !== undefined) {
+        state.selectedTask.attachments = payload.attachments;
+      }
       
       if (payload.cover !== undefined) {
         state.selectedTask.cover = payload.cover;
       }
       
+      if (payload.taskStartDate || payload.startDate) {
+         state.selectedTask.startDate = action.payload.taskStartDate ?? action.payload.startDate ?? null
+      }
       if (payload.taskDueDate || payload.dueDate) {
          state.selectedTask.taskDueDate = action.payload.taskDueDate ?? action.payload.dueDate ?? null
       }
@@ -107,9 +122,8 @@ const taskDetailsSlice = createSlice({
       if (payload.reminder) {
         state.selectedTask.reminder = payload.reminder;
       }
-      if (payload.taskDueDate) {
-        state.selectedTask.taskDueDate = payload.taskDueDate;
-      }
+      
+      
       if (payload.checklist) {
         state.selectedTask.checklist = payload.checklist;
       }
@@ -119,10 +133,7 @@ const taskDetailsSlice = createSlice({
       if (payload.labels) {
         state.selectedTask.labels = payload.labels;
       }
-       if (payload.Activity  || payload.activities) {
-         state.selectedTask.Activity  = action.payload.Activity ?? action.payload.activities ??  [];
-           
-       }
+       
     },
   },
   extraReducers: (builder) => {
@@ -130,20 +141,27 @@ const taskDetailsSlice = createSlice({
       .addCase(syncTaskAsync.fulfilled, (state, action) => {
         state.loading = false;
 
+
         const { method, data, workId, copying } = action.payload;
+
+        
+        const { method, data, workId } = action.payload;
+
         console.log(
-          '[REPLACE] Old title:',
+          
           state.selectedTask.isDueComplete,
-          '-> New title:',
+          data.activities,
           data.isDueComplete
         );
         switch (method) {
           case TaskOps.FETCH:
+            
             state.selectedTask = {
               ...data,
               taskDueDate: data.taskDueDate ?? data.dueDate ?? null,
               reminder: data.reminder ?? null,
               isDueComplete: data.isDueComplete ?? false,
+              activities: data.activities ?? null
             };
 
             state.isOpen = true;
@@ -164,6 +182,7 @@ const taskDetailsSlice = createSlice({
           default:
             break;
         }
+        
         if (method === 'fetch' && workId === 'activities') {
           state.activities = data;
           return;
@@ -175,7 +194,8 @@ const taskDetailsSlice = createSlice({
   },
 });
 
-export const {taskUpdated, openTaskDetails, closeTaskDetails, updateSelectedTaskLive, setCopiedTask } =
+export const {Activity,activities,taskUpdated, openTaskDetails, closeTaskDetails, updateSelectedTaskLive,setCopiedTask } =
+
   taskDetailsSlice.actions;
 
 let debounceId;

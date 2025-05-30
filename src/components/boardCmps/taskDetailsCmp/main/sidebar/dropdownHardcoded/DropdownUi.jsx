@@ -6,30 +6,45 @@ const DropdownUi = ({ trigger, children, onClose }) => {
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
+ const MOBILE_BREAKPOINT = 768; // if you still want to force this logic only on mobile
 
-  const updatePosition = () => {
+const updatePosition = () => {
+  requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const triggerRect = triggerRef.current?.getBoundingClientRect();
-        const dropdownRect = dropdownRef.current?.getBoundingClientRect();
+      const triggerRect  = triggerRef.current?.getBoundingClientRect();
+      const dropdownRect = dropdownRef.current?.getBoundingClientRect();
+      if (!triggerRect || !dropdownRect) return;
 
-        if (triggerRect && dropdownRef.current) {
-          const viewportWidth = window.innerWidth;
+      const viewportW = window.innerWidth;
+      const viewportH = window.innerHeight;
 
-          const dropdownWidth = dropdownRect?.width || 304;
+      // HORIZONTAL: same as before
+      let left = triggerRect.left + window.scrollX;
+      if (left + dropdownRect.width > viewportW) {
+        left = viewportW - dropdownRect.width - 8;
+      }
 
-          const top = triggerRect.bottom + window.scrollY;
+      // VERTICAL: try below, else above
+      const spaceBelow = viewportH - triggerRect.bottom;
+      const spaceAbove = triggerRect.top;
+      let top = null, bottom = null;
 
-          let left = triggerRect.left + window.scrollX;
-          if (triggerRect.left + dropdownWidth > viewportWidth) {
-            left = viewportWidth - dropdownWidth - 8;
-          }
+      if (spaceBelow >= dropdownRect.height) {
+        // plenty of room below  open down
+        top = triggerRect.bottom + window.scrollY;
+      } else if (spaceAbove >= dropdownRect.height) {
+        // enough room above  open up
+        bottom = viewportH - triggerRect.top;
+      } else {
+        // not enough room either side  default to below
+        top = triggerRect.bottom + window.scrollY;
+      }
 
-          setPosition({ top, left });
-        }
-      });
+      setPosition({ top, left, bottom });
     });
-  };
+  });
+};
+
 
   useEffect(() => {
     if (!open || !triggerRef.current) return;
@@ -82,11 +97,13 @@ const DropdownUi = ({ trigger, children, onClose }) => {
       className="dropDownContent"
       ref={dropdownRef}
       style={{
-        position: 'fixed',
-        maxHeight: 'calc(100vh - 64px)',
-        top: `${position.top}px`,
-        left: `${position.left}px`,
-      }}>
+    position:   'fixed',
+    maxHeight: 'calc(100vh - 64px)',
+    left:      `${position.left}px`,
+    ...(position.top    != null
+      ? { top: `${position.top}px` }
+      : { bottom: `${position.bottom}px` }),
+  }}>
       {typeof children === 'function' ? children({ onClose: () => setOpen(false) }) : children}
     </div>
   ) : null;

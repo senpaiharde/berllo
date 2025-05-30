@@ -254,6 +254,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
               <SvgServices name="SvgClose" />
             </button>
           </div>
+
         </div>
       )}
 
@@ -425,6 +426,29 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
             <h4 className="WorkflowAreah4">Copy to...</h4>
           </>
         )}
+
+        ):(<div > <div className="DropdownUiHeader">
+                <h2 className="DropdownHeaderH2">Copy Card</h2>
+                <button className="DropdownClose" onClick={onClose}>
+                    <SvgServices name='SvgClose'/>
+                  
+                </button>
+              </div></div>)}
+
+      <div className="DropdownOptions" style={{ gap: '0px' }}>
+       {Header  === '100'?(<h4 className="WorkflowAreah4">Select destination</h4>)
+       :
+       
+       (<>
+        <h4 className="WorkflowAreah4">Name</h4>
+                <textarea className='CopyCardTextarea'/>
+                <h4 className="WorkflowAreah4">keep...</h4>
+                <div className='keepSection'></div>
+                <label className='checklistAvi'>checklist</label>
+                 <h4 className="WorkflowAreah4">Copy to...</h4>
+
+       </>)} 
+
         <div className="workFlowCard">
           <div className="BoardReminderWrapper">
             <div className="WorkflowArea">

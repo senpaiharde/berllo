@@ -68,9 +68,10 @@ const TaskDetails = () => {
 
     if (localTask && (!selectedTask || selectedTask._id !== localTask._id)) {
       dispatch(openTaskDetails(localTask));
-
+      
       dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId: 'tasks' }));
-    }
+      
+    } 
   }, [boardLists, localTask, selectedTask, boardId, dispatch, pureTaskId]);
 
   useEffect(() => {
@@ -195,7 +196,7 @@ const TaskDetails = () => {
               {task?.members?.length > 0 && <TaskDetailsMembers />}
               {task?.labels?.length > 0 && <TaskDetailsLabel />}
               <TaskDetailsNotifcations />
-              {task?.taskDueDate && <TaskDetailsDate />}
+              {task?.taskDueDate &&  <TaskDetailsDate />}
             </div>
 
             <TaskDescription />

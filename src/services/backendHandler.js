@@ -9,7 +9,7 @@ const backendHandler = async ({ args }) => {
   // console.log('backendHandler',args);
   // console.log('backendHandler body',body);
   // console.log('backendHandler', body.method, body.workId, taskId);
-  // console.log(`/${body.workId}/${body.method}`);
+  console.log(`/${body.workId}/${body.method}`);
   let data;
   if (body.method === 'update') {
   
@@ -58,3 +58,26 @@ export const TaskOps = Object.freeze({
   UPDATE: 'update',
   DELETE: 'delete',
 });
+
+
+export async function toggleStar(boardId, isStarred) {
+  const token = localStorage.getItem('token');
+  const res = await fetch('http://localhost:4000/user/me', {
+  method: 'PUT',
+  headers: {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    starredBoards: {
+      board:      boardId,
+      isStarred:  isStarred
+    }
+  })
+});
+  if (!res.ok) throw new Error('Star update failed');
+  const { starredBoards } = await res.json();
+  return starredBoards; 
+};
+
+

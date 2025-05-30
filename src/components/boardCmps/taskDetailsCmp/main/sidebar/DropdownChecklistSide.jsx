@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-
+import { nanoid } from 'nanoid';
 import BackLogDropdown from '../dropdowns/BackLogDropdown';
 import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
 import { TaskOps } from '../../../../../services/backendHandler';
@@ -15,7 +15,21 @@ const DropdownChecklistSide = ({ onClose }) => {
   const [selectedBoard, setSelectedBoard] = useState('');
 
   const [searchTerm, setSearchTerm] = useState('Checklist');
-
+ const handleAddGroup = () => {
+    const newGroup = {
+      id: nanoid(),           
+      title: searchTerm,
+      items: [],
+    };
+    dispatch(
+      liveUpdateTask({
+        method: TaskOps.UPDATE,
+        workId: 'tasks',
+        checklist: [...(task.checklist || []), newGroup],
+      })
+    );
+    onClose?.();
+  };
   const normalizeChecklist = (list) =>
     list.map((item) => ({
       title: item.title || '',
@@ -87,7 +101,7 @@ const DropdownChecklistSide = ({ onClose }) => {
           onClick={() => {
             if (searchTerm) {
               onClose?.();
-              toggleChecklist({ title: searchTerm, items: [] });
+             handleAddGroup()
             }
           }}
           className="MoveCardButton">

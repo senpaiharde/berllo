@@ -121,6 +121,9 @@
           background-color: #ebecf0;
         }
       }
+      .CalendarDay.in-range {
+  background-color: rgba(0,123,255,0.1); 
+}
       .CalendarDay.other-month {
         opacity: 0.6;
       }
