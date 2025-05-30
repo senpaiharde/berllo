@@ -130,7 +130,8 @@ color:#172b4d;
 
 .DisplayCardsInBoardsADiv2Svg{
         display: flex
-;
+;  
+
     flex-direction: row;
     justify-content: flex-start;
 }
@@ -166,8 +167,9 @@ color:#172b4d;
     align-items: center;
     justify-content: center;
     width: 0;
+    
     margin-left: auto;
-    overflow: hidden;
+    margin-right: 12px;
     transition-property: width;
     transition-duration: 0.15s;
 }
