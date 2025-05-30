@@ -64,14 +64,14 @@ export function Boards() {
     async function load() {
       try {
         const boards = await  fetchCurrentBoard()
-        console.log(boards)
-        setWorkSpace(boards);
+        console.log(boards.boards)
+        setWorkSpace(boards.boards);
       } catch (err) {
         console.log('there is error on loading users', err);
         return err;
       }
     }
-console.log(workSpace, 'yes')
+console.log(workSpace.boards, 'yes')
     load();
   }, []);
 useEffect(() => {
@@ -412,31 +412,7 @@ useEffect(() => {
                     </a>
                   </li>))
                     ): (<></>)}
-                  <li
-                    onClick={() => {
-                      const last = user?.lastBoardVisited?.[0];
-
-                      const slug = last?.boardTitle;
-                      const boardId = last?.id;
-
-                      console.log('last visited entry:', last);
-                      console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
-
-                      if (boardId && slug) {
-                        navigate(`/b/${boardId}/${slug}`);
-                      }
-                    }}
-                    className="boards-page-board-section-list-item">
-                    <a className="board-tile">
-                      <span className="board-tile-fade"></span>
-                      <div className="board-tile-details">
-                        <h2 className="board-tile-details-name">
-                          {user?.lastBoardVisited[0]?.boardTitle}
-                        </h2>
-                        <div className="board-tile-details-sub-container"></div>
-                      </div>
-                    </a>
-                  </li>
+                  
                   <li className="boards-page-board-section-list-item-yes">
                     <div className="board-tile-mod-add">
                       <p>
