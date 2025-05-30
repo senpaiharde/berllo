@@ -58,3 +58,26 @@ export const TaskOps = Object.freeze({
   UPDATE: 'update',
   DELETE: 'delete',
 });
+
+
+export async function toggleStar(boardId, isStarred) {
+  const token = localStorage.getItem('token');
+  const res = await fetch('http://localhost:4000/users/me', {
+  method: 'PUT',
+  headers: {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    starredBoards: {
+      board:      boardId,
+      isStarred:  isStarred
+    }
+  })
+});
+  if (!res.ok) throw new Error('Star update failed');
+  const { starredBoards } = await res.json();
+  return starredBoards; 
+};
+
+

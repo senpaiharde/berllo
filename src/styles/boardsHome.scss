@@ -19,6 +19,158 @@
   padding-bottom: 40px;
 }
 
+.BoardsHomeContainerMainRecentTitle{
+    display: flex
+; 
+font-size: 16px;
+color:#172b4d;
+
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.BoardsHomeContainerMainRecentDisplay{
+    display: grid
+;
+    grid-template-columns: repeat(auto-fill, minmax(23%, 1fr));
+    column-gap: 2%;
+    row-gap: 20px;
+}
+
+.BoardsHomeContainerMainRecentClock{
+    display: flex
+;
+color:#172b4d;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-right: 4px;
+}
+
+.BoardsHomeContainerMainRecentClock5{
+    margin: 4px 0 0 4px;
+    display: inline-block;
+    line-height: 1;
+}
+.BoardsHomeContainerMainRecentTitleh3{
+    flex: 1;
+    align-self: flex-start;
+    margin: 4px 8px 4px 4px;
+    padding-top: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color:#44546f;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.DisplayCardsInBoards{
+    background-color: rgb(205, 90, 145);
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 3px;
+    cursor: pointer;
+        display: block;
+    
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: 96px;
+    overflow: hidden;
+    border-radius: 8px;
+    
+    background-position: center center;
+    background-size: cover;
+    color: var(--ds-surface, #ffffff);
+    font-size: 16px;
+    line-height: 20px;
+    &:hover{
+        filter: brightness(90%);
+    }
+}
+
+.DisplayCardsInBoardsA{
+        display: block;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 8px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.DisplayCardsInBoardsADiv{
+    background-color: hsla(0, 0%, 0%, 0.15);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+
+.DisplayCardsInBoardsADiv2{
+        display: flex
+;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+    height: 100%;
+}
+.DisplayCardsInBoardsADiv2Title{
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 100%;
+    max-height: 40px;
+    overflow: hidden;
+    font-weight: var(--ds-font-weight-bold, bold);
+    text-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
+    word-wrap: break-word;
+}
+
+.DisplayCardsInBoardsADiv2Svg{
+        display: flex
+;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.DisplayCardsInBoardsADiv2SvgIcon{
+    display: flex
+;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    line-height: 16px;
+}
+
+.DisplayCardsInBoardsADiv2SvgIconDiv{
+    height: 16px;
+    vertical-align: middle;
+    --ds-icon: #ffffff;
+}
+
+.DisplayCardsInBoardsADiv2SvgIconSpan{
+    display: inline-block;
+    line-height: 1;
+}
+
+
+
+
+
+.DisplayCardsInBoardsADiv2SvgBlock{
+        --ds-icon: #ffffff;
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    width: 0;
+    margin-left: auto;
+    overflow: hidden;
+    transition-property: width;
+    transition-duration: 0.15s;
+}
 .BoardsHomeContainerMainH3 {
   align-items: center;
   color: var(--ds-text-subtle, #44546f);
