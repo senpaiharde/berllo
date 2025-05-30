@@ -99,8 +99,7 @@ const GlobalHeader = () => {
 
   const handleStarToggle = async (boardId, newState) => {
     try {
-     
-      const me = await fetchCurrentUser(); 
+      const me = await fetchCurrentUser();
       setUser(me);
     } catch (err) {
       console.error('Failed to toggle star:', err);
@@ -240,7 +239,7 @@ const GlobalHeader = () => {
                         </h2>
                         <div style={{ marginLeft: 100 }}>
                           <StarButton
-                          boardId={id}
+                            boardId={id}
                             initialIsStarred={starEntry}
                             onToggle={(newState) => handleStarToggle(id, newState)}
                           />
@@ -248,7 +247,6 @@ const GlobalHeader = () => {
                       </a>
                     );
                   })}
-                  
                 </div>
               </div>
             )}
@@ -265,11 +263,10 @@ const GlobalHeader = () => {
               <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
                   {user?.starredBoards
-                    ?.filter((sb) => sb.isStarred) 
+                    ?.filter((sb) => sb.isStarred)
                     .map((sb) => {
-                     
                       const recent = user.lastBoardVisited?.find((r) => r.id === sb.id);
-                   
+
                       return (
                         <a key={sb.id} className="recenetBoardsNexted">
                           <div className="boxboards" />
@@ -295,7 +292,6 @@ const GlobalHeader = () => {
                         </a>
                       );
                     })}
-                  
                 </div>
               </div>
             )}
