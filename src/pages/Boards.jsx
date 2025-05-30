@@ -100,16 +100,7 @@ useEffect(() => {
       }
     };
 
-     function createNewboard() {
-        // dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
-        dispatch(syncTaskAsync({
-            method: TaskOps.ADD,
-            args: {
-              body: { method: TaskOps.ADD, workId: "board", boardTitle: `` },
-            },
-            workId: "board",
-          }))
-      }
+     
   return (
     <div>
       <GlobalHeader />

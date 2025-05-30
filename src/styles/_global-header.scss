@@ -553,57 +553,46 @@
     background-color: var(--ds-background-neutral, #091e420f);
   }
 }
-.IstarredCover{
-width: auto;
-
-
+.IstarredCover {
+  width: auto;
 }
 .Istarred {
   justify-content: center;
   width: 24px;
-  display: flex
-;
-margin-bottom: 4px;
-height: 24px;
-    overflow: visible;
-    align-items: center;
-    cursor: pointer;
+  display: flex;
+  margin-bottom: 4px;
+  height: 24px;
+  overflow: visible;
+  align-items: center;
+  cursor: pointer;
 }
 
 .IstarredButton {
-    
- height: 18px;
- width: 18px;
+  height: 18px;
+  width: 18px;
   outline: 0;
   background: transparent;
   margin-bottom: 0;
   padding: 0;
   border: none;
   cursor: pointer;
-  
-  
-  
-
 }
 .IstarredFalse {
   display: block;
   line-height: 1;
-  &:hover{
-    color: #E2B203 !important;
-    fill:inherit !important;
-    
+  &:hover {
+    color: #e2b203 !important;
+    fill: inherit !important;
   }
 }
 
 .IstarredTrue {
   line-height: 1;
-   display: block;
-    &:hover{
-    color: #44546F !important;
-    fill:inherit !important;
-    
+  display: block;
+  &:hover {
+    color: #44546f !important;
+    fill: inherit !important;
   }
-  
 }
 
 .IstarredInside {
@@ -617,10 +606,28 @@ height: 24px;
   pointer-events: none;
   max-width: 100%;
   max-height: 100%;
-  
+
   vertical-align: bottom;
-  &:hover{
-    color: #E2B203;
-    
+  &:hover {
+    color: #e2b203;
   }
+}
+
+.ImgDropdown {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 8px;
+}
+
+.ImgDropdownInside {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 120px;
+  border-radius: 3px;
+  background: #7d2650;
+  background-position: center center;
+  background-size: cover;
+  box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
 }
