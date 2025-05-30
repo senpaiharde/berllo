@@ -424,12 +424,15 @@ const boardSlice = createSlice({
       // )
       if (destination.droppableId !== source.droppableId) {
         // find the list index of the destination of the task if its a different list
-        updatedBoardListSource = {
+        if(!copiedTask){
+          updatedBoardListSource = {
           _id: state.boardLists[boardListIndex]._id,
           taskListById: state.boardLists[boardListIndex].taskList.map((list) =>
             list._id.toString()
           ),
         }
+        }
+        
         updatedTask = {
           _id: insertedTask._id,
           list: destination.droppableId,
@@ -447,7 +450,7 @@ const boardSlice = createSlice({
       )
 
       const taskListById = state.boardLists[boardListIndex].taskList.map(
-        (list) => list._id.toString()
+        (task) => task._id.toString()
       )
       updatedBoardListDestination = {
         _id: state.boardLists[boardListIndex]._id,
