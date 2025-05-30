@@ -198,7 +198,7 @@ export function Home() {
           </div>
         </div>
         <div className="home-right-sidebar-container">
-          <div style={{ paddingBottom: '24px' }}>
+            <div style={{ paddingBottom: '24px',width:'362px' }}>
             <div className="home-right-sidebar-container-viewed">
               <div className="home-right-sidebar-container-viewed-Svg">
                 <span className="HomepageDisplayNavTopButtonsIconInside">
@@ -214,7 +214,7 @@ export function Home() {
               <div className="home-right-sidebar-container-viewed-Text">Recently viewed</div>
             </div>
             <ul className="home-right-sidebar-container-viewed-ul">
-              <div className="recenetBoards">
+              <div className="recenetBoards" >
                 {user?.lastBoardVisited?.map((recent) => {
                   const { id, boardTitle } = recent;
                   // find whether this is starred in the latest user state
@@ -222,9 +222,60 @@ export function Home() {
                   const isStarred = !!starEntry?.isStarred;
 
                   return (
-                    <a key={id} style={{ marginLeft: '-20px' }} className="recenetBoardsNexted">
+                    <a key={id} style={{ height:'40px',width:'322px' }} className="recenetBoardsNexted">
                       <div className="boxboards" />
-                      <h2
+                      <h2 style={{marginRight:'38px'}}
+                        onClick={() => {
+                          console.log('last visited entry:', recent);
+                          console.log('🧠 Navigating to:', `/b/${id}/${boardTitle}`);
+
+                          navigate(`/b/${id}/${boardTitle}`);
+                        }}>
+                        {boardTitle}
+                        <br />
+                        <span className="ClassnameGlobalName">Berllo Workspace</span>
+                      </h2>
+                      <div style={{ marginLeft: 100 }}>
+                        <StarButton
+                          boardId={id}
+                          initialIsStarred={starEntry}
+                          onToggle={(newState) => handleStarToggle(id, newState)}
+                        />
+                      </div>
+                    </a>
+                  );
+                })}
+                
+              </div>
+            </ul>
+          </div>
+         <div style={{ paddingBottom: '24px',width:'362px' }}>
+            <div className="home-right-sidebar-container-viewed">
+              <div className="home-right-sidebar-container-viewed-Svg">
+                <span className="HomepageDisplayNavTopButtonsIconInside">
+                  <img
+                    style={{ marginTop: '4px', color: '#172b4d' }}
+                    width={16}
+                    height={16}
+                    src={ClockIcon}
+                    alt="My icon"
+                  />
+                </span>
+              </div>
+              <div className="home-right-sidebar-container-viewed-Text">Recently viewed</div>
+            </div>
+            <ul className="home-right-sidebar-container-viewed-ul">
+              <div className="recenetBoards" >
+                {user?.lastBoardVisited?.map((recent) => {
+                  const { id, boardTitle } = recent;
+                  // find whether this is starred in the latest user state
+                  const starEntry = user.starredBoards?.find((sb) => sb.id === id);
+                  const isStarred = !!starEntry?.isStarred;
+
+                  return (
+                    <a key={id} style={{ height:'40px',width:'322px' }} className="recenetBoardsNexted">
+                      <div className="boxboards" />
+                      <h2 style={{marginRight:'38px'}}
                         onClick={() => {
                           console.log('last visited entry:', recent);
                           console.log('🧠 Navigating to:', `/b/${id}/${boardTitle}`);
