@@ -145,7 +145,7 @@ const taskDetailsSlice = createSlice({
         const { method, data, workId, copying } = action.payload;
 
         
-        
+
 
         console.log(
           
