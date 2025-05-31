@@ -427,7 +427,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
           </>
         )}
 
-        ):(<div > <div className="DropdownUiHeader">
+        {/* ):(<div > <div className="DropdownUiHeader">
                 <h2 className="DropdownHeaderH2">Copy Card</h2>
                 <button className="DropdownClose" onClick={onClose}>
                     <SvgServices name='SvgClose'/>
@@ -447,7 +447,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
                 <label className='checklistAvi'>checklist</label>
                  <h4 className="WorkflowAreah4">Copy to...</h4>
 
-       </>)} 
+       </>)}  */}
 
         <div className="workFlowCard">
           <div className="BoardReminderWrapper">
