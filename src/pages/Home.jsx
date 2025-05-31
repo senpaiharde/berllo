@@ -237,56 +237,30 @@ export function Home() {
             <ul className="home-main-content-container-ul">
               <div style={{ margin: '24px 0', textAlign: 'center' }}>
               {!showAIForm ? (
-                <button
+                <button className='OpenAiButton'
                   onClick={() => setShowAIForm(true)}
-                  style={{
-                    padding: '16px 24px',
-                    fontSize: '18px',
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    backgroundColor: '#4A90E2',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                  }}
+                 
                 >
                   <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg"
+                    src="https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg"
                     alt="ChatGPT Logo"
-                    width={24}
-                    height={24}
+                    width={30}
+                    height={30}
                   />
                   Create Board with AI
                 </button>
               ) : (
-                <div
-                  style={{
-                    marginTop: '16px',
-                    padding: '16px',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    backgroundColor: '#f9f9f9',
-                    maxWidth: '400px',
-                    margin: '0 auto',
-                  }}
+                <div className='OpenAiButtonContainer'
+                 
                 >
                   <div style={{ marginBottom: '12px' }}>
                     <label htmlFor="aiGoal" style={{ fontWeight: '600' }}>
                       Goal / Description:
                     </label>
-                    <textarea
+                    <textarea  className='OpenAiButtonContainerTextarea'
                       id="aiGoal"
                       rows={2}
-                      style={{
-                        width: '100%',
-                        padding: '8px',
-                        borderRadius: '4px',
-                        border: '1px solid #ccc',
-                        marginTop: '4px',
-                      }}
+                      
                       placeholder="E.g. I have a birthday to my mother"
                       value={aiGoal}
                       onChange={(e) => setAiGoal(e.target.value)}
@@ -297,35 +271,23 @@ export function Home() {
                     <label htmlFor="aiStart" style={{ fontWeight: '600' }}>
                       From Date:
                     </label>
-                    <input
+                    <input className='OpenAiButtonContainerInput'
                       type="date"
                       id="aiStart"
-                      style={{
-                        width: '100%',
-                        padding: '8px',
-                        borderRadius: '4px',
-                        border: '1px solid #ccc',
-                        marginTop: '4px',
-                      }}
+                    
                       value={aiStart}
                       onChange={(e) => setAiStart(e.target.value)}
                     />
                   </div>
 
                   <div style={{ marginBottom: '16px' }}>
-                    <label htmlFor="aiEnd" style={{ fontWeight: '600' }}>
+                    <label  htmlFor="aiEnd" style={{ fontWeight: '600' }}>
                       Until Date:
                     </label>
-                    <input
+                    <input className='OpenAiButtonContainerInput'
                       type="date"
                       id="aiEnd"
-                      style={{
-                        width: '100%',
-                        padding: '8px',
-                        borderRadius: '4px',
-                        border: '1px solid #ccc',
-                        marginTop: '4px',
-                      }}
+                      
                       value={aiEnd}
                       onChange={(e) => setAiEnd(e.target.value)}
                     />
@@ -335,12 +297,9 @@ export function Home() {
                     <button
                       onClick={() => setShowAIForm(false)}
                       disabled={loading}
+                      className='OpenAiButtonContainerCancel'
                       style={{
-                        padding: '8px 16px',
-                        backgroundColor: '#aaa',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
+                        
                         cursor: loading ? 'not-allowed' : 'pointer',
                       }}
                     >
@@ -349,12 +308,9 @@ export function Home() {
                     <button
                       onClick={handleCreateAI}
                       disabled={loading}
+                       className='OpenAiButtonContainerCreate'
                       style={{
-                        padding: '8px 16px',
-                        backgroundColor: '#4A90E2',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
+                       
                         cursor: loading ? 'not-allowed' : 'pointer',
                       }}
                     >
