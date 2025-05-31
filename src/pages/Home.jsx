@@ -66,7 +66,7 @@ export function Home() {
       console.error('Failed to toggle star:', err);
     }
   };
-
+const token = localStorage.getItem('token')
   const handleCreateAI = async () => {
     if (!aiGoal.trim() || !aiStart || !aiEnd) {
       alert('Please fill in all fields.');
@@ -75,9 +75,12 @@ export function Home() {
     setLoading(true);
     try {
       const prompt = `${aiGoal} from ${aiStart} until ${aiEnd}`;
-      const resp = await fetch('/autoBoard', {
+      console.error('err at creating board with ai:', prompt);
+      const resp = await fetch('http://localhost:4000/autoBoard/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: 
+        { Authorization: `Bearer ${token}`,
+         'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
       });
       if (!resp.ok) {
@@ -85,12 +88,14 @@ export function Home() {
         throw new Error(errData.error || 'Failed To create Board!.');
       }
       const { boardId } = await resp.json();
+      console.error('err at creating board with ai:', boardId);
       const slugBase = aiGoal.trim().split(' ').slice(0, 5).join(' ');
       const slug = slugBase
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '');
       navigate(`/b/${boardId}/${slug}`);
+      console.error('err at creating board with ai:', slug);
     } catch (err) {
       console.error('err at creating board with ai:', err);
       alert('failed to create board: ' + err.message);
@@ -236,96 +241,81 @@ export function Home() {
             </div>
             <ul className="home-main-content-container-ul">
               <div style={{ margin: '24px 0', textAlign: 'center' }}>
-              {!showAIForm ? (
-                <button className='OpenAiButton'
-                  onClick={() => setShowAIForm(true)}
-                 
-                >
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg"
-                    alt="ChatGPT Logo"
-                    width={30}
-                    height={30}
-                  />
-                  Create Board with AI
-                </button>
-              ) : (
-                <div className='OpenAiButtonContainer'
-                 
-                >
-                  <div style={{ marginBottom: '12px' }}>
-                    <label htmlFor="aiGoal"
-                     className='OpenAiButtonContainerLabel'
-                   >
-                      Goal / Description:
-                    </label>
-                    <textarea  className='OpenAiButtonContainerTextarea'
-                      id="aiGoal"
-                      rows={2}
-                      
-                      placeholder="E.g. I have a birthday to my mother"
-                      value={aiGoal}
-                      onChange={(e) => setAiGoal(e.target.value)}
+                {!showAIForm ? (
+                  <button className="OpenAiButton" onClick={() => setShowAIForm(true)}>
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg"
+                      alt="ChatGPT Logo"
+                      width={30}
+                      height={30}
                     />
-                  </div>
+                    Create Board with AI
+                  </button>
+                ) : (
+                  <div className="OpenAiButtonContainer">
+                    <div style={{ marginBottom: '12px' }}>
+                      <label htmlFor="aiGoal" className="OpenAiButtonContainerLabel">
+                        Goal / Description:
+                      </label>
+                      <textarea
+                        className="OpenAiButtonContainerTextarea"
+                        id="aiGoal"
+                        rows={2}
+                        placeholder="E.g. I have a birthday to my mother"
+                        value={aiGoal}
+                        onChange={(e) => setAiGoal(e.target.value)}
+                      />
+                    </div>
 
-                  <div style={{ marginBottom: '12px' }}>
-                    <label htmlFor="aiStart"
-                     className='OpenAiButtonContainerLabel'
-                    >
-                      From Date:
-                    </label>
-                    <input className='OpenAiButtonContainerInput'
-                      type="date"
-                      id="aiStart"
-                    
-                      value={aiStart}
-                      onChange={(e) => setAiStart(e.target.value)}
-                    />
-                  </div>
+                    <div style={{ marginBottom: '12px' }}>
+                      <label htmlFor="aiStart" className="OpenAiButtonContainerLabel">
+                        From Date:
+                      </label>
+                      <input
+                        className="OpenAiButtonContainerInput"
+                        type="date"
+                        id="aiStart"
+                        value={aiStart}
+                        onChange={(e) => setAiStart(e.target.value)}
+                      />
+                    </div>
 
-                  <div style={{ marginBottom: '16px' }}>
-                    <label  htmlFor="aiEnd" 
-                     className='OpenAiButtonContainerLabel'
-                   >
-                      Until Date:
-                    </label>
-                    <input className='OpenAiButtonContainerInput'
-                      type="date"
-                      id="aiEnd"
-                      
-                      value={aiEnd}
-                      onChange={(e) => setAiEnd(e.target.value)}
-                    />
-                  </div>
+                    <div style={{ marginBottom: '16px' }}>
+                      <label htmlFor="aiEnd" className="OpenAiButtonContainerLabel">
+                        Until Date:
+                      </label>
+                      <input
+                        className="OpenAiButtonContainerInput"
+                        type="date"
+                        id="aiEnd"
+                        value={aiEnd}
+                        onChange={(e) => setAiEnd(e.target.value)}
+                      />
+                    </div>
 
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <button
-                      onClick={() => setShowAIForm(false)}
-                      disabled={loading}
-                      className='OpenAiButtonContainerCancel'
-                      style={{
-                        
-                        cursor: loading ? 'not-allowed' : 'pointer',
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleCreateAI}
-                      disabled={loading}
-                       className='OpenAiButtonContainerCreate'
-                      style={{
-                       
-                        cursor: loading ? 'not-allowed' : 'pointer',
-                      }}
-                    >
-                      {loading ? 'Creating…' : 'Create'}
-                    </button>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <button
+                        onClick={() => setShowAIForm(false)}
+                        disabled={loading}
+                        className="OpenAiButtonContainerCancel"
+                        style={{
+                          cursor: loading ? 'not-allowed' : 'pointer',
+                        }}>
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleCreateAI}
+                        disabled={loading}
+                        className="OpenAiButtonContainerCreate"
+                        style={{
+                          cursor: loading ? 'not-allowed' : 'pointer',
+                        }}>
+                        {loading ? 'Creating…' : 'Create'}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
             </ul>
           </div>
         </div>
