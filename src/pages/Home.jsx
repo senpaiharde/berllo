@@ -38,6 +38,11 @@ const workspaceLeft = [
 
 export function Home() {
   const [user, setUser] = useState(null);
+  const [showAIForm, setShowAIForm] = useState(false);
+  const [aiGoal, setAiGoal] = useState('');
+  const [aiStart, setAiStart] = useState('');
+  const [aiEnd, setAiEnd] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,6 +64,42 @@ export function Home() {
       setUser(me);
     } catch (err) {
       console.error('Failed to toggle star:', err);
+    }
+  };
+
+  const handleCreateAI = async () => {
+    if (!aiGoal.trim() || !aiStart || !aiEnd) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const prompt = `${aiGoal} from ${aiStart} until ${aiEnd}`;
+      const resp = await fetch('/autoBoard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+      if (!resp.ok) {
+        const errData = await resp.json();
+        throw new Error(errData.error || 'Failed To create Board!.');
+      }
+      const { boardId } = await resp.json();
+      const slugBase = aiGoal.trim().split(' ').slice(0, 5).join(' ');
+      const slug = slugBase
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+      navigate(`/b/${boardId}/${slug}`);
+    } catch (err) {
+      console.error('err at creating board with ai:', err);
+      alert('failed to create board: ' + err.message);
+    } finally {
+      setLoading(false);
+      setShowAIForm(false);
+      setAiGoal('');
+      setAiStart('');
+      setAiEnd('');
     }
   };
   return (
@@ -194,8 +235,135 @@ export function Home() {
               </div>
             </div>
             <ul className="home-main-content-container-ul">
-              <li className="home-main-content-container-ul-li"></li>
-              <li></li>
+              <div style={{ margin: '24px 0', textAlign: 'center' }}>
+              {!showAIForm ? (
+                <button
+                  onClick={() => setShowAIForm(true)}
+                  style={{
+                    padding: '16px 24px',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    backgroundColor: '#4A90E2',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg"
+                    alt="ChatGPT Logo"
+                    width={24}
+                    height={24}
+                  />
+                  Create Board with AI
+                </button>
+              ) : (
+                <div
+                  style={{
+                    marginTop: '16px',
+                    padding: '16px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    backgroundColor: '#f9f9f9',
+                    maxWidth: '400px',
+                    margin: '0 auto',
+                  }}
+                >
+                  <div style={{ marginBottom: '12px' }}>
+                    <label htmlFor="aiGoal" style={{ fontWeight: '600' }}>
+                      Goal / Description:
+                    </label>
+                    <textarea
+                      id="aiGoal"
+                      rows={2}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        borderRadius: '4px',
+                        border: '1px solid #ccc',
+                        marginTop: '4px',
+                      }}
+                      placeholder="E.g. I have a birthday to my mother"
+                      value={aiGoal}
+                      onChange={(e) => setAiGoal(e.target.value)}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: '12px' }}>
+                    <label htmlFor="aiStart" style={{ fontWeight: '600' }}>
+                      From Date:
+                    </label>
+                    <input
+                      type="date"
+                      id="aiStart"
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        borderRadius: '4px',
+                        border: '1px solid #ccc',
+                        marginTop: '4px',
+                      }}
+                      value={aiStart}
+                      onChange={(e) => setAiStart(e.target.value)}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: '16px' }}>
+                    <label htmlFor="aiEnd" style={{ fontWeight: '600' }}>
+                      Until Date:
+                    </label>
+                    <input
+                      type="date"
+                      id="aiEnd"
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        borderRadius: '4px',
+                        border: '1px solid #ccc',
+                        marginTop: '4px',
+                      }}
+                      value={aiEnd}
+                      onChange={(e) => setAiEnd(e.target.value)}
+                    />
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <button
+                      onClick={() => setShowAIForm(false)}
+                      disabled={loading}
+                      style={{
+                        padding: '8px 16px',
+                        backgroundColor: '#aaa',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: loading ? 'not-allowed' : 'pointer',
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleCreateAI}
+                      disabled={loading}
+                      style={{
+                        padding: '8px 16px',
+                        backgroundColor: '#4A90E2',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: loading ? 'not-allowed' : 'pointer',
+                      }}
+                    >
+                      {loading ? 'Creating…' : 'Create'}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
             </ul>
           </div>
         </div>
@@ -322,12 +490,11 @@ export function Home() {
             </div>
             <div className="home-right-sidebar-container-create">
               <button className="home-right-sidebar-container-bottom">
-                  <span className="home-right-sidebar-container-bottom-plus">+</span>
+                <span className="home-right-sidebar-container-bottom-plus">+</span>
                 <DropdownUi
                   trigger={
                     <>
                       {' '}
-                    
                       <span>Create a board</span>
                     </>
                   }>
