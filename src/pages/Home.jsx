@@ -254,7 +254,9 @@ export function Home() {
                  
                 >
                   <div style={{ marginBottom: '12px' }}>
-                    <label htmlFor="aiGoal" style={{ fontWeight: '600' }}>
+                    <label htmlFor="aiGoal"
+                     className='OpenAiButtonContainerLabel'
+                   >
                       Goal / Description:
                     </label>
                     <textarea  className='OpenAiButtonContainerTextarea'
@@ -268,7 +270,9 @@ export function Home() {
                   </div>
 
                   <div style={{ marginBottom: '12px' }}>
-                    <label htmlFor="aiStart" style={{ fontWeight: '600' }}>
+                    <label htmlFor="aiStart"
+                     className='OpenAiButtonContainerLabel'
+                    >
                       From Date:
                     </label>
                     <input className='OpenAiButtonContainerInput'
@@ -281,7 +285,9 @@ export function Home() {
                   </div>
 
                   <div style={{ marginBottom: '16px' }}>
-                    <label  htmlFor="aiEnd" style={{ fontWeight: '600' }}>
+                    <label  htmlFor="aiEnd" 
+                     className='OpenAiButtonContainerLabel'
+                   >
                       Until Date:
                     </label>
                     <input className='OpenAiButtonContainerInput'

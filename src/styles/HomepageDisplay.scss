@@ -428,6 +428,9 @@
   border-radius: 4px;
   border: 1px solid #ccc;
   margin-top: 4px;
+  &:hover{
+    border: 1px solid red;
+  }
 }
 
 .OpenAiButtonContainerInput {
@@ -436,6 +439,10 @@
   border-radius: 4px;
   border: 1px solid #ccc;
   margin-top: 4px;
+   &:hover{
+    border: 1px solid red;
+    cursor: pointer;
+  }
 }
 
 .OpenAiButtonContainerCancel {
@@ -464,3 +471,8 @@
   }
 }
 
+.OpenAiButtonContainerLabel{
+  color: #172b4d;
+  font-size: 16px;
+  font-weight: 500;
+}
