@@ -47,7 +47,7 @@ export function BoardView() {
           filteredTasks = filteredTasks.filter((task) =>
             task.taskLabels?.some((taskLabel) =>
               board.filter.labels.some(
-                (filterLabel) => filterLabel.color === taskLabel.color
+                (filterLabel) => filterLabel._id === taskLabel._id
               )
             )
           )

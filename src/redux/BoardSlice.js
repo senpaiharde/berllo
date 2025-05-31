@@ -27,9 +27,9 @@ export const syncBoardAsync = createAsyncThunk(
   "board/syncBoardAsync",
   async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
     try {
-      // console.log(method, workId, args, "update happens here", workId)
+      console.log(method, workId, args, "update happens here", workId)
       const data = await backendHandler({ method, args, workId })
-      // console.log("syncBoardAsync method", method)
+      console.log("syncBoardAsync method", method)
       if (method === TaskOps.ADD || method === TaskOps.UPDATE) {
         return
       }
@@ -591,7 +591,8 @@ const boardSlice = createSlice({
       // })
       .addCase(syncBoardAsync.fulfilled, (state, action) => {
         // state.loading = false;
-
+        console.log("action.payload",action.payload)
+        if(!action.payload) return
         const board = action.payload.board
         state.state = "success"
         state._id = board._id

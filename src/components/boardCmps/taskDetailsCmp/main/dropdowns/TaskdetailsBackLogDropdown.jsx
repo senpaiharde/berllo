@@ -27,8 +27,23 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
     if (task) {
       setBoardId(task?.board || task?.taskboard || task.task?.board)
       setListId(task?.list || task?.taskList)
+      const sourceIndex = board.boardLists.findIndex((l) => l._id === task.list)
+      setSource({
+      droppableId: task?.list,
+      index: board.boardLists[sourceIndex].taskList?.findIndex(
+        (l) => l._id === task._id
+      ),
+    })
     }
   }, [task])
+
+  useEffect(() => {
+    const targetPosition = Number(position) - 1
+
+    setDestination({droppableId: listId,
+      index: targetPosition,})
+  }, [position, listId])
+  
 
   const boardOptions = useMemo(() => {
     return (
@@ -91,7 +106,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
 
   const handleMove = () => {
     console.log("🔥 handleMove fired")
-
+    console.log("position",position,"listId",listId)
     const targetPosition = Number(position) - 1
     // const { destination, source, draggableId } = result
     // console.log("onDragEnd taskList", draggableId, destination, source)
@@ -99,28 +114,28 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
     //   droppableId: listId,
     //   index: targetPosition,
     // }
-    setDestination({droppableId: listId,
-      index: targetPosition,})
+    // setDestination({droppableId: listId,
+    //   index: targetPosition,})
     console.log("onDragEnd taskList board.boardLists", board.boardLists)
-    const sourceIndex = board.boardLists.findIndex((l) => l._id === task.list)
-    console.log(
-      "onDragEnd taskList source task.list",
-      task.list,
-      " sourceIndex ",
-      sourceIndex
-    )
+    // const sourceIndex = board.boardLists.findIndex((l) => l._id === task.list)
+    // console.log(
+    //   "onDragEnd taskList source task.list",
+    //   task.list,
+    //   " sourceIndex ",
+    //   sourceIndex
+    // )
     // source = {
     //   droppableId: task?.list,
     //   index: board.boardLists[sourceIndex].taskList?.findIndex(
     //     (l) => l._id === task._id
     //   ),
     // }
-    setSource({
-      droppableId: task?.list,
-      index: board.boardLists[sourceIndex].taskList?.findIndex(
-        (l) => l._id === task._id
-      ),
-    })
+    // setSource({
+    //   droppableId: task?.list,
+    //   index: board.boardLists[sourceIndex].taskList?.findIndex(
+    //     (l) => l._id === task._id
+    //   ),
+    // })
     console.log("onDragEnd taskList task._id =draggableId", task._id)
     console.log("onDragEnd taskList source", source)
     console.log("onDragEnd taskList destination", destination)
