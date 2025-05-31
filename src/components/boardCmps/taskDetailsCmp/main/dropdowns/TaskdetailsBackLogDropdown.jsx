@@ -275,7 +275,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
 
       <div className="DropdownOptions" style={{ gap: "0px" }}>
         {Header === "100" ? (
-          <h4 className="WorkflowAreah4">Select destination</h4>
+          <h4  className="WorkflowAreah4">Select destination</h4>
         ) : (
           <>
             <h4 className="WorkflowAreah4">Name</h4>
@@ -442,27 +442,7 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
           </>
         )}
 
-        {/* ):(<div > <div className="DropdownUiHeader">
-                <h2 className="DropdownHeaderH2">Copy Card</h2>
-                <button className="DropdownClose" onClick={onClose}>
-                    <SvgServices name='SvgClose'/>
-                  
-                </button>
-              </div></div>)}
 
-      <div className="DropdownOptions" style={{ gap: '0px' }}>
-       {Header  === '100'?(<h4 className="WorkflowAreah4">Select destination</h4>)
-       :
-       
-       (<>
-        <h4 className="WorkflowAreah4">Name</h4>
-                <textarea className='CopyCardTextarea'/>
-                <h4 className="WorkflowAreah4">keep...</h4>
-                <div className='keepSection'></div>
-                <label className='checklistAvi'>checklist</label>
-                 <h4 className="WorkflowAreah4">Copy to...</h4>
-
-       </>)}  */}
 
         <div className="workFlowCard">
           <div className="BoardReminderWrapper">
@@ -506,8 +486,12 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
           Move
         </button>
       </div>
-    </div>
+      </div>
+      </div>
+     
+   
   )
+  
 }
 
 export default TaskdetailsBackLogDropdown

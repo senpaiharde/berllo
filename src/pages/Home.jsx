@@ -11,6 +11,8 @@ import ClockIcon from '.././assets/images/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDo
 import { useEffect, useState } from 'react';
 import fetchCurrentUser from '../services/backendCallsUsers';
 import StarButton from '../services/isStarred';
+import DropdownUi from '../components/boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
+import BoardsCreateDropdown from './BoardsCreateDropdown';
 const workspaceLeft = [
   {
     title: 'Boards',
@@ -36,6 +38,11 @@ const workspaceLeft = [
 
 export function Home() {
   const [user, setUser] = useState(null);
+  const [showAIForm, setShowAIForm] = useState(false);
+  const [aiGoal, setAiGoal] = useState('');
+  const [aiStart, setAiStart] = useState('');
+  const [aiEnd, setAiEnd] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,6 +64,47 @@ export function Home() {
       setUser(me);
     } catch (err) {
       console.error('Failed to toggle star:', err);
+    }
+  };
+const token = localStorage.getItem('token')
+  const handleCreateAI = async () => {
+    if (!aiGoal.trim() || !aiStart || !aiEnd) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const prompt = `${aiGoal} from ${aiStart} until ${aiEnd}`;
+      console.error('err at creating board with ai:', prompt);
+      const resp = await fetch('http://localhost:4000/autoBoard/', {
+        method: 'POST',
+        headers: 
+        { Authorization: `Bearer ${token}`,
+         'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+      if (!resp.ok) {
+        const errData = await resp.json();
+        throw new Error(errData.error || 'Failed To create Board!.');
+      }
+      const { boardId } = await resp.json();
+      console.error('err at creating board with ai:', boardId);
+      const slugBase = aiGoal.trim().split(' ').slice(0, 5).join(' ');
+      const slug = slugBase
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+      navigate(`/b/${boardId}/${slug}`);
+      console.error('err at creating board with ai:', slug);
+    } catch (err) {
+      console.error('err at creating board with ai:', err);
+      alert('failed to create board: ' + err.message);
+    } finally {
+      setLoading(false);
+      setShowAIForm(false);
+      setAiGoal('');
+      setAiStart('');
+      setAiEnd('');
     }
   };
   return (
@@ -192,8 +240,82 @@ export function Home() {
               </div>
             </div>
             <ul className="home-main-content-container-ul">
-              <li className="home-main-content-container-ul-li"></li>
-              <li></li>
+              <div style={{ margin: '24px 0', textAlign: 'center' }}>
+                {!showAIForm ? (
+                  <button className="OpenAiButton" onClick={() => setShowAIForm(true)}>
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg"
+                      alt="ChatGPT Logo"
+                      width={30}
+                      height={30}
+                    />
+                    Create Board with AI
+                  </button>
+                ) : (
+                  <div className="OpenAiButtonContainer">
+                    <div style={{ marginBottom: '12px' }}>
+                      <label htmlFor="aiGoal" className="OpenAiButtonContainerLabel">
+                        Goal / Description:
+                      </label>
+                      <textarea
+                        className="OpenAiButtonContainerTextarea"
+                        id="aiGoal"
+                        rows={2}
+                        placeholder="E.g. I have a birthday to my mother"
+                        value={aiGoal}
+                        onChange={(e) => setAiGoal(e.target.value)}
+                      />
+                    </div>
+
+                    <div style={{ marginBottom: '12px' }}>
+                      <label htmlFor="aiStart" className="OpenAiButtonContainerLabel">
+                        From Date:
+                      </label>
+                      <input
+                        className="OpenAiButtonContainerInput"
+                        type="date"
+                        id="aiStart"
+                        value={aiStart}
+                        onChange={(e) => setAiStart(e.target.value)}
+                      />
+                    </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                      <label htmlFor="aiEnd" className="OpenAiButtonContainerLabel">
+                        Until Date:
+                      </label>
+                      <input
+                        className="OpenAiButtonContainerInput"
+                        type="date"
+                        id="aiEnd"
+                        value={aiEnd}
+                        onChange={(e) => setAiEnd(e.target.value)}
+                      />
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <button
+                        onClick={() => setShowAIForm(false)}
+                        disabled={loading}
+                        className="OpenAiButtonContainerCancel"
+                        style={{
+                          cursor: loading ? 'not-allowed' : 'pointer',
+                        }}>
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleCreateAI}
+                        disabled={loading}
+                        className="OpenAiButtonContainerCreate"
+                        style={{
+                          cursor: loading ? 'not-allowed' : 'pointer',
+                        }}>
+                        {loading ? 'Creating…' : 'Create'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </ul>
           </div>
         </div>
@@ -321,7 +443,15 @@ export function Home() {
             <div className="home-right-sidebar-container-create">
               <button className="home-right-sidebar-container-bottom">
                 <span className="home-right-sidebar-container-bottom-plus">+</span>
-                <span>Create a board</span>
+                <DropdownUi
+                  trigger={
+                    <>
+                      {' '}
+                      <span>Create a board</span>
+                    </>
+                  }>
+                  {({ onClose }) => <BoardsCreateDropdown onClose={onClose} />}
+                </DropdownUi>
               </button>
             </div>
           </div>

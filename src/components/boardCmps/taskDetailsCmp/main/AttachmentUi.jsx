@@ -118,7 +118,6 @@ export default function AttachmentUi() {
     [dispatch, task.attachments]
   );
 
-
   const getAttachmentKey = (template, index) => {
     if (template._id) return template._id.toString();
     if (template.id) return template.id.toString();
@@ -198,7 +197,7 @@ export default function AttachmentUi() {
                             </a>
                             <div className='"attackMentsUiContainerDivInsideDiv'>
                               <div className="attackMentsUiContainerDivInsideDiv1">
-                                {template.name}
+                                {template.name.length > 160 ? `Name Too Long` : template.name}
                               </div>
                               <p className="attackMentsUiContainerDivInsideDivP">
                                 {' '}
