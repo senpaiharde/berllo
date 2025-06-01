@@ -237,7 +237,7 @@ const GlobalHeader = () => {
                           <br />
                           <span className="ClassnameGlobalName">Berllo Workspace</span>
                         </h2>
-                        <div style={{ marginLeft: 100 }}>
+                        <div style={{ marginLeft: 90 }}>
                           <StarButton
                             boardId={id}
                             initialIsStarred={starEntry}
