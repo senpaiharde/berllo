@@ -217,7 +217,9 @@ const GlobalHeader = () => {
             {activeDropdown === 'recent' && (
               <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
-                  {user.lastBoardVisited.map((recent) => {
+                  {user.lastBoardVisited
+                  .slice(0, 5)
+                  .map((recent) => {
                     const { id, boardTitle } = recent;
                     // find whether this is starred in the latest user state
                     const starEntry = user.starredBoards?.find((sb) => sb.id === id);
@@ -263,6 +265,7 @@ const GlobalHeader = () => {
               <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
                   {user?.starredBoards
+                  .slice(0, 5) 
                     ?.filter((sb) => sb.isStarred)
                     .map((sb) => {
                       const recent = user.lastBoardVisited?.find((r) => r.id === sb.id);
@@ -282,7 +285,7 @@ const GlobalHeader = () => {
                             <span className="ClassnameGlobalName">Berllo Workspace</span>
                           </h2>
 
-                          <div style={{ marginLeft: '100px' }}>
+                          <div style={{ marginLeft: '90px' }}>
                             <StarButton
                               boardId={sb.id}
                               initialIsStarred={sb.isStarred}
