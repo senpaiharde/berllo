@@ -230,6 +230,7 @@ useEffect(() => {
 
                 <div className="BoardsHomeContainerMainRecentDisplay">
                   {user?.starredBoards
+                  .slice(0, 8)
                     ?.filter((sb) => sb.isStarred)
                     .map((sb) => {
                       const recent = user.lastBoardVisited?.find((r) => r.id === sb.id);
@@ -305,7 +306,9 @@ useEffect(() => {
               </div>
 
               <div className="BoardsHomeContainerMainRecentDisplay">
-                {user?.lastBoardVisited?.map((recent) => {
+                {user?.lastBoardVisited
+                .slice(0, 8)
+                ?.map((recent) => {
                   const { id, boardTitle } = recent;
                   const starEntry = user.starredBoards?.find((sb) => sb.id === id);
                   const isStarred = !!starEntry?.isStarred;
@@ -393,7 +396,9 @@ useEffect(() => {
               <div>
                 <ul className="BoardsHomeContainerMainWorkspaceDisplay">
                     {workSpace?.length > 0  ?(
-                        workSpace?.map((board) => (<li
+                        workSpace
+                        .slice(0, 5)
+                        ?.map((board) => (<li
                     onClick={() => {
                       
 
