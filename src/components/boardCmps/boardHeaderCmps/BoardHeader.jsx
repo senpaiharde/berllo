@@ -76,6 +76,7 @@ export function BoardHeader() {
             <TextEditInput
               isEditing={isEditing}
               value={board.boardTitle}
+              itemType={"board"}
               onChangeTextInput={onChangeTextInput}
             ></TextEditInput>
           </div>

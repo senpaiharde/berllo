@@ -47,7 +47,7 @@ export function BoardSideBar({   }) {
           },
         ],
       }
-
+      console.log("currentWorkSpace.boards",currentWorkSpace.boards)
   function createNewboard() {
     // dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
     dispatch(syncWorkSpaceAsync({
@@ -79,6 +79,7 @@ export function BoardSideBar({   }) {
             className="board-background-img"
             style={{ backgroundColor: primaryColor }}
           ></div>
+          {/* <p className="sidebar-link-text">{board.boardTitle.length > 24 ? board.boardTitle.slice(0, 24) + "..." : board.boardTitle}</p> */}
           <p className="sidebar-link-text">{board.boardTitle}</p>
           <div className="sidebar-link-button-container">
             <div className="header-button header-clickable">

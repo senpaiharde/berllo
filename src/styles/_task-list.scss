@@ -45,7 +45,7 @@
   align-items: flex-start;
   justify-content: space-between;
   // padding: 8px 8px 0;
-  min-height: 40px;
+  // min-height: 40px;
   row-gap: 0;
   padding: 8px 8px 0;
 }
@@ -53,8 +53,47 @@
 .task-list-header-name {
   // padding-left: 5px;
   // padding-top: 5px;
+  position: relative;
+  flex-basis: min-content;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 20px;
   color: #172b4d;
   font-size: 14;
+}
+.task-list-header-h1 {
+  display: block;
+  z-index: 0;
+  margin: 0;
+  padding: 6px 8px 6px 12px;
+  overflow: hidden;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: var(--ds-font-weight-semibold, 600);
+  line-height: 20px;
+  white-space: normal;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.task-list-header-input {
+  display: block;
+  // position: absolute;
+  box-sizing: border-box;
+  min-height: 20px;
+  font-size: 14px;
+  font-weight: var(--ds-font-weight-semibold, 600);
+  margin: 0;
+  padding: 6px 8px 6px 12px;
+  overflow: hidden;
+  border-radius: 8px;
+  width: 100%;
+  opacity: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: inset 0 0 0 2px #388bff;
+  resize: none;
+  overflow-wrap: break-word;
 }
 .task-list-filter-p {
   flex-basis: 100%;

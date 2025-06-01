@@ -591,7 +591,7 @@ const boardSlice = createSlice({
       // })
       .addCase(syncBoardAsync.fulfilled, (state, action) => {
         // state.loading = false;
-        console.log("action.payload",action.payload)
+        console.log("syncBoardAsync.fulfilled action.payload",action.payload)
         if(!action.payload) return
         const board = action.payload.board
         state.state = "success"

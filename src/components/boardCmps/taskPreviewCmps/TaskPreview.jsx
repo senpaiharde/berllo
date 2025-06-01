@@ -276,7 +276,9 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
                     )}
                   </span>
                   <span className="task-preview-header-title">
-                    <a style={{ fontSize: 14 }}>{task.taskTitle}</a>
+                    <a 
+                    // style={{ fontSize: 14 }}
+                    >{task.taskTitle}</a>
                   </span>
                 </div>
                 <div className="task-preview-info">

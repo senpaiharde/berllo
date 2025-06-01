@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react"
+import { use, useEffect, useState, useRef } from "react"
 import { IconButton } from "../IconButton"
 
 export function TextEditInput({
@@ -9,10 +9,25 @@ export function TextEditInput({
   noValueOnExit,
   isNewItem,
   itemType,
+  setHeaderHeight,
 }) {
   const [isEditing, setIsEditing] = useState(activateEditing)
   const [inputValue, setInputValue] = useState(value)
   const [pervValue, setPrevValue] = useState(value)
+  const [textAreaHeight, setTextAreaHeight] = useState("28px")
+  const [marginBottom, setMarginBottom] = useState("0px")
+  // const mirrorRef = useRef<HTMLDivElement>(null);
+  const mirrorRef = useRef(null)
+  const mainDivClass =
+    itemType && itemType === "list" ? "task-list-header-name" : ""
+  const inputClass =
+    itemType && itemType === "list"
+      ? "task-list-header-input"
+      : "board-name-input"
+  const h2Class =
+    itemType && itemType === "list"
+      ? "task-list-header-h1"
+      : "board-name-display"
   let disableBlur = false
   const handleBlur = (e) => {
     setIsEditing(false)
@@ -30,12 +45,17 @@ export function TextEditInput({
       onChangeTextInput(inputValue)
     }
     setIsEditing(false)
+    if (itemType && itemType === "list") {
+      setHeaderHeight(null)
+    }
+    setMarginBottom("0px")
   }
   useEffect(() => {
     if (value !== pervValue) {
       setInputValue(value)
       setPrevValue(value)
-    }}, [value])
+    }
+  }, [value])
   function emptyExit() {
     // setInputValue(null)
     exitEditing(null)
@@ -54,35 +74,82 @@ export function TextEditInput({
     }
   }
 
+  useEffect(() => {
+    if (mirrorRef.current) {
+      setTextAreaHeight(`${mirrorRef.current.scrollHeight}px`)
+      setMarginBottom(`${mirrorRef.current.scrollHeight + 8}px`)
+      if (itemType && itemType === "list") {
+        setHeaderHeight(`${mirrorRef.current.scrollHeight + 8}px`)
+      }
+    }
+  }, [inputValue])
+
   return (
-    <div>
+    <div
+      className={mainDivClass}
+      // style={isEditing ? { marginBottom: marginBottom } : undefined}
+    >
       {isEditing ? (
-        <div
-        // onMouseDown={(e) => {
-        //   console.log("disableBlur = true")
-        //   disableBlur = true // Prevent blur from firing
-        // }}
-        >
-          <input
-            autoFocus={activateEditing || isEditing}
-            placeholder="enter list name..."
-            className="board-name-input"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            // onBlur={handleBlur}
-            onKeyDown={(e) => e.key === "Enter" && handleBlur(e)} // Save on Enter
-            size={inputLength(inputValue)}
-          />
+        <div style={{ display: "flex" }}>
+          <div
+            ref={mirrorRef}
+            style={{
+              position: "absolute",
+              visibility: "hidden",
+              whiteSpace: "pre-wrap",
+              wordWrap: "break-word",
+              padding: "6px 8px 6px 12px",
+              boxSizing: "border-box",
+              width: "210px",
+              font: "inherit", // make sure it uses the same font as the textarea
+            }}
+            className="task-list-header-input"
+          >
+            {inputValue || "enter list name..."}
+          </div>
+          {itemType && itemType === "list" ? (
+            <textarea
+              style={{ height: textAreaHeight, overflow: "hidden" }}
+              // ref={mirrorRef}
+              className="task-list-header-input"
+              autoFocus={activateEditing || isEditing}
+              placeholder="enter list name..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              // onBlur={handleBlur}
+              onKeyDown={(e) => e.key === "Enter" && handleBlur(e)} // Save on Enter
+              size={inputLength(inputValue)}
+            ></textarea>
+          ) : (
+            <input
+              autoFocus={activateEditing || isEditing}
+              placeholder="enter list name..."
+              className="board-name-input"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              // onBlur={handleBlur}
+              onKeyDown={(e) => e.key === "Enter" && handleBlur(e)} // Save on Enter
+              size={inputLength(inputValue)}
+            />
+          )}
           {isNewItem ? (
             <div className="input-new-item-buttons">
               <div onClick={() => onChangeTextInput(inputValue)}>
-                <button className="icon-container-button input-new-item-label" style={{backgroundColor : "#0000FF", color: "#FFFFFF"}}>{itemType}</button>
+                <button
+                  className="icon-container-button input-new-item-label"
+                  style={{ backgroundColor: "#0000FF", color: "#FFFFFF" }}
+                >
+                  {itemType}
+                </button>
               </div>
-              <div className="input-new-item-svg" onClick={(e) => {
-                    console.log("disableBlur = true")
-                    // disableBlur = true
-                    noValueOnExit() // Prevent blur from firing
-                  }}>
+              <div
+                className="input-new-item-svg"
+                onClick={(e) => {
+                  console.log("disableBlur = true")
+                  // disableBlur = true
+                  noValueOnExit() // Prevent blur from firing
+                }}
+              >
                 <IconButton
                   onClick={(e) => {
                     console.log("disableBlur = true")
@@ -105,11 +172,11 @@ export function TextEditInput({
         </div>
       ) : (
         <h1
-          className="board-name-display"
-          style={{fontSize:fontSize}}
+          className={h2Class}
+          style={{ fontSize: fontSize, textOverflow: "ellipsis" }}
           onClick={() => setIsEditing(true)} // Click to edit
         >
-          {inputValue}
+          {itemType && itemType === "board" && inputValue.length > 71 ? inputValue.slice(0, 71) + "..." : inputValue}
         </h1>
       )}
     </div>

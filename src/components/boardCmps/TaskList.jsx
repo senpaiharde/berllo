@@ -12,7 +12,7 @@ import {
   updateBoardlist,
   removeBoardListFromBoard,
   updateTaskInBoard,
-  syncBoardAsync
+  syncBoardAsync,
 } from "../../redux/BoardSlice.js"
 import { ItemNameForm } from "./addItemCard/ItemNameForm.jsx"
 import { TaskOps } from "../../services/backendHandler.js"
@@ -33,18 +33,35 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
   //     member: "",
   //     labels: [],
   //   },
-  const filterActive = (board.filter.title !== "" ||
-    board.filter.members.length > 0 || board.filter.labels.length > 0) 
-    const filteredAmount = boardList.taskList?.length
-    const filteredText = filteredAmount && (filteredAmount > 1 || filteredAmount === 0)  ? `${filteredAmount} cards match filters` : `${filteredAmount} card match filters`
- 
+  const filterActive =
+    board.filter.title !== "" ||
+    board.filter.members.length > 0 ||
+    board.filter.labels.length > 0
+  const filteredAmount = boardList.taskList?.length
+  const filteredText =
+    filteredAmount && (filteredAmount > 1 || filteredAmount === 0)
+      ? `${filteredAmount} cards match filters`
+      : `${filteredAmount} card match filters`
 
   function onUpdateBoardList(value) {
     if (isNewTaskList && value) {
       setTaskListTitle(value)
-      console.log("creating taskList title", value,"boardList.taskListBoard", boardList.taskListBoard,"boardList", boardList)
+      console.log(
+        "creating taskList title",
+        value,
+        "boardList.taskListBoard",
+        boardList.taskListBoard,
+        "boardList",
+        boardList
+      )
       console.log("boardList.indexInBoard", boardList.indexInBoard)
-      dispatch(updateBoardlist({ ...boardList, taskListTitle: value ,isNewTaskList: false }))
+      dispatch(
+        updateBoardlist({
+          ...boardList,
+          taskListTitle: value,
+          isNewTaskList: false,
+        })
+      )
       setIsNewTaskList(false)
       dispatch(
         syncBoardAsync({
@@ -64,13 +81,42 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
       )
       onAddedNewList()
       // console.log("TaskList boardid", boardList)
-    }{
-      console.log("updating task list title", value,"isNewTaskList", isNewTaskList)
+    }
+    {
+      console.log(
+        "updating task list title",
+        value,
+        "isNewTaskList",
+        isNewTaskList,
+        "listId", boardList._id
+      )
       dispatch(updateBoardlist({ ...boardList, taskListTitle: value }))
+      ///dispatch update board in backend
+      // dispatch(
+      //   syncBoardAsync({
+      //     method: TaskOps.ADD,
+      //     args: {
+      //       body: {
+      //         method: TaskOps.ADD,
+      //         workId: "list",
+      //         taskListBoard: boardList.taskListBoard,
+      //         taskListTitle: value,
+      //         indexInBoard: boardList.indexInBoard,
+      //       },
+      //     },
+
+      //     workId: "list",
+      //   })
+      // )
     }
   }
   function addNewEmptyTask() {
-    dispatch(addTaskToBoard({ taskList: boardList._id, position: boardList.taskList.length }))
+    dispatch(
+      addTaskToBoard({
+        taskList: boardList._id,
+        position: boardList.taskList.length,
+      })
+    )
   }
 
   function onRemoveCurrentList(value) {
@@ -82,6 +128,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
   // if (isNewTaskList) {
   //   console.log("new task list", boardList._id)
   // }
+  const [headerHeight,setHeaderHeight] = useState()
   if (!boardList) return <div> Loading list</div>
 
   return (
@@ -100,18 +147,31 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
           ></ItemNameForm>
         </div>
       ) : (
-        <div className="task-list-header">
-          <div className="task-list-header-name">
+        <div className="task-list-header"
+        style={headerHeight ? { height: headerHeight } : undefined}>
+          {/* <div 
+          // className="task-list-header-name"
+          style={{display:"flex"}}
+          >
             <TextEditInput
               activateEditing={isNewTaskList}
               fontSize={14}
               value={taskListTitle}
+              itemType={"list"}
               onChangeTextInput={onUpdateBoardList}
             ></TextEditInput>
-          </div>
-          
+          </div> */}
+          <TextEditInput
+            activateEditing={isNewTaskList}
+            fontSize={14}
+            value={taskListTitle}
+            itemType={"list"}
+            onChangeTextInput={onUpdateBoardList}
+            setHeaderHeight={setHeaderHeight}
+          ></TextEditInput>
           <div
             className="task-list-header-actions header-clickable"
+            style={{marginLeft: "8px"}}
             onClick={() => onRemoveCurrentList()}
           >
             <IconButton>
@@ -128,40 +188,40 @@ export function TaskList({ boardList, newTaskList, onAddedNewList }) {
       )}
 
       {!isNewTaskList && (
-          <Droppable droppableId={boardList._id} type="taskList">
-            {(provided) => (
-              <ol
-                className="scrollable-task-list"
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {boardList.taskList?.length > 0 ? ( //
-                  boardList.taskList.map((task, index) => (
-                    <li key={task._id} style={{ listStyle: "none" }}>
-                      {task.taskTitle === "" ? (
-                        <TaskPreview
-                          task={task}
-                          boardId={boardList.taskListBoard}
-                          index={index}
-                          NewTask={true}
-                          onAddedNewTask={addNewEmptyTask}
-                        />
-                      ) : (
-                        <TaskPreview
-                          task={task}
-                          index={index}
-                          boardId={boardList.taskListBoard}
-                        />
-                      )}
-                    </li>
-                  ))
-                ) : (
-                  <div />
-                )}
-                {provided.placeholder}
-              </ol>
-            )}
-          </Droppable>
+        <Droppable droppableId={boardList._id} type="taskList">
+          {(provided) => (
+            <ol
+              className="scrollable-task-list"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {boardList.taskList?.length > 0 ? ( //
+                boardList.taskList.map((task, index) => (
+                  <li key={task._id} style={{ listStyle: "none" }}>
+                    {task.taskTitle === "" ? (
+                      <TaskPreview
+                        task={task}
+                        boardId={boardList.taskListBoard}
+                        index={index}
+                        NewTask={true}
+                        onAddedNewTask={addNewEmptyTask}
+                      />
+                    ) : (
+                      <TaskPreview
+                        task={task}
+                        index={index}
+                        boardId={boardList.taskListBoard}
+                      />
+                    )}
+                  </li>
+                ))
+              ) : (
+                <div />
+              )}
+              {provided.placeholder}
+            </ol>
+          )}
+        </Droppable>
       )}
       {!isNewTaskList && (
         <AddItemCard
