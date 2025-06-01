@@ -11,6 +11,7 @@ import { BoardView } from "../components/boardCmps/BoardView.jsx"
 import { BoardSideBar } from "../components/boardCmps/sideBarCmps/BoardSideBar.jsx"
 import { body } from "framer-motion/client"
 import { BoardSharePage } from "../components/boardCmps/BoardSharePage.jsx"
+import { BoardRightMenu } from "../components/boardCmps/BoardRightMenu.jsx"
 
 const Workspace = () => {
   const { boardId } = useParams()
@@ -25,6 +26,7 @@ const Workspace = () => {
     }
     return state.boardReducer
   })
+  const rightMenuOpen = useSelector((state) => state.boardReducer.rightMenuOpen)
   // const workSpace = useSelector((state) => state.workSpaceReducer)
   // console.log("workSpace.boards[0]",workSpace.boards[0])
   //  Load the board if ID exists
@@ -86,18 +88,26 @@ const Workspace = () => {
               <div style={{ height: "100%" }}>
                 <div style={{ height: "100%" }}>
                   <div className="board-wrapper">
-                    <div className="board-main-content">
+                    <div className="board-main-content"
+                    style={rightMenuOpen ? {marginRight: "339px"} : undefined}>
                       <BoardHeader/>
                       <BoardView />
                     </div>
+                    <BoardRightMenu></BoardRightMenu>
                   </div>
+                  
                 </div>
+                
               </div>
-
+              
               <Outlet />
+              
             </div>
+            
           </div>
+          
         </div>
+        
         <BoardSharePage/>
       </div>
     )

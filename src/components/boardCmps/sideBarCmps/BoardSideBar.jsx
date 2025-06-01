@@ -47,7 +47,7 @@ export function BoardSideBar({   }) {
           },
         ],
       }
-      console.log("currentWorkSpace.boards",currentWorkSpace.boards)
+      // console.log("currentWorkSpace.boards",currentWorkSpace.boards)
   function createNewboard() {
     // dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
     dispatch(syncWorkSpaceAsync({

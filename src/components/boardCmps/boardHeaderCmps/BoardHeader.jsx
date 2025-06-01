@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { ViewTypeChooser } from "./ViewTypeChooser"
 import { IconButton } from "../../IconButton"
-import { updateboardTitle, updateStarStatus,toggleShareModal } from "../../../redux/BoardSlice"
+import { updateboardTitle, updateStarStatus,toggleShareModal, toggleRightMenuOpen } from "../../../redux/BoardSlice"
 import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
 import BoardHeaderFilter from "./boardHeaderFilter"
@@ -202,6 +202,19 @@ export function BoardHeader() {
                   <path d="M17 14C17 13.4477 17.4477 13 18 13C18.5523 13 19 13.4477 19 14V16H21C21.5523 16 22 16.4477 22 17C22 17.5523 21.5523 18 21 18H19V20C19 20.5523 18.5523 21 18 21C17.4477 21 17 20.5523 17 20V18H15C14.4477 18 14 17.5523 14 17C14 16.4477 14.4477 16 15 16H17V14Z" fill="currentColor"></path>
                 </IconButton>
           </div>
+          
+          {!board.rightMenuOpen && <div className="header-button header-clickable"
+          // toggle menu
+          onClick={()=>dispatch(toggleRightMenuOpen(true))}>
+            <IconButton centerd={true}>
+              <path
+                fillRule="nonzero"
+                clipRule="evenodd"
+                d="M 5 14 C 6.10457 14 7 13.1046 7 12 C 7 10.8954 6.10457 10 5 10 C 3.89543 10 3 10.8954 3 12 C 3 13.1046 3.89543 14 5 14 Z M 12 14 C 13.1046 14 14 13.1046 14 12 C 14 10.8954 13.1046 10 12 10 C 10.8954 10 10 10.8954 10 12 C 10 13.1046 10.8954 14 12 14 Z M 21 12 C 21 13.1046 20.1046 14 19 14 C 17.8954 14 17 13.1046 17 12 C 17 10.8954 17.8954 10 19 10 C 20.1046 10 21 10.8954 21 12 Z"
+                fill="currentColor"
+              ></path>
+            </IconButton>
+          </div>}
           {/* {board.users &&
             board.users.map((user) => (
               <span onClick={(user) => toggleUserCmp(user)}>{user.name}</span>

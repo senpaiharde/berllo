@@ -277,6 +277,7 @@ const boardSlice = createSlice({
     boardMembers: [],
     previewEditorPositon: null,
     shareModalOpen: false,
+    rightMenuOpen: false,
   },
   reducers: {
     addboard: (state, action) => {
@@ -308,6 +309,9 @@ const boardSlice = createSlice({
     },
     toggleShareModal: (state, action) => {
       state.shareModalOpen = action.payload
+    },
+    toggleRightMenuOpen: (state, action) => {
+      state.rightMenuOpen = action.payload
     },
     updateboardTitle: (state, action) => {
       state.boardTitle = action.payload
@@ -629,6 +633,7 @@ export const {
   updateBoardListOrder,
   updateTasklistOrder,
   toggleShareModal,
+  toggleRightMenuOpen,
   updateBoardMembers,
 } = boardSlice.actions
 export default boardSlice.reducer

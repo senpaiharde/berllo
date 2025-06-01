@@ -487,7 +487,6 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
         </button>
       </div>
       </div>
-      </div>
      
    
   )
