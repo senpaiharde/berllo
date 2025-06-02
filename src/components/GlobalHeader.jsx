@@ -30,6 +30,8 @@ import { useSelector } from 'react-redux';
 import fetchCurrentUser, { accountSwitch, demoUsersStorage } from '../services/backendCallsUsers';
 import StarButton from '../services/isStarred';
 import { toggleStar } from '../services/backendHandler';
+import DropdownUi from './boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
+import BoardsCreateDropdown from '../pages/BoardsCreateDropdown';
 
 const demoUsers = demoUsersStorage;
 
@@ -386,14 +388,20 @@ const GlobalHeader = () => {
               <div 
                 className="dropdown-menu create-menu"
                 style={{ margin: '0 0', textAlign: 'center' }}>
+                <DropdownUi  
                 
-                <button className="CreateBoardHard" style={{marginTop:'12px'}}>
+                trigger={<button 
+                onClick={(e) => {e.preventDefault}}
+                className="CreateBoardHard" style={{marginTop:'12px'}}>
                   <span className="HeaderCreateBoardHard">Create Board</span>
                   <div className="HeaderCreateBoardHardText">
                     A board is made up of cards ordered on lists. Use it to manage projects, track
                     information, or organize anything.
                   </div>
-                </button>
+                </button>}>
+                     {({ onClose }) => <BoardsCreateDropdown onClose={onClose} />}
+                </DropdownUi>
+                
                 <div   className="OpenAiButtonHeaderHeaderDiv"
                 
                 style={{  textAlign: 'left' }}>

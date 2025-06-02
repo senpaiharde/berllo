@@ -14,6 +14,7 @@ const BoardsCreateDropdown = ({ onClose }) => {
   const dispatch = useDispatch();
   const [workSpace, setWorkSpace] = useState();
   const [boardTitle, setBoardTitle] = useState(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function load() {
       try {
@@ -30,6 +31,7 @@ const BoardsCreateDropdown = ({ onClose }) => {
   }, []);
 
   function createNewboard() {
+    setLoading(true);
     // dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
     dispatch(
       syncTaskAsync({
@@ -56,7 +58,8 @@ const BoardsCreateDropdown = ({ onClose }) => {
     console.log(lastBoard._id, 'here im ');
     setTimeout(() => {
       navigate(`/b/${lastBoard._id}/${boardTitle}`);
-    }, 500);
+       setLoading(false);
+    }, 1500);
   }
   return (
     <div className="DropdownUi">
@@ -115,10 +118,11 @@ const BoardsCreateDropdown = ({ onClose }) => {
           </div>
         </label>
         <button
+        disabled={loading}
           style={{ marginTop: '10px' }}
           onClick={() => createNewboard()}
           className="DropdownLabelButton">
-          Create
+          {loading ? 'Creating…' : 'Create'}
         </button>
       </div>
     </div>
