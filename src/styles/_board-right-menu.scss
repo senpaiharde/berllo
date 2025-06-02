@@ -74,7 +74,191 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   -webkit-transform: translate3d(0, 0, 0);
-  scrollbar-color: var(--ds-background-neutral-hovered, #091e4224)
-    var(--ds-background-neutral, #091e420f);
+  // scrollbar-color: var(--ds-background-neutral-hovered, #091e4224)
+  //   var(--ds-background-neutral, #091e420f);
   scrollbar-width: thin;
+  color: #b6c2cf;
+}
+
+.board-right-menu-content-container {
+  opacity: 1;
+  // transform: translateX(0px);
+}
+.board-right-menu-button {
+  justify-content: flex-start;
+  width: 100%;
+  border-radius: 8px;
+  // background-color: var(--ds-background-neutral-subtle, #00000000);
+  // color: var(--ds-text, #172b4d);
+  font-weight: var(--ds-font-weight-regular, 400);
+  background-color: #282e33;
+  color: #b6c2cf;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  // justify-content: center;
+  padding: 6px 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: normal;
+  cursor: pointer;
+  border: none;
+  // background-color: var(--ds-background-neutral, #091e420f);
+  box-shadow: none;
+  // color: var(--ds-text, #172b4d);
+  // font-weight: var(--ds-font-weight-medium, 500);
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+  pointer-events: auto;
+  z-index: 20;
+}
+.board-right-menu-button:hover {
+  background-color: #a1bdd914;
+}
+.board-right-menu-button-style {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 3px;
+  background-position: 50%;
+  background-size: cover;
+}
+.board-right-menu-button-label {
+  margin-left: 3px;
+  font-weight: 400;
+}
+
+.board-right-menu-choose-style-container {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+  padding: 12px 12px 8px;
+}
+.board-right-menu-choose-style-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: unset;
+  overflow: hidden;
+  background-color: unset;
+
+  box-sizing: border-box;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: normal;
+  cursor: pointer;
+  border: none;
+  box-shadow: none;
+  color: #b6c2cf;
+}
+
+.board-right-menu-choose-style-button-preview {
+  width: 100%;
+  height: 96px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  // background-image: url(https://trello.com/assets/97db30f….png);
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  // &::after {
+  //   content: '';
+  //   position: absolute;
+  //   top: 0; left: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   background: rgba(0, 0, 0, 0); // no darkening by default
+  //   transition: background 0.2s ease;
+  //   border-radius: 8px;
+  //   pointer-events: none; // allow click-through
+  // }
+
+  // &:hover::after {
+  //   background: rgba(0, 0, 0, 0.3); // darken by 30% on hover
+  // }
+}
+
+.board-right-menu-choose-style-button-preview::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0); // no darkening by default
+  transition: background 0.2s ease;
+  border-radius: 8px;
+  pointer-events: none; // allow click-through
+}
+
+.board-right-menu-choose-style-button-preview:hover::after {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.board-right-menu-choose-colors-container {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, 55px);
+}
+
+.board-right-menu-choose-color-button {
+  height: 57.6px;
+  border-radius: 8px;
+  // color: var(--ds-text-inverse, #ffffff);
+
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: normal;
+  cursor: pointer;
+  border: none;
+  // background-color: var(--ds-background-neutral, #091e420f);
+  box-shadow: none;
+  // color: var(--ds-text, #172b4d);
+  // font-weight: var(--ds-font-weight-medium, 500);
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+}
+
+.board-right-menu-choose-color-button:hover {
+  opacity: 0.8;
+}
+
+.board-right-menu-choose-imgs-wrapper {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+
+.board-right-menu-choose-img-container {
+  position: relative;
+  box-sizing: border-box;
+  height: 96px;
+  overflow: hidden;
+  border-radius: 8px;
+  // color: var(--ds-icon-subtle, #626f86);
+  cursor: pointer;
+}
+.board-right-menu-choose-img-button {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 72px;
+  background-color: unset;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.board-right-menu-choose-img-button:hover {
+  opacity: 0.8;
 }

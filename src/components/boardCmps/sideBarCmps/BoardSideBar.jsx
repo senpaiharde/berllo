@@ -12,6 +12,38 @@ export function BoardSideBar({   }) {
   const workSpace = useSelector((state) => state.workSpaceReducer)
   const chosenBoard = useSelector((state) => state.boardReducer)
   
+  const [boardSideBarBackgound ,setBoardSideBarBackgound] = useState()
+  useEffect(() => {
+    
+     // {board.boardStyle && board.boardStyle.backgroundColor ? "board.boardStyle.backgroundColor" : ""}
+     if (chosenBoard.boardStyle && chosenBoard.boardStyle.boardColor) {
+      const adjustedHeadercolor = darkenHexColor(chosenBoard.boardStyle.boardColor, 30) 
+      setBoardSideBarBackgound({backgroundColor: adjustedHeadercolor})
+     }
+    //  if (board.boardStyle && board.boardStyle.boardImg && board.boardStyle.boardType === "image") {
+    //   setBoardViewBackgound({BackgroundImage: board.boardStyle.boardImg})
+    //  }
+  }, [chosenBoard])
+
+  function darkenHexColor(hex, percent) {
+  // Remove "#" if present
+  hex = hex.replace(/^#/, '');
+
+  // Parse hex into RGB
+  let r = parseInt(hex.slice(0, 2), 16);
+  let g = parseInt(hex.slice(2, 4), 16);
+  let b = parseInt(hex.slice(4, 6), 16);
+
+  // Decrease each component by percentage
+  r = Math.max(0, Math.floor(r * (1 - percent / 100)));
+  g = Math.max(0, Math.floor(g * (1 - percent / 100)));
+  b = Math.max(0, Math.floor(b * (1 - percent / 100)));
+
+  // Convert back to hex and pad with zeroes if needed
+  const toHex = (c) => c.toString(16).padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
 //   console.log("workSpace", workSpaceredux)
 //   console.log("workSpace.boards[0]", workSpaceredux.boards[0])
     useEffect(() => {
@@ -125,12 +157,13 @@ export function BoardSideBar({   }) {
   return (
     <nav className="board-sidebar-navigation" style={{ width: sidebarWidth }}>
       {isCollapsed && (
-        <div className="board-sidebar-collapsed-container">
+        <div className="board-sidebar-collapsed-container" style={boardSideBarBackgound}>
           <div
             className="board-sidebar-collapsed"
+            
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
-            <div className="arrow-button-container">
+            <div className="arrow-button-container" style={boardSideBarBackgound}>
               <IconButton centerd={true}>
                 <path
                   d="M10.294 9.69805C10.2008 9.60614 10.1268 9.49661 10.0763 9.37584C10.0258 9.25507 9.99976 9.12546 9.99976 8.99455C9.99976 8.86364 10.0258 8.73403 10.0763 8.61327C10.1268 8.4925 10.2008 8.38297 10.294 8.29105C10.4831 8.10449 10.738 7.99988 11.0035 7.99988C11.2691 7.99988 11.524 8.10449 11.713 8.29105L14.678 11.2311C14.7802 11.3324 14.8614 11.453 14.9167 11.5858C14.9721 11.7186 15.0006 11.8611 15.0006 12.0051C15.0006 12.149 14.9721 12.2915 14.9167 12.4243C14.8614 12.5572 14.7802 12.6777 14.678 12.7791L11.723 15.7091C11.534 15.8959 11.2789 16.0007 11.013 16.0007C10.7472 16.0007 10.4921 15.8959 10.303 15.7091C10.2098 15.6171 10.1358 15.5076 10.0853 15.3868C10.0348 15.2661 10.0088 15.1365 10.0088 15.0056C10.0088 14.8746 10.0348 14.745 10.0853 14.6243C10.1358 14.5035 10.2098 14.394 10.303 14.3021L12.621 12.0051L10.294 9.69805V9.69805Z"
@@ -143,7 +176,7 @@ export function BoardSideBar({   }) {
       )}
 
       {!isCollapsed && (
-        <div className="board-sidebar-open-container">
+        <div className="board-sidebar-open-container" style={boardSideBarBackgound}>
           <div className="board-sidebar-open">
             <div className="side-bar-header">
               <a href="" className="sidebar-link">

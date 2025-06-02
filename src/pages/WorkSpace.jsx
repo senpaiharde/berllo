@@ -1,8 +1,8 @@
 import { useParams, useNavigate, Outlet } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { TaskOps } from "../services/backendHandler.js"
-import { fetchBoardById,syncBoardAsync } from "../redux/BoardSlice.js"
+import { fetchBoardById, syncBoardAsync } from "../redux/BoardSlice.js"
 import { addnewBoard } from "../redux/WorkSpaceSlice.js"
 import { getLocalData } from "../services/storageService.js"
 import GlobalHeader from "../components/GlobalHeader"
@@ -18,15 +18,39 @@ const Workspace = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const filter = "f"
-  const board = useSelector((state) => {
-    // state.boardReducer
-    let filteredBoard = {...state.boardReducer}
-    if(filter){
-      state.boardReducer.boardLists
-    }
-    return state.boardReducer
-  })
+  const board = useSelector((state) => state.boardReducer)
+
   const rightMenuOpen = useSelector((state) => state.boardReducer.rightMenuOpen)
+  const [boardViewBackgound, setBoardViewBackgound] = useState()
+
+  useEffect(() => {
+    console.log("board.boardStyle", board.boardStyle)
+    // {board.boardStyle && board.boardStyle.backgroundColor ? "board.boardStyle.backgroundColor" : ""}
+    if (
+      board.boardStyle &&
+      board.boardStyle.boardColor &&
+      board.boardStyle.boardType === "color"
+    ) {
+      setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor })
+    }
+    if (
+      board.boardStyle &&
+      board.boardStyle.boardImg &&
+      board.boardStyle.boardType === "image"
+    ) {
+      console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
+      const newImgBackgound = {
+
+      }
+      setBoardViewBackgound({
+        backgroundImage: `url(${board.boardStyle.boardImg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      })
+    }
+  }, [board])
+
   // const workSpace = useSelector((state) => state.workSpaceReducer)
   // console.log("workSpace.boards[0]",workSpace.boards[0])
   //  Load the board if ID exists
@@ -35,15 +59,18 @@ const Workspace = () => {
       // dispatch(fetchBoardById(boardId))
       //dispatch(liveUpdateTask({method: TaskOps.FETCH, workId: 'tasks'}))
       //args: { taskId: selectedTask._id, body: fields },
-      
+
       dispatch(
         syncBoardAsync({
-                method: TaskOps.FETCH,
-                args: { taskId: boardId , body: {method: TaskOps.FETCH, workId: 'board'}},
-                workId: 'board',
-              })
-            );
-    }else{
+          method: TaskOps.FETCH,
+          args: {
+            taskId: boardId,
+            body: { method: TaskOps.FETCH, workId: "board" },
+          },
+          workId: "board",
+        })
+      )
+    } else {
       // dispatch(addnewBoard("test board"))
     }
   }, [dispatch, boardId])
@@ -67,7 +94,7 @@ const Workspace = () => {
   // }, [boardId, navigate])
 
   // if (!board || !board._id)
-  
+
   if (!board) {
     return <div>Loading...</div>
   } else {
@@ -87,28 +114,27 @@ const Workspace = () => {
             <div className="content-wrapper">
               <div style={{ height: "100%" }}>
                 <div style={{ height: "100%" }}>
-                  <div className="board-wrapper">
-                    <div className="board-main-content"
-                    style={rightMenuOpen ? {marginRight: "339px"} : undefined}>
-                      <BoardHeader/>
+                  <div className="board-wrapper" style={boardViewBackgound}>
+                    <div
+                      className="board-main-content"
+                      style={
+                        rightMenuOpen ? { marginRight: "339px" } : undefined
+                      }
+                    >
+                      <BoardHeader />
                       <BoardView />
                     </div>
                     <BoardRightMenu></BoardRightMenu>
                   </div>
-                  
                 </div>
-                
               </div>
-              
+
               <Outlet />
-              
             </div>
-            
           </div>
-          
         </div>
-        
-        <BoardSharePage/>
+
+        <BoardSharePage />
       </div>
     )
   }

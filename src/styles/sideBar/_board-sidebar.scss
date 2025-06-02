@@ -153,7 +153,8 @@
   border: 1px solid hsla(0, 0%, 100%, 0.16);
 }
 .board-sidebar-collapsed:hover {
-  background-color: hsla(330, 54%, 32%, 0.986);
+  // background-color: hsla(330, 54%, 32%, 0.986);
+  opacity: 0.9;
   // box-shadow: 1px 0px 0px 0px var(--dynamic-text-transparent);
 }
 .sidebar-collapse-button-container {

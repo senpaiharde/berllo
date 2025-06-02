@@ -261,6 +261,7 @@ const boardSlice = createSlice({
     boardTitle: "",
     slug: "",
     isStarred: null,
+    boardStyle: null,
     boardLists: [],
     boardLabels: [],
     boardListsById: [],
@@ -316,7 +317,14 @@ const boardSlice = createSlice({
     updateboardTitle: (state, action) => {
       state.boardTitle = action.payload
 
-      saveTolocal(BuildBoardFromState(state))
+      // saveTolocal(BuildBoardFromState(state))
+    },
+    updateBoardStyle: (state, action) => {
+      const newStyle = {...state.boardStyle,...action.payload}
+      console.log("updateBoardStyle", newStyle)
+      state.boardStyle = newStyle
+      
+      // saveTolocal(BuildBoardFromState(state))
     },
     updateboardFilter: (state, action) => {
       // console.log("boardSlice updateboardFilter", action.payload)
@@ -601,11 +609,12 @@ const boardSlice = createSlice({
         state.state = "success"
         state._id = board._id
         state.boardTitle = board.boardTitle
+        state.boardStyle = board.boardStyle || null
         state.slug = board.slug || ""
         state.boardLabels = board.boardLabels || []
         state.boardLists = board.boardLists || []
         const existing = state.boards?.filter((b) => b._id !== board._id) || []
-        state.boards = [...existing, board]
+        // state.boards = [...existing, board]
         state.boardMembers = board.boardMembers || []
         const { method, data } = action.payload
       })
@@ -633,6 +642,7 @@ export const {
   updateBoardListOrder,
   updateTasklistOrder,
   toggleShareModal,
+  updateBoardStyle,
   toggleRightMenuOpen,
   updateBoardMembers,
 } = boardSlice.actions

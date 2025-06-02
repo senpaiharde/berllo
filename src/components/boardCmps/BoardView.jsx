@@ -16,12 +16,15 @@ import { useDispatch, useSelector } from "react-redux"
 import { TaskPreviewEditor } from "./taskPreviewCmps/TaskPreviewEditor"
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 import { TaskOps } from "../../services/backendHandler"
+import { BackgroundImage } from "@mantine/core"
 export function BoardView() {
   const board = useSelector((state) => state.boardReducer)
   const dispatch = useDispatch()
 
   let taskSum = 0
   const [taskCount, setTaskCount] = useState(0)
+  // const [boardViewBackgound ,setBoardViewBackgound] = useState()
+ 
   let filteredBoard = board
 
   const filterActive =
@@ -78,6 +81,13 @@ export function BoardView() {
       console.log("taskSum", taskSum)
       setTaskCount(taskSum)
     }
+     // {board.boardStyle && board.boardStyle.backgroundColor ? "board.boardStyle.backgroundColor" : ""}
+    //  if (board.boardStyle && board.boardStyle.boardColor && board.boardStyle.boardType === "color") { 
+    //   setBoardViewBackgound({backgroundColor: board.boardStyle.boardColor})
+    //  }
+    //  if (board.boardStyle && board.boardStyle.boardImg && board.boardStyle.boardType === "image") {
+    //   setBoardViewBackgound({BackgroundImage: board.boardStyle.boardImg})
+    //  }
   }, [board])
 
   useEffect(() => {
@@ -217,7 +227,7 @@ export function BoardView() {
   //     dispatch(updateMultipleBoardLists([updatedSourceList, updatedDestList]))
   //   }
   // }
-
+  
   if (!board || !board.boardLists) {
     console.log("board is missing or boardLists undefined")
     return <div>Loading board view...</div>
@@ -230,7 +240,9 @@ export function BoardView() {
     return <div>Loading...</div>
   } else {
     return (
-      <div className="board-view">
+      <div className="board-view"
+      // style={boardViewBackgound}
+      >
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable
             droppableId="BoardList"

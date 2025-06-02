@@ -20,6 +20,37 @@ export function BoardHeader() {
   const starRef = useRef(null)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [boardHeaderBackgound ,setBoardViewBackgound] = useState()
+  useEffect(() => {
+    
+     // {board.boardStyle && board.boardStyle.backgroundColor ? "board.boardStyle.backgroundColor" : ""}
+     if (board.boardStyle && board.boardStyle.boardColor) {
+      const adjustedHeadercolor = darkenHexColor(board.boardStyle.boardColor, 20) 
+      setBoardViewBackgound({backgroundColor: adjustedHeadercolor})
+     }
+    //  if (board.boardStyle && board.boardStyle.boardImg && board.boardStyle.boardType === "image") {
+    //   setBoardViewBackgound({BackgroundImage: board.boardStyle.boardImg})
+    //  }
+  }, [board])
+
+  function darkenHexColor(hex, percent) {
+  // Remove "#" if present
+  hex = hex.replace(/^#/, '');
+
+  // Parse hex into RGB
+  let r = parseInt(hex.slice(0, 2), 16);
+  let g = parseInt(hex.slice(2, 4), 16);
+  let b = parseInt(hex.slice(4, 6), 16);
+
+  // Decrease each component by percentage
+  r = Math.max(0, Math.floor(r * (1 - percent / 100)));
+  g = Math.max(0, Math.floor(g * (1 - percent / 100)));
+  b = Math.max(0, Math.floor(b * (1 - percent / 100)));
+
+  // Convert back to hex and pad with zeroes if needed
+  const toHex = (c) => c.toString(16).padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
 
   const handleBlur = () => {
     setIsEditing(false)
@@ -70,7 +101,7 @@ export function BoardHeader() {
   const title = board ? board.boardTitle : "Loading..."
   return (
     <div className="board-header-container">
-      <span className="board-header">
+      <span className="board-header" style={boardHeaderBackgound}>
         <span className="board-header-left">
           <div className="board-name-container header-clickable">
             <TextEditInput
