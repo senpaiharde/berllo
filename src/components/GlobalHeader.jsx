@@ -381,17 +381,19 @@ const GlobalHeader = () => {
 
           {/* CREATE */}
           <div ref={dropdownRefs.create} className="dropdown-wrapper">
-            <button className="create-button" onClick={() => toggleDropdown('create')}>
+            <button
+            
+            className="create-button" onClick={() => toggleDropdown('create')}>
               Create
-            </button>
+            </button >
             {activeDropdown === 'create' && (
-              <div 
+              <div   ref={dropdownRefs.create}
                 className="dropdown-menu create-menu"
                 style={{ margin: '0 0', textAlign: 'center' }}>
                 <DropdownUi  
                 
                 trigger={<button 
-                onClick={(e) => {e.preventDefault}}
+                onClick={(e) => {e.preventDefault()}}
                 className="CreateBoardHard" style={{marginTop:'12px'}}>
                   <span className="HeaderCreateBoardHard">Create Board</span>
                   <div className="HeaderCreateBoardHardText">

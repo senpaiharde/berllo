@@ -230,7 +230,7 @@ export function TaskPreview({ task, boardId, NewTask, onAddedNewTask, index }) {
               )}
               <div className="task-preview-details">
                 <div className="task-preview-labels">
-                  <TaskPreviewLabels task={task}></TaskPreviewLabels>
+                  <TaskPreviewLabels task={task}/>
                 </div>
                 <div className="task-preview-header">
                   <span
