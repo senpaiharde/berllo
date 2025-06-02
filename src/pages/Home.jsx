@@ -344,6 +344,7 @@ const token = localStorage.getItem('token')
               <ul className="home-right-sidebar-container-viewed-ul">
                 <div className="recenetBoards">
                   {user?.starredBoards
+                  .slice(0, 6)
                     ?.filter((sb) => sb.isStarred)
                     .map((sb) => {
                       const recent = user.lastBoardVisited?.find((r) => r.id === sb.id);
@@ -399,7 +400,10 @@ const token = localStorage.getItem('token')
             </div>
             <ul className="home-right-sidebar-container-viewed-ul">
               <div className="recenetBoards">
-                {user?.lastBoardVisited?.map((recent) => {
+                {user?.lastBoardVisited
+                .slice(0, 6)
+                ?.map((recent) => {
+                    
                   const { id, boardTitle } = recent;
                   // find whether this is starred in the latest user state
                   const starEntry = user.starredBoards?.find((sb) => sb.id === id);
