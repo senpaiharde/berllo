@@ -232,7 +232,7 @@
   }
 
   .create-menu {
-    width: 24rem;
+    
     right: 0;
     left: auto;
 
@@ -652,4 +652,94 @@
     &:hover{
        border: solid 1px red ;
     }
+}
+
+.brCreate {
+    
+  margin-top: 12px;
+  height: 1px;
+  border-bottom: 1px solid #091e4224;
+  width: 200px ;
+}
+
+.OpenAiButtonHeader{
+    border: none;
+    
+}
+
+.CreateBoardHard{
+    border: none;
+    background-color: transparent;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 6px 12px;
+    transition: none;
+    border-radius: 0;
+    outline: 0;
+    
+    box-shadow: none;
+    color: var(--ds-text, #172b4d);
+    text-align: left;
+    text-decoration: none;
+      cursor: pointer;
+      &:hover{
+            background: var(--ds-background-neutral-subtle-hovered, #091e420f);
+    color: var(--ds-text, #172b4d);
+    text-decoration: none;
+      }
+}
+
+.HeaderCreateBoardHard{
+    display: flex
+;
+    align-items: center;
+    
+    column-gap: 4px;
+    font-size: 14px;
+    font-weight: var(--ds-font-weight-regular, 400);
+    line-height: 20px;
+    text-align: left;
+    color: var(--ds-text, #172b4d);
+    margin-left: 6px;
+    
+  
+}
+
+
+.HeaderCreateBoardHardText{
+    margin: 4px 0 0 0;
+    padding: 0;
+    color: var(--ds-text-subtle, #44546f);
+    font-size: 12px;
+    font-weight: var(--ds-font-weight-regular, 400);
+    line-height: 16px;
+    
+}
+
+.OpenAiButtonHeaderHeader{
+    border: none;
+    font-size: 14px;
+    margin-left: 12px;
+    margin-top: 8px;
+    justify-content: center;
+    display: inline;
+    background-color: transparent;
+    cursor: pointer;
+    padding-bottom: 9px;
+
+    
+
+}
+
+.OpenAiButtonHeaderHeaderDiv{
+    background-color:#f7f8f9;
+    
+      &:hover{
+            background: #091e420f;
+    color: var(--ds-text, #172b4d);
+    text-decoration: none;
+      }
 }
