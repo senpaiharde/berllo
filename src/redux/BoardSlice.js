@@ -520,15 +520,19 @@ const boardSlice = createSlice({
       }
     },
     removeTaskFromBoard: (state, action) => {
+      console.log("removeTaskFromBoard", action.payload)
+      
       const index = state.boardLists.findIndex(
         (list) => list._id === action.payload.taskList
       )
+      console.log("removeTaskFromBoard before state.boardLists[index].taskList",state.boardLists[index].taskList)
       if (index !== -1) {
         state.boardLists[index].taskList = state.boardLists[
           index
         ].taskList.filter((task) => task._id !== action.payload._id)
       }
-      saveTolocal(BuildBoardFromState(state))
+      console.log("removeTaskFromBoard after state.boardLists[index].taskList",state.boardLists[index].taskList)
+      // saveTolocal(BuildBoardFromState(state))
     },
     updateTaskInBoard: (state, action) => {
       let updatedTask = action.payload
@@ -608,6 +612,7 @@ const boardSlice = createSlice({
         const board = action.payload.board
         state.state = "success"
         state._id = board._id
+        state.isStarred = board.isStarred || false
         state.boardTitle = board.boardTitle
         state.boardStyle = board.boardStyle || null
         state.slug = board.slug || ""

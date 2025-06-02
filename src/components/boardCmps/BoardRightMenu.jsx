@@ -1,9 +1,14 @@
-import { toggleRightMenuOpen, updateBoardStyle } from "../../redux/BoardSlice"
+import {
+  toggleRightMenuOpen,
+  updateBoardStyle,
+  syncBoardAsync,
+} from "../../redux/BoardSlice"
 import { SvgServices } from "../../services/svgServices"
 import { useDispatch, useSelector } from "react-redux"
 import { IconButton } from "../IconButton"
 import { useState, useRef, useEffect } from "react"
 import { color } from "framer-motion"
+import { TaskOps } from "../../services/backendHandler"
 export function BoardRightMenu() {
   const dispatch = useDispatch()
   const board = useSelector((state) => state.boardReducer)
@@ -41,24 +46,58 @@ export function BoardRightMenu() {
 
   function onChooseColor(color) {
     console.log("onChooseColor", color)
+    const newBoardStyle = {
+      boardType: "color",
+      boardColor: color,
+      boardImg: "",
+    }
+    dispatch(updateBoardStyle(newBoardStyle))
 
-    dispatch(updateBoardStyle({ boardType: "color", boardColor: color }))
-    // setIsChoosingStyleType(false)
-    // setIsChoosingColor(false)
-    // setIsChoosingImg(true)
-    // e.preventDefault()
+    updateBoardInBackend(newBoardStyle)
   }
+
   function onChooseImg(img, color) {
     console.log("onChooseImg", img)
-
     dispatch(
-      updateBoardStyle({ boardType: "image", boardImg: img, boardColor: color })
-    )
-    // setIsChoosingStyleType(false)
-    // setIsChoosingColor(false)
-    // setIsChoosingImg(true)
-    // e.preventDefault()
+        syncBoardAsync({
+          method: TaskOps.UPDATE,
+          args: {
+            taskId: board._id,
+            body: {
+              method: TaskOps.UPDATE,
+              workId: "board",
+              boardStyle: newBoardStyle,
+            },
+          },
+          workId: "board",
+        })
+      )
+    dispatch(updateBoardStyle(newBoardStyle))
+
+    updateBoardInBackend(newBoardStyle)
   }
+
+  function updateBoardInBackend(newBoardStyle) {
+    if (board._id) {
+      dispatch(
+        syncBoardAsync({
+          method: TaskOps.UPDATE,
+          args: {
+            taskId: board._id,
+            body: {
+              method: TaskOps.UPDATE,
+              workId: "board",
+              boardStyle: newBoardStyle,
+            },
+          },
+          workId: "board",
+        })
+      )
+    } else {
+      console.log("no board._id when updateBoardInBackend", board._id)
+    }
+  }
+
   const primaryColor = "#912c5d"
   return (
     <div className={`board-right-menu-wrapper ${displayMenu}`}>
@@ -105,23 +144,12 @@ export function BoardRightMenu() {
                   fill="currentColor"
                 ></path>
               </IconButton>
-              {/* <SvgServices size={2} name="SvgcloseTop" /> */}
             </div>
           </div>
           <hr className="header-hr"></hr>
         </header>
 
         <section className="board-right-menu-content-wrapper">
-          {/* {!isChoosingColor &&<div className="board-right-menu-content-container">
-                <button
-            onClick={()=>{
-                console.log("board-right-menu-content-container clicked")
-                // setIsChoosingColor(true)
-                // e.preventDefault()
-                }}>
-                    Change background
-                </button>
-                </div>} */}
           {!isChoosingStyleType && !isChoosingColor && !isChoosingImg && (
             <div className="board-right-menu-content-container">
               <button
@@ -131,7 +159,6 @@ export function BoardRightMenu() {
                   setIsChoosingStyleType(true)
                   setIsChoosingColor(false)
                   setIsChoosingImg(false)
-                  // e.preventDefault()
                 }}
               >
                 <span
@@ -160,7 +187,6 @@ export function BoardRightMenu() {
                       setIsChoosingStyleType(false)
                       setIsChoosingColor(false)
                       setIsChoosingImg(true)
-                      // e.preventDefault()
                     }}
                   ></div>
                   <span>Photos</span>
@@ -177,7 +203,6 @@ export function BoardRightMenu() {
                       setIsChoosingStyleType(false)
                       setIsChoosingColor(true)
                       setIsChoosingImg(false)
-                      // e.preventDefault()
                     }}
                   ></div>
                   <span>colors</span>
@@ -197,7 +222,7 @@ export function BoardRightMenu() {
                 ></button>
                 <button
                   className="board-right-menu-choose-color-button"
-                  style={{ backgroundColor: "#D29034" }}
+                  style={{ backgroundColor: "#0079BF" }}
                   onClick={() => {
                     onChooseColor("#D29034")
                   }}
@@ -484,7 +509,7 @@ export function BoardRightMenu() {
                     onClick={() => {
                       onChooseImg(
                         "https://plus.unsplash.com/premium_photo-1748729883233-390c46f9e669?q=80&w=2001&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                        "#cf9d59"//
+                        "#cf9d59"
                       )
                     }}
                   ></button>
@@ -499,12 +524,11 @@ export function BoardRightMenu() {
                     onClick={() => {
                       onChooseImg(
                         "https://plus.unsplash.com/premium_photo-1748729621110-2a54d1167ba7?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                        "#73c4e6"//
+                        "#73c4e6"
                       )
                     }}
                   ></button>
                 </div>
-                {/* <img src="https://images.unsplash.com/photo-1742156345582-b857d994c84e?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzQ4ODUzMjk3fA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=200" alt=""></img> */}
               </div>
             </div>
           )}

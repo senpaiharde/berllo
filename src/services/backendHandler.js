@@ -7,7 +7,7 @@ import api from '../api/api';
 const backendHandler = async ({ args }) => {
   const { taskId, body } = args || {};
   // console.log('backendHandler',args);
-  // console.log('backendHandler body',body);
+  console.log('backendHandler body',body);
   // console.log('backendHandler', body.method, body.workId, taskId);
   console.log(`/${body.workId}/${body.method}`);
   let data;
@@ -38,7 +38,8 @@ const backendHandler = async ({ args }) => {
       break;
     }
     case 'delete': {
-      await api.delete(`/${body.workId}/${taskId}`);
+      console.log(`delete ${body.workId}/${taskId} body:`, body);
+      await api.delete(`/${body.workId}/${taskId}`,body);
       data = { _id: taskId };
       break;
     }
