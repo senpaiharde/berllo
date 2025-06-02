@@ -269,12 +269,12 @@ export function BoardRightMenu() {
                     className="board-right-menu-choose-img-button"
                     style={{
                       backgroundImage:
-                        "url(https://images.unsplash.com/photo-1742156345582-b857d994c84e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzQ4ODUzMjk3fA&ixlib=rb-4.1.0&q=80&w=200)",
+                        "url(https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
                     }}
                     onClick={() => {
                       onChooseImg(
-                        "https://images.unsplash.com/photo-1742156345582-b857d994c84e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzQ4ODUzMjk3fA&ixlib=rb-4.1.0&q=80&w=200",
-                        "#0079BF"
+                        "https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#966726"
                       )
                     }}
                   ></button>
@@ -284,17 +284,226 @@ export function BoardRightMenu() {
                     className="board-right-menu-choose-img-button"
                     style={{
                       backgroundImage:
-                        "url(https://images.unsplash.com/photo-1741812191037-96bb5f12010a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDJ8MzE3MDk5fHx8fHwyfHwxNzQ4ODUzMjk3fA&ixlib=rb-4.1.0&q=80&w=200)",
+                        "url(https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
                     }}
                     onClick={() => {
                       onChooseImg(
-                        "https://images.unsplash.com/photo-1741812191037-96bb5f12010a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDJ8MzE3MDk5fHx8fHwyfHwxNzQ4ODUzMjk3fA&ixlib=rb-4.1.0&q=80&w=200",
+                        "https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#87CEEB"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://images.unsplash.com/photo-1748632799967-63f8c53d69c1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://images.unsplash.com/photo-1748632799967-63f8c53d69c1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#87CEEB"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://images.unsplash.com/photo-1748719151811-60692f7f439c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://images.unsplash.com/photo-1748719151811-60692f7f439c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#cca064"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://images.unsplash.com/photo-1748632800124-dc5874469774?q=80&w=2151&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://images.unsplash.com/photo-1748632800124-dc5874469774?q=80&w=2151&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#20a7db"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://images.unsplash.com/photo-1748632799979-76e04dde23a8?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://images.unsplash.com/photo-1748632799979-76e04dde23a8?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#ec6ef5"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://images.unsplash.com/photo-1748534515437-d8077c27311d?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://images.unsplash.com/photo-1748534515437-d8077c27311d?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#3f3f3f"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#87CEEB"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://images.unsplash.com/photo-1743024282286-5bfecf55a834?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://images.unsplash.com/photo-1743024282286-5bfecf55a834?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#131862"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://images.unsplash.com/photo-1748818328832-73aa4d129903?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://images.unsplash.com/photo-1748818328832-73aa4d129903?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#7f7f7f"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://plus.unsplash.com/premium_photo-1746420145979-f53c38fa829c?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://plus.unsplash.com/premium_photo-1746420145979-f53c38fa829c?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#f5ca6e"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://plus.unsplash.com/premium_photo-1748729621135-57a3168c9fbd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://plus.unsplash.com/premium_photo-1748729621135-57a3168c9fbd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#73c4e6"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://plus.unsplash.com/premium_photo-1748729621256-d7612f6d1550?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://plus.unsplash.com/premium_photo-1748729621256-d7612f6d1550?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                         "#D29034"
                       )
                     }}
                   ></button>
                 </div>
-
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://plus.unsplash.com/premium_photo-1748729874878-7f56dce2cddb?q=80&w=2012&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://plus.unsplash.com/premium_photo-1748729874878-7f56dce2cddb?q=80&w=2012&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#cf9d59"
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://plus.unsplash.com/premium_photo-1748729883233-390c46f9e669?q=80&w=2001&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://plus.unsplash.com/premium_photo-1748729883233-390c46f9e669?q=80&w=2001&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#cf9d59"//
+                      )
+                    }}
+                  ></button>
+                </div>
+                <div className="board-right-menu-choose-img-container">
+                  <button
+                    className="board-right-menu-choose-img-button"
+                    style={{
+                      backgroundImage:
+                        "url(https://plus.unsplash.com/premium_photo-1748729621110-2a54d1167ba7?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+                    }}
+                    onClick={() => {
+                      onChooseImg(
+                        "https://plus.unsplash.com/premium_photo-1748729621110-2a54d1167ba7?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "#73c4e6"//
+                      )
+                    }}
+                  ></button>
+                </div>
                 {/* <img src="https://images.unsplash.com/photo-1742156345582-b857d994c84e?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNzQ4ODUzMjk3fA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=200" alt=""></img> */}
               </div>
             </div>
