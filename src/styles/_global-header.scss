@@ -500,6 +500,12 @@
     color: #172b4d;
     font-size: 14px;
     font-weight: 500;
+    text-decoration: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 104px;
+      max-width: 94px;
+      white-space: nowrap;
     .ClassnameGlobalName {
       font-size: 12px;
       color: #626f86;
