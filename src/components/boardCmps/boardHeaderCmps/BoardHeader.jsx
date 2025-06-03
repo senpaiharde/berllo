@@ -13,7 +13,7 @@ import {
 import { updateBoardNameInWorkSpace } from "../../../redux/WorkSpaceSlice"
 import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
-import BoardHeaderFilter from "./boardHeaderFilter.jsx"
+import BoardHeaderFilter from "./BoardHeaderFilter.jsx"
 
 import { TaskOps, toggleStar } from "../../../services/backendHandler"
 
