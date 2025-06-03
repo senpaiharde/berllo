@@ -30,10 +30,10 @@ const BoardsCreateDropdown = ({ onClose }) => {
   };
   async function createNewboard() {
     setLoading(true);
-
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
     const token = localStorage.getItem('token');
     try {
-      const resp = await fetch('http://localhost:4000/board/', {
+      const resp = await fetch(`${API_BASE}/board/`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

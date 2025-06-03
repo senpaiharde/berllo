@@ -8,11 +8,11 @@ export const demoUsersStorage = [
   { name: 'Sam Demo', email: 'dave@demo.local' },
   { name: 'Dima Demo', email: 'eve@demo.local' },
 ];
-
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 export const accountSwitch = async(email) => {
     try {
           const res = await axios.post(
-            'http://localhost:4000/auth/login', 
+            `${API_BASE}/auth/login`, 
             { email, password: 'demo123' }
           );
           localStorage.setItem('token', res.data.token);
@@ -32,7 +32,7 @@ const token = localStorage.getItem('token')
     
     if (!token) throw new Error('No auth token found');
 
-    const res = await fetch('http://localhost:4000/user/me', {
+    const res = await fetch(`${API_BASE}/user/me`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -64,7 +64,7 @@ export default fetchCurrentUser;
     
     
 
-    const res = await fetch('http://localhost:4000/board/', {
+    const res = await fetch(`${API_BASE}/board/`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

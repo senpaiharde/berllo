@@ -67,6 +67,7 @@ export function Home() {
       console.error('Failed to toggle star:', err);
     }
   };
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 const token = localStorage.getItem('token')
   const handleCreateAI = async () => {
     if (!aiGoal.trim() || !aiStart || !aiEnd) {
@@ -77,7 +78,7 @@ const token = localStorage.getItem('token')
     try {
       const prompt = `${aiGoal} from ${aiStart} until ${aiEnd}`;
       console.error('err at creating board with ai:', prompt);
-      const resp = await fetch('http://localhost:4000/autoBoard/', {
+      const resp = await fetch(`${API_BASE}/autoBoard/`, {
         method: 'POST',
         headers: 
         { Authorization: `Bearer ${token}`,
