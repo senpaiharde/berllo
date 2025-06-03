@@ -547,14 +547,23 @@ const boardSlice = createSlice({
     updateTaskInBoard: (state, action) => {
       console.log("updateTaskInBoard action.payload", action.payload)
       let updatedTask = action.payload
-      console.log("updateTaskInBoard", updatedTask)
+      // console.log("updateTaskInBoard", updatedTask)
       if (action.payload.fromBoard) {
         console.log("action.payload.task", action.payload.task)
         updatedTask = action.payload.task
       } else {
-        if (updatedTask.title) {
+        if (updatedTask.title || action.payload.newTask) {
           console.log("updatedTask transformTaskFromBackend")
           updatedTask = transformTaskFromBackend(updatedTask)
+        }
+        if (action.payload.newTask) {
+          console.log(
+            "action.payload.NewTaskFromBackend",
+            action.payload.NewTaskFromBackend
+          )
+          updatedTask = transformTaskFromBackend(
+            action.payload.NewTaskFromBackend
+          )
         }
       }
 
@@ -564,6 +573,14 @@ const boardSlice = createSlice({
         (list) => list._id === updatedTask.taskList
       )
       if (boardListsIndex === -1) {
+        return
+      }
+      if (action.payload.newTask) {
+        
+        const tasks = state.boardLists[boardListsIndex].taskList
+        if (tasks.length > 0) {
+          tasks[tasks.length - 1] = updatedTask
+        }
         return
       }
       const taskIndex = state.boardLists[boardListsIndex].taskList.findIndex(

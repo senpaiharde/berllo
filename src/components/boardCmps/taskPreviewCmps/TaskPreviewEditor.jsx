@@ -50,7 +50,7 @@ export function TaskPreviewEditor({}) {
       setInputValue(task.title)
     }
   }, [task])
- const imageHeight =24;
+  const imageHeight = 24
   function onUpdateTask(value) {
     // console.log("onUpdateTask value", value)
     if (value !== "true") {
@@ -82,10 +82,13 @@ export function TaskPreviewEditor({}) {
         e.stopPropagation()
       }}
     >
-      <div className="task-preview-editor-container" style={displayPosition}
-      onClick={(e) => {
-         e.stopPropagation()
-      }}>
+      <div
+        className="task-preview-editor-container"
+        style={displayPosition}
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
+      >
         <form>
           <div
             className="task-preview"
@@ -112,12 +115,15 @@ export function TaskPreviewEditor({}) {
                     task.cover.coverType === "image" && imageHeight
                       ? `${imageHeight}px`
                       : undefined,
+                  backgroundSize: "cover",
                 }}
               ></div>
             )}
             <div className="task-preview-details">
               <div className="task-preview-labels">
-                {task && <TaskPreviewLabels task={convertedTask}></TaskPreviewLabels>}
+                {task && (
+                  <TaskPreviewLabels task={convertedTask}></TaskPreviewLabels>
+                )}
               </div>
               <div className="task-preview-header">
                 <span className="task-preview-header-title">

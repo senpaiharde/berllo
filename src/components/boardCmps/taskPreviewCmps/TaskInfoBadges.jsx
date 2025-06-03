@@ -151,6 +151,7 @@ export function TaskInfoBadges({ task }) {
             justifyContent: "center",
             alignItems: "center",
             display: "flex",
+            marginBottom: "4px"
           }}
         >
           <IconButton>
@@ -165,7 +166,7 @@ export function TaskInfoBadges({ task }) {
       )}
 
       {task.taskActivityComments?.length > 0 && (
-        <span style={{ display: "flex", alignItems: "center" }}>
+        <span style={{ display: "flex", alignItems: "center",marginBottom: "4px" }}>
           <IconButton
           // label={task.taskActivityComments.length}
           >
@@ -180,7 +181,7 @@ export function TaskInfoBadges({ task }) {
         </span>
       )}
       {task.attachments?.length > 0 && (
-        <span style={{ display: "flex", alignItems: "center" }}>
+        <span style={{ display: "flex", alignItems: "center",marginBottom: "4px" }}>
           <IconButton
           // label={task.attachments.length}
           >

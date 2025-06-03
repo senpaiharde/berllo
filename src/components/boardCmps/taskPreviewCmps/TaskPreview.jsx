@@ -19,6 +19,9 @@ import { TaskPreviewLabels } from "./TaskPreviewLabels"
 import TaskDetailsMembers from "../taskDetailsCmp/TaskDetailsMembers"
 import { Draggable } from "@hello-pangea/dnd"
 import { TaskOps } from "../../../services/backendHandler"
+import api from "../../../api/api"
+import { ca } from "date-fns/locale"
+import { transformTaskFromBackend } from "../../../services/backendDataConverionToState"
 // import { getBaseUrl } from "../services/util.service.js"
 // import { PropTypes } from "prop-types"
 
@@ -66,10 +69,15 @@ export function TaskPreview({
 
   const [isNewtask, setIsNewTask] = useState(NewTask)
 
-  function onUpdateTask(value) {
+  async function onUpdateTask(value) {
     // console.log("onUpdateTask value", value)
     if (value === true || value === false) {
-      // dispatch(updateTaskInBoard({ task:{...task, taskChecked: value} , fromBoard: true }))
+      dispatch(
+        updateTaskInBoard({
+          task: { ...task, taskChecked: value },
+          fromBoard: true,
+        })
+      )
       dispatch(openTaskDetails(task))
 
       // c) then fetch the real details from the API
@@ -82,27 +90,51 @@ export function TaskPreview({
         })
       )
     } else {
-      dispatch(updateTaskInBoard({ ...task, taskTitle: value }))
-      console.log("updating task title", value)
-      console.log("task", task)
-      dispatch(
-        syncTaskAsync({
-          method: TaskOps.ADD,
-          args: {
-            body: {
-              method: TaskOps.ADD,
-              workId: "tasks",
-              board: task.taskboard,
-              title: value,
-              position: task.position,
-              listId: task.taskList,
-            },
-          },
+      // dispatch(updateTaskInBoard({ ...task, taskTitle: value }))
+      // console.log("updating task title", value)
+      // console.log("task", task)
+      // dispatch(
+      //   syncTaskAsync({
+      //     method: TaskOps.ADD,
+      //     args: {
+      //       body: {
+      //         method: TaskOps.ADD,
+      //         workId: "tasks",
+      //         board: task.taskboard,
+      //         title: value,
+      //         position: task.position,
+      //         listId: task.taskList,
+      //       },
+      //     },
 
-          workId: "tasks",
-        })
-      )
+      //     workId: "tasks",
+      //   })
+      // )
+      const NewTaskFromBackend = await addTaskToBackend(value)
+      console.log("NewTaskFromBackend", NewTaskFromBackend)
+
+      dispatch(updateTaskInBoard( {NewTaskFromBackend, newTask: true})) 
       onAddedNewTask()
+    }
+  }
+  async function addTaskToBackend(value) {
+    const body = {
+      method: TaskOps.ADD,
+      workId: "tasks",
+      board: task.taskboard,
+      title: value,
+      position: task.position,
+      listId: task.taskList,
+    }
+    try {
+      const resp = await api.post(`/${body.workId}/`, body)
+      console.log("addTaskToBackend resp", resp)
+      const taskk = resp.data
+      console.log("addTaskToBackend taskk", taskk)
+      return taskk;
+    } catch (error) {
+      console.error("Error adding task to backend:", error)
+      return null
     }
   }
   function onDeleteTask() {
@@ -134,29 +166,29 @@ export function TaskPreview({
 
   function deleteTaskFromList() {
     console.log("taskList", taskListById)
-    console.log("taskList",taskListById," remove :", task._id)
-    const index = taskListById.indexOf(task._id);
+    console.log("taskList", taskListById, " remove :", task._id)
+    const index = taskListById.indexOf(task._id)
     if (index !== -1) {
-      taskListById.splice(index, 1);
+      taskListById.splice(index, 1)
     }
-    
+
     console.log("new boardListById", taskListById)
     // delete task from list taskList in backend
     dispatch(
-          syncBoardAsync({
+      syncBoardAsync({
+        method: TaskOps.UPDATE,
+        args: {
+          body: {
             method: TaskOps.UPDATE,
-            args: {
-              body: {
-                method: TaskOps.UPDATE,
-                workId: "list",
-                taskList: taskListById,
-              },
-              taskId: task.taskList,
-            },
-
             workId: "list",
-          })
-        )
+            taskList: taskListById,
+          },
+          taskId: task.taskList,
+        },
+
+        workId: "list",
+      })
+    )
   }
   function onRemoveCurrentTask(value) {
     console.log("onRemoveCurrentTask", value)
@@ -270,7 +302,7 @@ export function TaskPreview({
                     <div
                       className={
                         task.taskCover.coverType === "image"
-                          ? "task-front-cover task-front-cover--image"
+                          ? "task-front-cover task-front-cover--image task-preview-img"
                           : "task-front-cover task-front-cover--color"
                       }
                       // className="task-front-cover"
