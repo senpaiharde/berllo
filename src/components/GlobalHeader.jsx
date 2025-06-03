@@ -65,7 +65,7 @@ const GlobalHeader = () => {
     setLoading(true);
     try {
       const prompt = `${aiGoal} from ${aiStart} until ${aiEnd}`;
-      console.error('err at creating board with ai:', prompt);
+      console.log('Prompting:', prompt);
       const resp = await fetch('http://localhost:4000/autoBoard/', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -76,14 +76,14 @@ const GlobalHeader = () => {
         throw new Error(errData.error || 'Failed To create Board!.');
       }
       const { boardId } = await resp.json();
-      console.error('err at creating board with ai:', boardId);
+      console.log('board id:', boardId);
       const slugBase = aiGoal.trim().split(' ').slice(0, 5).join(' ');
       const slug = slugBase
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '');
       navigate(`/b/${boardId}/${slug}`);
-      console.error('err at creating board with ai:', slug);
+      console.log('board name:', slug);
     } catch (err) {
       console.error('err at creating board with ai:', err);
       alert('failed to create board: ' + err.message);
