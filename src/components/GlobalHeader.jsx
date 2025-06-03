@@ -61,6 +61,7 @@ const GlobalHeader = () => {
     create: useRef(null),
     profile: useRef(null),
   };
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
   const token = localStorage.getItem('token');
   const handleCreateAI = async () => {
     if (!aiGoal.trim() || !aiStart || !aiEnd) {
@@ -71,7 +72,7 @@ const GlobalHeader = () => {
     try {
       const prompt = `${aiGoal} from ${aiStart} until ${aiEnd}`;
       console.log('Prompting:', prompt);
-      const resp = await fetch('http://localhost:4000/autoBoard/', {
+      const resp = await fetch(`${API_BASE}/autoBoard/`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
