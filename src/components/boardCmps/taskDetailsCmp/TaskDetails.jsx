@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   closeTaskDetails,
   liveUpdateTask,
   openTaskDetails,
-  syncTaskAsync,
-  taskUpdated,
+  
   updateSelectedTaskLive,
 } from '../../../redux/taskDetailsSlice';
 import { TaskOps } from '../../../services/backendHandler';
@@ -34,13 +33,27 @@ const TaskDetails = () => {
   const navigate = useNavigate();
   const { taskId, boardId } = useParams();
   const pureTaskId = taskId.split('-')[0];
-  const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
-
+  
+  const selectedTask = useSelector((s) => s.taskDetailsReducer?.selectedTask);
   const board = useSelector((s) => s.boardReducer);
   const boardLists = board.boardLists || [];
-  const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
+
+  const cover = selectedTask?.cover;
+
+ const  isDueComplete  = selectedTask?.isDueComplete;
+
+ const workId = 'tasks';
+  const method = 'update';
+  const slug = board.slug || board.boardTitle?.toLowerCase().replace(/\s+/g, '-') || 'board';
+
+  const localTask = boardLists
+    .flatMap((list) => list.taskList || [])
+    .find((t) => t._id === pureTaskId);
 
 
+
+
+  //sockets connection
  useEffect(() => {
     socket.connect();
     socket.emit('joinTask', pureTaskId);
@@ -56,10 +69,9 @@ const TaskDetails = () => {
   }, [dispatch]);
 
 
-  const localTask = boardLists
-    .flatMap((list) => list.taskList || [])
-    .find((t) => t._id === pureTaskId);
 
+
+//page loading data //and stores him into slices that connected to backend util function
   useEffect(() => {
     if (boardLists.length === 0 && boardId) {
       dispatch(fetchBoardById(boardId));
@@ -69,11 +81,13 @@ const TaskDetails = () => {
     if (localTask && (!selectedTask || selectedTask._id !== localTask._id)) {
       dispatch(openTaskDetails(localTask));
       
-      dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId: 'tasks' }));
+      dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId }));
       
     } 
   }, [boardLists, localTask, selectedTask, boardId, dispatch, pureTaskId]);
 
+
+  //page reading closing the modal with escape
   useEffect(() => {
     const hanldeEsc = (e) => {
       if (e.key === 'Escape') handleClose();
@@ -87,26 +101,30 @@ const TaskDetails = () => {
     return () => {
       document.body.style.overflow = 'auto';
     };
-  });
+  },[]);
 
-  if (!selectedTask) return <div />;
 
-  const { isDueComplete = false } = selectedTask;
 
-  const slug = board.slug || board.boardTitle?.toLowerCase().replace(/\s+/g, '-') || 'board';
 
+
+
+ 
+// closing the modal and navigating back into the board
   function handleClose() {
     dispatch(closeTaskDetails());
     navigate(`/b/${board._id}/${slug}`);
   }
-  const workId = 'tasks';
-  const method = 'update';
+
+
+
+
+ // changing the task title
   const handleTitleChange = (update) => {
     console.log('handleTitleChange', update);
     dispatch(liveUpdateTask({ title: update, workId, method }));
   };
-  const cover = selectedTask.cover;
 
+    if (!selectedTask) return <div />;
   return (
     <div className="td-modal">
       <div className={`td-container${cover ? ' has-cover' : ''}`}>
@@ -176,7 +194,7 @@ const TaskDetails = () => {
                 color: isDueComplete === false ? '#172b4d' : '#626f86',
               }}
               className="td-title-input"
-              value={task?.title || ''}
+              value={selectedTask?.title || ''}
               onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="Enter task title"
             />
@@ -193,16 +211,16 @@ const TaskDetails = () => {
         <div className="td-main">
           <div className="td-main-left">
             <div className="td-section-top">
-              {task?.members?.length > 0 && <TaskDetailsMembers />}
-              {task?.labels?.length > 0 && <TaskDetailsLabel />}
+              {selectedTask?.members?.length > 0 && <TaskDetailsMembers />}
+              {selectedTask?.labels?.length > 0 && <TaskDetailsLabel />}
               <TaskDetailsNotifcations />
-              {task?.taskDueDate &&  <TaskDetailsDate />}
+              {selectedTask?.taskDueDate &&  <TaskDetailsDate />}
             </div>
 
             <TaskDescription />
-            <div style={{ marginTop: '-42px' }} />
-            {task?.attachments?.length > 0 && <AttachmentUi />}
-            {task?.checklist?.length > 0 && <TaskChecklist />}
+            <div className='TaskDescriptionSpacing' />
+            {selectedTask?.attachments?.length > 0 && <AttachmentUi />}
+            {selectedTask?.checklist?.length > 0 && <TaskChecklist />}
            <TaskDetailsActivity />
           </div>
 
