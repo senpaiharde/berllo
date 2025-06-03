@@ -28,10 +28,11 @@
   }
 
   .td-section-label-color{
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    
     box-sizing: border-box;
     height: 32px;
     min-width: 48px;

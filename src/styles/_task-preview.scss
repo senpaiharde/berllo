@@ -29,6 +29,7 @@
 // }
 
 .task-front-cover {
+    position: relative;
   height: 36px;
   overflow: hidden;
   border-top-left-radius: 8px;
@@ -50,7 +51,7 @@
     background-size: cover;
   }
 
-  position: relative;
+  
   overflow: hidden;
 }
 
@@ -181,8 +182,9 @@
   margin-bottom: 4px;
 }
 .task-complete-svg {
+position: relative;
   display: inline-flex;
-  position: relative;
+ 
   align-items: center;
   justify-content: center;
 }

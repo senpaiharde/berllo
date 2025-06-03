@@ -65,8 +65,9 @@ color:#172b4d;
 }
 
 .DisplayCardsInBoards{
-    background-color: rgb(205, 90, 145);
     position: relative;
+    background-color: rgb(205, 90, 145);
+    
     box-sizing: border-box;
     border-radius: 3px;
     cursor: pointer;
@@ -109,9 +110,10 @@ color:#172b4d;
 
 
 .DisplayCardsInBoardsADiv2{
+    position: relative;
         display: flex
 ;
-    position: relative;
+   
     flex-direction: column;
     justify-content: space-between;
     gap: 8px;
@@ -192,10 +194,11 @@ color:#172b4d;
 }
 
 .BoardsHomeContainerMainWorkspaceHeader {
+    position: relative;
   display: flex;
   margin: 0 0 0 40px;
   padding: 0 0 11px;
-  position: relative;
+ 
 }
 
 .LoBoardsHomeContainerMainWorkspaceHeaderLogo {
@@ -247,6 +250,7 @@ color:#172b4d;
 }
 
 .boards-page-board-section-header-options-item {
+    position: relative;
   background-color: var(--ds-background-neutral, #091e420f);
   border: none;
   border-radius: 3px;
@@ -257,7 +261,7 @@ color:#172b4d;
   margin-bottom: 8px;
   margin-left: 8px;
   padding: 6px 12px 6px 6px;
-  position: relative;
+  
   text-decoration: none;
    &:hover{
         background-color: var(--ds-background-neutral-hovered, #091e4224);
@@ -281,6 +285,7 @@ color:#172b4d;
   width: 23.5%;
 }
 .board-tile {
+    position: relative;
   background-color: rgb(205, 90, 145);
   margin-right: 0;
   border-radius: 3px;
@@ -290,7 +295,7 @@ color:#172b4d;
   color: #fff;
   line-height: 20px;
   padding: 8px;
-  position: relative;
+  
   text-decoration: none;
   &:hover {
     filter: brightness(110%);
@@ -311,11 +316,12 @@ color:#172b4d;
 }
 
 .board-tile-details {
+    position: relative;
   display: flex;
   flex-direction: column;
   height: 80px;
   justify-content: space-between;
-  position: relative;
+  
 }
 
 .board-tile-details-name {

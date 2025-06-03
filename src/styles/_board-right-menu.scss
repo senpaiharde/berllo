@@ -156,6 +156,7 @@
 }
 
 .board-right-menu-choose-style-button-preview {
+    position: relative;
   width: 100%;
   height: 96px;
   margin-bottom: 8px;
@@ -163,7 +164,7 @@
   // background-image: url(https://trello.com/assets/97db30f….png);
   background-position: center;
   background-size: cover;
-  position: relative;
+  
   overflow: hidden;
   // &::after {
   //   content: '';

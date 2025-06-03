@@ -1,9 +1,10 @@
 .work-space {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1 1 0%;
   overflow-y: auto;
-  position: relative;
+
   height: 100%;
   // height: 85vh;
   // height: fit-content;
@@ -18,22 +19,24 @@
 }
 
 .popover-boundary {
-  display: flex;
   position: relative;
+  display: flex;
+
   flex-direction: column;
   flex-grow: 1;
   overflow-y: auto;
   outline: none;
   height: 100%;
 }
-.board-main-components-container{
+.board-main-components-container {
   //
+  position: relative;
   display: flex;
-    flex-direction: row;
-    flex: 1 1 0%;
-    position: relative;
-    
-    overflow-y: auto;
+  flex-direction: row;
+  flex: 1 1 0%;
+ 
+
+  overflow-y: auto;
 }
 
 // .board-sidebar-open{
