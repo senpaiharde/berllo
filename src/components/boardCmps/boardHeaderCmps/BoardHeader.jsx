@@ -10,6 +10,7 @@ import {
   toggleRightMenuOpen,
   syncBoardAsync,
 } from "../../../redux/BoardSlice"
+import { updateBoardNameInWorkSpace } from "../../../redux/WorkSpaceSlice"
 import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
 import BoardHeaderFilter from "./boardHeaderFilter"
@@ -107,6 +108,7 @@ export function BoardHeader() {
     console.log("onChangeTextInput(value)", value)
     dispatch(updateboardTitle(value))
     if (board._id) {
+      dispatch(updateBoardNameInWorkSpace({ _id: board._id, name: value }))
       dispatch(
         syncBoardAsync({
           method: TaskOps.UPDATE,

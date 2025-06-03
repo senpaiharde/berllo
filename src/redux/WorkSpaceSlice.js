@@ -99,6 +99,17 @@ const workSpaceSlice = createSlice({
         workSpace.name = action.payload.name
       }
     },
+    updateBoardNameInWorkSpace: (state, action) => {
+      // const updatedList = action.payload
+      console.log(" updateBoardNameInWorkSpace action.payload", action.payload)
+      const index = state.boards.findIndex(
+        (board) => board._id === action.payload._id
+      )
+      // console.log("updateBoardlist old", state)
+      if (index !== -1) {
+        state.boards[index].boardTitle = action.payload.name
+      }
+    },
     deleteBoardlist: (state, action) => {
       const board = state.boards.find((x) => x.id === action.payload.id)
     },
@@ -148,5 +159,6 @@ export const {
   removeBoard,
   removeworkSpace,
   updateworkSpaceName,
+  updateBoardNameInWorkSpace,
 } = workSpaceSlice.actions
 export default workSpaceSlice.reducer
