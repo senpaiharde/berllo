@@ -122,16 +122,16 @@ export function BoardRightMenu() {
   }
   function onDeleteBoard() {
     console.log("Permanently delete board clicked")
-    // dispatch(
-    //   syncBoardAsync({
-    //     method: TaskOps.DELETE,
-    //     args: {
-    //       taskId: board._id,
-    //       body: { method: TaskOps.DELETE, workId: "board" },
-    //     },
-    //     workId: "board",
-    //   })
-    // )
+    dispatch(
+      syncBoardAsync({
+        method: TaskOps.DELETE,
+        args: {
+          taskId: board._id,
+          body: { method: TaskOps.DELETE, workId: "board" },
+        },
+        workId: "board",
+      })
+    )
     dispatch(removeBoard(board._id))
     exitMenu()
     const firstBoard = workSpace.boards[0]
