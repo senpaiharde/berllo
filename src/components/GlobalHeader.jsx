@@ -177,12 +177,12 @@ const GlobalHeader = () => {
   }
 function darkenHexColor(hex, percent) {
     // Remove "#" if present
-    hex = hex.replace(/^#/, "")
+    hex = hex?.replace(/^#/, "")
 
     // Parse hex into RGB
-    let r = parseInt(hex.slice(0, 2), 16)
-    let g = parseInt(hex.slice(2, 4), 16)
-    let b = parseInt(hex.slice(4, 6), 16)
+    let r = parseInt(hex?.slice(0, 2), 16)
+    let g = parseInt(hex?.slice(2, 4), 16)
+    let b = parseInt(hex?.slice(4, 6), 16)
 
     // Decrease each component by percentage
     r = Math.max(0, Math.floor(r * (1 - percent / 100)))
@@ -193,7 +193,9 @@ function darkenHexColor(hex, percent) {
     const toHex = (c) => c.toString(16).padStart(2, "0")
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`
   }
-const color =  darkenHexColor(board?.boardStyle.boardColor,50)
+const color =  darkenHexColor(board?.boardStyle?.boardColor ,50)  || 'black';
+const boxcolors = board?.boardStyle?.boardColor  || board?.boardStyle?.boardImg  || 'black'
+const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
   return (
     <header className="global-header" style={{ backgroundColor:color}}>
       <div className="header-left">
@@ -349,7 +351,8 @@ const color =  darkenHexColor(board?.boardStyle.boardColor,50)
 
                     return (
                       <a key={id} className="recenetBoardsNexted ">
-                        <div className="boxboards" />
+                        <div className="boxboards" 
+                        style={{backgroundColor:color}}/>
                         <h2
                           onClick={() => {
                             console.log("last visited entry:", recent)
@@ -473,7 +476,8 @@ const color =  darkenHexColor(board?.boardStyle.boardColor,50)
           <div ref={dropdownRefs.create} className="dropdown-wrapper">
             <button
             
-            className="create-button" onClick={() => toggleDropdown('create')}>
+            className="create-button" 
+            style={{ backgroundColor:color}} onClick={() => toggleDropdown('create')}>
               Create
             </button >
             {activeDropdown === 'create' && (

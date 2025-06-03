@@ -4,13 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useRef } from 'react';
 import { SvgServices } from '../services/svgServices';
-import { syncTaskAsync } from '../redux/TaskDetailsSlice';
 
-import { TaskOps } from '../services/backendHandler';
+
+
 import { useNavigate } from 'react-router-dom';
-import { fetchCurrentBoard } from '../services/backendCallsUsers';
-import { syncBoardAsync } from '../redux/BoardSlice';
-import { ca } from 'date-fns/locale';
 
 const BoardsCreateDropdown = ({ onClose }) => {
   const navigate = useNavigate();
