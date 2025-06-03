@@ -13,9 +13,6 @@ import {Login} from './pages/Login';
 import {Home} from './pages/Home';
 import Workspace from './pages/WorkSpace';
 import TaskDetails from './components/boardCmps/taskDetailsCmp/TaskDetails.jsx';
-import {getLocalData} from './services/storageService.js';
-import {fetchBoardById} from './redux/BoardSlice.js';
-import fetchCurrentUser from './services/backendCallsUsers.js';
 import { Boards } from './pages/Boards.jsx';
 
 
@@ -23,25 +20,6 @@ function App() {
   const dispatch = useDispatch();
   
   const [user, setUser] = useState(null);
-  
-
- 
-  
-// useEffect(() => {
-//     const loadInitialBoard = async () => {
-//       const data = await getLocalData();
-//       const firstBoard = data?.boards?.[0];
-  
-//       if (firstBoard) {
-       
-//         // dispatch(fetchBoardById(firstBoard._id)); 
-//       }
-//     };
-  
-//     loadInitialBoard();
-//   }, [dispatch]);
-
-  // using *  telling that Workspace is responsible for all nested routes under /b/:boardId/:boardName/
   return (
     <BrowserRouter>
       <div style={{ height: "100%" }}>

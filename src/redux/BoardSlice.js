@@ -30,7 +30,7 @@ export const syncBoardAsync = createAsyncThunk(
       console.log(method, workId, args, "update happens here", workId)
       const data = await backendHandler({ method, args, workId })
       console.log("syncBoardAsync method", method)
-      if (method === TaskOps.ADD || method === TaskOps.UPDATE) {
+      if (method === TaskOps.ADD || method === TaskOps.UPDATE|| method === TaskOps.DELETE) {
         return
       }
       //   "backendDataConverionToState ",

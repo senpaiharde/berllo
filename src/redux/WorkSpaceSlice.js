@@ -64,31 +64,13 @@ const workSpaceSlice = createSlice({
   },
   reducers: {
     addnewBoard: (state, action) => {
-      const newBoard = {
-        _id: nanoid(),
-        boardTitle: action.payload,
-
-        slug: "",
-        isStarred: null,
-        boardLists: [],
-        state: "idle",
-        error: null,
-        activeBoard: null,
-      }
-      // state.boards.push(newBoard)
-      console.log("addnewBoard", newBoard)
-      // syncWorkSpaceAsync({
-      //   method: TaskOps.POST,
-      //   args: {
-      //     body: { method: TaskOps.POST, workId: "board", newBoard },
-      //   },
-      //   workId: "board",
-      // })
       
-      // saveTolocal(newBoard)
+      // console.log("addnewBoard action.payload", action.payload)
+      state.boards.push(action.payload)
     },
     removeBoard: (state, action) => {
-      // saveTolocal(newBoard)
+      console.log("removeBoard action.payload", action.payload)
+      state.boards = state.boards.filter((x) => x._id !== action.payload)
     },
     removeworkSpace: (state, action) => {
       state.boards = state.boards.filter((x) => x.id !== action.payload)
@@ -100,12 +82,11 @@ const workSpaceSlice = createSlice({
       }
     },
     updateBoardNameInWorkSpace: (state, action) => {
-      // const updatedList = action.payload
+      
       console.log(" updateBoardNameInWorkSpace action.payload", action.payload)
       const index = state.boards.findIndex(
         (board) => board._id === action.payload._id
       )
-      // console.log("updateBoardlist old", state)
       if (index !== -1) {
         state.boards[index].boardTitle = action.payload.name
       }
@@ -131,8 +112,7 @@ const workSpaceSlice = createSlice({
       //   console.log("fetchworkSpaces.rejected")
       // })
       .addCase(syncWorkSpaceAsync.fulfilled, (state, action) => {
-        // state.loading = false;
-        // console.log("syncWorkSpaceAsync.fulfilled state", state)
+        
         // console.log("syncWorkSpaceAsync.fulfilled", action.payload)
         if(action.payload.method ==="fetch"){
           state.boards = action.payload.data.boards
@@ -141,11 +121,6 @@ const workSpaceSlice = createSlice({
           // console.log("syncWorkSpaceAsync.fulfilled action.payload.data", action.payload.data)
           state.boards.push(action.payload.data)
         }
-        // const boardss = action.payload.data.boards
-        // state.boards = boardss
-        // console.log("syncWorkSpaceAsync.fulfilled boardss", boardss)
-        // state.boards = action.payload.data.boards
-        
       })
       .addCase(syncWorkSpaceAsync.rejected, (state, action) => {
         console.log("syncWorkSpaceAsync.rejected", action.payload)

@@ -2,7 +2,7 @@ import { useParams, useNavigate, Outlet } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { TaskOps } from "../services/backendHandler.js"
-import { fetchBoardById, syncBoardAsync } from "../redux/BoardSlice.js"
+import { syncBoardAsync } from "../redux/BoardSlice.js"
 import { addnewBoard } from "../redux/WorkSpaceSlice.js"
 import { getLocalData } from "../services/storageService.js"
 import GlobalHeader from "../components/GlobalHeader"
@@ -51,15 +51,9 @@ const Workspace = () => {
     }
   }, [board])
 
-  // const workSpace = useSelector((state) => state.workSpaceReducer)
-  // console.log("workSpace.boards[0]",workSpace.boards[0])
-  //  Load the board if ID exists
   useEffect(() => {
     if (boardId) {
-      // dispatch(fetchBoardById(boardId))
-      //dispatch(liveUpdateTask({method: TaskOps.FETCH, workId: 'tasks'}))
-      //args: { taskId: selectedTask._id, body: fields },
-
+      
       dispatch(
         syncBoardAsync({
           method: TaskOps.FETCH,

@@ -79,9 +79,7 @@ export function BoardSideBar({   }) {
           },
         ],
       }
-      // console.log("currentWorkSpace.boards",currentWorkSpace.boards)
   function createNewboard() {
-    // dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
     dispatch(syncWorkSpaceAsync({
         method: TaskOps.ADD,
         args: {
@@ -201,7 +199,8 @@ export function BoardSideBar({   }) {
             </div>
             <div className="sidebar-body">
             <div className="">
-              <a href="" className="sidebar-link sidebar-body-link">
+              <a href="" className="sidebar-link sidebar-body-link"
+                onClick={(e) => {navigate(`/u/user/boards`)}}>
                 {/* <div className="workspace-logo">{workSpace}</div> */}
                 <IconButton>
                   <path

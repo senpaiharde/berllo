@@ -119,10 +119,11 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
       })
     )
   }
-  function onDeleteListFromBackEnd(){
+  function onDeleteList(){
 
-    onRemoveCurrentList()
-    deleteListFromBoard()
+    onRemoveCurrentListFromState()
+    deleteListFromBoardInBackend()
+    //delete list from list collection in backend
     dispatch(
       syncBoardAsync({
         method: TaskOps.DELETE,
@@ -139,7 +140,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
     )
   }
 
-  function deleteListFromBoard() {
+  function deleteListFromBoardInBackend() {
       console.log("boardListById", boardListsById)
     console.log("boardListById",boardListsById," remove :", boardList._id)
     const index = boardListsById.indexOf(boardList._id);
@@ -166,7 +167,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
       )
   }
 
-  function onRemoveCurrentList(value) {
+  function onRemoveCurrentListFromState(value) {
     if (value) return
     console.log("removing list", boardList._id)
     dispatch(removeBoardListFromBoard(boardList._id))
@@ -189,7 +190,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
             IsEditing={isNewTaskList}
             // setIsEditing={setIsNewTaskList}
             setText={setNewTitle}
-            noValueOnExit={onRemoveCurrentList}
+            noValueOnExit={onRemoveCurrentListFromState}
             onAddItem={onUpdateBoardList}
             isList={true}
             isNewItem={true}
@@ -210,7 +211,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
           <div
             className="task-list-header-actions header-clickable"
             style={{marginLeft: "8px"}}
-            onClick={() => onRemoveCurrentList()}
+            onClick={() => onRemoveCurrentListFromState()}
           >
             {/* <IconButton>
               <path
@@ -224,7 +225,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
                   style={{color: "black"}}
                   onClick={(e) => {
                     e.stopPropagation()
-                    onDeleteListFromBackEnd()
+                    onDeleteList()
                   }}>
                     <IconButton
                       iconSize={"16px"}
