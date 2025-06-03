@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
+import { liveUpdateTask } from '../../../../../redux/TaskDetailsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { TaskOps } from '../../../../../services/backendHandler';
 import { SvgServices } from '../../../../../services/svgServices';

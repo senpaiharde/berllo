@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
+import { liveUpdateTask } from '../../../../../../redux/TaskDetailsSlice';
 import { SvgServices } from '../../../../../../services/svgServices';
 
 const DropdownMembers = ({ onClose }) => {

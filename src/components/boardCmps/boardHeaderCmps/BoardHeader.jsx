@@ -14,10 +14,9 @@ import { updateBoardNameInWorkSpace } from "../../../redux/WorkSpaceSlice"
 import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
 import BoardHeaderFilter from "./boardHeaderFilter"
-import SvgIcon from "../../SvgIcon"
-import { b } from "framer-motion/client"
+
 import { TaskOps, toggleStar } from "../../../services/backendHandler"
-import { ca } from "date-fns/locale"
+
 export function BoardHeader() {
   const board = useSelector((state) => state.boardReducer)
   const [currentBoard, setCurrentBoard] = useState(board)

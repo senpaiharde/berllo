@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import React, { useState, useEffect, useRef, use } from "react"
 import { SvgServices } from "../../../services/svgServices"
-import { updateboardFilter } from "../../../redux/BoardSlice"
+
 export function BoardHeaderChooseMembers({board, updateMembers}) {
 //   console.log("BoardHeaderChooseMembers", board)
   const [members, setMembers] = useState(board.filter.members || [])

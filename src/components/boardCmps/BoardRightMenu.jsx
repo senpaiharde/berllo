@@ -7,7 +7,7 @@ import { SvgServices } from "../../services/svgServices"
 import { useDispatch, useSelector } from "react-redux"
 import { IconButton } from "../IconButton"
 import { useState, useRef, useEffect } from "react"
-import { color } from "framer-motion"
+
 import { TaskOps } from "../../services/backendHandler"
 import { removeBoard } from "../../redux/WorkSpaceSlice"
 import { useNavigate } from "react-router-dom"

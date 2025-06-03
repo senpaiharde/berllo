@@ -12,7 +12,7 @@ import {
   IsTodayDay,
 } from '../../../../../../utils/CalendarDays';
 
-import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
+import { liveUpdateTask } from '../../../../../../redux/TaskDetailsSlice';
 import { SvgServices } from '../../../../../../services/svgServices';
 
 const DropdownDate = ({ onClose }) => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { liveUpdateTask } from '../../../../../../redux/taskDetailsSlice';
+import { liveUpdateTask } from '../../../../../../redux/TaskDetailsSlice';
 import SvgAdd from '../../../../../../assets/svgDesgin/SvgAdd';
 import DropdownUi from './DropdownUi';
 import EditLabelDropdown from './EditLabelDropdown';
