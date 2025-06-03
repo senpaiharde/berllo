@@ -14,7 +14,11 @@ const BoardsCreateDropdown = ({ onClose }) => {
   const dispatch = useDispatch();
   const [workSpace, setWorkSpace] = useState();
   const [boardTitle, setBoardTitle] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [backGround,setBackGround] = useState('')
+  const [color,setColor] = useState('')
   useEffect(() => {
+   
     async function load() {
       try {
         const boards = await fetchCurrentBoard();
@@ -28,14 +32,19 @@ const BoardsCreateDropdown = ({ onClose }) => {
     console.log(workSpace?.boards, 'yes');
     load();
   }, []);
-
+const newBoardStyle = {
+      boardType: "image",
+      boardColor: color,
+      boardImg: backGround,
+    }
   function createNewboard() {
+    setLoading(true);
     // dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
     dispatch(
       syncTaskAsync({
         method: TaskOps.ADD,
         args: {
-          body: { method: TaskOps.ADD, workId: 'board', boardTitle: `${boardTitle}` },
+          body: { method: TaskOps.ADD, workId: 'board', boardTitle: `${boardTitle}`,boardStyle: newBoardStyle, },
         },
         workId: 'board',
       })
@@ -56,10 +65,17 @@ const BoardsCreateDropdown = ({ onClose }) => {
     console.log(lastBoard._id, 'here im ');
     setTimeout(() => {
       navigate(`/b/${lastBoard._id}/${boardTitle}`);
-    }, 500);
+      setLoading(false);
+    }, 1500);
+  }
+   function functiondaddy (value,colors) {
+    setColor(colors)
+    setBackGround(value);
+    console.log(backGround)
+    console.log(color)
   }
   return (
-    <div className="DropdownUi">
+    <div className="DropdownUi" onMouseDown={(e) => e.stopPropagation()}>
       {/* Header */}
       <div className="DropdownUiHeader">
         <h2 className="DropdownHeaderH2">Create board</h2>
@@ -71,9 +87,114 @@ const BoardsCreateDropdown = ({ onClose }) => {
       {/* Options */}
       <div style={{ grid: 'none' }} className="DropdownLabelOption">
         <div className="ImgDropdown">
-          <div className="ImgDropdownInside"></div>
+          <div 
+          style={{backgroundImage:`url${backGround}`}}
+          className="ImgDropdownInside"></div>
         </div>
         <h3 className="DropdownLabelH3">Background</h3>
+        <div>
+          <ul className='IMGBoardDropdown'>
+            <li className='IMGBoardDropdownInside'>
+                <button 
+                onClick={() => {
+                    functiondaddy('(https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)','#7a4203')
+                  
+                }}
+                
+                style={{backgroundImage:'url(https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)'}}
+                className='IMGBoardDropdownButton'></button>
+            </li>
+             <li className='IMGBoardDropdownInside'>
+                <button 
+                onClick={() => {functiondaddy('(https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)','#41586e')
+                     
+                }
+                    
+                }
+                style={{backgroundImage:'url(https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)'}}
+                className='IMGBoardDropdownButton'></button>
+            </li>
+            <li className='IMGBoardDropdownInside'>
+                <button 
+                onClick={() => functiondaddy('(https://images.unsplash.com/photo-1748632799967-63f8c53d69c1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)','#41586e')}
+                style={{backgroundImage:'url(https://images.unsplash.com/photo-1748632799967-63f8c53d69c1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)'}}
+                className='IMGBoardDropdownButton'></button>
+            </li>
+            <li className='IMGBoardDropdownInside'>
+                <button 
+                onClick={() => functiondaddy('(https://images.unsplash.com/photo-1748719151811-60692f7f439c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)','#74411d')}
+                style={{backgroundImage:'url(https://images.unsplash.com/photo-1748719151811-60692f7f439c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)'}}
+                className='IMGBoardDropdownButton'></button>
+            </li>
+          </ul>
+          <ul className='IMGBoardDropdown'>
+            <li
+            
+            className='ColorBoardDropdownInside'>
+                <button
+                onClick={() => functiondaddy('(https://trello.com/assets/13425f9db06517de0f7f.svg)','#dceafe')}
+                style={{backgroundColor:'#dceafe',
+                        backgroundImage:'url(https://trello.com/assets/13425f9db06517de0f7f.svg)'
+                    
+                }}
+                 className='IMGBoardDropdownButton'
+                ></button>
+            </li>
+            <li
+            
+            className='ColorBoardDropdownInside'>
+                
+                <button
+                onClick={() => functiondaddy('(https://trello.com/assets/707f35bc691220846678.svg)','#228cd5')}
+                style={{backgroundColor:'#228cd5',
+                    backgroundImage:'url(https://trello.com/assets/707f35bc691220846678.svg)'
+                }}
+                 className='IMGBoardDropdownButton'
+                ></button>
+            </li>
+            <li
+            
+            className='ColorBoardDropdownInside'>
+                <button
+                onClick={() => functiondaddy('(https://trello.com/assets/d106776cb297f000b1f4.svg)','#0b50af')}
+                style={{backgroundColor:'#0b50af',
+                    backgroundImage:'url(https://trello.com/assets/d106776cb297f000b1f4.svg)'
+                }}
+                 className='IMGBoardDropdownButton'
+                ></button>
+            </li>
+            <li
+            
+            className='ColorBoardDropdownInside'>
+                <button
+                onClick={() => functiondaddy('(https://trello.com/assets/8ab3b35f3a786bb6cdac.svg)','#674284')}
+                style={{backgroundColor:'#674284',
+                    backgroundImage:'url(https://trello.com/assets/8ab3b35f3a786bb6cdac.svg)'
+                }}
+                 className='IMGBoardDropdownButton'
+                ></button>
+            </li>
+            <li
+            
+            className='ColorBoardDropdownInside'>
+                <button
+                onClick={() => functiondaddy('(https://trello.com/assets/a7c521b94eb153008f2d.svg)','#a869c1')}
+                style={{backgroundColor:'#a869c1',
+                    backgroundImage:'url(https://trello.com/assets/a7c521b94eb153008f2d.svg)'
+                }}
+                 className='IMGBoardDropdownButton'
+                ></button>
+            </li>
+            <li
+            
+            className='ColorBoardDropdownInside'>
+                <button
+                 style={{color:'black',fontSize:'16px'}}
+                 className='IMGBoardDropdownButton'
+                >+</button>
+            </li>
+          </ul>
+        </div>
         <h3 className="DropdownLabelH3">Board title</h3>
         <input
           required
@@ -88,7 +209,6 @@ const BoardsCreateDropdown = ({ onClose }) => {
         </p>
         <h3 className="DropdownLabelH3">Workspace</h3>
         <label className="BoardReminder">
-          Set due date reminder
           <div className="BoardReminderDiv">
             <div className="BoardReminderDivText">
               <div className="BoardReminderDivText2">Berllo Workspace</div>
@@ -102,7 +222,6 @@ const BoardsCreateDropdown = ({ onClose }) => {
         </label>
         <h3 className="DropdownLabelH3">visibility</h3>
         <label className="BoardReminder">
-          Set due date reminder
           <div className="BoardReminderDiv">
             <div className="BoardReminderDivText">
               <div className="BoardReminderDivText2">Workspace</div>
@@ -115,10 +234,11 @@ const BoardsCreateDropdown = ({ onClose }) => {
           </div>
         </label>
         <button
+          disabled={loading}
           style={{ marginTop: '10px' }}
           onClick={() => createNewboard()}
           className="DropdownLabelButton">
-          Create
+          {loading ? 'Creating…' : 'Create'}
         </button>
       </div>
     </div>
