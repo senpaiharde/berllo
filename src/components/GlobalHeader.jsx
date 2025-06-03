@@ -343,7 +343,7 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
                 <div className="recenetBoards">
                   {user?.lastBoardVisited?.slice(0, 5).map((recent) => {
                     const { id, boardTitle } = recent;
-                    // find whether this is starred in the latest user state
+                    
                     const starEntry = user.starredBoards?.find(
                       (sb) => sb.id === id
                     )
@@ -352,9 +352,10 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
                     return (
                       <a key={id} className="recenetBoardsNexted ">
                         <div className="boxboards" 
-                        style={{backgroundColor:color}}/>
+                        style={{backgroundColor:recent?.boardStyle?.boardColor}}/>
                         <h2
                           onClick={() => {
+                            console.log("last visited entry:", user?.boardStyle?.boardColor)
                             console.log("last visited entry:", recent)
                             console.log(
                               "🧠 Navigating to:",
@@ -383,6 +384,7 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
                       </a>
                     )
                   })}
+                  <button onClick={() => {console.log("last visited entry:", user.lastBoardVisited)}}></button>
                 </div>
               </div>
             )}
@@ -398,7 +400,7 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
             </button>
             {activeDropdown === "starred" && (
               <div className="dropdown-menu-recent">
-                <div className="recenetBoards">
+                <div  className="recenetBoards">
                   {user?.starredBoards
                     .slice(0, 5)
                     .slice(0, 5)
@@ -410,7 +412,9 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
 
                       return (
                         <a key={sb.id} className="recenetBoardsNexted">
-                          <div className="boxboards" />
+                          <div 
+                          style={{backgroundColor:recent?.boardStyle?.boardColor}}
+                          className="boxboards" />
 
                           <h2
                             onClick={() => {
