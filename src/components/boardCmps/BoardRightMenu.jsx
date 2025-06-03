@@ -242,7 +242,14 @@ export function BoardRightMenu() {
                 </div>
               </button>
 
-              <hr className="header-hr" style={{ paddingTop: "1px" ,marginBottom: "3px", marginTop: "3px" }}></hr>
+              <hr
+                className="header-hr"
+                style={{
+                  paddingTop: "1px",
+                  marginBottom: "3px",
+                  marginTop: "3px",
+                }}
+              ></hr>
 
               <button
                 className="board-right-menu-button"
