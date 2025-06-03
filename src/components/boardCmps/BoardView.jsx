@@ -16,12 +16,15 @@ import { useDispatch, useSelector } from "react-redux"
 import { TaskPreviewEditor } from "./taskPreviewCmps/TaskPreviewEditor"
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 import { TaskOps } from "../../services/backendHandler"
+import { BackgroundImage } from "@mantine/core"
 export function BoardView() {
   const board = useSelector((state) => state.boardReducer)
   const dispatch = useDispatch()
 
   let taskSum = 0
   const [taskCount, setTaskCount] = useState(0)
+  // const [boardViewBackgound ,setBoardViewBackgound] = useState()
+ 
   let filteredBoard = board
 
   const filterActive =
@@ -78,6 +81,13 @@ export function BoardView() {
       console.log("taskSum", taskSum)
       setTaskCount(taskSum)
     }
+     // {board.boardStyle && board.boardStyle.backgroundColor ? "board.boardStyle.backgroundColor" : ""}
+    //  if (board.boardStyle && board.boardStyle.boardColor && board.boardStyle.boardType === "color") { 
+    //   setBoardViewBackgound({backgroundColor: board.boardStyle.boardColor})
+    //  }
+    //  if (board.boardStyle && board.boardStyle.boardImg && board.boardStyle.boardType === "image") {
+    //   setBoardViewBackgound({BackgroundImage: board.boardStyle.boardImg})
+    //  }
   }, [board])
 
   useEffect(() => {
@@ -118,106 +128,23 @@ export function BoardView() {
     console.log(
       "board.boardLists before change",
       board.boardLists
-      // .map((list) => list._id.toString())
     )
     if (result.type === "BoardList") {
       dispatch(
         updateBoardListOrderAndSync({ draggableId, destination, source })
       )
-      // dispatch(updateBoardListOrder({ draggableId, destination, source }))
-      // const boardLists = board.boardLists.filter((list) => { return list._id})
-      // setTimeout(() => {
-      //   console.log("Waited 1 seconds!");
-      //   const boardLists = board.boardLists.map((list) => list._id.toString());
-      // console.log("boardLists after change", boardLists)
-      // console.log("board.boardLists after change", board.boardLists)
-      // // }, 1000);
-      // const boardLists = board.boardLists.map((list) => list._id.toString());
-      // console.log("boardLists after change", boardLists)
-      // console.log("board.boardLists after change", board)
-      // dispatch(
-      //   syncBoardAsync({
-      //     method: TaskOps.UPDATE,
-      //     args: {
-      //       body: {
-      //         method: TaskOps.UPDATE,
-      //         workId: "list",
-      //         indexInBoard: destination.index,
-      //       },
-      //       taskId: draggableId,
-      //     },
-
-      //     workId: "list",
-      //   })
-      // )
+      
     }
     if (result.type === "taskList") {
       console.log("onDragEnd taskList", draggableId, destination, source)
       dispatch(updateTasklistOrderAndSync({ draggableId, destination, source }))
-      // dispatch(updateTasklistOrder({ draggableId, destination, source }))
     }
   }
 
-  // function updateListOrder(result) {
-  //   if (!result.destination) return
-
-  //   const sourceListId = result.source.droppableId
-  //   const destListId = result.destination.droppableId
-  //   const sourceIndex = result.source.index
-  //   const destIndex = result.destination.index
-
-  //   if (sourceListId === destListId) {
-  //     console.log("Reordering within the same list")
-  //     const listIndex = board.boardLists.findIndex(
-  //       (list) => list._id === sourceListId
-  //     )
-  //     if (listIndex === -1) return
-
-  //     const taskList = Array.from(board.boardLists[listIndex].taskList)
-  //     console.log("taskList before", taskList)
-
-  //     const [movedTask] = taskList.splice(sourceIndex, 1)
-  //     taskList.splice(destIndex, 0, movedTask)
-  //     console.log("taskList after", taskList)
-  //     const updatedList = {
-  //       ...board.boardLists[listIndex],
-  //       taskList,
-  //     }
-
-  //     dispatch(updateBoardlist(updatedList))
-  //   } else {
-  //     console.log("Moving task across lists")
-  //     const sourceListIndex = board.boardLists.findIndex(
-  //       (list) => list._id === sourceListId
-  //     )
-  //     const destListIndex = board.boardLists.findIndex(
-  //       (list) => list._id === destListId
-  //     )
-  //     if (sourceListIndex === -1 || destListIndex === -1) return
-
-  //     const sourceTaskList = Array.from(
-  //       board.boardLists[sourceListIndex].taskList
-  //     )
-  //     const destTaskList = Array.from(board.boardLists[destListIndex].taskList)
-
-  //     const [movedTask] = sourceTaskList.splice(sourceIndex, 1)
-  //     movedTask.taskList = destListId // update the task's list ID
-  //     destTaskList.splice(destIndex, 0, movedTask)
-
-  //     const updatedSourceList = {
-  //       ...board.boardLists[sourceListIndex],
-  //       taskList: sourceTaskList,
-  //     }
-
-  //     const updatedDestList = {
-  //       ...board.boardLists[destListIndex],
-  //       taskList: destTaskList,
-  //     }
-
-  //     dispatch(updateMultipleBoardLists([updatedSourceList, updatedDestList]))
-  //   }
-  // }
-
+  
+  const boardListsById = board.boardLists.map((list) =>
+            list._id.toString()
+          )
   if (!board || !board.boardLists) {
     console.log("board is missing or boardLists undefined")
     return <div>Loading board view...</div>
@@ -230,7 +157,9 @@ export function BoardView() {
     return <div>Loading...</div>
   } else {
     return (
-      <div className="board-view">
+      <div className="board-view"
+      // style={boardViewBackgound}
+      >
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable
             droppableId="BoardList"
@@ -263,9 +192,9 @@ export function BoardView() {
                                 boardList={list}
                                 newTaskList={true}
                                 onAddedNewList={AddNewEmptyTaskList}
-                              ></TaskList>
+                              />
                             ) : (
-                              <TaskList boardList={list} />
+                              <TaskList boardList={list} boardListsById={boardListsById} />
                             )}
                           </li>
                         </div>

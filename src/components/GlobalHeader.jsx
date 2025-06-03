@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react"
 import {
   Layout,
   Grid,
@@ -17,32 +17,37 @@ import {
   Building2,
   ExternalLink,
   LayoutGrid,
-} from 'lucide-react';
+} from "lucide-react"
 
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import Template1 from '../assets/images/1-on-1 Meeting Agenda.jpg';
-import Template2 from '../assets/images/Company Overview.jpg';
-import Template3 from '../assets/images/Design Huddle.jpg';
-import Template4 from '../assets/images/Go To Market Strategy.jpg';
-import Template5 from '../assets/images/Project Management.jpg';
-import { useSelector } from 'react-redux';
-import fetchCurrentUser, { accountSwitch, demoUsersStorage } from '../services/backendCallsUsers';
-import StarButton from '../services/isStarred';
-import { toggleStar } from '../services/backendHandler';
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
+import Template1 from "../assets/images/1-on-1 Meeting Agenda.jpg"
+import Template2 from "../assets/images/Company Overview.jpg"
+import Template3 from "../assets/images/Design Huddle.jpg"
+import Template4 from "../assets/images/Go To Market Strategy.jpg"
+import Template5 from "../assets/images/Project Management.jpg"
+import { useSelector, useDispatch } from "react-redux"
+import fetchCurrentUser, {
+  accountSwitch,
+  demoUsersStorage,
+} from "../services/backendCallsUsers"
+import StarButton from "../services/isStarred"
+import { TaskOps, toggleStar } from "../services/backendHandler"
+import { updateStarStatus, syncBoardAsync } from "../redux/BoardSlice"
 import DropdownUi from './boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
 import BoardsCreateDropdown from '../pages/BoardsCreateDropdown';
 
-const demoUsers = demoUsersStorage;
+const demoUsers = demoUsersStorage
 
 const GlobalHeader = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [searchFocused, setSearchFocused] = useState(false);
-  const [isGridHovered, setIsGridHovered] = useState(false);
-  const navigate = useNavigate();
-  const board = useSelector((state) => state.boardReducer);
-  const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0;
-  const [user, setUser] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState(null)
+  const [searchFocused, setSearchFocused] = useState(false)
+  const [isGridHovered, setIsGridHovered] = useState(false)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const board = useSelector((state) => state.boardReducer)
+  const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0
+  const [user, setUser] = useState(null)
   const [showAIForm, setShowAIForm] = useState(false);
   const [aiGoal, setAiGoal] = useState('');
   const [aiStart, setAiStart] = useState('');
@@ -100,80 +105,105 @@ const GlobalHeader = () => {
   const [newStar, setNewStar] = useState(null);
   // load current email from localStorage
   useEffect(() => {
-    setCurrentEmail(localStorage.getItem('demoEmail') || '');
-  }, []);
+    setCurrentEmail(localStorage.getItem("demoEmail") || "")
+  }, [])
 
   const handleSwitch = async (e) => {
-    const email = e.target.value;
-    if (!email) return;
-    accountSwitch(email);
-  };
+    const email = e.target.value
+    if (!email) return
+    accountSwitch(email)
+  }
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('demoEmail');
-    window.location.reload();
-  };
+    localStorage.removeItem("token")
+    localStorage.removeItem("demoEmail")
+    window.location.reload()
+  }
   useEffect(() => {
     async function load() {
       try {
-        const me = await fetchCurrentUser();
-        setUser(me);
-        setLastBoard(me.lastBoardVisited);
+        const me = await fetchCurrentUser()
+        setUser(me)
+        setLastBoard(me.lastBoardVisited)
       } catch (err) {
-        console.log('there is error on loading users', err);
-        return err;
+        console.log("there is error on loading users", err)
+        return err
       }
     }
 
-    load();
-  }, []);
+    load()
+  }, [])
   useEffect(() => {
     const handleClickOutside = (e) => {
-      const currentRef = dropdownRefs[activeDropdown];
+      const currentRef = dropdownRefs[activeDropdown]
       if (currentRef && !currentRef.current?.contains(e.target)) {
-        setActiveDropdown(null);
+        setActiveDropdown(null)
       }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [activeDropdown]);
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [activeDropdown])
 
   const toggleDropdown = (key) => {
-    setActiveDropdown(activeDropdown === key ? null : key);
-  };
+    setActiveDropdown(activeDropdown === key ? null : key)
+  }
 
   const handleStarToggle = async (boardId, newState) => {
     try {
-      const me = await fetchCurrentUser();
-      setUser(me);
+      const me = await fetchCurrentUser()
+      setUser(me)
     } catch (err) {
-      console.error('Failed to toggle star:', err);
+      console.error("Failed to toggle star:", err)
     }
-  };
+  }
+  function updateBoardSlice(boardId, newState) {
+    if (boardId === board._id) {
+      dispatch(updateStarStatus(newState))
+      dispatch(
+        syncBoardAsync({
+          method: TaskOps.UPDATE,
+          args: {
+            taskId: board._id,
+            body: {
+              method: TaskOps.UPDATE,
+              workId: "board",
+              isStarred: newState,
+            },
+          },
+          workId: "board",
+        })
+      )
+    }
+  }
+
   return (
     <header className="global-header">
       <div className="header-left">
         <button
           className="header-icon"
           onMouseEnter={() => setIsGridHovered(true)}
-          onMouseLeave={() => setIsGridHovered(false)}>
-          <Grid size={16} className={`grid-icon ${isGridHovered ? 'rotate' : ''}`} />
+          onMouseLeave={() => setIsGridHovered(false)}
+        >
+          <Grid
+            size={16}
+            className={`grid-icon ${isGridHovered ? "rotate" : ""}`}
+          />
         </button>
 
         <div className="trello-logo">
-          <Layout size={20} onClick={() => navigate('/')} />
-          <span onClick={() => navigate('/')}>Berllo</span>
+          <Layout size={20} onClick={() => navigate("/")} />
+          <span onClick={() => navigate("/")}>Berllo</span>
         </div>
 
         <div className="header-dropdowns">
           <div ref={dropdownRefs.workspaces} className="dropdown-wrapper">
             <button
-              className={`header-button ${activeDropdown === 'workspaces' ? 'active' : ''}`}
-              onClick={() => toggleDropdown('workspaces')}>
+              className={`header-button ${activeDropdown === "workspaces" ? "active" : ""}`}
+              onClick={() => toggleDropdown("workspaces")}
+            >
               Workspaces <ChevronDown size={14} />
             </button>
-            {activeDropdown === 'workspaces' && (
+            {activeDropdown === "workspaces" && (
               <div className="dropdown-menu">
                 <div className="dropdown-header">Current Workspaces</div>
                 <div className="dropdown-item">
@@ -186,15 +216,24 @@ const GlobalHeader = () => {
                           const slug =
                             board.slug ||
                             (board.boardTitle
-                              ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
-                              : 'board');
-                          console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
-                          navigate(`/b/${board._id}/${slug}`);
+                              ? board.boardTitle
+                                  .toLowerCase()
+                                  .replace(/\s+/g, "-")
+                              : "board")
+                          console.log(
+                            "🧠 Navigating to:",
+                            `/b/${board._id}/${slug}`
+                          )
+                          navigate(`/b/${board._id}/${slug}`)
                         } else {
-                          console.warn('⚠️ Board not ready for navigation:', board);
+                          console.warn(
+                            "⚠️ Board not ready for navigation:",
+                            board
+                          )
                         }
                       }}
-                      style={{ cursor: 'pointer', color: '#0079bf' }}>
+                      style={{ cursor: "pointer", color: "#0079bf" }}
+                    >
                       Brello Workspace
                     </div>
                   </div>
@@ -213,15 +252,24 @@ const GlobalHeader = () => {
                             const slug =
                               board.slug ||
                               (board.boardTitle
-                                ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
-                                : 'board');
-                            console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
-                            navigate(`/b/${board._id}/${slug}`);
+                                ? board.boardTitle
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "-")
+                                : "board")
+                            console.log(
+                              "🧠 Navigating to:",
+                              `/b/${board._id}/${slug}`
+                            )
+                            navigate(`/b/${board._id}/${slug}`)
                           } else {
-                            console.warn('⚠️ Board not ready for navigation:', board);
+                            console.warn(
+                              "⚠️ Board not ready for navigation:",
+                              board
+                            )
                           }
                         }}
-                        style={{ cursor: 'pointer', color: '#0079bf' }}>
+                        style={{ cursor: "pointer", color: "#0079bf" }}
+                      >
                         Brello Workspace
                       </div>
                     </div>
@@ -236,15 +284,24 @@ const GlobalHeader = () => {
                             const slug =
                               board.slug ||
                               (board.boardTitle
-                                ? board.boardTitle.toLowerCase().replace(/\s+/g, '-')
-                                : 'board');
-                            console.log('🧠 Navigating to:', `/b/${board._id}/${slug}`);
-                            navigate(`/b/${board._id}/${slug}`);
+                                ? board.boardTitle
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "-")
+                                : "board")
+                            console.log(
+                              "🧠 Navigating to:",
+                              `/b/${board._id}/${slug}`
+                            )
+                            navigate(`/b/${board._id}/${slug}`)
                           } else {
-                            console.warn('⚠️ Board not ready for navigation:', board);
+                            console.warn(
+                              "⚠️ Board not ready for navigation:",
+                              board
+                            )
                           }
                         }}
-                        style={{ cursor: 'pointer', color: '#0079bf' }}>
+                        style={{ cursor: "pointer", color: "#0079bf" }}
+                      >
                         Brello Workspace
                       </div>
                     </div>
@@ -256,42 +313,54 @@ const GlobalHeader = () => {
 
           <div ref={dropdownRefs.recent} className="dropdown-wrapper">
             <button
-              className={`header-button ${activeDropdown === 'recent' ? 'active' : ''}`}
-              onClick={() => toggleDropdown('recent')}>
+              className={`header-button ${activeDropdown === "recent" ? "active" : ""}`}
+              onClick={() => toggleDropdown("recent")}
+            >
               Recent <ChevronDown size={14} />
             </button>
-            {activeDropdown === 'recent' && (
+            {activeDropdown === "recent" && (
               <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
                   {user?.lastBoardVisited?.slice(0, 5).map((recent) => {
                     const { id, boardTitle } = recent;
                     // find whether this is starred in the latest user state
-                    const starEntry = user.starredBoards?.find((sb) => sb.id === id);
-                    const isStarred = !!starEntry?.isStarred;
+                    const starEntry = user.starredBoards?.find(
+                      (sb) => sb.id === id
+                    )
+                    const isStarred = !!starEntry?.isStarred
 
                     return (
                       <a key={id} className="recenetBoardsNexted ">
                         <div className="boxboards" />
                         <h2
                           onClick={() => {
-                            console.log('last visited entry:', recent);
-                            console.log('🧠 Navigating to:', `/b/${id}/${boardTitle}`);
+                            console.log("last visited entry:", recent)
+                            console.log(
+                              "🧠 Navigating to:",
+                              `/b/${id}/${boardTitle}`
+                            )
 
-                            navigate(`/b/${id}/${boardTitle}`);
-                          }}>
+                            navigate(`/b/${id}/${boardTitle}`)
+                          }}
+                        >
                           {boardTitle}
                           <br />
-                          <span className="ClassnameGlobalName">Berllo Workspace</span>
+                          <span className="ClassnameGlobalName">
+                            Berllo Workspace
+                          </span>
                         </h2>
                         <div style={{ marginLeft: 90 }}>
                           <StarButton
                             boardId={id}
                             initialIsStarred={starEntry}
-                            onToggle={(newState) => handleStarToggle(id, newState)}
+                            onToggle={(newState) => {
+                              handleStarToggle(id, newState)
+                              updateBoardSlice(id, newState)
+                            }}
                           />
                         </div>
                       </a>
-                    );
+                    )
                   })}
                 </div>
               </div>
@@ -301,18 +370,22 @@ const GlobalHeader = () => {
           {/* STARRED */}
           <div ref={dropdownRefs.starred} className="dropdown-wrapper">
             <button
-              className={`header-button ${activeDropdown === 'starred' ? 'active' : ''}`}
-              onClick={() => toggleDropdown('starred')}>
+              className={`header-button ${activeDropdown === "starred" ? "active" : ""}`}
+              onClick={() => toggleDropdown("starred")}
+            >
               Starred <ChevronDown size={14} />
             </button>
-            {activeDropdown === 'starred' && (
+            {activeDropdown === "starred" && (
               <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
                   {user?.starredBoards
                     .slice(0, 5)
+                    .slice(0, 5)
                     ?.filter((sb) => sb.isStarred)
                     .map((sb) => {
-                      const recent = user.lastBoardVisited?.find((r) => r.id === sb.id);
+                      const recent = user.lastBoardVisited?.find(
+                        (r) => r.id === sb.id
+                      )
 
                       return (
                         <a key={sb.id} className="recenetBoardsNexted">
@@ -320,24 +393,30 @@ const GlobalHeader = () => {
 
                           <h2
                             onClick={() => {
-                              const slug = recent.boardTitle;
-                              const boardId = recent.id;
-                              if (boardId && slug) navigate(`/b/${boardId}/${slug}`);
-                            }}>
+                              const slug = recent.boardTitle
+                              const boardId = recent.id
+                              if (boardId && slug)
+                                navigate(`/b/${boardId}/${slug}`)
+                            }}
+                          >
                             {recent?.boardTitle}
                             <br />
-                            <span className="ClassnameGlobalName">Berllo Workspace</span>
+                            <span className="ClassnameGlobalName">
+                              Berllo Workspace
+                            </span>
                           </h2>
 
-                          <div style={{ marginLeft: '90px' }}>
+                          <div style={{ marginLeft: "90px" }}>
                             <StarButton
                               boardId={sb.id}
                               initialIsStarred={sb.isStarred}
-                              onToggle={(newState) => handleStarToggle(sb.id, newState)}
+                              onToggle={(newState) =>
+                                handleStarToggle(sb.id, newState)
+                              }
                             />
                           </div>
                         </a>
-                      );
+                      )
                     })}
                 </div>
               </div>
@@ -347,8 +426,9 @@ const GlobalHeader = () => {
           {/* TEMPLATES (with imported local images) */}
           <div ref={dropdownRefs.templates} className="dropdown-wrapper">
             <button
-              className={`header-button ${activeDropdown === 'templates' ? 'active' : ''}`}
-              onClick={() => toggleDropdown('templates')}>
+              className={`header-button ${activeDropdown === "templates" ? "active" : ""}`}
+              onClick={() => toggleDropdown("templates")}
+            >
               Templates <ChevronDown size={14} />
             </button>
             {activeDropdown === 'templates' && (
@@ -499,7 +579,7 @@ const GlobalHeader = () => {
 
       {/* RIGHT SIDE: Search, Notifications, Help, Profile */}
       <div className="header-right">
-        <div className={`search-wrapper ${searchFocused ? 'focused' : ''}`}>
+        <div className={`search-wrapper ${searchFocused ? "focused" : ""}`}>
           <Search size={16} />
           <input
             type="text"
@@ -519,20 +599,29 @@ const GlobalHeader = () => {
 
         {/* PROFILE DROPDOWN */}
         <div ref={dropdownRefs.profile} className="dropdown-wrapper">
-          <button className="profile-button" onClick={() => toggleDropdown('profile')}>
+          <button
+            className="profile-button"
+            onClick={() => toggleDropdown("profile")}
+          >
             {user?.email ? (
               <div
-                style={{ height: '24px', width: '24px', marginTop: '4px', marginRight: '12px' }}
-                className="td-section-members-button">
+                style={{
+                  height: "24px",
+                  width: "24px",
+                  marginTop: "4px",
+                  marginRight: "12px",
+                }}
+                className="td-section-members-button"
+              >
                 {user?.avatar && (
                   <img
-                    src={user?.avatar || 'No'}
+                    src={user?.avatar || "No"}
                     alt={`Member ${user?._id || user?.id}`}
                     style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '100%',
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "100%",
                     }}
                   />
                 )}
@@ -541,23 +630,24 @@ const GlobalHeader = () => {
               <div className="avatar">?</div>
             )}
           </button>
-          {activeDropdown === 'profile' && (
+          {activeDropdown === "profile" && (
             <div className="dropdown-menu profile-menu">
               <div className="section-header-dropdown">ACCOUNT</div>
               <div className="profile-header">
-                {' '}
+                {" "}
                 <div
-                  style={{ height: '50px', width: '50px' }}
-                  className="td-section-members-button">
+                  style={{ height: "50px", width: "50px" }}
+                  className="td-section-members-button"
+                >
                   {user?.avatar && (
                     <img
-                      src={user?.avatar || 'No'}
+                      src={user?.avatar || "No"}
                       alt={`Member ${user?._id || user?.id}`}
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        borderRadius: '100%',
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "100%",
                       }}
                     />
                   )}
@@ -565,16 +655,26 @@ const GlobalHeader = () => {
                 <div className="InfoDemoUsers">
                   {user?.fullname}
                   <br></br>
-                  <div className="userEmailHeader">{user?.email || 'Not logged in'}</div>
+                  <div className="userEmailHeader">
+                    {user?.email || "Not logged in"}
+                  </div>
                 </div>
               </div>
               <div className="profile-info">
-                <select className="demo-user-select" defaultValue="" onChange={handleSwitch}>
+                <select
+                  className="demo-user-select"
+                  defaultValue=""
+                  onChange={handleSwitch}
+                >
                   <option value="" disabled>
-                    {user?.email ? 'switch account' : 'login'}
+                    {user?.email ? "switch account" : "login"}
                   </option>
                   {demoUsers.map((u) => (
-                    <option className="InfoDemoUsers" key={u.email} value={u.email}>
+                    <option
+                      className="InfoDemoUsers"
+                      key={u.email}
+                      value={u.email}
+                    >
                       {u.email}
                     </option>
                   ))}
@@ -582,17 +682,20 @@ const GlobalHeader = () => {
               </div>
               <div className="menu-section">
                 <div className="section-header-dropdown">BERLLO</div>
-                {[['Profile and visibility'], ['Activity'], ['Cards'], ['Settings']].map(
-                  ([label, icon], i) => (
-                    <div key={i} className="menu-item">
-                      {icon}
-                      <span className="styleForOptions">{label}</span>
-                    </div>
-                  )
-                )}
+                {[
+                  ["Profile and visibility"],
+                  ["Activity"],
+                  ["Cards"],
+                  ["Settings"],
+                ].map(([label, icon], i) => (
+                  <div key={i} className="menu-item">
+                    {icon}
+                    <span className="styleForOptions">{label}</span>
+                  </div>
+                ))}
               </div>
               <div className="menu-section">
-                {[['Help'], ['Shortcuts']].map(([label, icon], i) => (
+                {[["Help"], ["Shortcuts"]].map(([label, icon], i) => (
                   <div key={i} className="menu-item">
                     {icon}
                     <span className="styleForOptions">{label}</span>
@@ -609,7 +712,7 @@ const GlobalHeader = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default GlobalHeader;
+export default GlobalHeader

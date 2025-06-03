@@ -3,12 +3,21 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { ViewTypeChooser } from "./ViewTypeChooser"
 import { IconButton } from "../../IconButton"
-import { updateboardTitle, updateStarStatus,toggleShareModal } from "../../../redux/BoardSlice"
+import {
+  updateboardTitle,
+  updateStarStatus,
+  toggleShareModal,
+  toggleRightMenuOpen,
+  syncBoardAsync,
+} from "../../../redux/BoardSlice"
+import { updateBoardNameInWorkSpace } from "../../../redux/WorkSpaceSlice"
 import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
 import BoardHeaderFilter from "./boardHeaderFilter"
 import SvgIcon from "../../SvgIcon"
 import { b } from "framer-motion/client"
+import { TaskOps, toggleStar } from "../../../services/backendHandler"
+import { ca } from "date-fns/locale"
 export function BoardHeader() {
   const board = useSelector((state) => state.boardReducer)
   const [currentBoard, setCurrentBoard] = useState(board)
@@ -20,6 +29,39 @@ export function BoardHeader() {
   const starRef = useRef(null)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [boardHeaderBackgound, setBoardViewBackgound] = useState()
+  useEffect(() => {
+    
+    if (board.boardStyle && board.boardStyle.boardColor) {
+      const adjustedHeadercolor = darkenHexColor(
+        board.boardStyle.boardColor,
+        20
+      )
+      setBoardViewBackgound({ backgroundColor: adjustedHeadercolor })
+    }
+    //  if (board.boardStyle && board.boardStyle.boardImg && board.boardStyle.boardType === "image") {
+    //   setBoardViewBackgound({BackgroundImage: board.boardStyle.boardImg})
+    //  }
+  }, [board])
+
+  function darkenHexColor(hex, percent) {
+    // Remove "#" if present
+    hex = hex.replace(/^#/, "")
+
+    // Parse hex into RGB
+    let r = parseInt(hex.slice(0, 2), 16)
+    let g = parseInt(hex.slice(2, 4), 16)
+    let b = parseInt(hex.slice(4, 6), 16)
+
+    // Decrease each component by percentage
+    r = Math.max(0, Math.floor(r * (1 - percent / 100)))
+    g = Math.max(0, Math.floor(g * (1 - percent / 100)))
+    b = Math.max(0, Math.floor(b * (1 - percent / 100)))
+
+    // Convert back to hex and pad with zeroes if needed
+    const toHex = (c) => c.toString(16).padStart(2, "0")
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`
+  }
 
   const handleBlur = () => {
     setIsEditing(false)
@@ -33,10 +75,57 @@ export function BoardHeader() {
 
     element.classList.toggle("pressed")
   }
+  function onClickStar() {
+    try{if(board && (board.isStarred === false || board.isStarred === true)) {
+    dispatch(updateStarStatus(!board.isStarred))
+    dispatch(
+        syncBoardAsync({
+          method: TaskOps.UPDATE,
+          args: {
+            taskId: board._id,
+            body: {
+              method: TaskOps.UPDATE,
+              workId: "board",
+              isStarred: !board.isStarred,
+            },
+          },
+          workId: "board",
+        })
+      )
+      //toggleStar in userBoards
+      const boardId = board._id
+      const newState = !board.isStarred
+      toggleStar(boardId, newState)
+    
+    }else{
+      console.log("onClickStar failed", board)
+    }}catch(err) {
+      console.error("onClickStar error", err)
+    }
+  }
 
   function onChangeTextInput(value) {
     console.log("onChangeTextInput(value)", value)
     dispatch(updateboardTitle(value))
+    if (board._id) {
+      dispatch(updateBoardNameInWorkSpace({ _id: board._id, name: value }))
+      dispatch(
+        syncBoardAsync({
+          method: TaskOps.UPDATE,
+          args: {
+            taskId: board._id,
+            body: {
+              method: TaskOps.UPDATE,
+              workId: "board",
+              boardTitle: value,
+            },
+          },
+          workId: "board",
+        })
+      )
+    } else {
+      console.log("board._id not found", board._id)
+    }
   }
 
   const filterButton = {
@@ -70,19 +159,21 @@ export function BoardHeader() {
   const title = board ? board.boardTitle : "Loading..."
   return (
     <div className="board-header-container">
-      <span className="board-header">
+      <span className="board-header" style={boardHeaderBackgound}>
         <span className="board-header-left">
           <div className="board-name-container header-clickable">
             <TextEditInput
               isEditing={isEditing}
               value={board.boardTitle}
+              itemType={"board"}
               onChangeTextInput={onChangeTextInput}
             ></TextEditInput>
           </div>
           <div
             className="header-button header-clickable"
             onClick={() => {
-              dispatch(updateStarStatus(!board.isStarred))
+              console.log("onClickStar")
+              onClickStar()
             }}
             ref={starRef}
           >
@@ -159,7 +250,11 @@ export function BoardHeader() {
           <span className="header-divider"></span>
           <div
             className="task-preview-info-users"
-            style={{ marginBottom: "0px", paddingRight: "2px", paddingLeft: "2px" }}
+            style={{
+              marginBottom: "0px",
+              paddingRight: "2px",
+              paddingLeft: "2px",
+            }}
           >
             {board.boardMembers &&
               board.boardMembers
@@ -171,7 +266,7 @@ export function BoardHeader() {
                   <button
                     key={member._id || member.id}
                     className="td-section-members-button"
-                    style={{marginRight: "-6px"}}
+                    style={{ marginRight: "-6px" }}
                   >
                     <img
                       src={member.avatar}
@@ -187,20 +282,44 @@ export function BoardHeader() {
                 ))}
             {/* <TaskDetailsMembers style={{}} /> */}
           </div>
-          <div className="header-button header-clickable pressed"
-          onClick={(e)=>{
-            dispatch(toggleShareModal(true))
-            // togglePressed(e.currentTarget, "visible")
+          <div
+            className="header-button header-clickable pressed"
+            onClick={(e) => {
+              dispatch(toggleShareModal(true))
+              // togglePressed(e.currentTarget, "visible")
             }}
-            style={{marginLeft:"8px"}}>
-            <IconButton
-                  label={`Share`}
-                  iconSize={"16px"}
-                >
-                  <path fillRule="evenodd" clipRule="evenodd" d="M12 13C14.7614 13 17 10.7614 17 8C17 5.23858 14.7614 3 12 3C9.23858 3 7 5.23858 7 8C7 9.44777 7.61532 10.7518 8.59871 11.6649C5.31433 13.0065 3 16.233 3 20C3 20.5523 3.44772 21 4 21H12C12.5523 21 13 20.5523 13 20C13 19.4477 12.5523 19 12 19H5.07089C5.55612 15.6077 8.47353 13 12 13ZM15 8C15 9.65685 13.6569 11 12 11C10.3431 11 9 9.65685 9 8C9 6.34315 10.3431 5 12 5C13.6569 5 15 6.34315 15 8Z" fill="currentColor"></path>
-                  <path d="M17 14C17 13.4477 17.4477 13 18 13C18.5523 13 19 13.4477 19 14V16H21C21.5523 16 22 16.4477 22 17C22 17.5523 21.5523 18 21 18H19V20C19 20.5523 18.5523 21 18 21C17.4477 21 17 20.5523 17 20V18H15C14.4477 18 14 17.5523 14 17C14 16.4477 14.4477 16 15 16H17V14Z" fill="currentColor"></path>
-                </IconButton>
+            style={{ marginLeft: "8px" }}
+          >
+            <IconButton label={`Share`} iconSize={"16px"}>
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M12 13C14.7614 13 17 10.7614 17 8C17 5.23858 14.7614 3 12 3C9.23858 3 7 5.23858 7 8C7 9.44777 7.61532 10.7518 8.59871 11.6649C5.31433 13.0065 3 16.233 3 20C3 20.5523 3.44772 21 4 21H12C12.5523 21 13 20.5523 13 20C13 19.4477 12.5523 19 12 19H5.07089C5.55612 15.6077 8.47353 13 12 13ZM15 8C15 9.65685 13.6569 11 12 11C10.3431 11 9 9.65685 9 8C9 6.34315 10.3431 5 12 5C13.6569 5 15 6.34315 15 8Z"
+                fill="currentColor"
+              ></path>
+              <path
+                d="M17 14C17 13.4477 17.4477 13 18 13C18.5523 13 19 13.4477 19 14V16H21C21.5523 16 22 16.4477 22 17C22 17.5523 21.5523 18 21 18H19V20C19 20.5523 18.5523 21 18 21C17.4477 21 17 20.5523 17 20V18H15C14.4477 18 14 17.5523 14 17C14 16.4477 14.4477 16 15 16H17V14Z"
+                fill="currentColor"
+              ></path>
+            </IconButton>
           </div>
+
+          {!board.rightMenuOpen && (
+            <div
+              className="header-button header-clickable"
+              // toggle menu
+              onClick={() => dispatch(toggleRightMenuOpen(true))}
+            >
+              <IconButton centerd={true}>
+                <path
+                  fillRule="nonzero"
+                  clipRule="evenodd"
+                  d="M 5 14 C 6.10457 14 7 13.1046 7 12 C 7 10.8954 6.10457 10 5 10 C 3.89543 10 3 10.8954 3 12 C 3 13.1046 3.89543 14 5 14 Z M 12 14 C 13.1046 14 14 13.1046 14 12 C 14 10.8954 13.1046 10 12 10 C 10.8954 10 10 10.8954 10 12 C 10 13.1046 10.8954 14 12 14 Z M 21 12 C 21 13.1046 20.1046 14 19 14 C 17.8954 14 17 13.1046 17 12 C 17 10.8954 17.8954 10 19 10 C 20.1046 10 21 10.8954 21 12 Z"
+                  fill="currentColor"
+                ></path>
+              </IconButton>
+            </div>
+          )}
           {/* {board.users &&
             board.users.map((user) => (
               <span onClick={(user) => toggleUserCmp(user)}>{user.name}</span>

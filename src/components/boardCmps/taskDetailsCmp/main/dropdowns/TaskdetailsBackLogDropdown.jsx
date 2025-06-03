@@ -472,8 +472,11 @@ const TaskdetailsBackLogDropdown = ({ trigger, onClose, Header }) => {
           Move
         </button>
       </div>
-    </div>
-  );
-};
+      </div>
+     
+   
+  )
+  
+}
 
 export default TaskdetailsBackLogDropdown;

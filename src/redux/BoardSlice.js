@@ -261,6 +261,7 @@ const boardSlice = createSlice({
     boardTitle: "",
     slug: "",
     isStarred: null,
+    boardStyle: null,
     boardLists: [],
     boardLabels: [],
     boardListsById: [],
@@ -277,6 +278,7 @@ const boardSlice = createSlice({
     boardMembers: [],
     previewEditorPositon: null,
     shareModalOpen: false,
+    rightMenuOpen: false,
   },
   reducers: {
     addboard: (state, action) => {
@@ -309,10 +311,20 @@ const boardSlice = createSlice({
     toggleShareModal: (state, action) => {
       state.shareModalOpen = action.payload
     },
+    toggleRightMenuOpen: (state, action) => {
+      state.rightMenuOpen = action.payload
+    },
     updateboardTitle: (state, action) => {
       state.boardTitle = action.payload
 
-      saveTolocal(BuildBoardFromState(state))
+      // saveTolocal(BuildBoardFromState(state))
+    },
+    updateBoardStyle: (state, action) => {
+      const newStyle = {...state.boardStyle,...action.payload}
+      console.log("updateBoardStyle", newStyle)
+      state.boardStyle = newStyle
+      
+      // saveTolocal(BuildBoardFromState(state))
     },
     updateboardFilter: (state, action) => {
       // console.log("boardSlice updateboardFilter", action.payload)
@@ -508,15 +520,19 @@ const boardSlice = createSlice({
       }
     },
     removeTaskFromBoard: (state, action) => {
+      console.log("removeTaskFromBoard", action.payload)
+      
       const index = state.boardLists.findIndex(
         (list) => list._id === action.payload.taskList
       )
+      console.log("removeTaskFromBoard before state.boardLists[index].taskList",state.boardLists[index].taskList)
       if (index !== -1) {
         state.boardLists[index].taskList = state.boardLists[
           index
         ].taskList.filter((task) => task._id !== action.payload._id)
       }
-      saveTolocal(BuildBoardFromState(state))
+      console.log("removeTaskFromBoard after state.boardLists[index].taskList",state.boardLists[index].taskList)
+      // saveTolocal(BuildBoardFromState(state))
     },
     updateTaskInBoard: (state, action) => {
       let updatedTask = action.payload
@@ -591,17 +607,19 @@ const boardSlice = createSlice({
       // })
       .addCase(syncBoardAsync.fulfilled, (state, action) => {
         // state.loading = false;
-        console.log("action.payload",action.payload)
+        console.log("syncBoardAsync.fulfilled action.payload",action.payload)
         if(!action.payload) return
         const board = action.payload.board
         state.state = "success"
         state._id = board._id
+        state.isStarred = board.isStarred || false
         state.boardTitle = board.boardTitle
+        state.boardStyle = board.boardStyle || null
         state.slug = board.slug || ""
         state.boardLabels = board.boardLabels || []
         state.boardLists = board.boardLists || []
         const existing = state.boards?.filter((b) => b._id !== board._id) || []
-        state.boards = [...existing, board]
+        // state.boards = [...existing, board]
         state.boardMembers = board.boardMembers || []
         const { method, data } = action.payload
       })
@@ -629,6 +647,8 @@ export const {
   updateBoardListOrder,
   updateTasklistOrder,
   toggleShareModal,
+  updateBoardStyle,
+  toggleRightMenuOpen,
   updateBoardMembers,
 } = boardSlice.actions
 export default boardSlice.reducer
