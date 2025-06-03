@@ -20,7 +20,7 @@ import ShareSvg from '../.././../../../assets/svgDesgin/ShareSvg';
 import PowerUpSvg from '../.././../../../assets/svgDesgin/PowerUpSvg';
 import DropdownMembers from './dropdownHardcoded/DropdownMembers';
 import DropdownDate from './dropdownHardcoded/DropdownDate';
-import DropdownChecklistSide from './dropdownChecklistSide';
+import DropdownChecklistSide from './DropdownChecklistSide.jsx';
 import CustomFields from './CustomFields';
 import Cover from './cover';
 import { SvgServices } from '../../../../../services/svgServices';
