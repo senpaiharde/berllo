@@ -40,10 +40,11 @@
 }
 
 .checklist-item-wrapper-Undone {
+    position: relative;
   cursor: pointer;
   margin-top: 12px; /* align with textarea top */
   margin-right: 7px;
-  position: relative;
+  
   flex-shrink: 0;
   width: 16px;
   height: 16px;
@@ -65,10 +66,11 @@
 }
 
 .checklist-item-wrapper-done{
+position: relative;
   cursor: pointer;
   margin-top: 12px; /* align with textarea top */
   margin-right: 7px;
-  position: relative;
+  
   flex-shrink: 0;
   width: 16px;
   height: 16px;
@@ -362,10 +364,11 @@
 
 
 .DropdownLabelCheckbox-undone {
+position: relative;
   cursor: pointer;
   margin-left: 4px;
   margin-right: 8px;
-  position: relative;
+  
   flex-shrink: 0;
   width: 16px;
   height: 16px;
@@ -387,10 +390,11 @@
 }
 
 .DropdownLabelCheckboxDone{
+position: relative;
   cursor: pointer;
   margin-left: 4px;
   margin-right: 8px;
-  position: relative;
+  
   flex-shrink: 0;
   width: 16px;
   height: 16px;

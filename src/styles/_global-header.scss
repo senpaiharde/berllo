@@ -531,9 +531,10 @@
 }
 
 .boxboards {
+    position: relative;
   background-color: rgb(205, 90, 145);
   display: inline-block;
-  position: relative;
+  
   flex: 0 0 auto;
   width: 40px;
   height: 32px;
@@ -545,10 +546,11 @@
 }
 
 .recenetBoardsNexted {
+    position: relative;
   display: flex;
   padding-bottom: 4px;
   margin-left: -8px;
-  position: relative;
+ 
   margin-right: 8px;
   padding-top: 4px;
   border-radius: 8px;
@@ -657,10 +659,11 @@
 }
 
 .IMGBoardDropdownButton{
+    position: relative;
     display: flex
 ;
 border: none;
-    position: relative;
+  
     align-items: center;
     justify-content: center;
     width: 100%;
