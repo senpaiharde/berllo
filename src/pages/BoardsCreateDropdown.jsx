@@ -42,21 +42,7 @@ const BoardsCreateDropdown = ({ onClose }) => {
   }
   async function createNewboard() {
     setLoading(true)
-    // dispatch(addnewBoard(`new board ${currentWorkSpace.boards?.length}`))
-    // dispatch(
-    //   syncBoardAsync({
-    //     method: TaskOps.ADD,
-    //     args: {
-    //       body: {
-    //         method: TaskOps.ADD,
-    //         workId: "board",
-    //         boardTitle: `${boardTitle}`,
-    //         boardStyle: newBoardStyle,
-    //       },
-    //     },
-    //     workId: "board",
-    //   })
-    // )
+
     const token = localStorage.getItem("token")
     try {
       const resp = await fetch("http://localhost:4000/board/", {
@@ -76,8 +62,7 @@ const BoardsCreateDropdown = ({ onClose }) => {
       }
       const board = await resp.json();
       console.log("board created", board)
-      // console.log("board created resp.json()", resp.json())
-      // console.log("board created resp", resp)
+      
       navigate(`/b/${board._id}/${board.boardTitle}`)
     } catch (err) {
       console.log("Error creating board:", err)
@@ -96,37 +81,13 @@ const BoardsCreateDropdown = ({ onClose }) => {
     }
 
     console.log("before load workSpace", workSpace)
-    // await load()
+  
     setLoading(false)
-    // setTimeout(() => {
-    //     // await load()
-    //     setLoading(false)
-    //     const lastBoard = workSpace[workSpace?.length - 1]
-    //     console.log("lastBoard", lastBoard)
-    //     navigate(`/b/${lastBoard._id}/${lastBoard.boardTitle}`)
-    //   }, 5500)
+  
     console.log("workSpace", workSpace)
-    // const lastBoard = workSpace[Object.keys(workSpace)[Object.keys(workSpace).length - 1]];
-    // const lastBoard = workSpace[workSpace?.length - 1]
-    // navigate(`/b/${lastBoard._id}/${lastBoard.boardTitle}`)
-    // if (!lastBoard) {
-    //   console.log("no last board found")
-    // } else {
-    //   console.log("lastBoard", lastBoard)
-    //   navigate(`/b/${lastBoard._id}/${lastBoard.boardTitle}`)
-    // }
+  
   }
-  // useEffect(() => {
-  //   console.log("readyToNavigate", readyToNavigate, "workSpace", workSpace)
-  //   if (workSpace && readyToNavigate) {
-  //     console.log("workSpace", workSpace)
-  //     const lastBoard = workSpace[workSpace?.length - 1]
-  //     console.log("lastBoard", lastBoard)
-  //     if (lastBoard) {
-  //       navigate(`/b/${lastBoard._id}/${lastBoard.boardTitle}`)
-  //     }
-  //   }
-  // }, [readyToNavigate])
+
 
   function functiondaddy(value, colors) {
     setColor(colors)
