@@ -24,7 +24,7 @@ export function TaskInfoBadges({ task }) {
   useEffect(() => {
     setCorrectDateColor()
     setCorrectDateBackgroundColor()
-  }, [])
+  }, [task.taskDueDate])
 
   useEffect(() => {
     // setDateBackgroundColor(task.taskChecked ? "#1f845a" : "#ffd5d2")

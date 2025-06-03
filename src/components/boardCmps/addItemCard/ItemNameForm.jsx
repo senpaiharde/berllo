@@ -24,7 +24,7 @@ export function ItemNameForm({
     }
   }
   useEffect(() => {
-    console.log("ItemNameForm inputValue", inputValue)
+    // console.log("ItemNameForm inputValue", inputValue)
     
   }, [inputValue])
 
