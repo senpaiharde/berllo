@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   closeTaskDetails,
   liveUpdateTask,
   openTaskDetails,
-  syncTaskAsync,
-  taskUpdated,
+  
   updateSelectedTaskLive,
 } from '../../../redux/taskDetailsSlice';
 import { TaskOps } from '../../../services/backendHandler';
@@ -32,48 +31,96 @@ import socket from '../../../services/socket';
 const TaskDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { taskId, boardId } = useParams();
-  const pureTaskId = taskId.split('-')[0];
-  const task = useSelector((state) => state.taskDetailsReducer?.selectedTask);
+  //Grab params—guard against undefined
+  const { taskId = '', boardId } = useParams();
+  const pureTaskId = taskId ? taskId.split('-')[0] : '';
+  
 
+  //Pulling from Redux state
+const selectedTask = useSelector(
+    (state) => state.taskDetailsReducer?.selectedTask
+  )
   const board = useSelector((s) => s.boardReducer);
   const boardLists = board.boardLists || [];
-  const selectedTask = useSelector((s) => s.taskDetailsReducer.selectedTask);
+
+  const cover = selectedTask?.cover;
+
+ const  isDueComplete  = selectedTask?.isDueComplete;
+
+ const workId = 'tasks';
+  const method = 'update';
 
 
- useEffect(() => {
-    socket.connect();
-    socket.emit('joinTask', pureTaskId);
-    return () => { socket.disconnect(); };
-  }, [pureTaskId]);
-
- useEffect(() => {
-    const handleServerUpdate = (updatedTask) => {
-      dispatch(updateSelectedTaskLive(updatedTask));
-    };
-    socket.on('taskUpdated', handleServerUpdate);
-    return () => { socket.off('taskUpdated', handleServerUpdate); };
-  }, [dispatch]);
+  const slug =
+    board.slug ||
+    board.boardTitle?.toLowerCase().replace(/\s+/g, '-') ||
+    'board';
 
 
+    //Find the task inside boardLists
   const localTask = boardLists
     .flatMap((list) => list.taskList || [])
     .find((t) => t._id === pureTaskId);
 
+
+// Socket: join room + listen for updates
+
+  
+
+  useEffect(() => {
+    if (!pureTaskId) return;
+
+    socket.connect();
+    socket.emit('joinTask', pureTaskId);
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [pureTaskId]);
+
+  useEffect(() => {
+    const handleServerUpdate = (updatedTask) => {
+      dispatch(updateSelectedTaskLive(updatedTask));
+    };
+    socket.on('taskUpdated', handleServerUpdate);
+
+    return () => {
+      socket.off('taskUpdated', handleServerUpdate);
+    };
+  }, [dispatch]);
+
+
+
+// Load board ➞ open task details
+  
   useEffect(() => {
     if (boardLists.length === 0 && boardId) {
+      // If no lists yet, fetch the board
       dispatch(fetchBoardById(boardId));
       return;
     }
 
-    if (localTask && (!selectedTask || selectedTask._id !== localTask._id)) {
+    if (
+      localTask &&
+      (!selectedTask || selectedTask._id !== localTask._id)
+    ) {
       dispatch(openTaskDetails(localTask));
-      
-      dispatch(liveUpdateTask({ method: TaskOps.FETCH, workId: 'tasks' }));
-      
-    } 
-  }, [boardLists, localTask, selectedTask, boardId, dispatch, pureTaskId]);
+      dispatch(
+        liveUpdateTask({ method: TaskOps.FETCH, workId: 'tasks' })
+      );
+    }
+  }, [
+    boardLists,
+    localTask,
+    selectedTask,
+    boardId,
+    dispatch,
+    pureTaskId,
+  ]);
 
+
+
+ //  Pressing Escape should close the modal
   useEffect(() => {
     const hanldeEsc = (e) => {
       if (e.key === 'Escape') handleClose();
@@ -82,50 +129,74 @@ const TaskDetails = () => {
     return () => window.removeEventListener('keydown', hanldeEsc);
   }, []);
 
+
+
+    //  Prevent background scrolling while modal is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = 'auto';
     };
-  });
+  },[]);
 
-  if (!selectedTask) return <div />;
 
-  const { isDueComplete = false } = selectedTask;
 
-  const slug = board.slug || board.boardTitle?.toLowerCase().replace(/\s+/g, '-') || 'board';
 
+
+
+ 
+// closing the modal and navigating back into the board
   function handleClose() {
     dispatch(closeTaskDetails());
     navigate(`/b/${board._id}/${slug}`);
   }
-  const workId = 'tasks';
-  const method = 'update';
+
+
+
+
+// Title change handler
   const handleTitleChange = (update) => {
-    console.log('handleTitleChange', update);
+   
     dispatch(liveUpdateTask({ title: update, workId, method }));
   };
-  const cover = selectedTask.cover;
 
+    if (!selectedTask) {
+    // You could replace <div/> with a spinner or null or any other animation by
+    // your choose.
+    return <div />;
+  }
   return (
     <div className="td-modal">
       <div className={`td-container${cover ? ' has-cover' : ''}`}>
         {cover && (
           <div
-            className={
-              cover.coverType === 'image' ? 'td-cover td-cover--image' : 'td-cover td-cover--color'
-            }
-            style={{
-              backgroundImage: cover.coverType === 'image' ? `url(${cover.coverImg})` : undefined,
-              backgroundColor: cover.coverType === 'color' ? cover.coverColor : undefined,
-            }}>
-            <button
-              className="td-cover-close"
+              className={
+                cover.coverType === 'image'
+                  ? 'td-cover td-cover--image'
+                  : 'td-cover td-cover--color'
+              }
               style={{
-                opacity: cover.coverType === 'image' ? '1' : '0.6',
-                backgroundColor: cover.coverType === 'color' ? cover.coverColor : '#f7f8f9',
+                backgroundImage:
+                  cover.coverType === 'image'
+                    ? `url(${cover.coverImg})`
+                    : undefined,
+                backgroundColor:
+                  cover.coverType === 'color'
+                    ? cover.coverColor
+                    : undefined,
               }}
-              onClick={handleClose}>
+              >
+            <button
+                className="td-cover-close"
+                style={{
+                  opacity: cover.coverType === 'image' ? 1 : 0.6,
+                  backgroundColor:
+                    cover.coverType === 'color'
+                      ? cover.coverColor
+                      : '#f7f8f9',
+                }}
+                onClick={handleClose}
+              >
               <SvgServices name="SvgcloseTop" />
             </button>
 
@@ -135,7 +206,10 @@ const TaskDetails = () => {
                   className="td-cover-open"
                   style={{
                     opacity: cover.coverType === 'image' ? '1' : '0.6',
-                    backgroundColor: cover.coverType === 'color' ? cover.coverColor : '#f7f8f9',
+                    backgroundColor: 
+                    cover.coverType === 'color' 
+                    ? cover.coverColor
+                     : '#f7f8f9',
                   }}>
                   <span className="CoverHeaderIcon">
                     <CoverHeader />
@@ -173,10 +247,10 @@ const TaskDetails = () => {
 
             <textarea
               style={{
-                color: isDueComplete === false ? '#172b4d' : '#626f86',
+                color: !isDueComplete ? '#172b4d' : '#626f86',
               }}
               className="td-title-input"
-              value={task?.title || ''}
+              value={selectedTask?.title || ''}
               onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="Enter task title"
             />
@@ -193,16 +267,16 @@ const TaskDetails = () => {
         <div className="td-main">
           <div className="td-main-left">
             <div className="td-section-top">
-              {task?.members?.length > 0 && <TaskDetailsMembers />}
-              {task?.labels?.length > 0 && <TaskDetailsLabel />}
+              {selectedTask?.members?.length > 0 && <TaskDetailsMembers />}
+              {selectedTask?.labels?.length > 0 && <TaskDetailsLabel />}
               <TaskDetailsNotifcations />
-              {task?.taskDueDate &&  <TaskDetailsDate />}
+              {selectedTask?.taskDueDate &&  <TaskDetailsDate />}
             </div>
 
             <TaskDescription />
-            <div style={{ marginTop: '-42px' }} />
-            {task?.attachments?.length > 0 && <AttachmentUi />}
-            {task?.checklist?.length > 0 && <TaskChecklist />}
+            <div className='TaskDescriptionSpacing' />
+            {selectedTask?.attachments?.length > 0 && <AttachmentUi />}
+            {selectedTask?.checklist?.length > 0 && <TaskChecklist />}
            <TaskDetailsActivity />
           </div>
 

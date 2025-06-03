@@ -8,18 +8,19 @@ export const syncTaskAsync = createAsyncThunk(
   async ({ method, args, workId }, { rejectWithValue, dispatch }) => {
     try {
       console.log(method, workId, args, 'update happens here', workId);
-     
+
       const data = await backendHandler({ method, args, workId });
-      console.log('syncTaskAsync data', data);
       
+      console.log('syncTaskAsync data', data);
+
       // if (method === TaskOps.ADD) return;
-      if (method === TaskOps.ADD && args.copying){
-         console.log(" syncTaskAsync TaskOps.ADD new task");
-         return { method, data, workId, copying: args.copying }
-        }
+      if (method === TaskOps.ADD && args.copying) {
+        console.log(' syncTaskAsync TaskOps.ADD new task');
+        return { method, data, workId, copying: args.copying };
+      }
 
       if (method === TaskOps.ADD) return;
-     
+
       if (method !== TaskOps.FETCH) dispatch(updateTaskInBoard(data));
       return { method, data, workId };
     } catch (err) {
@@ -39,22 +40,20 @@ const initialState = {
   copiedTask: false,
   activities: [],
   title: '',
-  startDate:null,
-  
-  taskStartDate:null,
-  
+  startDate: null,
+
+  taskStartDate: null,
 };
 
 const taskDetailsSlice = createSlice({
   name: 'taskDetails',
   initialState,
   reducers: {
-    taskUpdated(state,action) {
-        if(state.selectedTask?._id === action.payload._id){
-            state.selectedTask = action.payload
-        }
-    }
-    ,
+    taskUpdated(state, action) {
+      if (state.selectedTask?._id === action.payload._id) {
+        state.selectedTask = action.payload;
+      }
+    },
     openTaskDetails: (state, action) => {
       if (state.selectedTask?._id === action.payload._id) return;
       state.selectedTask = {
@@ -63,10 +62,10 @@ const taskDetailsSlice = createSlice({
         startDate: action.payload.taskStartDate ?? action.payload.startDate ?? null,
         reminder: action.payload.reminder ?? null,
         isDueComplete: action.payload.isDueComplete ?? false,
-        attachments : action.payload.attachments ?? [],
+        attachments: action.payload.attachments ?? [],
         title: action.payload.title ?? '',
         description: action.payload.description ?? '',
-        
+
         activities: action.payload.activities ?? [],
         isWatching: action.payload.isWatching ?? false,
         members: Array.isArray(action.payload.members) ? action.payload.members : [],
@@ -94,16 +93,18 @@ const taskDetailsSlice = createSlice({
       if (payload.attachments !== undefined) {
         state.selectedTask.attachments = payload.attachments;
       }
-      
+
       if (payload.cover !== undefined) {
         state.selectedTask.cover = payload.cover;
       }
-      
+
       if (payload.taskStartDate || payload.startDate) {
-         state.selectedTask.startDate = action.payload.taskStartDate ?? action.payload.startDate ?? null
+        state.selectedTask.startDate =
+          action.payload.taskStartDate ?? action.payload.startDate ?? null;
       }
       if (payload.taskDueDate || payload.dueDate) {
-         state.selectedTask.taskDueDate = action.payload.taskDueDate ?? action.payload.dueDate ?? null
+        state.selectedTask.taskDueDate =
+          action.payload.taskDueDate ?? action.payload.dueDate ?? null;
       }
       if (payload.description) {
         state.selectedTask.description = payload.description;
@@ -122,8 +123,7 @@ const taskDetailsSlice = createSlice({
       if (payload.reminder) {
         state.selectedTask.reminder = payload.reminder;
       }
-      
-      
+
       if (payload.checklist) {
         state.selectedTask.checklist = payload.checklist;
       }
@@ -133,7 +133,6 @@ const taskDetailsSlice = createSlice({
       if (payload.labels) {
         state.selectedTask.labels = payload.labels;
       }
-       
     },
   },
   extraReducers: (builder) => {
@@ -141,27 +140,17 @@ const taskDetailsSlice = createSlice({
       .addCase(syncTaskAsync.fulfilled, (state, action) => {
         state.loading = false;
 
-
         const { method, data, workId, copying } = action.payload;
 
-        
-
-
-        console.log(
-          
-          state.selectedTask.isDueComplete,
-          data.activities,
-          data.isDueComplete
-        );
+        console.log(state.selectedTask.isDueComplete, data.activities, data.isDueComplete);
         switch (method) {
           case TaskOps.FETCH:
-            
             state.selectedTask = {
               ...data,
               taskDueDate: data.taskDueDate ?? data.dueDate ?? null,
               reminder: data.reminder ?? null,
               isDueComplete: data.isDueComplete ?? false,
-              activities: data.activities ?? null
+              activities: data.activities ?? null,
             };
 
             state.isOpen = true;
@@ -172,7 +161,7 @@ const taskDetailsSlice = createSlice({
               ...state.selectedTask,
               ...data,
             };
-            if(copying)state.copiedTask = copying
+            if (copying) state.copiedTask = copying;
             break;
           case TaskOps.DELETE:
             if (state.selectedTask?._id === data._id) {
@@ -182,9 +171,10 @@ const taskDetailsSlice = createSlice({
           default:
             break;
         }
-        
-        if (method === 'fetch' && workId === 'activities') {
-          state.activities = data;
+
+        if (method === TaskOps.FETCH && workId === 'activities') {
+         
+          state.activities = Array.isArray(data) ? data.slice(0, 30) : [];
           return;
         }
       })
@@ -194,9 +184,15 @@ const taskDetailsSlice = createSlice({
   },
 });
 
-export const {Activity,activities,taskUpdated, openTaskDetails, closeTaskDetails, updateSelectedTaskLive,setCopiedTask } =
-
-  taskDetailsSlice.actions;
+export const {
+  Activity,
+  activities,
+  taskUpdated,
+  openTaskDetails,
+  closeTaskDetails,
+  updateSelectedTaskLive,
+  setCopiedTask,
+} = taskDetailsSlice.actions;
 
 let debounceId;
 export const liveUpdateTask = (fields) => (dispatch, getState) => {

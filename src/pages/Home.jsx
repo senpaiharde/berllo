@@ -13,6 +13,7 @@ import fetchCurrentUser from '../services/backendCallsUsers';
 import StarButton from '../services/isStarred';
 import DropdownUi from '../components/boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
 import BoardsCreateDropdown from './BoardsCreateDropdown';
+import { useSelector } from 'react-redux';
 const workspaceLeft = [
   {
     title: 'Boards',
@@ -107,6 +108,26 @@ const token = localStorage.getItem('token')
       setAiEnd('');
     }
   };
+  function darkenHexColor(hex, percent) {
+    // Remove "#" if present
+    hex = hex?.replace(/^#/, "")
+
+    // Parse hex into RGB
+    let r = parseInt(hex?.slice(0, 2), 16)
+    let g = parseInt(hex?.slice(2, 4), 16)
+    let b = parseInt(hex?.slice(4, 6), 16)
+
+    // Decrease each component by percentage
+    r = Math.max(0, Math.floor(r * (1 - percent / 100)))
+    g = Math.max(0, Math.floor(g * (1 - percent / 100)))
+    b = Math.max(0, Math.floor(b * (1 - percent / 100)))
+
+    // Convert back to hex and pad with zeroes if needed
+    const toHex = (c) => c.toString(16).padStart(2, "0")
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`
+  }
+    const board = useSelector((state) => state.boardReducer)
+const color =  darkenHexColor(board?.boardStyle?.boardColor ,50)  || 'black';
   return (
     <div>
       <GlobalHeader />
@@ -354,7 +375,9 @@ const token = localStorage.getItem('token')
                           key={sb.id}
                           style={{ height: '40px', width: '322px' }}
                           className="recenetBoardsNexted">
-                          <div className="boxboards" />
+                          <div 
+                          style={{backgroundColor:recent?.boardStyle?.boardColor}}
+                          className="boxboards" />
 
                           <h2
                             style={{ marginRight: '38px' }}
@@ -414,7 +437,9 @@ const token = localStorage.getItem('token')
                       key={id}
                       style={{ height: '40px', width: '322px' }}
                       className="recenetBoardsNexted">
-                      <div className="boxboards" />
+                      <div 
+                      style={{backgroundColor:recent?.boardStyle?.boardColor}}
+                      className="boxboards" />
                       <h2
                         style={{ marginRight: '38px' }}
                         onClick={() => {
