@@ -63,6 +63,8 @@ export const TaskOps = Object.freeze({
 
 export async function toggleStar(boardId, isStarred) {
   const token = localStorage.getItem('token');
+  console.log('toggleStar', boardId, isStarred);
+  console.log('token', token);
   const res = await fetch('http://localhost:4000/user/me', {
   method: 'PUT',
   headers: {
@@ -80,5 +82,4 @@ export async function toggleStar(boardId, isStarred) {
   const { starredBoards } = await res.json();
   return starredBoards; 
 };
-
 

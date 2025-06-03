@@ -15,7 +15,8 @@ import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/Dropdow
 import BoardHeaderFilter from "./boardHeaderFilter"
 import SvgIcon from "../../SvgIcon"
 import { b } from "framer-motion/client"
-import { TaskOps } from "../../../services/backendHandler"
+import { TaskOps, toggleStar } from "../../../services/backendHandler"
+import { ca } from "date-fns/locale"
 export function BoardHeader() {
   const board = useSelector((state) => state.boardReducer)
   const [currentBoard, setCurrentBoard] = useState(board)
@@ -74,7 +75,7 @@ export function BoardHeader() {
     element.classList.toggle("pressed")
   }
   function onClickStar() {
-    if(board && (board.isStarred === false || board.isStarred === true)) {
+    try{if(board && (board.isStarred === false || board.isStarred === true)) {
     dispatch(updateStarStatus(!board.isStarred))
     dispatch(
         syncBoardAsync({
@@ -90,8 +91,15 @@ export function BoardHeader() {
           workId: "board",
         })
       )
+      //toggleStar in userBoards
+      const boardId = board._id
+      const newState = !board.isStarred
+      toggleStar(boardId, newState)
+    
     }else{
       console.log("onClickStar failed", board)
+    }}catch(err) {
+      console.error("onClickStar error", err)
     }
   }
 
