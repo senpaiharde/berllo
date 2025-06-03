@@ -64,9 +64,10 @@ const newBoardStyle = {
     const lastBoard = workSpace[Object.keys(workSpace)[Object.keys(workSpace).length - 1]];
     console.log(lastBoard._id, 'here im ');
     setTimeout(() => {
+        setLoading(false);
       navigate(`/b/${lastBoard._id}/${boardTitle}`);
-      setLoading(false);
-    }, 1500);
+      onClose();
+    }, 3500);
   }
    function functiondaddy (value,colors) {
     setColor(colors)

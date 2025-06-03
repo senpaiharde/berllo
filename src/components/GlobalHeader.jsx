@@ -352,29 +352,21 @@ const GlobalHeader = () => {
               Templates <ChevronDown size={14} />
             </button>
             {activeDropdown === 'templates' && (
-              <div className="dropdown-menu templates-menu">
-                <div className="dropdown-header">Top Templates</div>
-                {[
-                  { title: '1-on-1 Meeting Agenda', img: Template1 },
-                  { title: 'Project Management', img: Template2 },
-                  { title: 'Company Overview', img: Template3 },
-                  { title: 'Design Huddle', img: Template4 },
-                  { title: 'Go To Market Strategy', img: Template5 },
-                ].map((template, index) => (
-                  <div key={index} className="template-item">
-                    <img src={template.img} alt={template.title} />
-                    <div className="template-info">
-                      <div>{template.title}</div>
-                      <div className="template-desc">Trello Workspace</div>
+             <div className="dropdown-menu">
+                <div className="dropdown-header">Current Workspaces</div>
+                <div className="dropdown-item">
+                  <div className="workspace-icon">B</div>
+                  <div>
+                    <div
+                      className="textCurrectworkspace"
+                      
+                      style={{ cursor: 'pointer', color: '#0079bf' }}>
+                      Brello Workspace
                     </div>
                   </div>
-                ))}
-                <div className="template-footer">
-                  <button className="template-explore">
-                    <LayoutGrid size={14} />
-                    Explore templates
-                  </button>
                 </div>
+
+               
               </div>
             )}
           </div>
