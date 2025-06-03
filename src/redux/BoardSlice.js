@@ -30,6 +30,9 @@ export const syncBoardAsync = createAsyncThunk(
       console.log(method, workId, args, "update happens here", workId)
       const data = await backendHandler({ method, args, workId })
       console.log("syncBoardAsync method", method)
+      if (method === TaskOps.ADD && workId === "list") {
+        return { data, method, newList: true }
+      }
       if (
         method === TaskOps.ADD ||
         method === TaskOps.UPDATE ||
@@ -576,7 +579,6 @@ const boardSlice = createSlice({
         return
       }
       if (action.payload.newTask) {
-        
         const tasks = state.boardLists[boardListsIndex].taskList
         if (tasks.length > 0) {
           tasks[tasks.length - 1] = updatedTask
@@ -621,8 +623,26 @@ const boardSlice = createSlice({
       // })
       .addCase(syncBoardAsync.fulfilled, (state, action) => {
         // state.loading = false;
-        console.log("syncBoardAsync.fulfilled action.payload", action.payload)
+        // console.log("syncBoardAsync.fulfilled action.payload", action.payload)
+
         if (!action.payload) return
+        if (action.payload.newList) {
+          // {data, method, workId}
+          console.log(
+            "syncBoardAsync.fulfilled action.payload.data",
+            action.payload.data
+          )
+          const boardLists = state.boardLists
+          if (boardLists.length > 0) {
+            // boardLists.pop()
+            boardLists[boardLists.length - 2] = action.payload.data
+            // boardLists.splice(boardLists.length - 1, 0, action.payload.data);
+
+            // boardLists.pop()
+            // boardLists[boardLists.length - 1] = action.payload.data
+          }
+          return
+        }
         const board = action.payload.board
         state.state = "success"
         state._id = board._id
