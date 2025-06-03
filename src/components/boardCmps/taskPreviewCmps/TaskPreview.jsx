@@ -69,7 +69,7 @@ export function TaskPreview({
   function onUpdateTask(value) {
     // console.log("onUpdateTask value", value)
     if (value === true || value === false) {
-      dispatch(updateTaskInBoard({ ...task, taskChecked: value }))
+      // dispatch(updateTaskInBoard({ task:{...task, taskChecked: value} , fromBoard: true }))
       dispatch(openTaskDetails(task))
 
       // c) then fetch the real details from the API

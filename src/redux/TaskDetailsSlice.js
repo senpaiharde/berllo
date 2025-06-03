@@ -205,8 +205,8 @@ export const liveUpdateTask = (fields) => (dispatch, getState) => {
   if (!selectedTask) return;
 
   console.log('liveUpdateTask fields ', fields);
-
-  if (fields.isOpen === true) dispatch(updateTaskInBoard(fields));
+  console.log('selectedTask ', selectedTask);
+  if (fields.isOpen === true) dispatch(updateTaskInBoard(selectedTask));
 
   dispatch(updateSelectedTaskLive(fields));
   console.log(dispatch(updateSelectedTaskLive(fields)));

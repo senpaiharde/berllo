@@ -6,18 +6,74 @@ import { useState, useRef, useEffect } from "react"
 export function TaskInfoBadges({ task }) {
   function getReleventDate(date) {
     const options = { month: "short", day: "numeric" }
-    if (date)
-      //return  new Date(date).toISOString().split("T")[0]
-      return new Date(date).toLocaleDateString("en-US", options)
+    if (date) return new Date(date).toLocaleDateString("en-US", options)
   }
-  // const dateBackgroundColor = task.taskChecked ? "#1f845a" : "#ffd5d2"
-  // const dateColor = task.taskChecked ? "#ffffff" : "#ae2e244"
-  const [dateBackgroundColor, setDateBackgroundColor] = useState(
-    task.taskChecked ? "#1f845a" : "#ffd5d2"
-  )
-  const [dateColor, setDateColor] = useState(
-    task.taskChecked ? "#ffffff" : "#ae2a19"
-  )
+  // const isOverdue = task.taskDueDate < Date.now();
+  // if(task.taskTitle ==="datecheck"){
+  //   console.log("task", task.taskTitle, "isOverdue", isOverdue)
+  // }
+
+  // const [dateBackgroundColor, setDateBackgroundColor] = useState(
+  //   task.taskChecked ? "#1f845a" : "#ffd5d2"
+  // )
+  const [dateBackgroundColor, setDateBackgroundColor] = useState()
+  const [dateColor, setDateColor] =
+    useState()
+    // task.taskChecked ? "#ffffff" : "#ae2a19"
+
+  useEffect(() => {
+    setCorrectDateColor()
+    setCorrectDateBackgroundColor()
+  }, [])
+
+  useEffect(() => {
+    // setDateBackgroundColor(task.taskChecked ? "#1f845a" : "#ffd5d2")
+    // setDateColor(task.taskChecked ? "#ffffff" : "#ae2a19")
+    setCorrectDateBackgroundColor()
+    setCorrectDateColor()
+    // console.log("task.taskChecked",task.taskChecked)
+    // console.log("dateColor",dateColor)
+  }, [task.taskChecked])
+
+  
+  function setCorrectDateBackgroundColor() {
+    const isOverdue = task.taskDueDate < Date.now()
+    // if (task.taskTitle === "datecheck") {
+    //   console.log("task", task, "isOverdue", isOverdue)
+    // }
+    if (task.taskChecked) {
+      setDateBackgroundColor("#1f845a")
+    } else {
+      if (isOverdue) {
+        setDateBackgroundColor("#ffd5d2")
+      }else{
+        setDateBackgroundColor("#ffffff")
+      }
+    }
+  }
+
+  function setCorrectDateColor() {
+    const isOverdue = task.taskDueDate < Date.now()
+    // if (task.taskTitle === "datecheck") {
+    //   console.log("task", task.taskTitle, "isOverdue", isOverdue)
+    // }
+    if (task.taskChecked) {
+      setDateColor("#ffffff")
+    }else{
+      if (isOverdue) {
+      setDateColor("#ae2a19")
+    }else{
+      setDateColor("#172b4d")
+      }
+    }
+    
+  }
+
+  const isOverdue = task.taskDueDate < Date.now()
+  // if(task.taskTitle ==="datecheck"){
+  //   console.log("task", task.taskTitle, "isOverdue", isOverdue,"dateBackgroundColor",dateBackgroundColor)
+  // }
+
   const startdate = task.taskStartDate
     ? getReleventDate(task.taskStartDate)
     : ""
@@ -30,12 +86,6 @@ export function TaskInfoBadges({ task }) {
   //             task.taskDueDate
   //           )}` :  `${getReleventDate(task.taskDueDate)}`
 
-  useEffect(() => {
-    setDateBackgroundColor(task.taskChecked ? "#1f845a" : "#ffd5d2")
-    setDateColor(task.taskChecked ? "#ffffff" : "#ae2a19")
-    // console.log("task.taskChecked",task.taskChecked)
-    // console.log("dateColor",dateColor)
-  }, [task.taskChecked])
   if (task.taskCheckList) {
     // console.log("task.taskCheckList", task.taskCheckList[0])
   }
@@ -50,7 +100,10 @@ export function TaskInfoBadges({ task }) {
           if (item.done) doneCount++
         })
         // console.log("checklistDone", `${doneCount}/${task.taskCheckList[0].items.length}`)
-        if (doneCount === task.taskCheckList[0].items?.length && doneCount > 0) {
+        if (
+          doneCount === task.taskCheckList[0].items?.length &&
+          doneCount > 0
+        ) {
           // checklistColor = ({backgroundColor: "#1f845a"})
           checklistBackgoundColor = "#1f845a"
           checklistColor = "#ffffff"
@@ -126,7 +179,7 @@ export function TaskInfoBadges({ task }) {
           {task.taskActivityComments.length}
         </span>
       )}
-      {task.attachments && (
+      {task.attachments?.length > 0 && (
         <span style={{ display: "flex", alignItems: "center" }}>
           <IconButton
           // label={task.attachments.length}

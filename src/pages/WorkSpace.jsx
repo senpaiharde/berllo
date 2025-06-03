@@ -24,7 +24,7 @@ const Workspace = () => {
   const [boardViewBackgound, setBoardViewBackgound] = useState()
 
   useEffect(() => {
-    console.log("board.boardStyle", board.boardStyle)
+    // console.log("board.boardStyle", board.boardStyle)
     // {board.boardStyle && board.boardStyle.backgroundColor ? "board.boardStyle.backgroundColor" : ""}
     if (
       board.boardStyle &&
@@ -38,7 +38,7 @@ const Workspace = () => {
       board.boardStyle.boardImg &&
       board.boardStyle.boardType === "image"
     ) {
-      console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
+      // console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
       const newImgBackgound = {
 
       }

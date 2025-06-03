@@ -30,7 +30,11 @@ export const syncBoardAsync = createAsyncThunk(
       console.log(method, workId, args, "update happens here", workId)
       const data = await backendHandler({ method, args, workId })
       console.log("syncBoardAsync method", method)
-      if (method === TaskOps.ADD || method === TaskOps.UPDATE|| method === TaskOps.DELETE) {
+      if (
+        method === TaskOps.ADD ||
+        method === TaskOps.UPDATE ||
+        method === TaskOps.DELETE
+      ) {
         return
       }
       //   "backendDataConverionToState ",
@@ -303,7 +307,7 @@ const boardSlice = createSlice({
       // saveTolocal(BuildBoardFromState(state))
     },
     updateBoardMembers: (state, action) => {
-      console.log("updateBoardMembers action.payload",action.payload)
+      console.log("updateBoardMembers action.payload", action.payload)
       state.boardMembers = action.payload
 
       // saveTolocal(BuildBoardFromState(state))
@@ -320,10 +324,10 @@ const boardSlice = createSlice({
       // saveTolocal(BuildBoardFromState(state))
     },
     updateBoardStyle: (state, action) => {
-      const newStyle = {...state.boardStyle,...action.payload}
+      const newStyle = { ...state.boardStyle, ...action.payload }
       console.log("updateBoardStyle", newStyle)
       state.boardStyle = newStyle
-      
+
       // saveTolocal(BuildBoardFromState(state))
     },
     updateboardFilter: (state, action) => {
@@ -436,15 +440,15 @@ const boardSlice = createSlice({
       // )
       if (destination.droppableId !== source.droppableId) {
         // find the list index of the destination of the task if its a different list
-        if(!copiedTask){
+        if (!copiedTask) {
           updatedBoardListSource = {
-          _id: state.boardLists[boardListIndex]._id,
-          taskListById: state.boardLists[boardListIndex].taskList.map((list) =>
-            list._id.toString()
-          ),
+            _id: state.boardLists[boardListIndex]._id,
+            taskListById: state.boardLists[boardListIndex].taskList.map(
+              (list) => list._id.toString()
+            ),
+          }
         }
-        }
-        
+
         updatedTask = {
           _id: insertedTask._id,
           list: destination.droppableId,
@@ -521,24 +525,37 @@ const boardSlice = createSlice({
     },
     removeTaskFromBoard: (state, action) => {
       console.log("removeTaskFromBoard", action.payload)
-      
+
       const index = state.boardLists.findIndex(
         (list) => list._id === action.payload.taskList
       )
-      console.log("removeTaskFromBoard before state.boardLists[index].taskList",state.boardLists[index].taskList)
+      console.log(
+        "removeTaskFromBoard before state.boardLists[index].taskList",
+        state.boardLists[index].taskList
+      )
       if (index !== -1) {
         state.boardLists[index].taskList = state.boardLists[
           index
         ].taskList.filter((task) => task._id !== action.payload._id)
       }
-      console.log("removeTaskFromBoard after state.boardLists[index].taskList",state.boardLists[index].taskList)
+      console.log(
+        "removeTaskFromBoard after state.boardLists[index].taskList",
+        state.boardLists[index].taskList
+      )
       // saveTolocal(BuildBoardFromState(state))
     },
     updateTaskInBoard: (state, action) => {
+      console.log("updateTaskInBoard action.payload", action.payload)
       let updatedTask = action.payload
       console.log("updateTaskInBoard", updatedTask)
-      if (updatedTask.title) {
-        updatedTask = transformTaskFromBackend(updatedTask)
+      if (action.payload.fromBoard) {
+        console.log("action.payload.task", action.payload.task)
+        updatedTask = action.payload.task
+      } else {
+        if (updatedTask.title) {
+          console.log("updatedTask transformTaskFromBackend")
+          updatedTask = transformTaskFromBackend(updatedTask)
+        }
       }
 
       console.log("updateTaskInBoard transformTaskFromBackend", updatedTask)
@@ -546,36 +563,16 @@ const boardSlice = createSlice({
       const boardListsIndex = state.boardLists.findIndex(
         (list) => list._id === updatedTask.taskList
       )
-      // console.log("updateTaskInBoard boardListsIndex", boardListsIndex)
       if (boardListsIndex === -1) {
         return
       }
       const taskIndex = state.boardLists[boardListsIndex].taskList.findIndex(
         (task) => task._id === updatedTask._id
       )
-      // console.log("updateTaskInBoard taskIndex", taskIndex)
       if (taskIndex === -1) {
         return
       }
-      // const test = state
-      // console.log("state",test)
-      // console.log("found old task",state.boardLists[boardListsIndex].taskList[taskIndex])
       state.boardLists[boardListsIndex].taskList[taskIndex] = updatedTask
-
-      // for (let list of state.boardLists) {
-      //   const taskIndex = list.taskList.findIndex(
-      //     (task) => task._id === convertedUpdatedTask._id
-      //   )
-      //   if (taskIndex !== -1) {
-      //     list.taskList[taskIndex] = { ...convertedUpdatedTask }
-      //     break
-      //   }
-      // }
-
-      // const updatedBoard = BuildBoardFromState(state)
-
-      // const clonedBoard = JSON.parse(JSON.stringify(updatedBoard))
-      // saveTolocal(clonedBoard)
     },
     updatePreviewEditorPositon: (state, action) => {
       console.log("updatePreviewEditorPositon", action.payload)
@@ -607,8 +604,8 @@ const boardSlice = createSlice({
       // })
       .addCase(syncBoardAsync.fulfilled, (state, action) => {
         // state.loading = false;
-        console.log("syncBoardAsync.fulfilled action.payload",action.payload)
-        if(!action.payload) return
+        console.log("syncBoardAsync.fulfilled action.payload", action.payload)
+        if (!action.payload) return
         const board = action.payload.board
         state.state = "success"
         state._id = board._id
