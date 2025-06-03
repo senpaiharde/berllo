@@ -70,7 +70,7 @@ const GlobalHeader = () => {
     setLoading(true);
     try {
       const prompt = `${aiGoal} from ${aiStart} until ${aiEnd}`;
-      console.error('err at creating board with ai:', prompt);
+      console.log('Prompting:', prompt);
       const resp = await fetch('http://localhost:4000/autoBoard/', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -81,14 +81,14 @@ const GlobalHeader = () => {
         throw new Error(errData.error || 'Failed To create Board!.');
       }
       const { boardId } = await resp.json();
-      console.error('err at creating board with ai:', boardId);
+      console.log('board id:', boardId);
       const slugBase = aiGoal.trim().split(' ').slice(0, 5).join(' ');
       const slug = slugBase
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '');
       navigate(`/b/${boardId}/${slug}`);
-      console.error('err at creating board with ai:', slug);
+      console.log('board name:', slug);
     } catch (err) {
       console.error('err at creating board with ai:', err);
       alert('failed to create board: ' + err.message);
@@ -175,9 +175,29 @@ const GlobalHeader = () => {
       )
     }
   }
+function darkenHexColor(hex, percent) {
+    // Remove "#" if present
+    hex = hex?.replace(/^#/, "")
 
+    // Parse hex into RGB
+    let r = parseInt(hex?.slice(0, 2), 16)
+    let g = parseInt(hex?.slice(2, 4), 16)
+    let b = parseInt(hex?.slice(4, 6), 16)
+
+    // Decrease each component by percentage
+    r = Math.max(0, Math.floor(r * (1 - percent / 100)))
+    g = Math.max(0, Math.floor(g * (1 - percent / 100)))
+    b = Math.max(0, Math.floor(b * (1 - percent / 100)))
+
+    // Convert back to hex and pad with zeroes if needed
+    const toHex = (c) => c.toString(16).padStart(2, "0")
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`
+  }
+const color =  darkenHexColor(board?.boardStyle?.boardColor ,50)  || 'black';
+const boxcolors = board?.boardStyle?.boardColor  || board?.boardStyle?.boardImg  || 'black'
+const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
   return (
-    <header className="global-header">
+    <header className="global-header" style={{ backgroundColor:color}}>
       <div className="header-left">
         <button
           className="header-icon"
@@ -331,7 +351,8 @@ const GlobalHeader = () => {
 
                     return (
                       <a key={id} className="recenetBoardsNexted ">
-                        <div className="boxboards" />
+                        <div className="boxboards" 
+                        style={{backgroundColor:color}}/>
                         <h2
                           onClick={() => {
                             console.log("last visited entry:", recent)
@@ -431,30 +452,22 @@ const GlobalHeader = () => {
             >
               Templates <ChevronDown size={14} />
             </button>
-            {activeDropdown === "templates" && (
-              <div className="dropdown-menu templates-menu">
-                <div className="dropdown-header">Top Templates</div>
-                {[
-                  { title: "1-on-1 Meeting Agenda", img: Template1 },
-                  { title: "Project Management", img: Template2 },
-                  { title: "Company Overview", img: Template3 },
-                  { title: "Design Huddle", img: Template4 },
-                  { title: "Go To Market Strategy", img: Template5 },
-                ].map((template, index) => (
-                  <div key={index} className="template-item">
-                    <img src={template.img} alt={template.title} />
-                    <div className="template-info">
-                      <div>{template.title}</div>
-                      <div className="template-desc">Trello Workspace</div>
+            {activeDropdown === 'templates' && (
+             <div className="dropdown-menu">
+                <div className="dropdown-header">Current Workspaces</div>
+                <div className="dropdown-item">
+                  <div className="workspace-icon">B</div>
+                  <div>
+                    <div
+                      className="textCurrectworkspace"
+                      
+                      style={{ cursor: 'pointer', color: '#0079bf' }}>
+                      Brello Workspace
                     </div>
                   </div>
-                ))}
-                <div className="template-footer">
-                  <button className="template-explore">
-                    <LayoutGrid size={14} />
-                    Explore templates
-                  </button>
                 </div>
+
+               
               </div>
             )}
           </div>
@@ -463,7 +476,8 @@ const GlobalHeader = () => {
           <div ref={dropdownRefs.create} className="dropdown-wrapper">
             <button
             
-            className="create-button" onClick={() => toggleDropdown('create')}>
+            className="create-button" 
+            style={{ backgroundColor:color}} onClick={() => toggleDropdown('create')}>
               Create
             </button >
             {activeDropdown === 'create' && (
