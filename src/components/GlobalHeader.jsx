@@ -30,6 +30,8 @@ import { useSelector } from 'react-redux';
 import fetchCurrentUser, { accountSwitch, demoUsersStorage } from '../services/backendCallsUsers';
 import StarButton from '../services/isStarred';
 import { toggleStar } from '../services/backendHandler';
+import DropdownUi from './boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
+import BoardsCreateDropdown from '../pages/BoardsCreateDropdown';
 
 const demoUsers = demoUsersStorage;
 
@@ -41,6 +43,11 @@ const GlobalHeader = () => {
   const board = useSelector((state) => state.boardReducer);
   const isBoardReady = board?._id?.length > 0 && board?.boardTitle?.length > 0;
   const [user, setUser] = useState(null);
+  const [showAIForm, setShowAIForm] = useState(false);
+  const [aiGoal, setAiGoal] = useState('');
+  const [aiStart, setAiStart] = useState('');
+  const [aiEnd, setAiEnd] = useState('');
+  const [loading, setLoading] = useState(false);
   const dropdownRefs = {
     workspaces: useRef(null),
     recent: useRef(null),
@@ -48,6 +55,45 @@ const GlobalHeader = () => {
     templates: useRef(null),
     create: useRef(null),
     profile: useRef(null),
+  };
+  const token = localStorage.getItem('token');
+  const handleCreateAI = async () => {
+    if (!aiGoal.trim() || !aiStart || !aiEnd) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const prompt = `${aiGoal} from ${aiStart} until ${aiEnd}`;
+      console.error('err at creating board with ai:', prompt);
+      const resp = await fetch('http://localhost:4000/autoBoard/', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+      if (!resp.ok) {
+        const errData = await resp.json();
+        throw new Error(errData.error || 'Failed To create Board!.');
+      }
+      const { boardId } = await resp.json();
+      console.error('err at creating board with ai:', boardId);
+      const slugBase = aiGoal.trim().split(' ').slice(0, 5).join(' ');
+      const slug = slugBase
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+      navigate(`/b/${boardId}/${slug}`);
+      console.error('err at creating board with ai:', slug);
+    } catch (err) {
+      console.error('err at creating board with ai:', err);
+      alert('failed to create board: ' + err.message);
+    } finally {
+      setLoading(false);
+      setShowAIForm(false);
+      setAiGoal('');
+      setAiStart('');
+      setAiEnd('');
+    }
   };
   const [lastBoard, setLastBoard] = useState(null);
   const [currentEmail, setCurrentEmail] = useState('');
@@ -217,16 +263,14 @@ const GlobalHeader = () => {
             {activeDropdown === 'recent' && (
               <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
-                  {user.lastBoardVisited
-                  .slice(0, 5)
-                  .map((recent) => {
+                  {user?.lastBoardVisited?.slice(0, 5).map((recent) => {
                     const { id, boardTitle } = recent;
                     // find whether this is starred in the latest user state
                     const starEntry = user.starredBoards?.find((sb) => sb.id === id);
                     const isStarred = !!starEntry?.isStarred;
 
                     return (
-                      <a key={id} className="recenetBoardsNexted">
+                      <a key={id} className="recenetBoardsNexted ">
                         <div className="boxboards" />
                         <h2
                           onClick={() => {
@@ -265,7 +309,7 @@ const GlobalHeader = () => {
               <div className="dropdown-menu-recent">
                 <div className="recenetBoards">
                   {user?.starredBoards
-                  .slice(0, 5) 
+                    .slice(0, 5)
                     ?.filter((sb) => sb.isStarred)
                     .map((sb) => {
                       const recent = user.lastBoardVisited?.find((r) => r.id === sb.id);
@@ -337,31 +381,124 @@ const GlobalHeader = () => {
 
           {/* CREATE */}
           <div ref={dropdownRefs.create} className="dropdown-wrapper">
-            <button className="create-button" onClick={() => toggleDropdown('create')}>
+            <button
+            
+            className="create-button" onClick={() => toggleDropdown('create')}>
               Create
-            </button>
+            </button >
             {activeDropdown === 'create' && (
-              <div className="dropdown-menu create-menu">
-                {[
-                  {
-                    icon: <LayoutGrid size={16} />,
-                    title: 'Create board',
-                    desc: 'A board is made up of cards ordered on lists. Use it to manage projects, track information, or organize anything.',
-                  },
-                  {
-                    icon: <Building2 size={16} />,
-                    title: 'Create workspace',
-                    desc: 'A Workspace is a group of boards and people. Use it to organize your company, side hustle, family, or friends.',
-                  },
-                ].map(({ icon, title, desc }, i) => (
-                  <div key={i} className="create-item">
-                    <div className="create-icon">{icon}</div>
-                    <div className="create-info">
-                      <div>{title}</div>
-                      <div className="create-desc">{desc}</div>
-                    </div>
+              <div   ref={dropdownRefs.create}
+                className="dropdown-menu create-menu"
+                style={{ margin: '0 0', textAlign: 'center' }}>
+                <DropdownUi  
+                
+                trigger={<button 
+                onClick={(e) => {e.preventDefault()}}
+                className="CreateBoardHard" style={{marginTop:'12px'}}>
+                  <span className="HeaderCreateBoardHard">Create Board</span>
+                  <div className="HeaderCreateBoardHardText">
+                    A board is made up of cards ordered on lists. Use it to manage projects, track
+                    information, or organize anything.
                   </div>
-                ))}
+                </button>}>
+                     {({ onClose }) => <BoardsCreateDropdown onClose={onClose} />}
+                </DropdownUi>
+                
+                <div   className="OpenAiButtonHeaderHeaderDiv"
+                
+                style={{  textAlign: 'left' }}>
+                  {!showAIForm ? (
+                    <button
+                      style={{
+                        
+                        color: '#44546f',
+                        borderRadius: '12px',
+                      }}
+                      className="OpenAiButtonHeaderHeader"
+                      onClick={() => setShowAIForm(true)}>
+                     
+                      <span className="HeaderCreateBoardHard"> 
+                         <img 
+                      style={{marginRight:'4px'}}
+                        src="https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg"
+                        alt="ChatGPT Logo"
+                        width={16}
+                        height={16}
+                      />
+                        Create Board with AI</span>
+                      
+                      <div
+                      style={{width:'280px',paddingRight:'34px'}}
+                      className="HeaderCreateBoardHardText">
+                   Get started faster with AI Board Design layout.
+                  </div>
+                    </button>
+                  ) : (
+                    <div className="OpenAiButtonContainer">
+                      <div style={{ marginBottom: '12px' }}>
+                        <label htmlFor="aiGoal" className="OpenAiButtonContainerLabel">
+                          Goal / Description:
+                        </label>
+                        <textarea
+                          className="OpenAiButtonContainerTextarea"
+                          id="aiGoal"
+                          rows={2}
+                          placeholder="E.g. I have a birthday to my mother"
+                          value={aiGoal}
+                          onChange={(e) => setAiGoal(e.target.value)}
+                        />
+                      </div>
+
+                      <div style={{ marginBottom: '12px' }}>
+                        <label htmlFor="aiStart" className="OpenAiButtonContainerLabel">
+                          From Date:
+                        </label>
+                        <input
+                          className="OpenAiButtonContainerInput"
+                          type="date"
+                          id="aiStart"
+                          value={aiStart}
+                          onChange={(e) => setAiStart(e.target.value)}
+                        />
+                      </div>
+
+                      <div style={{ marginBottom: '16px' }}>
+                        <label htmlFor="aiEnd" className="OpenAiButtonContainerLabel">
+                          Until Date:
+                        </label>
+                        <input
+                          className="OpenAiButtonContainerInput"
+                          type="date"
+                          id="aiEnd"
+                          value={aiEnd}
+                          onChange={(e) => setAiEnd(e.target.value)}
+                        />
+                      </div>
+
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <button
+                          onClick={() => setShowAIForm(false)}
+                          disabled={loading}
+                          className="OpenAiButtonContainerCancel"
+                          style={{
+                            cursor: loading ? 'not-allowed' : 'pointer',
+                          }}>
+                          Cancel
+                        </button>
+                        <button
+                          onClick={handleCreateAI}
+                          disabled={loading}
+                          className="OpenAiButtonContainerCreate"
+                          style={{
+                            cursor: loading ? 'not-allowed' : 'pointer',
+                          }}>
+                          {loading ? 'Creating…' : 'Create'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <br className="brCreate"></br>
               </div>
             )}
           </div>
