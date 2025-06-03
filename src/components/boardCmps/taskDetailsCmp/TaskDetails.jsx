@@ -6,7 +6,7 @@ import {
   openTaskDetails,
   
   updateSelectedTaskLive,
-} from '../../../redux/taskDetailsSlice';
+} from '../../../redux/TaskDetailsSlice';
 import { TaskOps } from '../../../services/backendHandler';
 import { fetchBoardById } from '../../../redux/BoardSlice';
 import { useNavigate, useParams } from 'react-router-dom';

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
 import { SvgServices } from '../../../../../services/svgServices';
-import { useSelector } from 'react-redux';
+
 
 export default function AttachmentUiDropdown({
   trigger,

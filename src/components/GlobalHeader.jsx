@@ -20,12 +20,7 @@ import {
 } from "lucide-react"
 
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
-import Template1 from "../assets/images/1-on-1 Meeting Agenda.jpg"
-import Template2 from "../assets/images/Company Overview.jpg"
-import Template3 from "../assets/images/Design Huddle.jpg"
-import Template4 from "../assets/images/Go To Market Strategy.jpg"
-import Template5 from "../assets/images/Project Management.jpg"
+
 import { useSelector, useDispatch } from "react-redux"
 import fetchCurrentUser, {
   accountSwitch,

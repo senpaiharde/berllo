@@ -12,8 +12,7 @@ import fetchCurrentUser, { fetchCurrentBoard } from '../services/backendCallsUse
 import { useNavigate } from 'react-router-dom';
 import StarButton from '../services/isStarred';
 import { useDispatch, useSelector } from 'react-redux';
-import backendHandler, { TaskOps } from '../services/backendHandler';
-import { syncTaskAsync } from '../redux/TaskDetailsSlice';
+
 import DropdownUi from '../components/boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
 import Cover from '../components/boardCmps/taskDetailsCmp/main/sidebar/cover';
 import BoardsCreateDropdown from './BoardsCreateDropdown';

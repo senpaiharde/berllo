@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { liveUpdateTask } from '../../../../redux/TaskDetailsSlice';
 import DescriptionEditor from './DescriptionEditor';
 import { SvgServices } from '../../../../services/svgServices';
-import DropdownUi from './sidebar/dropdownHardcoded/DropdownUi';
-import AttachmentSvg from '../../../../assets/svgDesgin/AttachmentSvg';
 
 export default function TaskDescription() {
   const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { nanoid } from 'nanoid';
 import BackLogDropdown from '../dropdowns/BackLogDropdown';
-import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
+import { liveUpdateTask } from '../../../../../redux/TaskDetailsSlice';
 import { TaskOps } from '../../../../../services/backendHandler';
 import { SvgServices } from '../../../../../services/svgServices';
 

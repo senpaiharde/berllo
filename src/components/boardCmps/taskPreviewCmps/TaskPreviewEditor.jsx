@@ -11,12 +11,12 @@ import {
 import {
   openTaskDetails,
   liveUpdateTask,
-} from "../../../redux/taskDetailsSlice"
+} from "../../../redux/TaskDetailsSlice"
 import { TaskPreviewLabels } from "./TaskPreviewLabels"
 import TaskDetailsMembers from "../taskDetailsCmp/TaskDetailsMembers"
 import { TextEditInput } from "../TextEditInput"
 import { useSelector, useDispatch } from "react-redux"
-import { p, tr } from "framer-motion/client"
+
 import { TaskPreviewActions } from "./TaskPrieviewActions"
 import { transformTaskFromBackend } from "../../../services/backendDataConverionToState"
 

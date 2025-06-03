@@ -5,28 +5,9 @@ import {
   getBoardById,
 } from "../services/storageService"
 import backendHandler, { TaskOps } from "../services/backendHandler"
-import { s } from "framer-motion/client"
 
-// Async action to fetch workSpaces from localStorage or JSON
-// export const fetchWorkSpaces = createAsyncThunk(
-//   "workSpace/fetchworkSpaces",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       // const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
-//       const data = await getLocalData()
-//       // console.log("fetchWorkSpaces :",data)
-//       //   console.log(data)
-//       if (!data) {
-//         throw new Error("Server Error!")
-//       }
 
-//       // return data.boards
-//     } catch (error) {
-//       console.log("fetchWorkSpaces error:", error)
-//       return rejectWithValue(error.message)
-//     }
-//   }
-// )
+
 
 export const syncWorkSpaceAsync = createAsyncThunk(
   "workSpace/syncWorkSpaceAsync",

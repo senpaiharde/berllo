@@ -5,7 +5,7 @@ import DropdownChecklist from '../main/sidebar/dropdownHardcoded/DropdownCheckli
 
 import ProgressBar from '../../../../utils/ProgressBar';
 import { TaskOps } from '../../../../services/backendHandler';
-import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
+import { liveUpdateTask } from '../../../../redux/TaskDetailsSlice';
 import DropdownUi from './sidebar/dropdownHardcoded/DropdownUi';
 import DropdowndeleteCheck from './dropdowns/DropdowndeleteCheck';
 import { SvgServices } from '../../../../services/svgServices';

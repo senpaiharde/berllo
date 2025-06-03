@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { liveUpdateTask } from '../../../../redux/taskDetailsSlice';
+import { liveUpdateTask } from '../../../../redux/TaskDetailsSlice';
 import { TaskOps } from '../../../../services/backendHandler';
 import { formatDistanceToNow, isToday, format } from 'date-fns';
 import { SvgServices } from '../../../../services/svgServices';

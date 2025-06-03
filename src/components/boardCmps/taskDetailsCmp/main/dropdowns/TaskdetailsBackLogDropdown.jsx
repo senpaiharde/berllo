@@ -7,7 +7,7 @@ import {
   liveUpdateTask,
   syncTaskAsync,
   setCopiedTask,
-} from '../../../../../redux/taskDetailsSlice';
+} from '../../../../../redux/TaskDetailsSlice';
 import {
   addTaskToBoard,
   removeTaskFromBoard,

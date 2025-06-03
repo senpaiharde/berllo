@@ -3,7 +3,7 @@ import '../../../styles/taskDetailsFolder/TaskDetailsNotifications.scss';
 
 
 import { useDispatch, useSelector } from "react-redux";
-import { liveUpdateTask } from "../../../redux/taskDetailsSlice";
+import { liveUpdateTask } from "../../../redux/TaskDetailsSlice";
 import { TaskOps } from "../../../services/backendHandler";
 import { SvgServices } from "../../../services/svgServices";
 const TaskDetailsNotifcations = () => {
