@@ -33,23 +33,25 @@
 }
 
 .coverstyleBoxesButton {
+    position: relative;
   background: #dcdfe4;
   cursor: default;
   height: 62px;
   margin: 0;
   border: none;
   box-shadow: none;
-  position: relative;
+  
   width: 134px;
   padding: 0;
 }
 
 .coverstyleBoxesleft {
+    position: relative;
   align-self: flex-end;
   width: 100%;
   border-radius: 0 0 3px 3px;
   background: #ffffff;
-  position: relative;
+  
   padding: 6px 6px 6px 6px;
 }
 
