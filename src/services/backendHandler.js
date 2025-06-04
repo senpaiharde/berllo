@@ -65,7 +65,7 @@ export async function toggleStar(boardId, isStarred) {
   const token = localStorage.getItem('token');
   console.log('toggleStar', boardId, isStarred);
   console.log('token', token);
-  const res = await fetch(`${API_BASE}user/me`, {
+  const res = await fetch(`${API_BASE}/user/me`, {
   method: 'PUT',
   headers: {
     'Authorization': `Bearer ${token}`,
