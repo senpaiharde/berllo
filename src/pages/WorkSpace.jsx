@@ -31,6 +31,7 @@ const Workspace = () => {
       board.boardStyle.boardColor &&
       board.boardStyle.boardType === "color"
     ) {
+      console.log("board.boardStyle.boardColor", board.boardStyle.boardColor)
       setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor })
     }
     if (
@@ -39,21 +40,38 @@ const Workspace = () => {
       board.boardStyle.boardType === "image"
     ) {
       // console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
-      const newImgBackgound = {
-
+      const img = new Image()
+      img.onload = () => {
+        setBoardViewBackgound({
+          backgroundImage: `url(${board.boardStyle.boardImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        })
       }
-      setBoardViewBackgound({
-        backgroundImage: `url(${board.boardStyle.boardImg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      })
+      console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
+      console.log("img", img)
+      img.onerror = () => {
+        console.warn("Failed to load image:", boardImg)
+        // Optional: fallback background
+        setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor }) // or any fallback
+      }
+      if (img.complete && img.naturalWidth === 0) {
+      console.warn("Image appears broken:", board.boardStyle.boardImg);
+      setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor });
+      return;
+    }
+      // setBoardViewBackgound({
+      //   backgroundImage: `url(${board.boardStyle.boardImg})`,
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      //   backgroundRepeat: "no-repeat",
+      // })
     }
   }, [board])
 
   useEffect(() => {
     if (boardId) {
-      
       dispatch(
         syncBoardAsync({
           method: TaskOps.FETCH,
