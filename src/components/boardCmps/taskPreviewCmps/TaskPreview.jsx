@@ -338,6 +338,7 @@ export function TaskPreview({
                     >
                       {taskChecked && (
                         <IconButton
+                          
                           alternativeViewBox={"0 0 16 16"}
                           iconSize={"16px"}
                           displayOnHover={false}
@@ -413,7 +414,8 @@ export function TaskPreview({
                 <div className="task-preview-header-action-buttons-container">
                   {taskChecked && (
                     <div
-                      className="task-preview-header-action-button archive"
+                      className="task-preview-header-action-button archive archive-task"
+                      data-tooltip="Delete task"
                       onClick={(e) => {
                         e.stopPropagation()
                         onDeleteTask()
@@ -439,7 +441,8 @@ export function TaskPreview({
                     </div>
                   )}
                   <div
-                    className="task-preview-header-action-button edit"
+                    className="task-preview-header-action-button edit archive-task"
+                    data-tooltip="Edit task"
                     onClick={(e) => {
                       e.stopPropagation()
                       openPreviewEditor()
