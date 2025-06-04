@@ -67,31 +67,45 @@ const selectedTask = useSelector(
 
   
 
-  useEffect(() => {
+ useEffect(() => {
     if (!pureTaskId) return;
 
-    socket.connect();
-    socket.emit('joinTask', pureTaskId);
-
-    return () => {
-      socket.disconnect();
+   
+    const onConnect = () => {
+      console.log('🟢 Socket connected, id =',socket.id);
+      socket.emit('joinTask', pureTaskId);
     };
-  }, [pureTaskId]);
 
-  useEffect(() => {
+    
     const handleServerUpdate = (updatedTask) => {
+      console.log(' Received taskUpdated via socket:',updatedTask);
       dispatch(updateSelectedTaskLive(updatedTask));
     };
+
+   
+    socket.on('connect', onConnect);
     socket.on('taskUpdated', handleServerUpdate);
 
+   
+    socket.on('disconnect', (reason) => {
+      console.log(' Socket disconnected:', reason);
+    });
+
+    
+    socket.connect();
+
+   
     return () => {
+      socket.off('connect', onConnect);
       socket.off('taskUpdated', handleServerUpdate);
+      socket.off('disconnect');
+      socket.disconnect();
     };
-  }, [dispatch]);
+  }, [pureTaskId, dispatch]);
 
 
 
-// Load board ➞ open task details
+// Load board  open task details
   
   useEffect(() => {
     if (boardLists.length === 0 && boardId) {
