@@ -24,7 +24,7 @@ const Workspace = () => {
   const [boardViewBackgound, setBoardViewBackgound] = useState()
 
   useEffect(() => {
-    // console.log("board.boardStyle", board.boardStyle)
+    console.log("board.boardStyle", board.boardStyle)
     // {board.boardStyle && board.boardStyle.backgroundColor ? "board.boardStyle.backgroundColor" : ""}
     if (
       board.boardStyle &&
@@ -41,32 +41,30 @@ const Workspace = () => {
     ) {
       // console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
       const img = new Image()
+      
       img.onload = () => {
+      // ✅ At this point, naturalWidth is valid
+      if (img.naturalWidth === 0) {
+        console.warn("Image appears broken:", board.boardStyle.boardImg);
+        setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor  }); // fallback
+      } else {
         setBoardViewBackgound({
           backgroundImage: `url(${board.boardStyle.boardImg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-        })
+        });
       }
+    };
       console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
-      console.log("img", img)
+      console.log("img.naturalWidth", img.naturalWidth)
       img.onerror = () => {
-        console.warn("Failed to load image:", boardImg)
+        console.warn("Failed to load image:", board.boardStyle.boardImg)
         // Optional: fallback background
         setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor }) // or any fallback
       }
-      if (img.complete && img.naturalWidth === 0) {
-      console.warn("Image appears broken:", board.boardStyle.boardImg);
-      setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor });
-      return;
-    }
-      // setBoardViewBackgound({
-      //   backgroundImage: `url(${board.boardStyle.boardImg})`,
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      //   backgroundRepeat: "no-repeat",
-      // })
+      img.src = board.boardStyle.boardImg;
+    
     }
   }, [board])
 
