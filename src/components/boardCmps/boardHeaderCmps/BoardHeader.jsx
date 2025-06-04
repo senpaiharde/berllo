@@ -13,17 +13,13 @@ import {
 import { updateBoardNameInWorkSpace } from "../../../redux/WorkSpaceSlice"
 import { TextEditInput } from "../TextEditInput"
 import DropdownUi from "../taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi"
-import BoardHeaderFilter from "./boardHeaderFilter"
-import SvgIcon from "../../SvgIcon"
-import { b } from "framer-motion/client"
+import BoardHeaderFilter from "./BoardHeaderFilter.jsx"
+
 import { TaskOps, toggleStar } from "../../../services/backendHandler"
-import { ca } from "date-fns/locale"
+
 export function BoardHeader() {
   const board = useSelector((state) => state.boardReducer)
-  const [currentBoard, setCurrentBoard] = useState(board)
-  // const [starClicked, setStarClicked] = useState(board.boardTitle)
-  // const [visibleClicked, setVisibleClicked] = useState(false)
-  // const [filterClicked, setFilterClicked] = useState(false)
+
   const [isEditing, setIsEditing] = useState(false)
   // const [title, setTitle] = useState(board.boardTitle)
   const starRef = useRef(null)
@@ -39,9 +35,7 @@ export function BoardHeader() {
       )
       setBoardViewBackgound({ backgroundColor: adjustedHeadercolor })
     }
-    //  if (board.boardStyle && board.boardStyle.boardImg && board.boardStyle.boardType === "image") {
-    //   setBoardViewBackgound({BackgroundImage: board.boardStyle.boardImg})
-    //  }
+   
   }, [board])
 
   function darkenHexColor(hex, percent) {

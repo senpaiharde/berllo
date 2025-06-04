@@ -353,8 +353,9 @@ gap: 4px;
     
     background-color: #F7F8F9;
     .EditDropdownHeaderspan{
+        position: relative;
         display: inline-block;
-    position: relative;
+   
     box-sizing: border-box;
     min-width: 48px;
     width: 232px;

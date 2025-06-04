@@ -193,8 +193,9 @@
   width: 420px;
 }
 .home-main-content-item {
+    position: relative;
   margin-top: 24px;
-  position: relative;
+  
   z-index: 0;
   padding-bottom: 20px;
 }
@@ -217,8 +218,9 @@
 }
 
 .home-main-content-item-high-container {
+    position: relative;
   display: flex;
-  position: relative;
+  
   width: 100%;
   margin-bottom: 16px;
   border-radius: 4px;
@@ -347,21 +349,23 @@
   padding: 8px 0;
 }
 .home-right-sidebar-container-create {
+    position: relative;
   display: flex;
-  position: relative;
+  
   align-items: center;
   height: 48px;
   border-radius: 4px;
 }
 
 .home-right-sidebar-container-bottom {
+    position: relative;
   background-color: transparent;
   font-weight: var(--ds-font-weight-regular, 400);
   margin: 0;
   padding: 0;
   box-shadow: none;
   display: flex;
-  position: relative;
+ 
   box-sizing: border-box;
   align-items: center;
   width: 100%;

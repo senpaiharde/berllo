@@ -36,9 +36,10 @@
 }
 
 .task-list-header {
+    position: relative;
   margin-bottom: 8px;
   display: flex;
-  position: relative;
+ 
   flex-grow: 0;
   flex-wrap: wrap;
   align-items: center;

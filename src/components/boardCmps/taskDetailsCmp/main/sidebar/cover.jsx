@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 
 import { defaultCoverColors, defaultCoverIcons } from '../../../../../services/ColorStorage';
-import { liveUpdateTask } from '../../../../../redux/taskDetailsSlice';
+import { liveUpdateTask } from '../../../../../redux/TaskDetailsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { TaskOps } from '../../../../../services/backendHandler';
 import { SvgServices } from '../../../../../services/svgServices';

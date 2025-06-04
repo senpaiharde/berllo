@@ -12,8 +12,7 @@ import fetchCurrentUser, { fetchCurrentBoard } from '../services/backendCallsUse
 import { useNavigate } from 'react-router-dom';
 import StarButton from '../services/isStarred';
 import { useDispatch, useSelector } from 'react-redux';
-import backendHandler, { TaskOps } from '../services/backendHandler';
-import { syncTaskAsync } from '../redux/TaskDetailsSlice';
+
 import DropdownUi from '../components/boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
 import Cover from '../components/boardCmps/taskDetailsCmp/main/sidebar/cover';
 import BoardsCreateDropdown from './BoardsCreateDropdown';
@@ -245,6 +244,7 @@ useEffect(() => {
 
                             navigate(`/b/${boardId}/${slug}`);
                           }}
+                          style={{backgroundColor:recent?.boardStyle?.boardColor}}
                           className="DisplayCardsInBoards">
                           <a className="DisplayCardsInBoardsA">
                             <div className="DisplayCardsInBoardsADiv"></div>
@@ -320,6 +320,7 @@ useEffect(() => {
 
                         navigate(`/b/${id}/${boardTitle}`);
                       }}
+                      style={{backgroundColor:recent?.boardStyle?.boardColor}}
                       className="DisplayCardsInBoards">
                       <a className="DisplayCardsInBoardsA">
                         <div className="DisplayCardsInBoardsADiv"></div>
@@ -412,7 +413,8 @@ useEffect(() => {
                       }
                     }}
                     className="boards-page-board-section-list-item">
-                    <a className="board-tile">
+                    <a className="board-tile"
+                    style={{backgroundColor:board?.boardStyle?.boardColor}}>
                       <span className="board-tile-fade"></span>
                       <div className="board-tile-details">
                         <h2 className="board-tile-details-name">

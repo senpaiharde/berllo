@@ -2,15 +2,11 @@ import React, { use, useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useRef } from "react"
-import { SvgServices } from "../services/svgServices"
-import { syncTaskAsync } from "../redux/TaskDetailsSlice"
 
-import { TaskOps } from "../services/backendHandler"
+import { SvgServices } from "../services/svgServices"
+
 import { useNavigate } from "react-router-dom"
-import { fetchCurrentBoard } from "../services/backendCallsUsers"
-import { syncBoardAsync } from "../redux/BoardSlice"
-import { ca } from "date-fns/locale"
+
 import { addnewBoard } from "../redux/WorkSpaceSlice"
 
 const BoardsCreateDropdown = ({ onClose }) => {
@@ -30,10 +26,10 @@ const BoardsCreateDropdown = ({ onClose }) => {
   };
   async function createNewboard() {
     setLoading(true);
-
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
     const token = localStorage.getItem('token');
     try {
-      const resp = await fetch('http://localhost:4000/board/', {
+      const resp = await fetch(`${API_BASE}/board/`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

@@ -60,12 +60,12 @@ export const TaskOps = Object.freeze({
   DELETE: 'delete',
 });
 
-
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 export async function toggleStar(boardId, isStarred) {
   const token = localStorage.getItem('token');
   console.log('toggleStar', boardId, isStarred);
   console.log('token', token);
-  const res = await fetch('http://localhost:4000/user/me', {
+  const res = await fetch(`${API_BASE}user/me`, {
   method: 'PUT',
   headers: {
     'Authorization': `Bearer ${token}`,

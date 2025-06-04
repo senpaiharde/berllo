@@ -25,6 +25,7 @@
 }
 
 .td-container {
+    position: relative;
   border-radius: 5px;
   padding: 0 0 40px;
   width: 768px;
@@ -33,7 +34,7 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
-  position: relative;
+  
   overflow: visible;
   margin-left: -8px;
 }
@@ -44,13 +45,14 @@
 }
 
 .td-header {
+    position: relative;
     border-Radius:8px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding: 16px 52px 0 0px;
   background-color: #f7f8f9;
-  position: relative;
+  
   padding-left: 3px;
   
 }
@@ -449,4 +451,8 @@ height: 16px;
     padding-left: 15px;
     margin-top: 8px;
     gap: 7px;
+}
+
+.TaskDescriptionSpacing{
+    margin-top: -42px;
 }

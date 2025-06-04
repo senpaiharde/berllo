@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { liveUpdateTask } from '../redux/taskDetailsSlice';
+import { liveUpdateTask } from '../redux/TaskDetailsSlice';
 
 export function generateCalendarDays(year, month) {
   const days = [];

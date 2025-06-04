@@ -13,17 +13,14 @@ import {
   openTaskDetails,
   syncTaskAsync,
   liveUpdateTask,
-} from "../../../redux/taskDetailsSlice"
+} from "../../../redux/TaskDetailsSlice"
 import { useDispatch } from "react-redux"
 import { TaskPreviewLabels } from "./TaskPreviewLabels"
 import TaskDetailsMembers from "../taskDetailsCmp/TaskDetailsMembers"
 import { Draggable } from "@hello-pangea/dnd"
 import { TaskOps } from "../../../services/backendHandler"
 import api from "../../../api/api"
-import { ca } from "date-fns/locale"
-import { transformTaskFromBackend } from "../../../services/backendDataConverionToState"
-// import { getBaseUrl } from "../services/util.service.js"
-// import { PropTypes } from "prop-types"
+
 
 export function TaskPreview({
   task,

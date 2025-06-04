@@ -153,8 +153,9 @@
   align-items: center;
 }
 .my-toolbar-left {
+    position: relative;
   width: 100%;
-  position: relative;
+ 
   min-width: 254px;
 }
 /* Dropdown placeholder */

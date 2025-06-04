@@ -20,12 +20,7 @@ import {
 } from "lucide-react"
 
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
-import Template1 from "../assets/images/1-on-1 Meeting Agenda.jpg"
-import Template2 from "../assets/images/Company Overview.jpg"
-import Template3 from "../assets/images/Design Huddle.jpg"
-import Template4 from "../assets/images/Go To Market Strategy.jpg"
-import Template5 from "../assets/images/Project Management.jpg"
+
 import { useSelector, useDispatch } from "react-redux"
 import fetchCurrentUser, {
   accountSwitch,
@@ -61,6 +56,7 @@ const GlobalHeader = () => {
     create: useRef(null),
     profile: useRef(null),
   };
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
   const token = localStorage.getItem('token');
   const handleCreateAI = async () => {
     if (!aiGoal.trim() || !aiStart || !aiEnd) {
@@ -71,7 +67,7 @@ const GlobalHeader = () => {
     try {
       const prompt = `${aiGoal} from ${aiStart} until ${aiEnd}`;
       console.log('Prompting:', prompt);
-      const resp = await fetch('http://localhost:4000/autoBoard/', {
+      const resp = await fetch(`${API_BASE}/autoBoard/`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
@@ -343,7 +339,7 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
                 <div className="recenetBoards">
                   {user?.lastBoardVisited?.slice(0, 5).map((recent) => {
                     const { id, boardTitle } = recent;
-                    // find whether this is starred in the latest user state
+                    
                     const starEntry = user.starredBoards?.find(
                       (sb) => sb.id === id
                     )
@@ -352,9 +348,10 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
                     return (
                       <a key={id} className="recenetBoardsNexted ">
                         <div className="boxboards" 
-                        style={{backgroundColor:color}}/>
+                        style={{backgroundColor:recent?.boardStyle?.boardColor}}/>
                         <h2
                           onClick={() => {
+                            console.log("last visited entry:", user?.boardStyle?.boardColor)
                             console.log("last visited entry:", recent)
                             console.log(
                               "🧠 Navigating to:",
@@ -383,6 +380,7 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
                       </a>
                     )
                   })}
+                  <button onClick={() => {console.log("last visited entry:", user.lastBoardVisited)}}></button>
                 </div>
               </div>
             )}
@@ -398,7 +396,7 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
             </button>
             {activeDropdown === "starred" && (
               <div className="dropdown-menu-recent">
-                <div className="recenetBoards">
+                <div  className="recenetBoards">
                   {user?.starredBoards
                     .slice(0, 5)
                     .slice(0, 5)
@@ -410,7 +408,9 @@ const apply = 'backgroundImage:boxcolors || backgroundImage:boxcolors'
 
                       return (
                         <a key={sb.id} className="recenetBoardsNexted">
-                          <div className="boxboards" />
+                          <div 
+                          style={{backgroundColor:recent?.boardStyle?.boardColor}}
+                          className="boxboards" />
 
                           <h2
                             onClick={() => {

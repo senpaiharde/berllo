@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 
-import { TextEditInput } from "../TextEditInput"
+
 import { SvgServices } from "../../../services/svgServices"
 import { updateboardFilter } from "../../../redux/BoardSlice"
 import SvgAdd from "../../../assets/svgDesgin/SvgAdd"
@@ -14,7 +14,7 @@ const BoardHeaderFilter = ({ onClose }) => {
   const triggerRef = useRef(null)
   const dropdownRef = useRef(null)
   const [position, setPosition] = useState({ top: 0, left: 0 })
-  const [editMode, setEditMode] = useState(null)
+
   const dispatch = useDispatch()
 
   const task = useSelector((state) => state.taskDetailsReducer?.selectedTask)
@@ -22,11 +22,7 @@ const BoardHeaderFilter = ({ onClose }) => {
   const [inputValue, setInputValue] = useState(board.filter.title || "")
   const [labels, setLabels] = useState(board.filter.labels || [])
   const [members, setMembers] = useState(board.filter.members || [])
-  // useEffect(() => {
-  //   console.log("labels", labels)
-  //   console.log(" useEffect members", members)
-  // }, [labels, members])
-  const taskLabels = task?.taskLabels || []
+
 
   const updatePosition = () => {
     const rect = triggerRef.current?.getBoundingClientRect()
@@ -83,21 +79,7 @@ const BoardHeaderFilter = ({ onClose }) => {
     dispatch(updateboardFilter({ ...board.filter, members: members }))
   }
 
-  // function toggleLabel(label, action){
-  //   console.log("toggleLabel(label, action)", label, action)
-  //   console.log("board.filter.labels", board.filter.labels)
-  //   let labels = [...board.filter.labels]
-  //   if(action === 'add'){
-  //     labels.push(label)
-  //     // console.log("board.filter.labels.push(label)", labels)
-  //     dispatch(updateboardFilter({...board.filter, labels: labels}))
-  //   }
-  //   if(action === 'remove'){
-  //     labels => labels.filter(l => l.id !== label.id)
-  //     // console.log("board.filter.labels.filter(label)", board.filter.labels.filter(label))
-  //     dispatch(updateboardFilter({...board.filter, labels: labels}))
-  //   }
-  // }
+
 
   useEffect(() => {
     dispatch(updateboardFilter({ ...board.filter, title: inputValue }))
