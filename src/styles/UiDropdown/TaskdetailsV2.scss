@@ -293,8 +293,9 @@
         color: #44546f;
       }
       .BoardinputDateinput {
-        display: inline-flex;
         position: relative;
+        display: inline-flex;
+        
         align-items: center;
         height: 32px;
         width: 24px;
@@ -331,7 +332,7 @@
     flex-wrap: wrap;
     -webkit-box-pack: justify;
     justify-content: space-between;
-    position: relative;
+    
     background-color: #ffffff;
     border-color: #8590a2;
     border-style: solid;
@@ -347,11 +348,12 @@
     outline: 0px !important;
 
     .BoardReminderDivText {
+        position: relative;
       align-items: center;
       display: grid;
       flex: 1 1 0%;
       flex-wrap: wrap;
-      position: relative;
+      
       overflow: hidden;
       padding: 2px 6px;
       box-sizing: border-box;
