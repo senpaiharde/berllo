@@ -6,12 +6,11 @@ const DropdownUi = ({ trigger, children, onClose }) => {
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
- const MOBILE_BREAKPOINT = 768; //
+  const MOBILE_BREAKPOINT = 768; //
 
-const updatePosition = () => {
-  requestAnimationFrame(() => {
+  const updatePosition = () => {
     requestAnimationFrame(() => {
-      const triggerRect  = triggerRef.current?.getBoundingClientRect();
+      const triggerRect = triggerRef.current?.getBoundingClientRect();
       const dropdownRect = dropdownRef.current?.getBoundingClientRect();
       if (!triggerRect || !dropdownRect) return;
 
@@ -27,7 +26,8 @@ const updatePosition = () => {
       // VERTICAL: try below, else above
       const spaceBelow = viewportH - triggerRect.bottom;
       const spaceAbove = triggerRect.top;
-      let top = null, bottom = null;
+      let top = null,
+        bottom = null;
 
       if (spaceBelow >= dropdownRect.height) {
         // plenty of room below  open down
@@ -42,9 +42,7 @@ const updatePosition = () => {
 
       setPosition({ top, left, bottom });
     });
-  });
-};
-
+  };
 
   useEffect(() => {
     if (!open || !triggerRef.current) return;
@@ -97,13 +95,13 @@ const updatePosition = () => {
       className="dropDownContent"
       ref={dropdownRef}
       style={{
-    position:   'fixed',
-    maxHeight: 'calc(100vh - 64px)',
-    left:      `${position.left}px`,
-    ...(position.top    != null
-      ? { top: `${position.top}px` }
-      : { bottom: `${position.bottom}px` }),
-  }}>
+        position: 'fixed',
+        maxHeight: 'calc(100vh - 64px)',
+        left: `${position.left}px`,
+        ...(position.top != null
+          ? { top: `${position.top}px` }
+          : { bottom: `${position.bottom}px` }),
+      }}>
       {typeof children === 'function' ? children({ onClose: () => setOpen(false) }) : children}
     </div>
   ) : null;

@@ -10,7 +10,7 @@ export const syncTaskAsync = createAsyncThunk(
       console.log(method, workId, args, 'update happens here', workId);
 
       const data = await backendHandler({ method, args, workId });
-      
+
       console.log('syncTaskAsync data', data);
 
       // if (method === TaskOps.ADD) return;
@@ -173,7 +173,6 @@ const taskDetailsSlice = createSlice({
         }
 
         if (method === TaskOps.FETCH && workId === 'activities') {
-         
           state.activities = Array.isArray(data) ? data.slice(0, 30) : [];
           return;
         }

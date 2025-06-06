@@ -236,8 +236,8 @@ useEffect(() => {
                       return (
                         <div
                           onClick={() => {
-                            const slug = recent.boardTitle;
-                            const boardId = recent.id;
+                            const slug = recent.boardTitle || 'Berllo';
+                            const boardId = recent.id || '12';
 
                             console.log('last visited entry:', recent);
                             console.log('🧠 Navigating to:', `/b/${boardId}/${slug}`);
@@ -309,7 +309,7 @@ useEffect(() => {
                 {user?.lastBoardVisited
                 .slice(0, 8)
                 ?.map((recent) => {
-                  const { id, boardTitle } = recent;
+                   const { id = "1", boardTitle = 'berllo' } = recent;
                   const starEntry = user.starredBoards?.find((sb) => sb.id === id);
                   const isStarred = !!starEntry?.isStarred;
                   return (
