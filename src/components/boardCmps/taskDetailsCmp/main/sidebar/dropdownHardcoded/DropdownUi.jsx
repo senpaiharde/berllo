@@ -6,7 +6,7 @@ const DropdownUi = ({ trigger, children, onClose }) => {
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
- const MOBILE_BREAKPOINT = 768; // if you still want to force this logic only on mobile
+ const MOBILE_BREAKPOINT = 768; //
 
 const updatePosition = () => {
   requestAnimationFrame(() => {

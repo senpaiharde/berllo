@@ -383,11 +383,11 @@ const color =  darkenHexColor(board?.boardStyle?.boardColor ,50)  || 'black';
                           <h2
                             style={{ marginRight: '38px' }}
                             onClick={() => {
-                              const slug = recent.boardTitle;
-                              const boardId = recent.id;
+                              const slug = recent.boardTitle || 'Berllo';
+                              const boardId = recent.id || '12';
                               if (boardId && slug) navigate(`/b/${boardId}/${slug}`);
                             }}>
-                            {recent.boardTitle}
+                            {recent?.boardTitle}
                             <br />
                             <span className="ClassnameGlobalName">Berllo Workspace</span>
                           </h2>
@@ -428,7 +428,7 @@ const color =  darkenHexColor(board?.boardStyle?.boardColor ,50)  || 'black';
                 .slice(0, 6)
                 ?.map((recent) => {
                     
-                  const { id, boardTitle } = recent;
+                  const { id = "1", boardTitle = 'berllo' } = recent;
                   // find whether this is starred in the latest user state
                   const starEntry = user.starredBoards?.find((sb) => sb.id === id);
                   const isStarred = !!starEntry?.isStarred;
