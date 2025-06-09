@@ -458,7 +458,7 @@ const GlobalHeader = () => {
                               <br />
                               <span className="ClassnameGlobalName">Berllo Workspace</span>
                             </h2>
-                            <div style={{ marginLeft: '24px' }}>
+                            <div style={{ marginLeft: '85px' }}>
                             
                           </div>
                           </a>
