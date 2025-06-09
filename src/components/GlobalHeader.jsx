@@ -463,7 +463,7 @@ const GlobalHeader = () => {
                           </div>
                           </a>
                         }>
-                        {({ onClose }) => <BoardsCreateDropdown onClose={onClose} create={false} value={recent.title}/>}
+                        {({ onClose }) => <BoardsCreateDropdown onClose={onClose} create={false} value={recent}/>}
                       </DropdownUi>
                     );
                   })}
