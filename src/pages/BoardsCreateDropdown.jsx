@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom"
 
 import { addnewBoard } from "../redux/WorkSpaceSlice"
 
-const BoardsCreateDropdown = ({ onClose }) => {
+const BoardsCreateDropdown = ({ onClose , temple, create,value}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [workSpace, setWorkSpace] = useState();
@@ -70,7 +70,7 @@ const BoardsCreateDropdown = ({ onClose }) => {
     <div className="DropdownUi" onMouseDown={(e) => e.stopPropagation()}>
       {/* Header */}
       <div className="DropdownUiHeader">
-        <h2 className="DropdownHeaderH2">Create board</h2>
+        <h2 className="DropdownHeaderH2">{create === true ? 'Create board' : value}</h2>
         <button className="DropdownClose" onClick={onClose}>
           <SvgServices name="SvgClose" />
         </button>
@@ -78,6 +78,7 @@ const BoardsCreateDropdown = ({ onClose }) => {
 
       {/* Options */}
       <div style={{ grid: 'none' }} className="DropdownLabelOption">
+        {create === true && (<>
         <div className="ImgDropdown">
           <div
             style={{ backgroundImage: `url(${backGround})` }}
@@ -207,12 +208,14 @@ const BoardsCreateDropdown = ({ onClose }) => {
               </button>
             </li>
           </ul>
-        </div>
+        </div></>)}
+        {create === false && (<></>)}
+        
         <h3 className="DropdownLabelH3">Board title</h3>
         <input
           required
           onChange={(e) => setBoardTitle(e.target.value)}
-          value={boardTitle}
+          value={ create === true ?boardTitle : value}
           className="EditDropdownInputBoard"
           style={{}}
           placeholder="Search labels..."

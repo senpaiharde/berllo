@@ -517,6 +517,7 @@
   align-items: center;
   margin-left: 20px;
   padding-right: 5px;
+  
 
   cursor: pointer;
   transition: background-color 0.2s;
@@ -527,8 +528,8 @@
     text-decoration: none;
       overflow: hidden;
       text-overflow: ellipsis;
-     
-      
+      min-width: 124px;
+      max-width: 214px;
       white-space: nowrap;
     .ClassnameGlobalName {
       font-size: 12px;
@@ -571,22 +572,22 @@
 
 }
 .boxboardsTemple {
-   
-  flex-shrink: 0;
-    width: 40px;
-    height: 32px;
-   
-    border-radius: 4px;
- 
-  background-size: cover;
-    background-position: center center;
+   position: relative;
+  background-color: rgb(205, 90, 145);
+  display: inline-block;
+  
+  flex: 0 0 auto;
+  width: 40px;
+  height: 32px;
+  border-radius: 4px;
   opacity: 1;
- 
+  background-size: cover;
   margin-left: 6px;
   margin-right: 8px;
 }
 
 .recenetBoardsNexted {
+    flex-grow: 1;
     position: relative;
   display: flex;
   padding-bottom: 4px;

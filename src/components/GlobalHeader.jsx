@@ -33,7 +33,7 @@ const demoUsers = demoUsersStorage;
 const TemplatesStorage = [
   {
     title: '1-on-1 Meeting Agenda',
-    img: "(https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+    img: '(https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
   },
   {
     title: 'Agile Board Template | Brello',
@@ -443,23 +443,31 @@ const GlobalHeader = () => {
                 <div className="recenetBoardsTemple">
                   {TemplatesStorage.map((recent) => {
                     return (
-                      <a key={recent.id} className="recenetBoardsNexted">
-                        
-                        <div className="boxboardsTemple" style={{ backgroundImage: `url${recent?.img}` }} />
-                        <h2 
-                        
-                        onClick={() => {`url${recent?.img}`}}>
-                          {recent.title}
-                          <br />
-                          <span className="ClassnameGlobalName">Berllo Workspace</span>
-                        </h2>
-                      </a>
+                      <DropdownUi
+                        trigger={
+                          <a key={recent.id} className="recenetBoardsNexted">
+                            <div
+                              className="boxboardsTemple"
+                              style={{ backgroundImage: `url${recent?.img}` }}
+                            />
+                            <h2
+                              onClick={() => {
+                                `url${recent?.img}`
+                              }}>
+                              {recent.title}
+                              <br />
+                              <span className="ClassnameGlobalName">Berllo Workspace</span>
+                            </h2>
+                            <div style={{ marginLeft: '24px' }}>
+                            
+                          </div>
+                          </a>
+                        }>
+                        {({ onClose }) => <BoardsCreateDropdown onClose={onClose} create={false} value={recent.title}/>}
+                      </DropdownUi>
                     );
                   })}
-                  <button
-                    onClick={() => {
-                      console.log('last visited entry:', user.lastBoardVisited);
-                    }}></button>
+                 
                 </div>
               </div>
             )}
@@ -493,7 +501,7 @@ const GlobalHeader = () => {
                       </div>
                     </button>
                   }>
-                  {({ onClose }) => <BoardsCreateDropdown onClose={onClose} />}
+                  {({ onClose }) => <BoardsCreateDropdown onClose={onClose} create={true} />}
                 </DropdownUi>
 
                 <div className="OpenAiButtonHeaderHeaderDiv" style={{ textAlign: 'left' }}>
