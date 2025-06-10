@@ -28,6 +28,7 @@ import { TaskOps, toggleStar } from '../services/backendHandler';
 import { updateStarStatus, syncBoardAsync } from '../redux/BoardSlice';
 import DropdownUi from './boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
 import BoardsCreateDropdown from '../pages/BoardsCreateDropdown';
+import ResetCountdown from '../services/ResetCountdown';
 
 const demoUsers = demoUsersStorage;
 const TemplatesStorage = [
@@ -86,7 +87,8 @@ const GlobalHeader = () => {
     create: useRef(null),
     profile: useRef(null),
   };
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+  const envApiUrl = import.meta.env.VITE_API_URL;
+const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
   const token = localStorage.getItem('token');
   const handleCreateAI = async () => {
     if (!aiGoal.trim() || !aiStart || !aiEnd) {
@@ -600,6 +602,7 @@ const GlobalHeader = () => {
             )}
           </div>
         </div>
+        <ResetCountdown/>
       </div>
 
       {/* RIGHT SIDE: Search, Notifications, Help, Profile */}

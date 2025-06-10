@@ -25,7 +25,8 @@ const BoardsCreateDropdown = ({ onClose, temple, create, value }) => {
   };
   async function createNewboard() {
     setLoading(true);
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+    const envApiUrl = import.meta.env.VITE_API_URL;
+const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
     const token = localStorage.getItem('token');
     try {
       const resp = await fetch(`${API_BASE}/board/`, {
