@@ -56,7 +56,7 @@ const TemplatesStorage = [
     img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x322/47f09f0e3910259568294477d0bdedac/photo-1576502200916-3808e07386a5.jpg)',
   },
   {
-    title: 'Mise-En-Place Personal Productivity System',
+    title: 'Personal Productivity System',
     img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x320/963ddbe30ac0e2ab51ed5ed7403a5143/photo-1523266092241-0077129f31fe.jpg)',
   },
   {

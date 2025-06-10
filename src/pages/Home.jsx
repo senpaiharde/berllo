@@ -18,6 +18,7 @@ const workspaceLeft = [
   {
     title: 'Boards',
     icon: BoardsIcon,
+    
   },
   {
     title: 'highlights',
@@ -129,6 +130,18 @@ const token = localStorage.getItem('token')
   }
     const board = useSelector((state) => state.boardReducer)
 const color =  darkenHexColor(board?.boardStyle?.boardColor ,50)  || 'black';
+
+
+function navigation (title) {
+     if(title === 'highlights'){
+        console.log('highlights')
+     navigate('/')
+    }
+    if(title === 'Boards'){
+     navigate(`/u/user/boards`)
+    }
+   
+}
   return (
     <div>
       <GlobalHeader />
@@ -209,7 +222,7 @@ const color =  darkenHexColor(board?.boardStyle?.boardColor ,50)  || 'black';
                 </a>
                 <ul className="HomepageDisplayNavBottomWorkspaceUL">
                   {workspaceLeft.map((item) => (
-                    <li className="HomepageDisplayNavTopButtons">
+                    <li className="HomepageDisplayNavTopButtons" onClick={() => navigation(item.title)} >
                       <a
                         className="HomepageDisplayNavTopButtonsHref"
                         style={{ color: '#172b4d', fontWeight: '200' }}>
