@@ -1,4 +1,19 @@
 @use 'variables';
+@media (max-width: 768px) {
+  .global-header {
+    display: flex;
+    flex-wrap: nowrap;               
+    overflow-x: auto;               
+    -webkit-overflow-scrolling: touch; 
+    gap: 8px;                        
+    padding: 0 8px;                  
+
+    
+    &::-webkit-scrollbar { display: none; }
+    scrollbar-width: thin;          
+  }
+}
+
 .global-header {
   display: flex;
   align-items: center;
