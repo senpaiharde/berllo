@@ -33,35 +33,35 @@ const demoUsers = demoUsersStorage;
 const TemplatesStorage = [
   {
     title: '1-on-1 Meeting Agenda',
-    img: 'https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x320/350dda08d977f92d756f3d9ec111ea66/photo-1521495084171-3ad639e3d525.jpg',
+    img: '(https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
   },
   {
     title: 'Agile Board Template | Brello',
-    img: 'https://trello-backgrounds.s3.amazonaws.com/53baf533e697a982248cd73f/480x480/96406688eb291c869064290cfb9b0c80/shutterstock_134707556.jpg',
+    img: '(https://trello-backgrounds.s3.amazonaws.com/53baf533e697a982248cd73f/480x480/96406688eb291c869064290cfb9b0c80/shutterstock_134707556.jpg)',
   },
   {
     title: 'Company Overview',
-    img: 'https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x320/4315f9a5b3c78f696d170e9b626a44d6/e2d2752f.jpg',
+    img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x320/4315f9a5b3c78f696d170e9b626a44d6/e2d2752f.jpg)',
   },
   {
     title: 'Design Huddle',
-    img: 'https://trello-backgrounds.s3.amazonaws.com/SharedBackground/320x480/ff001cf6d3206de96d324c4a3646f844/photo-1500462918059-b1a0cb512f1d.jpg',
+    img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/320x480/ff001cf6d3206de96d324c4a3646f844/photo-1500462918059-b1a0cb512f1d.jpg)',
   },
   {
     title: 'Go To Market Strategy Template',
-    img: 'https://trello-backgrounds.s3.amazonaws.com/5755843411a2cd8c83067c03/480x320/cf2d1e29e8e3a4857a5f58f500fb464c/ian-dooley-407846-unsplash.jpg',
+    img: '(https://trello-backgrounds.s3.amazonaws.com/5755843411a2cd8c83067c03/480x320/cf2d1e29e8e3a4857a5f58f500fb464c/ian-dooley-407846-unsplash.jpg)',
   },
   {
     title: 'Kanban Template',
-    img: 'https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x322/47f09f0e3910259568294477d0bdedac/photo-1576502200916-3808e07386a5.jpg',
+    img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x322/47f09f0e3910259568294477d0bdedac/photo-1576502200916-3808e07386a5.jpg)',
   },
   {
     title: 'Mise-En-Place Personal Productivity System',
-    img: 'https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x320/963ddbe30ac0e2ab51ed5ed7403a5143/photo-1523266092241-0077129f31fe.jpg',
+    img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x320/963ddbe30ac0e2ab51ed5ed7403a5143/photo-1523266092241-0077129f31fe.jpg)',
   },
   {
     title: 'Project Management',
-    img: 'https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x336/24baa6609b89fb8eb0cc0aceb70eaf36/photo-1557682250-33bd709cbe85.jpg',
+    img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x336/24baa6609b89fb8eb0cc0aceb70eaf36/photo-1557682250-33bd709cbe85.jpg)',
   },
 ];
 const GlobalHeader = () => {
@@ -440,34 +440,34 @@ const GlobalHeader = () => {
             {activeDropdown === 'templates' && (
               <div className="dropdown-menu">
                 <div className="dropdown-header">Top templates</div>
-                <div className="recenetBoards">
+                <div className="recenetBoardsTemple">
                   {TemplatesStorage.map((recent) => {
-                   
-
                     return (
-                      <a key={recent.id} className="recenetBoardsNexted ">
-                        <div
-                          className="boxboards"
-                          style={{ backgroundColor: recent?.img }}
-                        />
-                        <h2
-                          onClick={() => {
-                           
-
+                      <DropdownUi
+                        trigger={
+                          <a key={recent.id} className="recenetBoardsNexted">
+                            <div
+                              className="boxboardsTemple"
+                              style={{ backgroundImage: `url${recent?.img}` }}
+                            />
+                            <h2
+                              onClick={() => {
+                                `url${recent?.img}`
+                              }}>
+                              {recent.title}
+                              <br />
+                              <span className="ClassnameGlobalName">Berllo Workspace</span>
+                            </h2>
+                            <div style={{ marginLeft: '85px' }}>
                             
-                          }}>
-                          {recent.title}
-                          <br />
-                          <span className="ClassnameGlobalName">Berllo Workspace</span>
-                        </h2>
-                       
-                      </a>
+                          </div>
+                          </a>
+                        }>
+                        {({ onClose }) => <BoardsCreateDropdown onClose={onClose} create={false} value={recent}/>}
+                      </DropdownUi>
                     );
                   })}
-                  <button
-                    onClick={() => {
-                      console.log('last visited entry:', user.lastBoardVisited);
-                    }}></button>
+                 
                 </div>
               </div>
             )}
@@ -501,7 +501,7 @@ const GlobalHeader = () => {
                       </div>
                     </button>
                   }>
-                  {({ onClose }) => <BoardsCreateDropdown onClose={onClose} />}
+                  {({ onClose }) => <BoardsCreateDropdown onClose={onClose} create={true} />}
                 </DropdownUi>
 
                 <div className="OpenAiButtonHeaderHeaderDiv" style={{ textAlign: 'left' }}>
