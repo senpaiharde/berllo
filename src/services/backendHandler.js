@@ -78,3 +78,27 @@ export async function toggleStar(boardId, isStarred) {
   const { starredBoards } = await res.json();
   return starredBoards;
 }
+
+const { data } = await api.post(`/boards/template/${templateId}`, { title });
+// data.board, data.lists, data.tasks are your newly‐created entities
+navigate(`/board/${data.board._id}`);
+
+
+export async function CreateBoard(templateId, title) {
+  const token = localStorage.getItem('token');
+  console.log('Create board title', templateId, title);
+  console.log('token', token);
+  const res = await fetch(`${API_BASE}/user/${templateId}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title: title,
+    }),
+  });
+  if (!res.ok) throw new Error('failed to create board');
+  const { data } = await res.json();
+  return data;
+}

@@ -703,6 +703,7 @@ const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
                     </div>
                   )
                 )}
+                
               </div>
               <div className="menu-section">
                 {[['Help'], ['Shortcuts']].map(([label, icon], i) => (
