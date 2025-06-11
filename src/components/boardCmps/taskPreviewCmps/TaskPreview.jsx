@@ -21,7 +21,6 @@ import { Draggable } from "@hello-pangea/dnd"
 import { TaskOps } from "../../../services/backendHandler"
 import api from "../../../api/api"
 
-
 export function TaskPreview({
   task,
   boardId,
@@ -46,6 +45,47 @@ export function TaskPreview({
     }
     return ""
   }
+  const [taskCoverStyle, setTaskCoverStyle] = useState({})
+  const [taskCoverBrokenImg, setTaskCoverBrokenImg] = useState(false)
+
+  useEffect(() => {
+    if (!task?.taskCover) return
+
+    const { coverType, coverImg, coverColor } = task.taskCover
+
+    if (coverType === "color" && coverColor) {
+      setTaskCoverStyle({ backgroundColor: coverColor })
+    }
+
+    if (coverType === "image" && coverImg) {
+      const img = new Image()
+
+      img.onload = () => {
+        // Catch images that load but are broken (0 width)
+        if (img.naturalWidth === 0) {
+          console.warn("Image appears broken:", coverImg)
+          setTaskCoverStyle({ backgroundColor: "#e1e2e6" }) // fallback
+          return
+        }
+
+        setTaskCoverStyle({
+          backgroundImage: `url(${coverImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        })
+      }
+
+      img.onerror = () => {
+        console.warn("Failed to load image:", coverImg)
+        setTaskCoverStyle({ backgroundColor: "#ffd5d2" })
+        setTaskCoverBrokenImg(true)
+      }
+
+      img.src = coverImg
+    }
+  }, [task.taskCover])
+
   const [imageHeight, setImageHeight] = useState(null)
 
   useEffect(() => {
@@ -110,7 +150,7 @@ export function TaskPreview({
       const NewTaskFromBackend = await addTaskToBackend(value)
       console.log("NewTaskFromBackend", NewTaskFromBackend)
 
-      dispatch(updateTaskInBoard( {NewTaskFromBackend, newTask: true})) 
+      dispatch(updateTaskInBoard({ NewTaskFromBackend, newTask: true }))
       onAddedNewTask()
     }
   }
@@ -128,7 +168,7 @@ export function TaskPreview({
       console.log("addTaskToBackend resp", resp)
       const taskk = resp.data
       console.log("addTaskToBackend taskk", taskk)
-      return taskk;
+      return taskk
     } catch (error) {
       console.error("Error adding task to backend:", error)
       return null
@@ -304,20 +344,27 @@ export function TaskPreview({
                       }
                       // className="task-front-cover"
                       style={{
-                        backgroundImage:
-                          task.taskCover.coverType === "image"
-                            ? `url(${task.taskCover.coverImg})`
-                            : undefined,
-                        backgroundColor:
-                          task.taskCover.coverType === "color"
-                            ? task.taskCover.coverColor
-                            : undefined,
+                        ...taskCoverStyle,
                         height:
                           task.taskCover.coverType === "image" && imageHeight
                             ? `${imageHeight}px`
                             : undefined,
                       }}
-                    ></div>
+                      // style={{
+                      //   backgroundImage:
+                      //     task.taskCover.coverType === "image"
+                      //       ? `url(${task.taskCover.coverImg})`
+                      //       : undefined,
+                      //   backgroundColor:
+                      //     task.taskCover.coverType === "color"
+                      //       ? task.taskCover.coverColor
+                      //       : undefined,
+                      //   height:
+                      //     task.taskCover.coverType === "image" && imageHeight
+                      //       ? `${imageHeight}px`
+                      //       : undefined,
+                      // }}
+                    >{taskCoverBrokenImg ? "borken img" : ""}</div>
                   )}
                 <div className="task-preview-details">
                   <div className="task-preview-labels">
@@ -410,7 +457,8 @@ export function TaskPreview({
                 <div className="task-preview-header-action-buttons-container">
                   {taskChecked && (
                     <div
-                      className="task-preview-header-action-button archive"
+                      className="task-preview-header-action-button archive archive-task"
+                      data-tooltip="Delete task"
                       onClick={(e) => {
                         e.stopPropagation()
                         onDeleteTask()
@@ -436,7 +484,8 @@ export function TaskPreview({
                     </div>
                   )}
                   <div
-                    className="task-preview-header-action-button edit"
+                    className="task-preview-header-action-button edit archive-task"
+                    data-tooltip="Edit task"
                     onClick={(e) => {
                       e.stopPropagation()
                       openPreviewEditor()

@@ -24,13 +24,14 @@ const Workspace = () => {
   const [boardViewBackgound, setBoardViewBackgound] = useState()
 
   useEffect(() => {
-    // console.log("board.boardStyle", board.boardStyle)
+    console.log("board.boardStyle", board.boardStyle)
     // {board.boardStyle && board.boardStyle.backgroundColor ? "board.boardStyle.backgroundColor" : ""}
     if (
       board.boardStyle &&
       board.boardStyle.boardColor &&
       board.boardStyle.boardType === "color"
     ) {
+      console.log("board.boardStyle.boardColor", board.boardStyle.boardColor)
       setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor })
     }
     if (
@@ -39,21 +40,36 @@ const Workspace = () => {
       board.boardStyle.boardType === "image"
     ) {
       // console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
-      const newImgBackgound = {
-
+      const img = new Image()
+      
+      img.onload = () => {
+      // ✅ At this point, naturalWidth is valid
+      if (img.naturalWidth === 0) {
+        console.warn("Image appears broken:", board.boardStyle.boardImg);
+        setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor  }); // fallback
+      } else {
+        setBoardViewBackgound({
+          backgroundImage: `url(${board.boardStyle.boardImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        });
       }
-      setBoardViewBackgound({
-        backgroundImage: `url(${board.boardStyle.boardImg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      })
+    };
+      console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
+      console.log("img.naturalWidth", img.naturalWidth)
+      img.onerror = () => {
+        console.warn("Failed to load image:", board.boardStyle.boardImg)
+        // Optional: fallback background
+        setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor }) // or any fallback
+      }
+      img.src = board.boardStyle.boardImg;
+    
     }
   }, [board])
 
   useEffect(() => {
     if (boardId) {
-      
       dispatch(
         syncBoardAsync({
           method: TaskOps.FETCH,

@@ -143,3 +143,14 @@
   );
   // color: var(--accent-text-bolder, var(--ds-text, #172b4d));
 }
+
+.archive-list[data-tooltip] {
+  background-color: transparent !important;
+}
+.archive-list[data-tooltip]::after {
+  top: 50%; /* Align to middle */
+  transform: translateY(-50%);
+}
+// .archive-list:hover {
+//   display: block;
+// }

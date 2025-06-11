@@ -18,6 +18,7 @@ export function TaskPreviewActions({ task, parentPosition }) {
     const labelButton={
       id: "labels",
       label: "Labels",
+      hover: 'Open Labels',
       // icon: <LabelsSvg />,
       content: (props) => (
         <DropdownLabel

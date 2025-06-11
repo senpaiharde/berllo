@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { toggleShareModal, updateBoardMembers } from "../../redux/BoardSlice"
+import { syncBoardAsync, toggleShareModal, updateBoardMembers } from "../../redux/BoardSlice"
 import { SvgServices } from "../../services/svgServices"
 import { useState, useEffect } from "react"
 import backendHandler, { TaskOps } from "../../services/backendHandler"
@@ -158,6 +158,23 @@ export function BoardSharePage() {
       //    dispatch(updateBoardMembers({...board.boardMembers.splice(boardMember=> boardMember._id === member._id)}))
     }
     console.log("newBoardMembers", newBoardMembers)
+    if(board._id && newBoardMembers){
+      dispatch(
+        syncBoardAsync({
+          method: TaskOps.UPDATE,
+          args: {
+            taskId: board._id,
+            body: {
+              method: TaskOps.UPDATE,
+              workId: "board",
+              boardMembers: newBoardMembers,
+            },
+          },
+          workId: "board",
+        })
+      )
+    }
+    
     dispatch(updateBoardMembers(newBoardMembers))
   }
 

@@ -200,3 +200,15 @@ position: relative;
 .task-preview-img {
   background-size: cover;
 }
+
+.archive-task[data-tooltip] {
+  background-color: transparent !important;
+}
+.archive-task[data-tooltip]::after {
+  left: auto;
+  right: 100%;
+  margin-left: 0;
+  margin-right: 8px; // space between tooltip and element
+  top: 50%;
+  transform: translateY(-50%);
+}

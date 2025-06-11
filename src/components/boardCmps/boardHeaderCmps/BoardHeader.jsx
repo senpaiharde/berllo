@@ -29,10 +29,12 @@ export function BoardHeader() {
   useEffect(() => {
     
     if (board.boardStyle && board.boardStyle.boardColor) {
+      console.log("board.boardStyle.boardColor", board.boardStyle.boardColor)
       const adjustedHeadercolor = darkenHexColor(
         board.boardStyle.boardColor,
         20
       )
+      console.log("adjustedHeadercolor", adjustedHeadercolor)
       setBoardViewBackgound({ backgroundColor: adjustedHeadercolor })
     }
    
