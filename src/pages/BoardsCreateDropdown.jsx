@@ -7,6 +7,7 @@ import { SvgServices } from '../services/svgServices';
 import { useNavigate } from 'react-router-dom';
 
 import { addnewBoard } from '../redux/WorkSpaceSlice';
+import { CreateBoard } from '../services/backendHandler';
 
 const BoardsCreateDropdown = ({ onClose, temple, create, value }) => {
   const navigate = useNavigate();
@@ -59,16 +60,18 @@ const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
 
     console.log('workSpace', workSpace);
   }
-const createBoardTemple = async () => {
+
+
+
+
+
+const createBoardTemple = async (value) => {
     try {
-      const data = await createBoard();
+      const data = await CreateBoard(value?._id,value?.title);
       console.log('board id:', data);
-      const slugBase = aiGoal.trim().split(' ').slice(0, 5).join(' ');
-      const slug = slugBase
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
-      navigate(`/b/${data._id}/${slug}`);
+     
+      
+      navigate(`/b/${data._id}/${value?.title}`);
     } catch (err) {
       console.error('err at creating board with temple:', err);
       alert('failed to create board: ' + err.message);
@@ -230,7 +233,7 @@ const createBoardTemple = async () => {
           <div className='createDropdownTempole'>
           
             <a key={value?.id} className="recenetBoardsNexted">
-                            <div
+                            <div onClick={() => {createBoardTemple(value)}}
                               className="boxboardsTemple"
                               style={{ backgroundImage: `url${value?.img}` }}
                             />

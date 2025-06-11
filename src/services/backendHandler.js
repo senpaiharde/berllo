@@ -79,9 +79,6 @@ export async function toggleStar(boardId, isStarred) {
   return starredBoards;
 }
 
-const { data } = await api.post(`/boards/template/${templateId}`, { title });
-// data.board, data.lists, data.tasks are your newly‐created entities
-navigate(`/board/${data.board._id}`);
 
 
 export async function CreateBoard(templateId, title) {
