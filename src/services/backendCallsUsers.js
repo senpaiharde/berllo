@@ -8,7 +8,8 @@ export const demoUsersStorage = [
   { name: 'Sam Demo', email: 'dave@demo.local' },
   { name: 'Dima Demo', email: 'eve@demo.local' },
 ];
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const envApiUrl = import.meta.env.VITE_API_URL;
+const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
 export const accountSwitch = async(email) => {
     try {
           const res = await axios.post(

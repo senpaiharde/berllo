@@ -7,6 +7,7 @@ import { SvgServices } from '../services/svgServices';
 import { useNavigate } from 'react-router-dom';
 
 import { addnewBoard } from '../redux/WorkSpaceSlice';
+import { CreateBoard } from '../services/backendHandler';
 
 const BoardsCreateDropdown = ({ onClose, temple, create, value }) => {
   const navigate = useNavigate();
@@ -25,7 +26,8 @@ const BoardsCreateDropdown = ({ onClose, temple, create, value }) => {
   };
   async function createNewboard() {
     setLoading(true);
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+    const envApiUrl = import.meta.env.VITE_API_URL;
+const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
     const token = localStorage.getItem('token');
     try {
       const resp = await fetch(`${API_BASE}/board/`, {
@@ -59,6 +61,22 @@ const BoardsCreateDropdown = ({ onClose, temple, create, value }) => {
     console.log('workSpace', workSpace);
   }
 
+
+
+
+
+const createBoardTemple = async (value) => {
+    try {
+      const data = await CreateBoard(value?._id,value?.title);
+      console.log('board id:', data);
+     
+      
+      navigate(`/b/${data._id}/${value?.title}`);
+    } catch (err) {
+      console.error('err at creating board with temple:', err);
+      alert('failed to create board: ' + err.message);
+    }
+  };
   function functiondaddy(value, colors) {
     setColor(colors);
     setBackGround(value);
@@ -215,7 +233,7 @@ const BoardsCreateDropdown = ({ onClose, temple, create, value }) => {
           <div className='createDropdownTempole'>
           
             <a key={value?.id} className="recenetBoardsNexted">
-                            <div
+                            <div onClick={() => {createBoardTemple(value)}}
                               className="boxboardsTemple"
                               style={{ backgroundImage: `url${value?.img}` }}
                             />

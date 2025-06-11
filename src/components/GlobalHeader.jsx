@@ -28,6 +28,8 @@ import { TaskOps, toggleStar } from '../services/backendHandler';
 import { updateStarStatus, syncBoardAsync } from '../redux/BoardSlice';
 import DropdownUi from './boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
 import BoardsCreateDropdown from '../pages/BoardsCreateDropdown';
+import ResetCountdown from '../services/ResetCountdown';
+import { createBoard } from '../utils/boardUtils';
 
 const demoUsers = demoUsersStorage;
 const TemplatesStorage = [
@@ -56,7 +58,7 @@ const TemplatesStorage = [
     img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x322/47f09f0e3910259568294477d0bdedac/photo-1576502200916-3808e07386a5.jpg)',
   },
   {
-    title: 'Mise-En-Place Personal Productivity System',
+    title: 'Personal Productivity System',
     img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x320/963ddbe30ac0e2ab51ed5ed7403a5143/photo-1523266092241-0077129f31fe.jpg)',
   },
   {
@@ -86,7 +88,8 @@ const GlobalHeader = () => {
     create: useRef(null),
     profile: useRef(null),
   };
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+  const envApiUrl = import.meta.env.VITE_API_URL;
+  const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
   const token = localStorage.getItem('token');
   const handleCreateAI = async () => {
     if (!aiGoal.trim() || !aiStart || !aiEnd) {
@@ -126,6 +129,7 @@ const GlobalHeader = () => {
       setAiEnd('');
     }
   };
+ 
   const [lastBoard, setLastBoard] = useState(null);
   const [currentEmail, setCurrentEmail] = useState('');
 
@@ -452,22 +456,21 @@ const GlobalHeader = () => {
                             />
                             <h2
                               onClick={() => {
-                                `url${recent?.img}`
+                                `url${recent?.img}`;
                               }}>
                               {recent.title}
                               <br />
                               <span className="ClassnameGlobalName">Berllo Workspace</span>
                             </h2>
-                            <div style={{ marginLeft: '85px' }}>
-                            
-                          </div>
+                            <div style={{ marginLeft: '85px' }}></div>
                           </a>
                         }>
-                        {({ onClose }) => <BoardsCreateDropdown onClose={onClose} create={false} value={recent}/>}
+                        {({ onClose }) => (
+                          <BoardsCreateDropdown onClose={onClose} create={false} value={recent} />
+                        )}
                       </DropdownUi>
                     );
                   })}
-                 
                 </div>
               </div>
             )}
@@ -600,6 +603,7 @@ const GlobalHeader = () => {
             )}
           </div>
         </div>
+        <ResetCountdown />
       </div>
 
       {/* RIGHT SIDE: Search, Notifications, Help, Profile */}

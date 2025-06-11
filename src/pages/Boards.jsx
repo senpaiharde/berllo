@@ -250,7 +250,7 @@ useEffect(() => {
                             <div className="DisplayCardsInBoardsADiv"></div>
                             <div className="DisplayCardsInBoardsADiv2">
                               <div className="DisplayCardsInBoardsADiv2Title">
-                                {recent.boardTitle}
+                                {recent?.boardTitle}
                               </div>
                               <div className="DisplayCardsInBoardsADiv2Svg" style={{marginBottom: '-8px'}}>
                                 <div className="DisplayCardsInBoardsADiv2SvgIcon">
