@@ -29,6 +29,7 @@ import { updateStarStatus, syncBoardAsync } from '../redux/BoardSlice';
 import DropdownUi from './boardCmps/taskDetailsCmp/main/sidebar/dropdownHardcoded/DropdownUi';
 import BoardsCreateDropdown from '../pages/BoardsCreateDropdown';
 import ResetCountdown from '../services/ResetCountdown';
+import { createBoard } from '../utils/boardUtils';
 
 const demoUsers = demoUsersStorage;
 const TemplatesStorage = [
@@ -88,7 +89,7 @@ const GlobalHeader = () => {
     profile: useRef(null),
   };
   const envApiUrl = import.meta.env.VITE_API_URL;
-const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
+  const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
   const token = localStorage.getItem('token');
   const handleCreateAI = async () => {
     if (!aiGoal.trim() || !aiStart || !aiEnd) {
@@ -128,6 +129,7 @@ const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
       setAiEnd('');
     }
   };
+ 
   const [lastBoard, setLastBoard] = useState(null);
   const [currentEmail, setCurrentEmail] = useState('');
 
@@ -454,22 +456,21 @@ const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
                             />
                             <h2
                               onClick={() => {
-                                `url${recent?.img}`
+                                `url${recent?.img}`;
                               }}>
                               {recent.title}
                               <br />
                               <span className="ClassnameGlobalName">Berllo Workspace</span>
                             </h2>
-                            <div style={{ marginLeft: '85px' }}>
-                            
-                          </div>
+                            <div style={{ marginLeft: '85px' }}></div>
                           </a>
                         }>
-                        {({ onClose }) => <BoardsCreateDropdown onClose={onClose} create={false} value={recent}/>}
+                        {({ onClose }) => (
+                          <BoardsCreateDropdown onClose={onClose} create={false} value={recent} />
+                        )}
                       </DropdownUi>
                     );
                   })}
-                 
                 </div>
               </div>
             )}
@@ -602,7 +603,7 @@ const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
             )}
           </div>
         </div>
-        <ResetCountdown/>
+        <ResetCountdown />
       </div>
 
       {/* RIGHT SIDE: Search, Notifications, Help, Profile */}
@@ -703,7 +704,6 @@ const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
                     </div>
                   )
                 )}
-                
               </div>
               <div className="menu-section">
                 {[['Help'], ['Shortcuts']].map(([label, icon], i) => (

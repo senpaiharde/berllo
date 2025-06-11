@@ -88,7 +88,7 @@ export async function CreateBoard(templateId, title) {
   const token = localStorage.getItem('token');
   console.log('Create board title', templateId, title);
   console.log('token', token);
-  const res = await fetch(`${API_BASE}/user/${templateId}`, {
+  const res = await fetch(`${API_BASE}/boards/template/${templateId}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,

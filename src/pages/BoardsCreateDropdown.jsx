@@ -59,7 +59,21 @@ const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
 
     console.log('workSpace', workSpace);
   }
-
+const createBoardTemple = async () => {
+    try {
+      const data = await createBoard();
+      console.log('board id:', data);
+      const slugBase = aiGoal.trim().split(' ').slice(0, 5).join(' ');
+      const slug = slugBase
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+      navigate(`/b/${data._id}/${slug}`);
+    } catch (err) {
+      console.error('err at creating board with temple:', err);
+      alert('failed to create board: ' + err.message);
+    }
+  };
   function functiondaddy(value, colors) {
     setColor(colors);
     setBackGround(value);
