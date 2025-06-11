@@ -2,10 +2,7 @@ import api from '../api/api';
 
 const backendHandler = async ({ args }) => {
   const { taskId, body } = args || {};
-  // console.log('backendHandler',args);
-  // console.log('backendHandler body',body);
-  // console.log('backendHandler', body.method, body.workId, taskId);
-  // console.log(`/${body.workId}/${body.method}`);
+
   let data;
   if (body.method === 'update') {
     const res = await api.put(`/${body.workId}/${taskId}`, body);
@@ -54,11 +51,11 @@ export const TaskOps = Object.freeze({
   UPDATE: 'update',
   DELETE: 'delete',
 });
-
+const token = localStorage.getItem('token');
 const envApiUrl = import.meta.env.VITE_API_URL;
 const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
 export async function toggleStar(boardId, isStarred) {
-  const token = localStorage.getItem('token');
+
   console.log('toggleStar', boardId, isStarred);
   console.log('token', token);
   const res = await fetch(`${API_BASE}/user/me`, {
@@ -82,11 +79,11 @@ export async function toggleStar(boardId, isStarred) {
 
 
 export async function CreateBoard(templateId, title) {
-  const token = localStorage.getItem('token');
+
   console.log('Create board title', templateId, title);
   console.log('token', token);
   const res = await fetch(`${API_BASE}/boards/template/${templateId}`, {
-    method: 'PUT',
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -96,6 +93,6 @@ export async function CreateBoard(templateId, title) {
     }),
   });
   if (!res.ok) throw new Error('failed to create board');
-  const { data } = await res.json();
-  return data;
+  const { board } = await res.json();
+  return board;
 }

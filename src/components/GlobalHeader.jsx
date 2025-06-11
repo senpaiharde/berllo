@@ -449,7 +449,7 @@ const GlobalHeader = () => {
                     return (
                       <DropdownUi
                         trigger={
-                          <a key={recent.id} className="recenetBoardsNexted">
+                          <a key={recent?.id} className="recenetBoardsNexted">
                             <div
                               className="boxboardsTemple"
                               style={{ backgroundImage: `url${recent?.img}` }}

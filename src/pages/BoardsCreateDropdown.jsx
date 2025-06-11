@@ -27,7 +27,7 @@ const BoardsCreateDropdown = ({ onClose, temple, create, value }) => {
   async function createNewboard() {
     setLoading(true);
     const envApiUrl = import.meta.env.VITE_API_URL;
-const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
+    const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
     const token = localStorage.getItem('token');
     try {
       const resp = await fetch(`${API_BASE}/board/`, {
@@ -61,17 +61,12 @@ const API_BASE = envApiUrl ? envApiUrl : 'http://localhost:4000';
     console.log('workSpace', workSpace);
   }
 
-
-
-
-
-const createBoardTemple = async (value) => {
+  const createBoardTemple = async () => {
     try {
-      const data = await CreateBoard(value?._id,value?.title);
-      console.log('board id:', data);
-     
-      
-      navigate(`/b/${data._id}/${value?.title}`);
+      const data = await CreateBoard(value?.id, value?.title);
+      console.log('board id:', value);
+
+      navigate(`/b/${data?.id}/${value?.title}`);
     } catch (err) {
       console.error('err at creating board with temple:', err);
       alert('failed to create board: ' + err.message);
@@ -230,27 +225,26 @@ const createBoardTemple = async (value) => {
           </>
         )}
         {create === false && (
-          <div className='createDropdownTempole'>
-          
+          <div className="createDropdownTempole">
             <a key={value?.id} className="recenetBoardsNexted">
-                            <div onClick={() => {createBoardTemple(value)}}
-                              className="boxboardsTemple"
-                              style={{ backgroundImage: `url${value?.img}` }}
-                            />
-                            <h2 className='titleTestCreate'
-                              onClick={() => {
-                                `url${value?.img}`
-                              }}>
-                              {value.title}
-                              <br />
-                              <span  className="PAttitleTestCreate">Berllo Workspace</span>
-                            </h2>
-                            <div style={{ marginLeft: '24px' }}>
-                            
-                          </div>
-                          </a>
-                         
-            <h3 style={{fontWeight:'200'}} className="DropdownLabelH3">
+              <div
+               
+                className="boxboardsTemple"
+                style={{ backgroundImage: `url${value?.img}` }}
+              />
+              <h2
+                className="titleTestCreate"
+                onClick={() => {
+                  `url${value?.img}`;
+                }}>
+                {value.title}
+                <br />
+                <span className="PAttitleTestCreate">Berllo Workspace</span>
+              </h2>
+              <div style={{ marginLeft: '24px' }}></div>
+            </a>
+
+            <h3 style={{ fontWeight: '200' }} className="DropdownLabelH3">
               This board keeps myself and my direct reports on the same page.
             </h3>
           </div>
@@ -294,13 +288,22 @@ const createBoardTemple = async (value) => {
             </div>
           </div>
         </label>
-        <button
+        {create === false ? (
+          <button
+            disabled={loading}
+            style={{ marginTop: '10px' }}
+            onClick={() => createBoardTemple()}
+            className="DropdownLabelButton">
+            {loading ? 'Creating…' : 'Create'}
+          </button>
+        ):(<button
           disabled={loading}
           style={{ marginTop: '10px' }}
           onClick={() => createNewboard()}
           className="DropdownLabelButton">
           {loading ? 'Creating…' : 'Create'}
-        </button>
+        </button>)}
+        
       </div>
     </div>
   );
