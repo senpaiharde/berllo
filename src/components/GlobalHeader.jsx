@@ -35,34 +35,42 @@ const demoUsers = demoUsersStorage;
 const TemplatesStorage = [
   {
     title: '1-on-1 Meeting Agenda',
+    Num : '1',
     img: '(https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
   },
   {
     title: 'Agile Board Template | Brello',
+     Num : '2',
     img: '(https://trello-backgrounds.s3.amazonaws.com/53baf533e697a982248cd73f/480x480/96406688eb291c869064290cfb9b0c80/shutterstock_134707556.jpg)',
   },
   {
     title: 'Company Overview',
+     Num : '3',
     img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x320/4315f9a5b3c78f696d170e9b626a44d6/e2d2752f.jpg)',
   },
   {
     title: 'Design Huddle',
+     Num : '4',
     img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/320x480/ff001cf6d3206de96d324c4a3646f844/photo-1500462918059-b1a0cb512f1d.jpg)',
   },
   {
     title: 'Go To Market Strategy Template',
+     Num : '5',
     img: '(https://trello-backgrounds.s3.amazonaws.com/5755843411a2cd8c83067c03/480x320/cf2d1e29e8e3a4857a5f58f500fb464c/ian-dooley-407846-unsplash.jpg)',
   },
   {
     title: 'Kanban Template',
+     Num : '6',
     img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x322/47f09f0e3910259568294477d0bdedac/photo-1576502200916-3808e07386a5.jpg)',
   },
   {
     title: 'Personal Productivity System',
+     Num : '7',
     img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x320/963ddbe30ac0e2ab51ed5ed7403a5143/photo-1523266092241-0077129f31fe.jpg)',
   },
   {
     title: 'Project Management',
+     Num : '8',
     img: '(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/480x336/24baa6609b89fb8eb0cc0aceb70eaf36/photo-1557682250-33bd709cbe85.jpg)',
   },
 ];

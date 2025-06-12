@@ -18,7 +18,7 @@ const BoardsCreateDropdown = ({ onClose, temple, create, value }) => {
 
   const [backGround, setBackGround] = useState('');
   const [color, setColor] = useState('');
-
+const slava = value;
   const newBoardStyle = {
     boardType: 'image',
     boardColor: color,
@@ -63,12 +63,14 @@ const BoardsCreateDropdown = ({ onClose, temple, create, value }) => {
 
   const createBoardTemple = async () => {
     try {
-      const data = await CreateBoard(value?.id, value?.title);
-      console.log('board id:', value);
-
-      navigate(`/b/${data?.id}/${value?.title}`);
+      const data = await CreateBoard(slava?.Num, slava?.title);
+      console.log('board id:', slava,data);
+      dispatch(addnewBoard(data));
+      console.log(navigate(`/b/${data?._id}/${data?.title}`), 'navigating')
+      navigate(`/b/${data?._id}/${data?.title}`);
+      
     } catch (err) {
-      console.error('err at creating board with temple:', err);
+      console.error('err at creating board with temple:', err,slava,value);
       alert('failed to create board: ' + err.message);
     }
   };
