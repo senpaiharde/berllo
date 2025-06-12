@@ -121,7 +121,7 @@ export function BoardSideBar({   }) {
         >
           <div
             className="board-background-img"
-            style={{ backgroundColor: primaryColor }}
+            style={{ backgroundColor: board?.boardStyle?.boardColor }}
           ></div>
           {/* <p className="sidebar-link-text">{board.boardTitle.length > 24 ? board.boardTitle.slice(0, 24) + "..." : board.boardTitle}</p> */}
           <p className="sidebar-link-text">{board.boardTitle}</p>
