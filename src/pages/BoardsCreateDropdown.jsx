@@ -63,6 +63,7 @@ const slava = value;
 
   const createBoardTemple = async () => {
     try {
+        setLoading(true);
       const data = await CreateBoard(slava?.Num, slava?.title);
       console.log('board id:', slava,data);
       dispatch(addnewBoard(data));
@@ -72,6 +73,9 @@ const slava = value;
     } catch (err) {
       console.error('err at creating board with temple:', err,slava,value);
       alert('failed to create board: ' + err.message);
+    }finally {
+        setLoading(false);
+        onClose()
     }
   };
   function functiondaddy(value, colors) {
@@ -227,8 +231,10 @@ const slava = value;
           </>
         )}
         {create === false && (
-          <div className="createDropdownTempole">
-            <a key={value?.id} className="recenetBoardsNexted">
+          <div  className="createDropdownTempole">
+            <a  
+           
+            key={value?.id} className="recenetBoardsNexted">
               <div
                
                 className="boxboardsTemple"
