@@ -1,5 +1,6 @@
 import { IconButton } from "../../IconButton"
-import { addnewBoard, syncWorkSpaceAsync } from "../../../redux/WorkSpaceSlice"
+import { addnewBoard, removeBoard, syncWorkSpaceAsync } from "../../../redux/WorkSpaceSlice"
+import { syncBoardAsync } from "../../../redux/BoardSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams, useNavigate, Outlet } from "react-router-dom"
 import { useState,useEffect } from "react"
@@ -88,6 +89,19 @@ export function BoardSideBar({   }) {
         workId: "board",
       }))
   }
+  function onDeleteBoard(board_id) {
+      console.log("Permanently delete board clicked")
+      dispatch(
+        syncBoardAsync({
+          method: TaskOps.DELETE,
+          args: {
+            taskId: board_id,
+            body: { method: TaskOps.DELETE, workId: "board" },
+          },
+          workId: "board",
+        })
+      )
+    }
   // console.log("Sidebar chosenBoard", chosenBoard)
   function SidebarChooseBoard({ board }) {
     // console.log("SidebarChooseBoard board", board)
@@ -112,14 +126,36 @@ export function BoardSideBar({   }) {
           {/* <p className="sidebar-link-text">{board.boardTitle.length > 24 ? board.boardTitle.slice(0, 24) + "..." : board.boardTitle}</p> */}
           <p className="sidebar-link-text">{board.boardTitle}</p>
           <div className="sidebar-link-button-container">
-            <div className="header-button header-clickable">
-              <IconButton center={true}>
+            <div className="header-button header-clickable archive-task"
+            data-tooltip="Delete Board"
+            onClick={(e)=>{
+              e.preventDefault()
+              e.stopPropagation()
+              onDeleteBoard(board._id)
+              console.log("onDeleteBoard board", board)
+              console.log("onDeleteBoard chosenBoard", board)
+              if(board._id === chosenBoard._id){
+                console.log("board._id === chosenBoard._id navigate")
+                console.log("currentWorkSpace.boards[0]", currentWorkSpace.boards[0])
+                navigate(`/b/${currentWorkSpace.boards[0]._id}/${encodeURIComponent(currentWorkSpace.boards[0].boardTitle)}/*`)
+              }
+              dispatch(removeBoard(board._id))
+            }}
+            >
+              <IconButton center={true}
+              alternativeViewBox={"0 0 16 16"}>
                 <path
+                        fill="currentcolor"
+                        fillRule="evenodd"
+                        d="M1 1h14v5h-1v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6H1zm2.5 5v7a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V6zm10-1.5h-11v-2h11zm-3 4.5h-5V7.5h5z"
+                        clipRule="evenodd"
+                      ></path>
+                {/* <path
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M5 14C6.10457 14 7 13.1046 7 12C7 10.8954 6.10457 10 5 10C3.89543 10 3 10.8954 3 12C3 13.1046 3.89543 14 5 14ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14ZM21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12Z"
                   fill="currentColor"
-                ></path>
+                ></path> */}
               </IconButton>
             </div>
             <div

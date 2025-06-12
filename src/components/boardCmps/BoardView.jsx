@@ -46,16 +46,21 @@ export function BoardView() {
         }
 
         // Filter by labels if needed
+        console.log("board.filter.labels", board.filter.labels)
         if (board.filter.labels && board.filter.labels.length > 0) {
           filteredTasks = filteredTasks.filter((task) =>
             task.taskLabels?.some((taskLabel) =>
               board.filter.labels.some(
-                (filterLabel) => filterLabel._id === taskLabel._id
+                (filterLabel) => 
+                  // filterLabel._id === taskLabel._id
+                 {
+                  console.log("taskLabel", taskLabel)
+                  return (filterLabel.color === taskLabel.color && filterLabel.title === taskLabel.title)} // Ensure color is set for the label
               )
             )
           )
         }
-        console.log("board.filter.members", board.filter.members)
+        // console.log("board.filter.members", board.filter.members)
         if (board.filter.members && board.filter.members.length > 0) {
           console.log("board.filter.members", board.filter.members)
           // console.log("taskMembers", task.taskMembers)

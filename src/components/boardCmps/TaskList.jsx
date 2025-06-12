@@ -221,7 +221,8 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
                 fill="currentColor"
               ></path>
             </IconButton> */}
-            <div className="task-preview-header-action-button archive"
+            <div className="task-preview-header-action-button archive-list"
+                  data-tooltip="Delete list"
                   style={{color: "black"}}
                   onClick={(e) => {
                     e.stopPropagation()
