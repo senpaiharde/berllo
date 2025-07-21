@@ -26,7 +26,7 @@ export function TaskPreviewEditor({}) {
   const previewEditorPosition = useSelector(
     (state) => state.boardReducer.previewEditorPositon
   )
-  // console.log("previewEditorPosition", previewEditorPosition)
+
   const display = previewEditorPosition ? "block" : "none"
   const displayPosition = previewEditorPosition
     ? {
@@ -38,13 +38,11 @@ export function TaskPreviewEditor({}) {
         width: `${previewEditorPosition.width}px`,
       }
     : { width: "0px" }
-  // console.log("displayWidth", displayWidth)
-  //   const task = previewEditorPositon ? useSelector((state) => state.taskDetailsReducer.selectedTask) : null;
+
   const task = useSelector((state) => state.taskDetailsReducer.selectedTask)
   const [inputValue, setInputValue] = useState(task ? task.title : "")
-  //   console.log("TaskPreviewEditor task", task.taskTitle)
+
   useEffect(() => {
-    // console.log("TaskPreviewEditor task", task.taskTitle)
     if (task) {
       console.log("TaskPreviewEditor task", task.taskTitle)
       setInputValue(task.title)
@@ -52,9 +50,7 @@ export function TaskPreviewEditor({}) {
   }, [task])
   const imageHeight = 24
   function onUpdateTask(value) {
-    // console.log("onUpdateTask value", value)
     if (value !== "true") {
-      //   dispatch(updateTaskInBoard({ ...task, taskChecked: value }))
       dispatch(liveUpdateTask({ taskTitle: value }))
     }
     dispatch(openTaskDetails(null))
@@ -67,7 +63,7 @@ export function TaskPreviewEditor({}) {
     console.log("removing task", task._id, " from ", task.taskList)
     dispatch(removeTaskFromBoard({ _id: task._id, taskList: task.taskList }))
   }
-  // console.log("TaskPreviewEditor task", task)
+
   const TaskPreviewRef = useRef(null)
   const textValue = task ? task.taskTitle : ""
 
@@ -101,7 +97,6 @@ export function TaskPreviewEditor({}) {
                     ? "task-front-cover task-front-cover--image"
                     : "task-front-cover task-front-cover--color"
                 }
-                // className="task-front-cover"
                 style={{
                   backgroundImage:
                     task.cover.coverType === "image"
@@ -127,7 +122,6 @@ export function TaskPreviewEditor({}) {
               </div>
               <div className="task-preview-header">
                 <span className="task-preview-header-title">
-                  {/* <a style={{ fontSize: 14 }}>{task.taskTitle}</a> */}
                   <textarea
                     onClick={(e) => {
                       e.stopPropagation()
@@ -141,8 +135,6 @@ export function TaskPreviewEditor({}) {
                     onKeyDown={(e) =>
                       e.key === "Enter" && onUpdateTask(inputValue)
                     }
-                    // placeholder={itemType}
-                    // style={textareaSize}
                   ></textarea>
                 </span>
               </div>

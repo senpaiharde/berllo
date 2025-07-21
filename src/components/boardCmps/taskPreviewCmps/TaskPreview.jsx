@@ -342,29 +342,15 @@ export function TaskPreview({
                           ? "task-front-cover task-front-cover--image task-preview-img"
                           : "task-front-cover task-front-cover--color"
                       }
-                      // className="task-front-cover"
                       style={{
                         ...taskCoverStyle,
                         height:
                           task.taskCover.coverType === "image" && imageHeight
                             ? `${imageHeight}px`
                             : undefined,
-                      }}
-                      // style={{
-                      //   backgroundImage:
-                      //     task.taskCover.coverType === "image"
-                      //       ? `url(${task.taskCover.coverImg})`
-                      //       : undefined,
-                      //   backgroundColor:
-                      //     task.taskCover.coverType === "color"
-                      //       ? task.taskCover.coverColor
-                      //       : undefined,
-                      //   height:
-                      //     task.taskCover.coverType === "image" && imageHeight
-                      //       ? `${imageHeight}px`
-                      //       : undefined,
-                      // }}
-                    >{taskCoverBrokenImg ? "borken img" : ""}</div>
+                      }}>
+                        {taskCoverBrokenImg ? "borken img" : ""}
+                        </div>
                   )}
                 <div className="task-preview-details">
                   <div className="task-preview-labels">
@@ -375,7 +361,6 @@ export function TaskPreview({
                       className="task-preview-header-completion-status"
                       onClick={(e) => {
                         e.stopPropagation()
-                        // e.preventDefault()
                         setTaskChecked(!taskChecked)
                         onUpdateTask(!taskChecked)
                       }}
@@ -415,7 +400,6 @@ export function TaskPreview({
                     </span>
                     <span className="task-preview-header-title">
                       <a
-                      // style={{ fontSize: 14 }}
                       >
                         {task.taskTitle}
                       </a>
@@ -450,7 +434,6 @@ export function TaskPreview({
                               />
                             </button>
                           ))}
-                      {/* <TaskDetailsMembers style={{}} /> */}
                     </div>
                   </div>
                 </div>
@@ -469,10 +452,6 @@ export function TaskPreview({
                         centerd={true}
                         alternativeViewBox={"0 0 16 16"}
                         displayOnHover={true}
-                        // onClick={(e) => {
-                        //   e.stopPropagation()
-                        //   onRemoveCurrentTask()
-                        // }}
                       >
                         <path
                           fill="currentcolor"
@@ -496,10 +475,6 @@ export function TaskPreview({
                       centerd={true}
                       alternativeViewBox={"0 0 16 16"}
                       displayOnHover={true}
-                      // onClick={(e) => {
-                      //   e.stopPropagation()
-                      //   onRemoveCurrentTask()
-                      // }}
                     >
                       <path
                         fill="currentcolor"

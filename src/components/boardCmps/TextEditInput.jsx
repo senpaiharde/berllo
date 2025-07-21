@@ -16,19 +16,23 @@ export function TextEditInput({
   const [pervValue, setPrevValue] = useState(value)
   const [textAreaHeight, setTextAreaHeight] = useState("28px")
   const [marginBottom, setMarginBottom] = useState("0px")
-  // const mirrorRef = useRef<HTMLDivElement>(null);
+
   const mirrorRef = useRef(null)
   const mainDivClass =
     itemType && itemType === "list" ? "task-list-header-name" : ""
+
   const inputClass =
     itemType && itemType === "list"
       ? "task-list-header-input"
       : "board-name-input"
+
   const h2Class =
     itemType && itemType === "list"
       ? "task-list-header-h1"
       : "board-name-display"
+
   let disableBlur = false
+
   const handleBlur = (e) => {
     setIsEditing(false)
     if (disableBlur) {
@@ -41,7 +45,6 @@ export function TextEditInput({
       console.log("TextEditInput noValueOnExit()")
       noValueOnExit()
     } else {
-      // setIsEditing(false)
       onChangeTextInput(inputValue)
     }
     setIsEditing(false)
@@ -57,11 +60,9 @@ export function TextEditInput({
     }
   }, [value])
   function emptyExit() {
-    // setInputValue(null)
     exitEditing(null)
   }
   if (activateEditing) {
-    // console.log("activateEditing",value)
   }
   const inputLength = (inputValue) => {
     if (inputValue) {
@@ -85,10 +86,7 @@ export function TextEditInput({
   }, [inputValue])
 
   return (
-    <div
-      className={mainDivClass}
-      // style={isEditing ? { marginBottom: marginBottom } : undefined}
-    >
+    <div className={mainDivClass}>
       {isEditing ? (
         <div style={{ display: "flex" }}>
           <div
@@ -101,7 +99,7 @@ export function TextEditInput({
               padding: "6px 8px 6px 12px",
               boxSizing: "border-box",
               width: "210px",
-              font: "inherit", // make sure it uses the same font as the textarea
+              font: "inherit",
             }}
             className="task-list-header-input"
           >
@@ -110,14 +108,12 @@ export function TextEditInput({
           {itemType && itemType === "list" ? (
             <textarea
               style={{ height: textAreaHeight, overflow: "hidden" }}
-              // ref={mirrorRef}
               className="task-list-header-input"
               autoFocus={activateEditing || isEditing}
               placeholder="enter list name..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              // onBlur={handleBlur}
-              onKeyDown={(e) => e.key === "Enter" && handleBlur(e)} // Save on Enter
+              onKeyDown={(e) => e.key === "Enter" && handleBlur(e)}
               size={inputLength(inputValue)}
             ></textarea>
           ) : (
@@ -127,8 +123,7 @@ export function TextEditInput({
               className="board-name-input"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              // onBlur={handleBlur}
-              onKeyDown={(e) => e.key === "Enter" && handleBlur(e)} // Save on Enter
+              onKeyDown={(e) => e.key === "Enter" && handleBlur(e)}
               size={inputLength(inputValue)}
             />
           )}
@@ -146,15 +141,13 @@ export function TextEditInput({
                 className="input-new-item-svg"
                 onClick={(e) => {
                   console.log("disableBlur = true")
-                  // disableBlur = true
-                  noValueOnExit() // Prevent blur from firing
+                  noValueOnExit()
                 }}
               >
                 <IconButton
                   onClick={(e) => {
                     console.log("disableBlur = true")
-                    // disableBlur = true
-                    noValueOnExit() // Prevent blur from firing
+                    noValueOnExit()
                   }}
                 >
                   <path
@@ -174,9 +167,11 @@ export function TextEditInput({
         <h1
           className={h2Class}
           style={{ fontSize: fontSize, textOverflow: "ellipsis" }}
-          onClick={() => setIsEditing(true)} // Click to edit
+          onClick={() => setIsEditing(true)}
         >
-          {itemType && itemType === "board" && inputValue.length > 71 ? inputValue.slice(0, 71) + "..." : inputValue}
+          {itemType && itemType === "board" && inputValue.length > 71
+            ? inputValue.slice(0, 71) + "..."
+            : inputValue}
         </h1>
       )}
     </div>

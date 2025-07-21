@@ -17,23 +17,13 @@ import {
 import { ItemNameForm } from "./addItemCard/ItemNameForm.jsx"
 import { TaskOps } from "../../services/backendHandler.js"
 export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsById }) {
-  //console.log("boardList received by TaskList:", boardList);
-  // TaskList.propTypes = {
-  //   Tasks: PropTypes.array.isRequired,
-  // }
 
   const dispatch = useDispatch()
   const [isNewTaskList, setIsNewTaskList] = useState(newTaskList)
   const [taskListTitle, setTaskListTitle] = useState(boardList.taskListTitle)
   const [newTitle, setNewTitle] = useState()
   const board = useSelector((state) => state.boardReducer)
-  const list = useSelector((state) => state.boardReducer)
 
-  // filter:{
-  //     title: "",
-  //     member: "",
-  //     labels: [],
-  //   },
   const filterActive =
     board.filter.title !== "" ||
     board.filter.members.length > 0 ||
@@ -81,7 +71,6 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
         })
       )
       onAddedNewList()
-      // console.log("TaskList boardid", boardList)
     }
     if (!isNewTaskList && value) {
       console.log(
@@ -173,9 +162,7 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
     dispatch(removeBoardListFromBoard(boardList._id))
   }
 
-  // if (isNewTaskList) {
-  //   console.log("new task list", boardList._id)
-  // }
+  
   const [headerHeight,setHeaderHeight] = useState()
   const taskListById = boardList.taskList.map((task) =>
             task._id.toString()
@@ -188,7 +175,6 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
         <div>
           <ItemNameForm
             IsEditing={isNewTaskList}
-            // setIsEditing={setIsNewTaskList}
             setText={setNewTitle}
             noValueOnExit={onRemoveCurrentListFromState}
             onAddItem={onUpdateBoardList}
@@ -213,14 +199,6 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
             style={{marginLeft: "8px"}}
             onClick={() => onRemoveCurrentListFromState()}
           >
-            {/* <IconButton>
-              <path
-                fillRule="nonzero"
-                clipRule="evenodd"
-                d="M 5 14 C 6.10457 14 7 13.1046 7 12 C 7 10.8954 6.10457 10 5 10 C 3.89543 10 3 10.8954 3 12 C 3 13.1046 3.89543 14 5 14 Z M 12 14 C 13.1046 14 14 13.1046 14 12 C 14 10.8954 13.1046 10 12 10 C 10.8954 10 10 10.8954 10 12 C 10 13.1046 10.8954 14 12 14 Z M 21 12 C 21 13.1046 20.1046 14 19 14 C 17.8954 14 17 13.1046 17 12 C 17 10.8954 17.8954 10 19 10 C 20.1046 10 21 10.8954 21 12 Z"
-                fill="currentColor"
-              ></path>
-            </IconButton> */}
             <div className="task-preview-header-action-button archive-list"
                   data-tooltip="Delete list"
                   style={{color: "black"}}
@@ -232,11 +210,6 @@ export function TaskList({ boardList, newTaskList, onAddedNewList, boardListsByI
                       iconSize={"16px"}
                       centerd={true}
                       alternativeViewBox={"0 0 16 16"}
-                      // displayOnHover={true}
-                      // onClick={(e) => {
-                      //   e.stopPropagation()
-                      //   onRemoveCurrentTask()
-                      // }}
                     >
                       <path
                         fill="currentcolor"

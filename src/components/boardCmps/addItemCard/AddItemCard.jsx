@@ -12,10 +12,7 @@ export function AddItemCard({
   const containerClass = addListClass ? "" : "add-a-card-container"
   return (
     <div className={`${containerClass}`} onClick={() => onItemCardClick()}>
-      <span
-        className={`${listClass} add-a-card-button `}
-        // style={{ backgroundColor: backgroundColor, color: textColor }}
-      >
+      <span className={`${listClass} add-a-card-button `}>
         <span style={{ marginRight: "8px" }}>
           <IconButton label={cardDescription}>
             <path

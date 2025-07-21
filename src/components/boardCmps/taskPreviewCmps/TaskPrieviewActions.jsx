@@ -9,7 +9,6 @@ import { Link, useNavigate } from "react-router-dom"
 
 export function TaskPreviewActions({ task, parentPosition }) {
   const navigate = useNavigate()
-  // console.log("TaskPreviewActions task", task)
   const position = parentPosition
     ? {
         transform: `translate3d(${parentPosition.x}px, ${parentPosition.y}px, 0px)`,
@@ -19,7 +18,6 @@ export function TaskPreviewActions({ task, parentPosition }) {
       id: "labels",
       label: "Labels",
       hover: 'Open Labels',
-      // icon: <LabelsSvg />,
       content: (props) => (
         <DropdownLabel
           {...props}
@@ -65,7 +63,6 @@ export function TaskPreviewActions({ task, parentPosition }) {
       id: 'Cover',
        hover: 'Add Cover',
       label: 'Cover',
-      // icon: <CoverSvg />,
       content: (props) => <Cover {...props} />,
     }
 
@@ -73,32 +70,23 @@ export function TaskPreviewActions({ task, parentPosition }) {
       id: 'Dates',
        hover: 'Open Dates',
       label: 'Dates',
-      // icon: <DatesSvg />,
       content: (props) => <DropdownDate {...props} />,
     }
     const moveButton ={
       id: 'Move',
        hover: 'Move Card',
       label: 'Move',
-      // icon: <MoveSvg />,
       content: (props) => <TaskdetailsBackLogDropdown {...props} Header={'100'} />,
     }
     const copyButton ={
       id: 'Copy',
        hover: 'Copy Card',
       label: 'Copy',
-      // icon: <MoveSvg />,
       content: (props) => <TaskdetailsBackLogDropdown {...props} Header={'0'} />,
     }
-    // navigate(
-    //   `/b/${boardId}/board/${task._id}-${encodeURIComponent(
-    //     task.taskTitle
-    //   )}`
-    // )
   return (
     <section
       className="task-preview-actions-container"
-      // style={position}
     >
       <div className="task-preview-actions">
         <div className="task-preview-action"
@@ -158,14 +146,6 @@ export function TaskPreviewActions({ task, parentPosition }) {
               })
             }
           </DropdownUi>
-          {/* <IconButton label={"Change members"}>
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M12.0254 3C9.25613 3 7.01123 5.23858 7.01123 8C7.01123 10.7614 9.25613 13 12.0254 13C14.7946 13 17.0395 10.7614 17.0395 8C17.0395 5.23858 14.7946 3 12.0254 3ZM9.01688 8C9.01688 9.65685 10.3638 11 12.0254 11C13.6869 11 15.0338 9.65685 15.0338 8C15.0338 6.34315 13.6869 5 12.0254 5C10.3638 5 9.01688 6.34315 9.01688 8Z"
-              fill="currentColor"
-            ></path>
-          </IconButton> */}
         </div>
         <div className="task-preview-action">
           <DropdownUi
@@ -187,14 +167,6 @@ export function TaskPreviewActions({ task, parentPosition }) {
               })
             }
           </DropdownUi>
-          {/* <IconButton label={"Change cover"}>
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M5 5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5ZM19 7H5V13H19V7Z"
-              fill="currentColor"
-            ></path>
-          </IconButton> */}
         </div>
         <div className="task-preview-action">
           <DropdownUi
@@ -215,13 +187,6 @@ export function TaskPreviewActions({ task, parentPosition }) {
               })
             }
           </DropdownUi>
-          {/* <IconButton label={"Edit dates"}>
-            <path
-              d="M13 6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44772 11 6V12C11 12.2652 11.1054 12.5196 11.2929 12.7071L13.7929 15.2071C14.1834 15.5976 14.8166 15.5976 15.2071 15.2071C15.5976 14.8166 15.5976 14.1834 15.2071 13.7929L13 11.5858V6Z"
-              fill="currentColor"
-            ></path>
-            <path fillRule="evenodd" clipRule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20Z" fill="currentColor"></path>
-          </IconButton> */}
         </div>
         <div className="task-preview-action">
           <DropdownUi
@@ -243,14 +208,6 @@ export function TaskPreviewActions({ task, parentPosition }) {
               })
             }
           </DropdownUi>
-          {/* <IconButton label={"Move"}>
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M12.292 4.29149C11.903 4.67949 11.903 5.31649 12.292 5.70549L17.586 10.9995H4C3.45 10.9995 3 11.4495 3 11.9995C3 12.5505 3.45 13.0005 4 13.0005H17.586L12.289 18.2965C11.9 18.6855 11.9 19.3215 12.289 19.7105C12.678 20.1005 13.315 20.1005 13.703 19.7105L20.702 12.7125C20.704 12.7115 20.706 12.7095 20.709 12.7075C20.903 12.5145 21 12.2565 21 11.9995C21 11.7425 20.903 11.4855 20.709 11.2915C20.706 11.2905 20.703 11.2885 20.701 11.2865L13.706 4.29149C13.512 4.09749 13.255 4.00049 12.999 4.00049C12.743 4.00049 12.486 4.09749 12.292 4.29149Z"
-              fill="currentColor"
-            ></path>
-          </IconButton> */}
         </div>
         <div className="task-preview-action">
           <DropdownUi
@@ -268,17 +225,6 @@ export function TaskPreviewActions({ task, parentPosition }) {
             }
           </DropdownUi>
         </div>
-        {/* <div className="task-preview-action">
-          <IconButton label={"Archive"}>
-            <path
-              d="M3.03418 5.59621C2.98604 5.04603 3.39303 4.56099 3.94322 4.51286L19.8823 3.11837C20.4325 3.07023 20.9175 3.47722 20.9657 4.02741L21.0528 5.0236L3.12133 6.5924L3.03418 5.59621Z"
-              fill="currentColor"
-            ></path>
-          </IconButton>
-        </div> */}
-        {/* <TaskPreviewLabels task={task} />
-        <TaskDetailsMembers task={task} /> */}
-        {/* Add any other action components here */}
       </div>
     </section>
   )

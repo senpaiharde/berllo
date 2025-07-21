@@ -14,7 +14,6 @@ export function ItemNameForm({
 }) {
   const [inputValue, setInputValue] = useState()
   function exitEditing(value) {
-    // console.log("exitEditing(value)", value)
     if (value && value != "") {
       onAddItem(value)
       setIsEditing(false)
@@ -23,60 +22,52 @@ export function ItemNameForm({
       setIsEditing(false)
     }
   }
-  useEffect(() => {
-    // console.log("ItemNameForm inputValue", inputValue)
-    
-  }, [inputValue])
+  useEffect(() => {}, [inputValue])
 
   const textareaSize = !isList ? { height: "56px" } : { height: "32px" }
-  const textareaClass = isList ? "input-new-item-new-list-textarea" : "input-new-item-new-task-textarea"
+  const textareaClass = isList
+    ? "input-new-item-new-list-textarea"
+    : "input-new-item-new-task-textarea"
   const inputNameFormPadding = isList ? "8px" : "0px"
   const inputFormButtonsPadding = isList ? "4px" : "0px"
 
   return (
-    <div className="input-new-item"
-    style={{padding: inputNameFormPadding}}
-    >
-      <div 
-      className="input-new-item-text-box"
-      >
-        {!isNewItem && <TextEditInput
-          value={""}
-          onChangeTextInput={exitEditing}
-          activateEditing={IsEditing}
-          noValueOnExit={noValueOnExit}
-          isNewItem={true}
-          itemType={itemType}
-        ></TextEditInput>}
-        {isNewItem && <textarea
-          // class="qJv26NWQGVKzI9"
-          className={textareaClass}
-          dir="auto"
-          autoFocus={true}
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && exitEditing(inputValue)}
-          placeholder={itemType}
-          style={textareaSize}
-        ></textarea>
-        }
-      
+    <div className="input-new-item" style={{ padding: inputNameFormPadding }}>
+      <div className="input-new-item-text-box">
+        {!isNewItem && (
+          <TextEditInput
+            value={""}
+            onChangeTextInput={exitEditing}
+            activateEditing={IsEditing}
+            noValueOnExit={noValueOnExit}
+            isNewItem={true}
+            itemType={itemType}
+          ></TextEditInput>
+        )}
+        {isNewItem && (
+          <textarea
+            className={textareaClass}
+            dir="auto"
+            autoFocus={true}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && exitEditing(inputValue)}
+            placeholder={itemType}
+            style={textareaSize}
+          ></textarea>
+        )}
       </div>
-      <div className="input-new-item-buttons" style={{ paddingLeft: inputFormButtonsPadding }}>
+      <div
+        className="input-new-item-buttons"
+        style={{ paddingLeft: inputFormButtonsPadding }}
+      >
         <div onClick={() => exitEditing(inputValue)}>
-          <button
-            // className="icon-container-button input-new-item-label"
-            className="input-new-item-add-button"
-            // style={{ backgroundColor: "#0000FF", color: "#FFFFFF" }}
-          >
-            {itemType}
-          </button>
+          <button className="input-new-item-add-button">{itemType}</button>
         </div>
         <div
           className="input-new-item-svg"
           onClick={(e) => {
             console.log("disableBlur = true")
-            // disableBlur = true
             noValueOnExit() // Prevent blur from firing
           }}
         >

@@ -1,6 +1,4 @@
-// import { IconButton } from "../boardCmps/boardHeaderCmp/IconButton"
 
-import { use } from "react"
 import { IconButton } from "../../IconButton"
 import { useState, useRef, useEffect } from "react"
 export function TaskInfoBadges({ task }) {
@@ -8,18 +6,8 @@ export function TaskInfoBadges({ task }) {
     const options = { month: "short", day: "numeric" }
     if (date) return new Date(date).toLocaleDateString("en-US", options)
   }
-  // const isOverdue = task.taskDueDate < Date.now();
-  // if(task.taskTitle ==="datecheck"){
-  //   console.log("task", task.taskTitle, "isOverdue", isOverdue)
-  // }
-
-  // const [dateBackgroundColor, setDateBackgroundColor] = useState(
-  //   task.taskChecked ? "#1f845a" : "#ffd5d2"
-  // )
   const [dateBackgroundColor, setDateBackgroundColor] = useState()
-  const [dateColor, setDateColor] =
-    useState()
-    // task.taskChecked ? "#ffffff" : "#ae2a19"
+  const [dateColor, setDateColor] = useState()
 
   useEffect(() => {
     setCorrectDateColor()
