@@ -136,6 +136,11 @@ const GlobalHeader = () => {
   // load current email from localStorage
   useEffect(() => {
     setCurrentEmail(localStorage.getItem('demoEmail') || '');
+    if(!localStorage.getItem('demoEmail') && !localStorage.getItem('logOutUser')) {
+      accountSwitch(demoUsers[0].email);
+      localStorage.setItem('logOutUser', false);
+    }
+    
   }, []);
 
   const handleSwitch = async (e) => {
@@ -147,6 +152,7 @@ const GlobalHeader = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('demoEmail');
+    localStorage.setItem('logOutUser', true);
     window.location.reload();
   };
   useEffect(() => {
