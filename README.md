@@ -75,7 +75,7 @@ Brello is a Trello-inspired project management tool built with React. It support
 - JWT-based authentication
 - Environment-based API configuration
 
-## 👥 Collaborators
+## 👥 Authors
 
 - [Eli Pletinsky](https://github.com/elipletinsky)
 - [Senpai Harde](https://github.com/senpaiharde)
