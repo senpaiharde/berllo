@@ -1,12 +1,31 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Brello – Frontend
 
-Currently, two official plugins are available:
+Brello is a Trello-inspired project management tool built with React. It supports real-time collaboration, task reordering, and AI-generated boards.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Live Demo:** [https://berllo.onrender.com](https://berllo.onrender.com/b/682b120c80be8be01782eadb/Work%20Flow/)
+![Getting Started](src/assets/images/berllo-WorkFlow-img.png)  
 
-## Expanding the ESLint configuration
+**Backend Repo:** [Brello Backend](https://github.com/senpaiharde/berllo-backend)
+---
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Features
+
+- Create boards, lists, and tasks
+- Drag and drop to reorder lists and tasks
+- Real-time collaboration with multiple users
+- AI-assisted board generation
+- JWT-based user authentication
+- Fully responsive design
+
+---
+
+## 🛠 Tech Stack
+
+- **React** (JavaScript)
+- **Redux Toolkit** (`createSlice`, `createAsyncThunk`)
+- **Axios** for API communication
+- **Socket.IO Client** for real-time updates
+- **Modular Component Architecture**
+
+---
