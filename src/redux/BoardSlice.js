@@ -649,6 +649,9 @@ const boardSlice = createSlice({
         state.isStarred = board.isStarred || false
         state.boardTitle = board.boardTitle
         state.boardStyle = board.boardStyle || null
+        if (state.boardStyle === null) {
+          state.boardStyle ={ boardType : "color", boardColor: "#00aecc" } // fallback 
+        }
         state.slug = board.slug || ""
         state.boardLabels = board.boardLabels || []
         state.boardLists = board.boardLists || []
