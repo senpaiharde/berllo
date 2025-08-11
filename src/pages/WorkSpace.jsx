@@ -41,21 +41,23 @@ const Workspace = () => {
     ) {
       // console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
       const img = new Image()
-      
+
       img.onload = () => {
-      // ✅ At this point, naturalWidth is valid
-      if (img.naturalWidth === 0) {
-        console.warn("Image appears broken:", board.boardStyle.boardImg);
-        setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor  }); // fallback
-      } else {
-        setBoardViewBackgound({
-          backgroundImage: `url(${board.boardStyle.boardImg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        });
+        // ✅ At this point, naturalWidth is valid
+        if (img.naturalWidth === 0) {
+          console.warn("Image appears broken:", board.boardStyle.boardImg)
+          setBoardViewBackgound({
+            backgroundColor: board.boardStyle.boardColor,
+          }) // fallback
+        } else {
+          setBoardViewBackgound({
+            backgroundImage: `url(${board.boardStyle.boardImg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          })
+        }
       }
-    };
       console.log("board.boardStyle.boardImg", board.boardStyle.boardImg)
       console.log("img.naturalWidth", img.naturalWidth)
       img.onerror = () => {
@@ -63,8 +65,7 @@ const Workspace = () => {
         // Optional: fallback background
         setBoardViewBackgound({ backgroundColor: board.boardStyle.boardColor }) // or any fallback
       }
-      img.src = board.boardStyle.boardImg;
-    
+      img.src = board.boardStyle.boardImg
     }
   }, [board])
 
@@ -104,7 +105,14 @@ const Workspace = () => {
   // }, [boardId, navigate])
 
   // if (!board || !board._id)
+  const loadingText ="loading board"
+  function LoadingBoardText() {
+    if (!localStorage.getItem('demoEmail') && !localStorage.getItem('logOutUser')) {
+      return "connecting to server"
+    }
 
+    return localStorage.getItem('demoEmail')? "loading board": "logging in"
+  }
   if (!board) {
     return <div>Loading...</div>
   } else {
@@ -125,15 +133,31 @@ const Workspace = () => {
               <div style={{ height: "100%" }}>
                 <div style={{ height: "100%" }}>
                   <div className="board-wrapper" style={boardViewBackgound}>
-                    <div
+                    {/* <div
                       className="board-main-content"
                       style={
                         rightMenuOpen ? { marginRight: "339px" } : undefined
                       }
-                    >
-                      <BoardHeader />
-                      <BoardView />
-                    </div>
+                    > */}
+                      {board.boardTitle === "" ? (
+                        <div className="loading-board">
+                          <div className="loading-content">
+                            <div className="spinner"></div>
+                            <p className="loading-text">{LoadingBoardText()}</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className="board-main-content"
+                          style={
+                            rightMenuOpen ? { marginRight: "339px" } : undefined
+                          }
+                        >
+                          <BoardHeader />
+                          <BoardView />
+                        </div>
+                      )}
+                    {/* </div> */}
                     <BoardRightMenu></BoardRightMenu>
                   </div>
                 </div>

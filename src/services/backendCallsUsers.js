@@ -25,12 +25,9 @@ export const accountSwitch = async(email) => {
         }
 }
 
-const token = localStorage.getItem('token')
-
-
  async function fetchCurrentUser() {
   try {
-    
+    const token = localStorage.getItem('token')
     if (!token) throw new Error('No auth token found');
 
     const res = await fetch(`${API_BASE}/user/me`, {
@@ -64,7 +61,7 @@ export default fetchCurrentUser;
   try {
     
     
-
+    const token = localStorage.getItem('token')
     const res = await fetch(`${API_BASE}/board/`, {
       method: 'GET',
       headers: {
