@@ -27,7 +27,7 @@ function App() {
 
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-         <Route path={`/u/user/boards`} element={<Boards />} />
+         {/* <Route path={`/u/user/boards`} element={<Boards />} /> */}
         <Route path="/b/:boardId/:boardName/*" element={<Workspace />}>
         <Route path=":taskId" element={<TaskDetails />} />
         </Route>

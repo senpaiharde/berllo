@@ -4,7 +4,11 @@ This repo is the frontend part of a full stack app, which is one page React app 
 
 Brello is a Trello-inspired project management tool built with React. It supports real-time collaboration, task reordering, and AI-generated boards.
 
-**Live Demo:** [https://berllo.onrender.com](https://berllo.onrender.com/b/682b120c80be8be01782eadb/Work%20Flow/)
+**Video Demonstration link** [https://youtu.be/VimZFQtHC0I](https://youtu.be/VimZFQtHC0I) (4 mins)
+
+
+
+**Try Online:** [https://berllo.onrender.com](https://berllo.onrender.com/b/682b120c80be8be01782eadb/Work%20Flow/)
 ![Getting Started](src/assets/images/berllo-WorkFlow-img.png)  
 
 

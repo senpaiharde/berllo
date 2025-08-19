@@ -41,13 +41,22 @@ export const accountSwitch = async(email) => {
     if (!res.ok) {
       // e.g. 401, 500, etc.
       const err = await res.json().catch(() => ({}));
+      
       throw new Error(err.error || `HTTP ${res.status}`);
     }
 
     const userData = await res.json();
     return userData;
   } catch (err) {
+
     console.error('fetchCurrentUser failed:', err);
+    console.error(err);
+    if( err.message === "Invalid token") {
+        localStorage.removeItem('token');
+        localStorage.removeItem('demoEmail');
+        localStorage.removeItem('logOutUser');
+        window.location.reload();
+      }
     throw err;
   }
 }
